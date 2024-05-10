@@ -1,0 +1,12 @@
+/src
+/tests
+/coverage
+.flower
+.log
+*.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.yarn.lock
+/lib/tests
+/lib-esm/tests
