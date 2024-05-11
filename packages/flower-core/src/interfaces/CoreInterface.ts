@@ -18,7 +18,7 @@ export type Node = {
   children?: Array<Record<string, any>> | Record<string, any>;
 };
 
-enum RulesModes {
+export enum RulesModes {
   $and = '$and',
   $or = '$or',
 }

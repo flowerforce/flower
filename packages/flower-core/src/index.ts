@@ -5,3 +5,5 @@ export { FlowerStateUtils } from './FlowerCoreStateUtils';
 export { FlowerCoreStateSelectors as Selectors } from './FlowerCoreStateSelectors';
 export { CoreUtils } from './CoreUtils';
 export { MatchRules } from './RulesMatcher';
+
+export * from './interfaces';

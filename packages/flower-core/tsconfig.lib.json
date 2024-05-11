@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
+    "module": "ESNext",
     "declaration": true,
     "removeComments": true,
     "types": [

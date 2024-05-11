@@ -1,9 +1,4 @@
-import { RulesByNodeId } from './CoreInterface';
-
-export enum RulesModes {
-  $and = '$and',
-  $or = '$or',
-}
+import { RulesByNodeId, RulesModes } from './CoreInterface';
 
 export enum RulesOperators {
   $exist = '$exist',
@@ -32,10 +27,10 @@ type RulesOperatorsInArray<T> = Partial<{
 }>;
 export type RulesObject<T> =
   | {
-      [K in keyof typeof RulesModes]:
-        | Array<RulesOperatorsInArray<RulesValuesType<T>>>
-        | Array<RulesObject<RulesValuesType<T>>>;
-    }
+    [K in keyof typeof RulesModes]:
+    | Array<RulesOperatorsInArray<RulesValuesType<T>>>
+    | Array<RulesObject<RulesValuesType<T>>>;
+  }
   | Array<RulesOperatorsInArray<RulesValuesType<T>>>;
 
 export interface StoreRoot<T extends Record<string, any>> {
@@ -49,7 +44,7 @@ export interface Flower<T extends Record<string, any>> {
   history: string[];
   nodes: { [x: string]: Node };
   //TODO: REMOVE ANY
-  nextRules: { [x: string]: RulesByNodeId<T>[]  };
+  nextRules: { [x: string]: RulesByNodeId<T>[] };
   data: T;
   form: { [x: string]: Form<T> };
 }
