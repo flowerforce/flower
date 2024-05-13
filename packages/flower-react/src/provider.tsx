@@ -12,11 +12,13 @@ import {
   FlowerProviderProps,
 } from './components/types/FlowerProvider';
 
-const reduxContext = createContext(undefined);
+//TODO check reduxContext type due to remove all any types
 
-export const useDispatch = createDispatchHook(reduxContext);
-export const useSelector = createSelectorHook(reduxContext);
-export const useStore = createStoreHook(reduxContext);
+const reduxContext = createContext(null);
+
+export const useDispatch = createDispatchHook(reduxContext as any);
+export const useSelector = createSelectorHook(reduxContext as any);
+export const useStore = createStoreHook(reduxContext as any);
 
 export const store = configureStore({
   reducer: reducerFlower,
@@ -25,10 +27,7 @@ export const store = configureStore({
   },
 });
 
-class FlowerProvider extends Component<
-  PropsWithChildren,
-  FlowerProviderProps
-> {
+class FlowerProvider extends Component<PropsWithChildren, FlowerProviderProps> {
   private store: FlowerProviderProps;
   constructor(props: PropsWithChildren) {
     super(props);
@@ -38,7 +37,7 @@ class FlowerProvider extends Component<
   render() {
     const { children } = this.props;
     return (
-      <Provider context={reduxContext} store={this.store}>
+      <Provider context={reduxContext as any} store={this.store}>
         {children}
       </Provider>
     );

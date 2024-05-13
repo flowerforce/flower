@@ -22,7 +22,14 @@ const FlowerRule = ({
   const keys = MatchRules.utils.getKeys(rules, { prefix: name });
 
   const hidden = useSelector(
-    selectorRulesDisabled(id, rules, keys, name, value, currentNode)
+    selectorRulesDisabled(
+      id ?? '',
+      rules,
+      keys ?? [],
+      name ?? '',
+      value,
+      currentNode ?? ''
+    )
   );
 
   useEffect(() => {
@@ -40,14 +47,6 @@ const FlowerRule = ({
     }
     return children({});
   }
-
-  // if (alwaysDisplay && hidden) {
-  //   return React.Children.map(children, ({ props, type }, i) => {
-  //     const Component = type;
-  //     // eslint-disable-next-line react/jsx-props-no-spreading
-  //     return Component && <Component key={i} hidden {...props} />;
-  //   });
-  // }
 
   if (alwaysDisplay && hidden) {
     return React.Children.map(children, (child, i) => {

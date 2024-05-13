@@ -53,7 +53,7 @@ export const useFlowerNavigate = ({
         return;
 
       case 'onNode':
-        onNode(node);
+        onNode(node!);
         return;
 
       case 'onPrev':

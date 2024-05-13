@@ -14,14 +14,14 @@ export default function useWhyDidYouUpdate(
       // Get all keys from previous and current props
       const allKeys = Object.keys({ ...previousProps.current, ...props });
       // Use this object to keep track of changed props
-      const changesObj = {};
+      const changesObj: Record<string, any> = {};
       // Iterate through keys
       allKeys.forEach((key) => {
         // If previous is different from current
-        if (previousProps.current[key] !== props[key]) {
+        if (previousProps?.current?.[key] !== props[key]) {
           // Add to changesObj
           changesObj[key] = {
-            from: previousProps.current[key],
+            from: previousProps?.current?.[key],
             to: props[key],
           };
         }

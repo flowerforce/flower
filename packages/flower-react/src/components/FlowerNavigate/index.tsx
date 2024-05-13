@@ -5,7 +5,8 @@ import WrapperComponent from './WrapperComponent'
 import FlowerRule from '../FlowerRule';
 import { FlowerNavigateProps } from '../types/FlowerNavigate';
 
-const RenderRules = ({ alwaysDisplay, rules, Component, flowName, onNavigate, ...props }) => {
+//TODO type RenderRules props
+const RenderRules = ({ alwaysDisplay, rules, Component, flowName, onNavigate, ...props }: any) => {
   return (
     <FlowerRule alwaysDisplay={alwaysDisplay} rules={rules} flowName={flowName}>
       {({ hidden }) => <WrapperComponent

@@ -32,7 +32,7 @@ const useFlowerForm: UseFlowerForm = ({
 
   const dispatch = useDispatch();
   const store = useStore();
-  const flowName = customFlowName || name || flowNameDefault;
+  const flowName = customFlowName || name || flowNameDefault || '';
   const currentNode = useSelector(makeSelectCurrentNodeId(flowName));
   const { errors, isValid, touched, isValidating } = useSelector(
     makeSelectNodeErrors(flowName, currentNode)
@@ -72,7 +72,7 @@ const useFlowerForm: UseFlowerForm = ({
   );
 
   const unsetData = useCallback(
-    (path) => {
+    (path: string) => {
       const { flowNameFromPath = flowName, path: newpath } =
         CoreUtils.getPath(path);
       dispatch(actions.unsetData({ flowName: flowNameFromPath, id: newpath }));
@@ -81,7 +81,7 @@ const useFlowerForm: UseFlowerForm = ({
   );
 
   const replaceData = useCallback(
-    (val) => {
+    (val: any) => {
       dispatch(actions.replaceData({ flowName, value: val }));
     },
     [flowName, dispatch]

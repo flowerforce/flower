@@ -27,7 +27,7 @@ const Text = ({
   value?: string;
   children?: any;
 }) => <h1 data-testid="h1">{text || value || children}</h1>;
-const Input = ({ onChange, value = '', name }) => {
+const Input = ({ onChange, value = '', name }: any) => {
   return (
     <input
       data-testid={name || 'input'}
@@ -47,7 +47,7 @@ const ButtonNext = ({ id = '' }) => {
   );
 };
 
-const InitState = ({ state }) => {
+const InitState = ({ state }: any) => {
   const { onNext } = useFlower();
   const { setData, getData } = useFlowerForm();
   useEffect(() => {
@@ -62,7 +62,7 @@ describe('Test Flower component', () => {
   it('Test flow success', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test">
+        <Flower name="app-test" initialData={{}}>
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>

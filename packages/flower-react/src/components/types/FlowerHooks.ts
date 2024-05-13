@@ -42,7 +42,7 @@ type useFlowerActions = {
 
 export type UseFlower = (options?: UseFlowerProps) => useFlowerActions & {
   /**The flow in which the hook is used.*/
-  flowName: string;
+  flowName?: string;
   /**Current node id*/
   nodeId: string;
 };

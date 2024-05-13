@@ -17,9 +17,11 @@ import { FlowerCoreContext } from '../context';
 import FlowerRule from './FlowerRule';
 import { store, useDispatch, useSelector } from '../provider';
 import debounce from 'lodash/debounce';
+import get from 'lodash/get';
 import {
   MatchRules,
   CoreUtils,
+  Selectors,
   FlowerStateUtils,
 } from '@flowerforce/flower-core';
 import { FlowerFieldProps } from './types/FlowerField';
@@ -28,6 +30,7 @@ function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
   return typeof x === 'string';
 }
 
+//TODO make types for wrapper function props
 function Wrapper({
   Component,
   id,
@@ -44,13 +47,13 @@ function Wrapper({
   onUpdate,
   defaultValue,
   ...props
-}) {
+}: any) {
   const dispatch = useDispatch();
   const [touched, setTouched] = useState<boolean | undefined>();
   const [customErrors, setCustomErrors] = useState(
     asyncValidate && [asyncInitialError]
   );
-  const [isValidating, setIsValidating] = useState(undefined);
+  const [isValidating, setIsValidating] = useState<boolean | undefined>(undefined);
 
   const { flowNameFromPath = flowName, path } = useMemo(
     () => CoreUtils.getPath(id),
@@ -65,7 +68,7 @@ function Wrapper({
   const one = useRef<boolean>();
 
   const validateFn = useCallback(
-    async (value) => {
+    async (value: any) => {
       if (asyncWaitingError) {
         setCustomErrors([asyncWaitingError]);
       }
@@ -116,7 +119,7 @@ function Wrapper({
   }, [value, onUpdate]);
 
   const onChange = useCallback(
-    (val) => {
+    (val: any) => {
       dispatch({
         type: `flower/addDataByPath`,
         payload: {
@@ -130,7 +133,7 @@ function Wrapper({
   );
 
   const onBlurInternal = useCallback(
-    (e) => {
+    (e: Event) => {
       setTouched(true);
       onBlur && onBlur(e);
     },

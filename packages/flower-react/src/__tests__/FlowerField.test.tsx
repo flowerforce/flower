@@ -19,7 +19,7 @@ import FlowerProvider from '../provider';
 import useFlower from '../components/useFlower';
 import useFlowerForm from '../components/useFlowerForm';
 
-const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+const delay = (ms: any) => new Promise((r) => setTimeout(r, ms));
 
 const Text = ({
   text,

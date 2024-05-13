@@ -23,8 +23,8 @@ const Text = ({ text, value }: any) => {
   return <h1 data-testid="h1">{text || value}</h1>
 }
 
-const Input = ({ onChange, value, name }) => <input name={name} value={value} onChange={evt => onChange(evt.target.value)} />
-const Container = ({ children, item }) => <div className='paper'>{item || children}</div>
+const Input = ({ onChange, value, name }: any) => <input name={name} value={value} onChange={evt => onChange(evt.target.value)} />
+const Container = ({ children, item }: any) => <div className='paper'>{item || children}</div>
 
 const ButtonNode = ({ route }: any) => {
   const { onNode } = useFlower()
@@ -61,14 +61,14 @@ const ButtonReset = () => {
   )
 }
 
-const ButtonResetNode = ({ node }) => {
+const ButtonResetNode = ({ node }: any) => {
   const { onReset } = useFlower()
   return (
     <button data-testid="btn-reset" onClick={() => onReset(node)}>Reset</button>
   )
 }
 
-const ButtonResetNodeObject = ({ value }) => {
+const ButtonResetNodeObject = ({ value }: any) => {
   const { onReset } = useFlower()
   return (
     <button data-testid="btn-reset" onClick={() => onReset(value)}>Reset</button>
@@ -76,14 +76,14 @@ const ButtonResetNodeObject = ({ value }) => {
 }
 
 
-const ButtonPrevNode = ({ node }) => {
+const ButtonPrevNode = ({ node }: any) => {
   const { onPrev } = useFlower()
   return (
     <button data-testid="btn-prev" onClick={() => onPrev(node)}>PREV</button>
   )
 }
 
-const ButtonPrevNodeObject = ({ value }) => {
+const ButtonPrevNodeObject = ({ value }: any) => {
   const { onPrev } = useFlower()
   return (
     <button data-testid="btn-prev" onClick={() => onPrev(value)}>PREV</button>
@@ -92,7 +92,7 @@ const ButtonPrevNodeObject = ({ value }) => {
 
 const MyNode = ({ children }: any) => children
 
-const InitState = ({ state }) => {
+const InitState = ({ state }: any) => {
   const { onNext } = useFlower()
   const { setData } = useFlowerForm()
   useEffect(() => {

@@ -20,7 +20,7 @@ import useFlowerForm from '../components/useFlowerForm';
 import FlowerField from '../components/FlowerField';
 import FlowerValue from '../components/FlowerValue';
 
-const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+const delay = (ms: any) => new Promise((r) => setTimeout(r, ms));
 
 const Text = ({ text, value }: any) => <h1 data-testid="h1">{text || value}</h1>
 const Input = ({ onChange, value = '', name }: any) => {
@@ -45,7 +45,7 @@ const InitState = ({ state, path, flowName }: any) => {
   return "..."
 }
 
-const UnSetState = ({ path }) => {
+const UnSetState = ({ path }: any) => {
   const { unsetData } = useFlowerForm()
   useEffect(() => {
     unsetData(path)
@@ -53,7 +53,7 @@ const UnSetState = ({ path }) => {
   return "..."
 }
 
-const ReplaceState = ({ value }) => {
+const ReplaceState = ({ value }: any) => {
   const { replaceData } = useFlowerForm()
   useEffect(() => {
     replaceData(value)
@@ -165,7 +165,7 @@ describe('Test Form', () => {
         </FlowerProvider>
       )
       expect(true).toBe(false);
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toBe("Error missing operator:$eqxxxxx");
     }
 
@@ -653,7 +653,7 @@ describe('Test Form', () => {
               id="name"
               asyncValidate={(val, data) => {
                 console.log("🚀 ~ it ~ data:", val, data)
-                if (data['app-test']?.sourceName?.indexOf('@') > -1) return
+                if (data?.['app-test']?.sourceName?.indexOf('@') > -1) return
                 if (val.indexOf('@') > -1) return
                 return ['is not email']
               }}

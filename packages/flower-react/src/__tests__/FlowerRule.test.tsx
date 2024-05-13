@@ -32,7 +32,7 @@ const ButtonNext = ({ id = '' }: any) => {
   )
 }
 
-const InitState = ({ state }) => {
+const InitState = ({ state }: any) => {
   const { onNext } = useFlower()
   const { setData, getData } = useFlowerForm()
   useEffect(() => {

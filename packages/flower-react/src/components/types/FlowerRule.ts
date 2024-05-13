@@ -1,4 +1,4 @@
-import { RulesObject } from "@flowerforce/flower-core";
+import { RulesObject } from '@flowerforce/flower-core';
 
 
 export type FlowerRuleProps<T extends Record<string, any> = {}> = {

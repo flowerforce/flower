@@ -9,13 +9,13 @@ export interface FlowerProviderInterface {
 
 export type FlowerProviderProps = ToolkitStore<
   {
-    flower: Flower<any>;
+    flower: Record<string, Flower<any>>;
   },
   AnyAction,
   [
     ThunkMiddleware<
       {
-        flower: Flower<any>;
+        flower: Record<string, Flower<any>>;
       },
       AnyAction
     >

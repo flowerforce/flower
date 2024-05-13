@@ -9,7 +9,7 @@ function FlowerStart() {
   const {
     flowName, autostart = true, currentNode,
   } = useContext(FlowerCoreContext);
-  const startNodeId = useSelector(makeSelectStartNodeId(flowName));
+  const startNodeId = useSelector(makeSelectStartNodeId(flowName ?? ''));
 
   useEffect(() => {
     if (startNodeId === currentNode && autostart && one.current === false) {

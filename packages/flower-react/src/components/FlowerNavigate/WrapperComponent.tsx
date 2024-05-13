@@ -5,7 +5,8 @@ function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
   return typeof x === 'string';
 }
 
-function FlowerNavigateWrapper({ hidden, Component, onNavigate, ...props }) {
+//TODO type FlowerNavigateWrapper props
+function FlowerNavigateWrapper({ hidden, Component, onNavigate, ...props }: any) {
   const newProps = useMemo(
     () => ({
       ...props,

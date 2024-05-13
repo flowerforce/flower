@@ -20,7 +20,7 @@ import useFlowerForm from '../components/useFlowerForm';
 import FlowerRule from '../components/FlowerRule';
 
 const Text = ({ text, value, children }: any) => <h1 data-testid="h1">{text || value || children}</h1>
-const Input = ({ onChange, value = '', name }) => {
+const Input = ({ onChange, value = '', name }: any) => {
   return <input data-testid={name || "input"} name={name} value={value} onChange={evt => onChange(evt.target.value)} />
 }
 
@@ -31,7 +31,7 @@ const ButtonNext = () => {
   )
 }
 
-const InitState = ({ state }) => {
+const InitState = ({ state }: any) => {
   const { onNext } = useFlower()
   const { setData, getData } = useFlowerForm()
   useEffect(() => {

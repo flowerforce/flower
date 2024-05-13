@@ -3,67 +3,78 @@
  */
 
 // import dependencies
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 
 // import react-testing methods
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react';
 
 // add custom jest matchers from jest-dom
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
 
-import FlowerNode from '../components/FlowerNode'
-import FlowerAction from '../components/FlowerAction'
-import Flower from '../components/Flower'
+import FlowerNode from '../components/FlowerNode';
+import FlowerAction from '../components/FlowerAction';
+import Flower from '../components/Flower';
 import FlowerNavigate from '../components/FlowerNavigate';
-import FlowerRoute from '../components/FlowerRoute'
+import FlowerRoute from '../components/FlowerRoute';
 import FlowerProvider, { store } from '../provider';
 import useFlower from '../components/useFlower';
 import useFlowerForm from '../components/useFlowerForm';
 
+const Text = ({
+  text,
+  value,
+}: {
+  text?: string;
+  value?: any;
+  id?: any;
+  children?: any;
+}) => {
+  return <h1 data-testid="h1">{text || value}</h1>;
+};
 
-const Text = ({ text, value }: {text?: string, value?: any, id?: any, children?: any}) => {
-  return <h1 data-testid="h1">{text || value}</h1>
-}
-
-const ButtonNode = ({ route }) => {
+const ButtonNode = ({ route }: any) => {
   return (
     <FlowerNavigate action="onNode" node={{ node: route }}>
       <button data-testid="btn-node">NEXT</button>
     </FlowerNavigate>
-  )
-}
+  );
+};
 
-const ButtonNodeObject = ({ value }) => {
+const ButtonNodeObject = ({ value }: any) => {
   return (
     <FlowerNavigate action="onNode" node={value}>
       <button data-testid="btn-node">NEXT</button>
     </FlowerNavigate>
-  )
-}
+  );
+};
 
 const ButtonNextDefault = () => {
   return (
     <FlowerNavigate>
       <button data-testid="btn-next">NEXT</button>
     </FlowerNavigate>
-  )
-}
+  );
+};
 
 const ButtonNext = ({ route, dataIn }: any) => {
   return (
     <FlowerNavigate action="onNext" route={dataIn || route}>
       <button data-testid="btn-next">NEXT</button>
     </FlowerNavigate>
-  )
-}
+  );
+};
 
 const ButtonNextFunc = ({ route, dataIn }: any) => {
   return (
     <FlowerNavigate action="onNext" route={dataIn || route}>
-      {({ onClick }) => <button data-testid="btn-next" onClick={onClick}>NEXT</button>}
+      {({ onClick }) => (
+        <button data-testid="btn-next" onClick={onClick}>
+          NEXT
+        </button>
+      )}
     </FlowerNavigate>
-  )
-}
+  );
+};
 
 const ButtonPrev = () => {
   return (
@@ -71,64 +82,62 @@ const ButtonPrev = () => {
       prev
       <button data-testid="btn-prev">PREV</button>
     </FlowerNavigate>
-  )
-}
+  );
+};
 
 const ButtonReset = () => {
   return (
     <FlowerNavigate action="onReset">
       <button data-testid="btn-reset">Reset</button>
     </FlowerNavigate>
-  )
-}
+  );
+};
 
-const ButtonResetNode = ({ node }) => {
+const ButtonResetNode = ({ node }: any) => {
   return (
     <FlowerNavigate action="onReset" node={node}>
       <button data-testid="btn-reset">Reset</button>
     </FlowerNavigate>
-  )
-}
+  );
+};
 
-const ButtonResetNodeObject = ({ value }) => {
+const ButtonResetNodeObject = ({ value }: any) => {
   return (
     <FlowerNavigate action="onReset" node={value}>
       <button data-testid="btn-reset">Reset</button>
     </FlowerNavigate>
-  )
-}
+  );
+};
 
-
-const ButtonPrevNode = ({ node }) => {
+const ButtonPrevNode = ({ node }: any) => {
   return (
     <FlowerNavigate action="onPrev" node={node}>
       <button data-testid="btn-prev">PREV</button>
     </FlowerNavigate>
-  )
-}
+  );
+};
 
-const ButtonPrevNodeObject = ({ value }) => {
+const ButtonPrevNodeObject = ({ value }: any) => {
   return (
     <FlowerNavigate action="onPrev" node={value}>
       <button data-testid="btn-prev">PREV</button>
     </FlowerNavigate>
-  )
-}
+  );
+};
 
-const MyNode = ({ children, ...props }: any) => children
+const MyNode = ({ children, ...props }: any) => children;
 
-const InitState = ({ state }) => {
-  const { onNext } = useFlower()
-  const { setData } = useFlowerForm()
+const InitState = ({ state }: any) => {
+  const { onNext } = useFlower();
+  const { setData } = useFlowerForm();
   useEffect(() => {
-    setData(state)
-    onNext()
-  }, [onNext, setData, state])
-  return "..."
-}
+    setData(state);
+    onNext();
+  }, [onNext, setData, state]);
+  return '...';
+};
 
 describe('FlowerNavigate test render <Flower />', () => {
-
   it('FlowerNavigate test first node', () => {
     render(
       <FlowerProvider>
@@ -136,8 +145,9 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": null
-            }}>
+              b: null,
+            }}
+          >
             <Text text="andrea"></Text>
           </FlowerNode>
           <FlowerNode id="b">
@@ -145,10 +155,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    expect(screen.getByTestId('h1')).toHaveTextContent('andrea')
-  })
+    expect(screen.getByTestId('h1')).toHaveTextContent('andrea');
+  });
 
   it('FlowerNavigate test first as type node', () => {
     render(
@@ -158,8 +168,9 @@ describe('FlowerNavigate test render <Flower />', () => {
             as="FlowerNode"
             id="a"
             to={{
-              "b": null
-            }}>
+              b: null,
+            }}
+          >
             <Text text="andrea"></Text>
           </MyNode>
           <FlowerNode id="b">
@@ -167,10 +178,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    expect(screen.getByTestId('h1')).toHaveTextContent('andrea')
-  })
+    expect(screen.getByTestId('h1')).toHaveTextContent('andrea');
+  });
 
   it('FlowerNavigate test first custom node', () => {
     render(
@@ -179,8 +190,9 @@ describe('FlowerNavigate test render <Flower />', () => {
           <MyNode
             id="a"
             to={{
-              "b": null
-            }}>
+              b: null,
+            }}
+          >
             <Text text="andrea"></Text>
           </MyNode>
           <FlowerNode id="b">
@@ -188,10 +200,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    expect(screen.getByTestId('h1')).toHaveTextContent('andrea')
-  })
+    expect(screen.getByTestId('h1')).toHaveTextContent('andrea');
+  });
 
   it('FlowerNavigate test node wrong rules to', () => {
     render(
@@ -200,8 +212,9 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": { rules: "aaa" }
-            }}>
+              b: { rules: 'aaa' },
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -210,18 +223,16 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('andrea')
-  })
+    );
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('andrea');
+  });
 
   it('FlowerNavigate test node no rules', () => {
     render(
       <FlowerProvider>
         <Flower name="app-test1">
-          <FlowerNode
-            id="a"
-            to={{}}>
+          <FlowerNode id="a" to={{}}>
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -230,10 +241,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('andrea')
-  })
+    );
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('andrea');
+  });
 
   it('FlowerNavigate test node wrong rules to', () => {
     render(
@@ -242,8 +253,9 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": "aaa"
-            }}>
+              b: 'aaa',
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -252,10 +264,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('andrea')
-  })
+    );
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('andrea');
+  });
 
   it('FlowerNavigate test node wrong rules to', () => {
     render(
@@ -264,8 +276,9 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": { rules: undefined }
-            }}>
+              b: { rules: undefined },
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -274,10 +287,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('andrea')
-  })
+    );
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('andrea');
+  });
 
   it('FlowerNavigate test cmp func', async () => {
     render(
@@ -289,8 +302,9 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: null
-            }}>
+              c: null,
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNextFunc />
           </FlowerNode>
@@ -299,12 +313,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('gege')
-  })
-
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('gege');
+  });
 
   it('FlowerNavigate test next node rules complex', async () => {
     render(
@@ -319,10 +332,14 @@ describe('FlowerNavigate test render <Flower />', () => {
               c: { rules: { $and: [{ amount: { $gt: 1497.99 } }] } },
               b: {
                 rules: {
-                  $and: [{ amount: { $lte: 1497.99 } }, { '$form.isValid': { $eq: true } }],
+                  $and: [
+                    { amount: { $lte: 1497.99 } },
+                    { '$form.isValid': { $eq: true } },
+                  ],
                 },
               },
-            }}>
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -334,11 +351,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('gino')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('gino');
+  });
 
   it('FlowerNavigate test next node whitout rules', async () => {
     render(
@@ -348,8 +365,9 @@ describe('FlowerNavigate test render <Flower />', () => {
             id="a"
             to={{
               c: { rules: { $and: [{ name: { $eq: 'asd' } }] } },
-              b: null
-            }}>
+              b: null,
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -361,11 +379,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('gino')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('gino');
+  });
 
   it('FlowerNavigate test next node with route name', async () => {
     render(
@@ -374,9 +392,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: "onSuccess",
-              b: null
-            }}>
+              c: 'onSuccess',
+              b: null,
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext route="onSuccess" />
           </FlowerNode>
@@ -388,11 +407,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('gege')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('gege');
+  });
 
   it('FlowerNavigate test next node with wrong route name', async () => {
     render(
@@ -401,9 +420,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: "onSuccess",
-              b: null
-            }}>
+              c: 'onSuccess',
+              b: null,
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext route="ERRRRR" />
           </FlowerNode>
@@ -415,11 +435,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('andrea')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('andrea');
+  });
 
   it('FlowerNavigate test next node with got to node id', async () => {
     render(
@@ -428,9 +448,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: "onSuccess",
-              b: "onError"
-            }}>
+              c: 'onSuccess',
+              b: 'onError',
+            }}
+          >
             <Text text="step0"></Text>
             <ButtonNode route="c" />
           </FlowerNode>
@@ -442,11 +463,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-node'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('step2')
-  })
+    fireEvent.click(screen.getByTestId('btn-node'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('step2');
+  });
 
   it('FlowerNavigate test next node with got to node object node', async () => {
     render(
@@ -455,11 +476,12 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: "onSuccess",
-              b: "onError"
-            }}>
+              c: 'onSuccess',
+              b: 'onError',
+            }}
+          >
             <Text text="step0"></Text>
-            <ButtonNodeObject value={{ node: "c" }} />
+            <ButtonNodeObject value={{ node: 'c' }} />
           </FlowerNode>
           <FlowerNode id="b">
             <Text text="step1" />
@@ -469,11 +491,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-node'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('step2')
-  })
+    fireEvent.click(screen.getByTestId('btn-node'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('step2');
+  });
 
   it('FlowerNavigate test next node with got to node id not exists', async () => {
     render(
@@ -482,9 +504,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: "onSuccess",
-              b: "onError"
-            }}>
+              c: 'onSuccess',
+              b: 'onError',
+            }}
+          >
             <Text text="step0"></Text>
             <ButtonNode route="WRONG" />
           </FlowerNode>
@@ -496,11 +519,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-node'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('step0')
-  })
+    fireEvent.click(screen.getByTestId('btn-node'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('step0');
+  });
 
   it('FlowerNavigate test next node with data $in', async () => {
     render(
@@ -509,9 +532,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: { rules: { $and: [{ "$in.name": { $eq: 'andrea' } }] } },
-              b: { rules: { $and: [{ "$in.name": { $eq: 'zucca' } }] } },
-            }}>
+              c: { rules: { $and: [{ '$in.name': { $eq: 'andrea' } }] } },
+              b: { rules: { $and: [{ '$in.name': { $eq: 'zucca' } }] } },
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext dataIn={{ name: 'andrea' }} />
           </FlowerNode>
@@ -523,11 +547,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('gege form')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('gege form');
+  });
 
   it('FlowerNavigate test next node with data from state', async () => {
     render(
@@ -539,9 +563,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              d: { rules: { $and: [{ "name": { $eq: 'andrea' } }] } },
-              b: { rules: { $and: [{ "$in.name": { $eq: 'zucca' } }] } },
-            }}>
+              d: { rules: { $and: [{ name: { $eq: 'andrea' } }] } },
+              b: { rules: { $and: [{ '$in.name': { $eq: 'zucca' } }] } },
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -553,11 +578,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('value from state')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('value from state');
+  });
 
   it('FlowerNavigate test next node with data from state wrong', async () => {
     render(
@@ -569,9 +594,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              d: { rules: { $and: [{ "name": { $eq: 'andrea' } }] } },
-              b: { rules: { $and: [{ "$in.name": { $eq: 'zucca' } }] } },
-            }}>
+              d: { rules: { $and: [{ name: { $eq: 'andrea' } }] } },
+              b: { rules: { $and: [{ '$in.name': { $eq: 'zucca' } }] } },
+            }}
+          >
             <Text text="form screen"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -583,11 +609,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('form screen')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('form screen');
+  });
 
   it('FlowerNavigate test next node disabled', async () => {
     render(
@@ -601,13 +627,18 @@ describe('FlowerNavigate test render <Flower />', () => {
             retain={true}
             to={{
               b: null,
-            }}>
+            }}
+          >
             <Text text="form screen"></Text>
             <ButtonNext />
           </FlowerNode>
-          <FlowerAction id="b" disabled={true} to={{
-            d: null,
-          }}>
+          <FlowerAction
+            id="b"
+            disabled={true}
+            to={{
+              d: null,
+            }}
+          >
             <Text text="zucca" />
             <ButtonNext />
           </FlowerAction>
@@ -616,12 +647,12 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('form screen')).toBeVisible()
-    expect(await screen.findByText('value from state')).toBeVisible()
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('form screen')).toBeVisible();
+    expect(await screen.findByText('value from state')).toBeVisible();
+  });
 
   it('FlowerNavigate test next node disabled and retain', async () => {
     render(
@@ -636,13 +667,17 @@ describe('FlowerNavigate test render <Flower />', () => {
             disabled={true}
             to={{
               b: null,
-            }}>
+            }}
+          >
             <Text text="form screen"></Text>
             <ButtonNext />
           </FlowerNode>
-          <FlowerAction id="b" to={{
-            d: null,
-          }}>
+          <FlowerAction
+            id="b"
+            to={{
+              d: null,
+            }}
+          >
             <Text text="zucca" />
             <ButtonNext />
           </FlowerAction>
@@ -651,11 +686,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('value from state')).toBeVisible()
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('value from state')).toBeVisible();
+  });
 
   it('FlowerNavigate test prev node', async () => {
     render(
@@ -668,7 +703,8 @@ describe('FlowerNavigate test render <Flower />', () => {
             id="a"
             to={{
               b: null,
-            }}>
+            }}
+          >
             <Text text="step1"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -682,16 +718,15 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step2')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    expect(await screen.findByText('step2')).toBeVisible()
-  })
-
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step2')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    expect(await screen.findByText('step2')).toBeVisible();
+  });
 
   it('test reset to node', async () => {
     render(
@@ -722,19 +757,19 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step2')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-reset'))
-    expect(await screen.findByText('newstart')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    expect(await screen.findByText('newstart')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('newstart-d')).toBeVisible()
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step2')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-reset'));
+    expect(await screen.findByText('newstart')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    expect(await screen.findByText('newstart')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('newstart-d')).toBeVisible();
+  });
 
   it('test reset to missing node', async () => {
     render(
@@ -757,16 +792,16 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step2')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-reset'))
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step2')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-reset'));
     // resta allo step3 perché il nodo su cui fare il reset non esiste
-    expect(await screen.findByText('step3')).toBeVisible()
-  })
+    expect(await screen.findByText('step3')).toBeVisible();
+  });
 
   it('test reset to node with object node', async () => {
     render(
@@ -790,26 +825,26 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
           <FlowerAction id="d">
             <Text text="step3" />
-            <ButtonResetNodeObject value={{ node: "newstart" }} />
+            <ButtonResetNodeObject value={{ node: 'newstart' }} />
           </FlowerAction>
           <FlowerAction id="e">
             <Text text="newstart-d" />
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step2')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-reset'))
-    expect(await screen.findByText('newstart')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    expect(await screen.findByText('newstart')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('newstart-d')).toBeVisible()
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step2')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-reset'));
+    expect(await screen.findByText('newstart')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    expect(await screen.findByText('newstart')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('newstart-d')).toBeVisible();
+  });
 
   it('FlowerNavigate test prev to node', async () => {
     render(
@@ -832,15 +867,15 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step2')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    expect(await screen.findByText('step1')).toBeVisible()
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step2')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    expect(await screen.findByText('step1')).toBeVisible();
+  });
 
   it('FlowerNavigate test prev to node with object node', async () => {
     render(
@@ -859,19 +894,19 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
           <FlowerAction id="d">
             <Text text="step3" />
-            <ButtonPrevNodeObject value={{ node: "a" }} />
+            <ButtonPrevNodeObject value={{ node: 'a' }} />
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step2')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    expect(await screen.findByText('step1')).toBeVisible()
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step2')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    expect(await screen.findByText('step1')).toBeVisible();
+  });
 
   it('FlowerNavigate test prev to node', async () => {
     render(
@@ -883,12 +918,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    expect(await screen.findByText('step1')).toBeVisible()
-  })
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    expect(await screen.findByText('step1')).toBeVisible();
+  });
 
   it('FlowerNavigate test prev to node not exists', async () => {
     render(
@@ -911,15 +945,15 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step2')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    expect(await screen.findByText('step3')).toBeVisible()
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step2')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    expect(await screen.findByText('step3')).toBeVisible();
+  });
 
   it('FlowerNavigate test prev to start', async () => {
     render(
@@ -944,18 +978,18 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step2')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    expect(await screen.findByText('step1')).toBeVisible()
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step2')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    expect(await screen.findByText('step1')).toBeVisible();
+  });
 
   it('FlowerNavigate test prev only node', async () => {
     render(
@@ -967,12 +1001,12 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    expect(await screen.findByText('step1')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    expect(await screen.findByText('step1')).toBeVisible()
-  })
+    expect(await screen.findByText('step1')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    expect(await screen.findByText('step1')).toBeVisible();
+  });
 
   it('FlowerNavigate test reset history', async () => {
     render(
@@ -995,16 +1029,15 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step2')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-reset'))
-    expect(await screen.findByText('step1')).toBeVisible()
-  })
-
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step2')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-reset'));
+    expect(await screen.findByText('step1')).toBeVisible();
+  });
 
   it('FlowerNavigate test prev node disabled', async () => {
     render(
@@ -1017,21 +1050,28 @@ describe('FlowerNavigate test render <Flower />', () => {
             id="a"
             to={{
               b: null,
-            }}>
+            }}
+          >
             <Text text="step1"></Text>
             <ButtonNext />
           </FlowerNode>
-          <FlowerNode id="b" disabled={true} to={{ d: null }}><Text text="step2" /><ButtonNext /></FlowerNode>
-          <FlowerAction id="d"><Text text="step3" /><ButtonPrev /></FlowerAction>
+          <FlowerNode id="b" disabled={true} to={{ d: null }}>
+            <Text text="step2" />
+            <ButtonNext />
+          </FlowerNode>
+          <FlowerAction id="d">
+            <Text text="step3" />
+            <ButtonPrev />
+          </FlowerAction>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-    fireEvent.click(screen.getByTestId('btn-prev'))
-    expect(await screen.findByText('step1')).toBeVisible()
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+    fireEvent.click(screen.getByTestId('btn-prev'));
+    expect(await screen.findByText('step1')).toBeVisible();
+  });
 
   it('FlowerNavigate test next node with data from state complex rules', async () => {
     render(
@@ -1045,32 +1085,33 @@ describe('FlowerNavigate test render <Flower />', () => {
             to={{
               b: {
                 rules: {
-                  $and: []
-                }
+                  $and: [],
+                },
               },
               d: {
                 rules: {
                   $and: [
-                    { "name": { $eq: 'andrea' } },
-                    { "name": { $ne: 'z' } },
-                    { "name": { $strGt: 5 } },
-                    { "name": { $strGte: 6 } },
-                    { "name": { $strLte: 50 } },
-                    { "name": { $strLt: 50 } },
-                    { "age": { $gt: 17 } },
-                    { "age": { $gte: 18 } },
-                    { "age": { $lte: 118 } },
-                    { "age": { $lt: 118 } },
-                    { "name": { $exists: true } },
-                    { "name": { $regex: "^a" } },
-                    { "name": { $regex: /^a/ } },
-                    { "tags": { $in: ['a'] } },
-                    { "tags": { $nin: ['z'] } },
-                    { "tags": { $all: ['a', 'b'] } },
-                  ]
-                }
+                    { name: { $eq: 'andrea' } },
+                    { name: { $ne: 'z' } },
+                    { name: { $strGt: 5 } },
+                    { name: { $strGte: 6 } },
+                    { name: { $strLte: 50 } },
+                    { name: { $strLt: 50 } },
+                    { age: { $gt: 17 } },
+                    { age: { $gte: 18 } },
+                    { age: { $lte: 118 } },
+                    { age: { $lt: 118 } },
+                    { name: { $exists: true } },
+                    { name: { $regex: '^a' } },
+                    { name: { $regex: /^a/ } },
+                    { tags: { $in: ['a'] } },
+                    { tags: { $nin: ['z'] } },
+                    { tags: { $all: ['a', 'b'] } },
+                  ],
+                },
               },
-            }}>
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -1079,11 +1120,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('complex')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('complex');
+  });
 
   it('FlowerNavigate test next node with data $in and priority rules', async () => {
     render(
@@ -1092,9 +1133,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: { rules: { $and: [{ "$in.name": { $eq: 'andrea' } }] } },
+              c: { rules: { $and: [{ '$in.name': { $eq: 'andrea' } }] } },
               b: null,
-            }}>
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext dataIn={{ name: 'andrea' }} />
           </FlowerNode>
@@ -1106,11 +1148,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('success')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('success');
+  });
 
   it('FlowerNavigate test next node with data $in and priority rules inverse', async () => {
     render(
@@ -1120,8 +1162,9 @@ describe('FlowerNavigate test render <Flower />', () => {
             id="a"
             to={{
               b: null,
-              c: { rules: { $and: [{ "$in.name": { $eq: 'andrea' } }] } },
-            }}>
+              c: { rules: { $and: [{ '$in.name': { $eq: 'andrea' } }] } },
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext dataIn={{ name: 'andrea' }} />
           </FlowerNode>
@@ -1133,11 +1176,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('success')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('success');
+  });
 
   it('FlowerNavigate test node rules to object null', () => {
     render(
@@ -1146,8 +1189,9 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": { label: 'test', rules: null }
-            }}>
+              b: { label: 'test', rules: null },
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -1156,10 +1200,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('OK')
-  })
+    );
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('OK');
+  });
 
   it('FlowerNavigate test node rules to object empty rules', () => {
     render(
@@ -1168,8 +1212,9 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": { label: 'test' }
-            }}>
+              b: { label: 'test' },
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -1178,10 +1223,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('andrea')
-  })
+    );
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('andrea');
+  });
 
   it('FlowerNavigate test node rules to object label and name', () => {
     render(
@@ -1190,8 +1235,9 @@ describe('FlowerNavigate test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": { label: 'test', name: "success" }
-            }}>
+              b: { label: 'test', name: 'success' },
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext route="success" />
           </FlowerNode>
@@ -1200,10 +1246,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('SUCCESS')
-  })
+    );
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('SUCCESS');
+  });
 
   it('FlowerNavigate test next default', async () => {
     render(
@@ -1213,8 +1259,9 @@ describe('FlowerNavigate test render <Flower />', () => {
             id="a"
             to={{
               c: { rules: { $and: [{ name: { $eq: 'asd' } }] } },
-              b: null
-            }}>
+              b: null,
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNextDefault />
           </FlowerNode>
@@ -1226,11 +1273,11 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('gino')
-  })
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('h1')).toHaveTextContent('gino');
+  });
 
   it('FlowerNavigate test hide by rule', async () => {
     render(
@@ -1240,7 +1287,7 @@ describe('FlowerNavigate test render <Flower />', () => {
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
           <FlowerNode id="form">
-            <FlowerNavigate action="onNext" rules={{ 'amount': { $eq: 2 }}}>
+            <FlowerNavigate action="onNext" rules={{ amount: { $eq: 2 } }}>
               <button data-testid="btn-next">HIDDEN</button>
             </FlowerNavigate>
             <FlowerNavigate action="onNext" rules={{ amount: { $eq: 1 } }}>
@@ -1249,10 +1296,10 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
     expect(screen.queryByTestId('btn-next')).not.toBeInTheDocument();
     expect(screen.queryByTestId('btn-next2')).toBeInTheDocument();
-  })
+  });
 
   it('FlowerNavigate test hide by rule BUT alwaysDisplay', async () => {
     render(
@@ -1262,7 +1309,11 @@ describe('FlowerNavigate test render <Flower />', () => {
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
           <FlowerNode id="form">
-            <FlowerNavigate action="onNext" rules={{ amount: { $eq: 2 } }} alwaysDisplay>
+            <FlowerNavigate
+              action="onNext"
+              rules={{ amount: { $eq: 2 } }}
+              alwaysDisplay
+            >
               <button data-testid="btn-next">ALWAYS</button>
             </FlowerNavigate>
             <FlowerNavigate action="onNext" rules={{ amount: { $eq: 1 } }}>
@@ -1271,23 +1322,33 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
     expect(screen.queryByTestId('btn-next')).toBeInTheDocument();
     expect(screen.queryByTestId('btn-next2')).toBeInTheDocument();
-  })
+  });
 
   it('FlowerNavigate test next to node with functional children', async () => {
     render(
       <FlowerProvider>
         <Flower name="app-test5">
-          <FlowerRoute onEnter={()=>{
-            console.log('start')
-          }} id="start" to={{ step1: null }} />
+          <FlowerRoute
+            onEnter={() => {
+              console.log('start');
+            }}
+            id="start"
+            to={{ step1: null }}
+          />
           <FlowerNode id="step1" to={{ step2: null }}>
             <Text text="step1"></Text>
             <FlowerNavigate action="onNext">
               {({ onClick, hidden }) => (
-                <button data-testid="btn-next" onClick={onClick} disabled={hidden}>NEXT</button>
+                <button
+                  data-testid="btn-next"
+                  onClick={onClick}
+                  disabled={hidden}
+                >
+                  NEXT
+                </button>
               )}
             </FlowerNavigate>
           </FlowerNode>
@@ -1299,9 +1360,9 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    )
+    );
 
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('step3')).toBeVisible()
-  })
-})
+    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(await screen.findByText('step3')).toBeVisible();
+  });
+});

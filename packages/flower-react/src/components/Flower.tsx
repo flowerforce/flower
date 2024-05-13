@@ -8,11 +8,12 @@ import React, {
   useMemo,
   useRef,
   useState,
+  PropsWithChildren,
 } from 'react';
 import _keyBy from 'lodash/keyBy';
 import { Emitter } from '@flowerforce/flower-core';
 import { FlowerCoreContextProvider } from '../context';
-
+import _get from 'lodash/get';
 import { convertElements } from '../utils';
 import { actions } from '../reducer';
 import {
@@ -24,24 +25,30 @@ import {
 } from '../selectors';
 import { useDispatch, useSelector, useStore } from '../provider';
 
+type FlowerClientProps = PropsWithChildren & {
+  name: string;
+  destroyOnUnmount?: boolean;
+  startId?: string | null;
+  initialData?: any;
+};
+
 /**
  * FlowerClient
  */
-const FlowerClient = (props) => {
-  const {
-    children,
-    name,
-    destroyOnUnmount = true,
-    startId = null,
-    initialData,
-  } = props;
-
+const FlowerClient = ({
+  children,
+  name,
+  destroyOnUnmount = true,
+  startId = null,
+  initialData = {},
+}: FlowerClientProps) => {
   const flowName = name;
 
   const dispatch = useDispatch();
   const one = useRef(false);
-  const [wsDevtools, setWsDevtools] = useState(
-    global.window && global.window['__FLOWER_DEVTOOLS_INITIALIZED__']
+  const [wsDevtools, setWsDevtools] = useState<boolean>(
+    global.window &&
+      _get(global.window, '__FLOWER_DEVTOOLS_INITIALIZED__', false)
   );
 
   // TODO rivedere il giro, potremmo fare le trasformazioni in CoreUtils.generateNodesForFlowerJson
@@ -78,7 +85,7 @@ const FlowerClient = (props) => {
 
   useEffect(() => {
     /* istanbul ignore next */
-    const eventCb = (msg) => {
+    const eventCb = (msg: any) => {
       if (msg.source !== 'flower-devtool') return;
 
       if (
@@ -102,13 +109,13 @@ const FlowerClient = (props) => {
     };
 
     /* istanbul ignore next */
-    if (global.window && global.window['__FLOWER_DEVTOOLS__']) {
+    if (global.window && _get(global.window, '__FLOWER_DEVTOOLS__')) {
       Emitter.on('flower-devtool-to-client', eventCb);
     }
 
     return () => {
       /* istanbul ignore next */
-      if (global.window && global.window['__FLOWER_DEVTOOLS__']) {
+      if (global.window && _get(global.window, '__FLOWER_DEVTOOLS__')) {
         Emitter.off('flower-devtool-to-client', eventCb);
       }
     };
@@ -131,14 +138,14 @@ const FlowerClient = (props) => {
       isInitialized &&
       wsDevtools &&
       global.window &&
-      global.window['__FLOWER_DEVTOOLS__']
+      _get(global.window, '__FLOWER_DEVTOOLS__')
     ) {
       Emitter.emit('flower-devtool-from-client', {
         source: 'flower-client',
         action: 'FLOWER_CLIENT_INIT',
         name: flowName,
         time: new Date(),
-        nodeId: isInitialized
+        nodeId: isInitialized,
       });
     }
   }, [dispatch, flowName, wsDevtools, isInitialized]);
@@ -149,7 +156,7 @@ const FlowerClient = (props) => {
       isInitialized &&
       wsDevtools &&
       global.window &&
-      global.window['__FLOWER_DEVTOOLS__']
+      _get(global.window, '__FLOWER_DEVTOOLS__')
     ) {
       Emitter.emit('flower-devtool-from-client', {
         source: 'flower-client',
@@ -169,7 +176,7 @@ const FlowerClient = (props) => {
       isInitialized &&
       wsDevtools &&
       global.window &&
-      global.window['__FLOWER_DEVTOOLS__']
+      _get(global.window, '__FLOWER_DEVTOOLS__')
     ) {
       Emitter.emit('flower-devtool-from-client', {
         source: 'flower-client',
@@ -189,7 +196,11 @@ const FlowerClient = (props) => {
       dispatch({ type: 'flower/next', payload: { flowName, disabled: true } });
       // eslint-disable-next-line no-underscore-dangle, no-undef
       /* istanbul ignore next */
-      if (wsDevtools && global.window && global.window['__FLOWER_DEVTOOLS__']) {
+      if (
+        wsDevtools &&
+        global.window &&
+        _get(global.window, '__FLOWER_DEVTOOLS__')
+      ) {
         Emitter.emit('flower-devtool-from-client', {
           source: 'flower-client',
           action: 'FLOWER_NAVIGATE',
@@ -204,7 +215,11 @@ const FlowerClient = (props) => {
 
     // eslint-disable-next-line no-underscore-dangle, no-undef
     /* istanbul ignore next */
-    if (wsDevtools && global.window && global.window['__FLOWER_DEVTOOLS__']) {
+    if (
+      wsDevtools &&
+      global.window &&
+      _get(global.window, '__FLOWER_DEVTOOLS__')
+    ) {
       if (isInitialized === current) return; // salto il primo evento
       Emitter.emit('flower-devtool-from-client', {
         source: 'flower-client',

@@ -24,7 +24,7 @@ const Text = ({ text, value, children, ...props }: any) => <h1 data-testid="h1" 
   {text || value || children}
 </h1>
 
-const TextObj = ({ value, ...props }) => {
+const TextObj = ({ value, ...props }: any) => {
   return <h1 data-testid="h1" {...props}>{value && JSON.stringify(value)}</h1>
 }
 
@@ -39,7 +39,7 @@ const ButtonNext = ({ id = '' }) => {
   )
 }
 
-const InitState = ({ state }) => {
+const InitState = ({ state }: any) => {
   const { onNext } = useFlower()
   const { setData, getData } = useFlowerForm()
   useEffect(() => {
@@ -50,7 +50,7 @@ const InitState = ({ state }) => {
   return "..."
 }
 
-const Form = ({ flowName }) => {
+const Form = ({ flowName }: any) => {
   const { errors, getData } = useFlowerForm({ flowName })
   useEffect(() => {
     // console.log("🚀 ~ Form ~ getData:", getData())

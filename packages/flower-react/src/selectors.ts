@@ -35,7 +35,7 @@ const makeSelectPrevNodeRetain = (name: string) =>
     Selectors.makeSelectPrevNodeRetain
   );
 
-const makeSelectCurrentNodeDisabled = (name) =>
+const makeSelectCurrentNodeDisabled = (name: string) =>
   createSelector(
     makeSelectNodesIds(name),
     makeSelectCurrentNodeId(name),
@@ -49,11 +49,6 @@ const getDataByFlow = (name: string) =>
 // selettore per recuperare i dati di un flow specifico e id specifico
 const getDataFromState = (name: string, id: string | string[]) =>
   createSelector(getDataByFlow(name), Selectors.getDataFromState(id));
-
-/* const getFieldFormValidations = (name, currentNodeId, id) => createSelector(
-  selectFlowerFormNode(name, currentNodeId),
-  (substate) => _get(substate, id),
-); */
 
 const makeSelectNodeErrors = (name: string, currentNodeId: string) =>
   createSelector(

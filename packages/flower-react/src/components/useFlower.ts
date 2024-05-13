@@ -80,10 +80,11 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const { flowName: flowNameDefault } = useContext(FlowerCoreContext);
 
   const flowName = customFlowName || name || flowNameDefault;
-  const nodeId = useSelector(makeSelectCurrentNodeId(flowName));
+  const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''));
 
   const emitNavigateEvent = useCallback(
-    (params) => {
+    //TODO check this function is needed 
+    (params: any) => {
       /* istanbul ignore next */
       // eslint-disable-next-line no-underscore-dangle, no-undef
       // if (global.window && global.window.__FLOWER_DEVTOOLS__) {

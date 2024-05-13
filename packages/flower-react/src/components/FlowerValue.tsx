@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext, useEffect, useMemo } from 'react';
 import { CoreUtils } from '@flowerforce/flower-core';
 import { useSelector } from '../provider';
@@ -6,6 +7,7 @@ import { FlowerCoreContext } from '../context';
 import FlowerRule from './FlowerRule';
 import { FlowerValueProps } from './types/FlowerValue';
 
+//TODO make types for wrapper function
 function Wrapper({
   Component,
   id,
@@ -14,7 +16,7 @@ function Wrapper({
   hidden,
   onUpdate,
   ...props
-}) {
+}: any) {
   const { flowNameFromPath = flowName, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
@@ -52,7 +54,7 @@ const RenderRules = ({
   flowName,
   onUpdate,
   ...props
-}) => {
+}: any) => {
   return (
     <FlowerRule
       alwaysDisplay={alwaysDisplay}
