@@ -1,19 +1,19 @@
 import { RulesObject } from './CoreInterface';
-import { Flower, Form } from './Store';
+import { Flower, Form, Node } from './Store';
 
 export interface ISelectors {
   /**
    * @param state
    * @returns
    */
-  selectGlobal<T extends Record<string, any>>(state: { flower: T }): Partial<T>;
+  selectGlobal<T extends Record<string, any>>(state: { flower: Flower<T> }): Flower<T>;
   /**
    * @param name
    * @returns
    */
   selectFlower<T extends Record<string, any>>(
     name: string
-  ): (state: Flower<T>) => Partial<Flower<T>>;
+  ): (state: Flower<T>) => Flower<T>;
   /**
    * @param id
    * @returns
@@ -34,7 +34,7 @@ export interface ISelectors {
    */
   makeSelectNodesIds<T extends Record<string, any>>(
     flower: Flower<T>
-  ): Partial<Flower<T>['nodes']>;
+  ): Flower<T>['nodes'];
   /**
    * @param flower
    * @returns
@@ -68,7 +68,7 @@ export interface ISelectors {
    * @returns
    */
   makeSelectCurrentNodeDisabled<T extends Record<string, any>>(
-    nodes: { [x: string]: { disabled: boolean } },
+    nodes: { [x: string]: Partial<Node> },
     current: Flower<T>['current']
   ): boolean;
   /**
@@ -89,14 +89,14 @@ export interface ISelectors {
    */
   getDataByFlow<T extends Record<string, any>>(
     flower: Flower<T>
-  ): Record<string, any>;
+  ): T;
   /**
    * @param id
    * @returns
    */
   getDataFromState<T extends Record<string, any>>(
     id: string | string[]
-  ): (data: Flower<T>) => Flower<T>['data'];
+  ): (data: T) => Partial<T>;
   /**
    * @param form
    * @returns
@@ -114,7 +114,7 @@ export interface ISelectors {
     name: string,
     id: string,
     validate: { rules?: RulesObject<any>; message?: string }[] | null
-  ): (data: Flower<T>) => Array<string>;
+  ): (data?: T) => Array<string>;
   /**
    * @param id
    * @param rules
@@ -130,7 +130,7 @@ export interface ISelectors {
     flowName: string,
     value: any
   ): (
-    data: Flower<T>,
+    data: T | undefined,
     form: {
       touched: boolean;
       errors: any;

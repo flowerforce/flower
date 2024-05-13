@@ -1,5 +1,6 @@
 import { CoreUtils } from "../CoreUtils";
 import { FlowerCoreReducers } from "../FlowerCoreStateFunctions";
+import { ActionWithPayload } from "../interfaces/ReducerInterface";
 import { Flower } from "../interfaces/Store";
 
 const state: Flower<Record<string, any>> = {
@@ -52,7 +53,7 @@ const mock = {
 describe("FlowerCoreReducers", () => {
   describe("historyAdd", () => {
     it("should add a node to the history and update the current node", () => {
-      const mockState = {
+      const mockState: any = {
         flower: {
           persist: false,
           startId: "Start",
@@ -93,7 +94,7 @@ describe("FlowerCoreReducers", () => {
       };
 
       const newState = FlowerCoreReducers.historyPrevToNode(
-        FlowerStateWrap(state),
+        FlowerStateWrap(state) as any,
         action
       );
 
@@ -108,7 +109,7 @@ describe("FlowerCoreReducers", () => {
       };
 
       const newState = FlowerCoreReducers.historyPrevToNode(
-        FlowerStateWrap(state),
+        FlowerStateWrap(state) as any,
         action
       );
 
@@ -124,7 +125,7 @@ describe("FlowerCoreReducers", () => {
       };
 
       const newState = FlowerCoreReducers.setFormTouched(
-        FlowerStateWrap(state),
+        FlowerStateWrap(state) as any,
         action
       );
 
@@ -138,7 +139,7 @@ describe("FlowerCoreReducers", () => {
       };
 
       const newState = FlowerCoreReducers.setFormTouched(
-        FlowerStateWrap(state),
+        FlowerStateWrap(state) as any,
         action
       );
 
@@ -162,7 +163,7 @@ describe("FlowerCoreReducers", () => {
       };
 
       const newState = FlowerCoreReducers.historyPop(
-        FlowerStateWrap(stateWithDisabledCurrentNode),
+        FlowerStateWrap(stateWithDisabledCurrentNode) as any,
         action
       );
 
@@ -179,7 +180,7 @@ describe("FlowerCoreReducers", () => {
       };
 
       const newState = FlowerCoreReducers.restoreHistory(
-        FlowerStateWrap(state),
+        FlowerStateWrap(state) as any,
         action
       );
 
@@ -206,7 +207,7 @@ describe("FlowerCoreReducers", () => {
       };
 
       const newState = FlowerCoreReducers.replaceNode(
-        FlowerStateWrap(state),
+        FlowerStateWrap(state) as any,
         action
       );
 
@@ -235,7 +236,7 @@ describe("FlowerCoreReducers", () => {
       };
 
       const newState = FlowerCoreReducers.initializeFromNode(
-        FlowerStateWrap(state),
+        FlowerStateWrap(state) as any,
         action
       );
 
@@ -260,7 +261,7 @@ describe("FlowerCoreReducers", () => {
       };
 
       const newState = FlowerCoreReducers.forceResetHistory(
-        FlowerStateWrap(state),
+        FlowerStateWrap(state) as any,
         action
       );
 
@@ -275,7 +276,7 @@ describe("FlowerCoreReducers", () => {
       };
 
       const newState = FlowerCoreReducers.forceResetHistory(
-        FlowerStateWrap(state),
+        FlowerStateWrap(state) as any,
         action
       );
       expect(newState).toEqual(state);
@@ -290,7 +291,7 @@ describe("FlowerCoreReducers", () => {
         type: "flowerAction",
       };
 
-      const mock_2 = { ...mock };
+      const mock_2: any = { ...mock };
 
       const newState = FlowerCoreReducers.destroy(mock_2, action);
 
@@ -310,7 +311,7 @@ describe("FlowerCoreReducers", () => {
         type: "flowerAction",
       };
 
-      const mock_2 = { ...mock };
+      const mock_2: any = { ...mock };
 
       FlowerCoreReducers.forceAddHistory(mock_2, action);
 
@@ -376,7 +377,7 @@ describe("FlowerCoreReducers", () => {
         type: "flowerAction",
       };
 
-      const mock_2 = { ...mock };
+      const mock_2: any = { ...mock };
 
       FlowerCoreReducers.setCurrentNode(mock_2, action);
 
@@ -392,7 +393,7 @@ describe("FlowerCoreReducers", () => {
         type: "flowerAction",
       };
 
-      const mock_2 = { ...mock };
+      const mock_2: any = { ...mock };
 
       FlowerCoreReducers.setCurrentNode(mock_2, action);
 
@@ -466,18 +467,18 @@ describe("FlowerCoreReducers", () => {
 
   describe("replaceData", () => {
     it("should replace the data in the specified flow with the provided data", () => {
-      const payload = {
+      const payload: any = {
         flowName: "first",
         value: {
           newData: "new data",
         },
       };
-      const action = {
-        payload,
-        type: "flowerAction",
+      const action: ActionWithPayload<typeof payload> = {
+      payload,
+      type: "flowerAction",
       };
 
-      const newState = FlowerCoreReducers.replaceData(mock, action);
+      const newState = FlowerCoreReducers.replaceData(mock as any, action);
 
       expect(mock.first.data).toEqual({
         newData: "new data",

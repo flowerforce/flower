@@ -41,8 +41,16 @@ export type ActionsTypes =
 /**
  * These functions are Redux reducers used in a Flux architecture for managing state transitions and updates in a Flower application.
  */
+
+// type SliceCaseReducers<State> = {
+//   [K: string]: CaseReducer<State, {
+//       payload: any;
+//       type: string;
+//   }> | CaseReducerWithPrepare<State, PayloadAction<any, string, any, any>>;
+// }
+
 export type ReducersFunctions<
-  T extends Record<string, any> = Record<string, any>
+  T extends Record<string, any> = Record<string, Flower<Record<string, any>>>
 > = {
   /**
    * @param state

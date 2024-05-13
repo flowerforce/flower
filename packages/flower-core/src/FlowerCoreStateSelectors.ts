@@ -11,7 +11,7 @@ export const FlowerCoreStateSelectors: ISelectors = {
   selectFlowerHistory: (flower) => _get(flower, ['history'], []),
   makeSelectNodesIds: (flower) => _get(flower, ['nodes']),
   makeSelectStartNodeId: (flower) => _get(flower, ['startId']),
-  getDataByFlow: (flower) => _get(flower, ['data'], {}),
+  getDataByFlow: (flower) => _get(flower, ['data']) ?? {},
   getDataFromState: (id) => (data) => id === '*' ? data : _get(data, id),
   makeSelectNodeFormTouched: (form) => form && form.touched,
   makeSelectCurrentNodeId: (flower, startNodeId) =>
@@ -47,7 +47,7 @@ export const FlowerCoreStateSelectors: ISelectors = {
   },
 
   makeSelectFieldError: (name, id, validate) => (data) => {
-    if (!validate) return [];
+    if (!validate || !data) return [];
 
     const errors = validate.filter((rule) => {
       if (!rule) return true;
