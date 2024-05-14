@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 import React, {
-  ReactNode,
   Children,
   memo,
   useEffect,
@@ -74,8 +73,9 @@ const FlowerClient = ({
       dispatch(
         actions.initNodes({
           name: flowName,
+          // @ts-expect-error FIX ME
           nodes,
-          startId,
+          startId: startId ?? '',
           persist: destroyOnUnmount === false,
           initialData,
         })

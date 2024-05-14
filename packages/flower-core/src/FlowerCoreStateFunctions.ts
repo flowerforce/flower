@@ -59,6 +59,15 @@ export const FlowerCoreReducers: ReducersFunctions = {
   },
 
   setFormTouched: (state, { payload }) => {
+    if (
+      !_get(state, [
+        typeof payload === 'string' ? payload : payload.flowName,
+        'nodes',
+        typeof payload === 'string' ? payload : payload.currentNode,
+      ])
+    ) {
+      return state;
+    }
     _set(
       state,
       [
@@ -75,7 +84,6 @@ export const FlowerCoreReducers: ReducersFunctions = {
   /* istanbul ignore next */
   forceAddHistory: (state, { payload }) => {
     const { name, flowName, history } = payload;
-    console.log('🚀 ~ history:', history);
 
     const key = name || flowName || '' || '';
     const resultHistory = history.slice(1, -1);

@@ -129,7 +129,7 @@ describe('Test Visibility', () => {
               date: new Date(),
               val: { a: 1 },
               val2: {},
-              func: () => { },
+              func: () => null,
               arr: ["1"],
               ageString: "2.1"
             }} />

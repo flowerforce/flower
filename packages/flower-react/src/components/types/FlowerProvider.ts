@@ -1,23 +1,24 @@
-import { ThunkMiddleware } from '@reduxjs/toolkit';
-import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
+import { ThunkMiddleware, Tuple, configureStore } from '@reduxjs/toolkit';
 import { Flower } from '@flowerforce/flower-core';
-import { AnyAction } from 'redux';
+import { UnknownAction } from 'redux';
 
 export interface FlowerProviderInterface {
   render(): JSX.Element;
 }
 
-export type FlowerProviderProps = ToolkitStore<
+export type FlowerProviderProps = ReturnType<typeof configureStore<
   {
     flower: Record<string, Flower<any>>;
   },
-  AnyAction,
-  [
-    ThunkMiddleware<
-      {
-        flower: Record<string, Flower<any>>;
-      },
-      AnyAction
-    >
-  ]
->;
+  UnknownAction,
+  Tuple<
+    [
+      ThunkMiddleware<
+        {
+          flower: Record<string, Flower<any>>;
+        },
+        UnknownAction
+      >
+    ]
+  >
+>>;

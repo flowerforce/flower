@@ -6,14 +6,16 @@ export interface ISelectors {
    * @param state
    * @returns
    */
-  selectGlobal<T extends Record<string, any>>(state: { flower: Flower<T> }): Flower<T>;
+  selectGlobal<T extends Record<string, any>>(state: {
+    [x: string]: Flower<T>;
+  }): { [x: string]: Flower<T> };
   /**
    * @param name
    * @returns
    */
   selectFlower<T extends Record<string, any>>(
     name: string
-  ): (state: Flower<T>) => Flower<T>;
+  ): (state: { [x: string]: Flower<T> }) => Flower<T>;
   /**
    * @param id
    * @returns
@@ -87,9 +89,7 @@ export interface ISelectors {
    * @param flower
    * @returns
    */
-  getDataByFlow<T extends Record<string, any>>(
-    flower: Flower<T>
-  ): T;
+  getDataByFlow<T extends Record<string, any>>(flower: Flower<T>): T;
   /**
    * @param id
    * @returns

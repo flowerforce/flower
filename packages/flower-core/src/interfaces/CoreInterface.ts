@@ -9,13 +9,21 @@ export type Edge<T = {}> = {
 };
 
 export type Node = {
+  nodeId: string | undefined;
+  nodeType: string;
+  nodeTitle: string;
+  children: Record<string, any> | Record<string, any>[] | undefined;
+  nextRules: { [x: string]: { rules: RulesObject<any> } | RulesObject<any> } | undefined;
+  retain: Boolean;
+  disabled: Boolean;
+
   id: string;
   props: Record<string, any>;
   type: Record<string, any>;
-  nodeId?: string;
-  nextRules?: { [x: string]: { rules: RulesObject<any> } | RulesObject<any> };
-  to?: { [x: string]: { rules: RulesObject<any> } | RulesObject<any> };
-  children?: Array<Record<string, any>> | Record<string, any>;
+  // nodeId?: string;
+  // nextRules?: { [x: string]: { rules: RulesObject<any> } | RulesObject<any> };
+  // to?: { [x: string]: { rules: RulesObject<any> } | RulesObject<any> };
+  // children?: Array<Record<string, any>> | Record<string, any>;
 };
 
 export enum RulesModes {

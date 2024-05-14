@@ -1,7 +1,7 @@
 import { RulesObject } from '@flowerforce/flower-core';
 
 
-export type FlowerRuleProps<T extends Record<string, any> = {}> = {
+export type FlowerRuleProps<T extends Record<string, any> = object> = {
   /** The path to the value you want to read from the flow's data
    *
    * Example: id="loginForm.name"

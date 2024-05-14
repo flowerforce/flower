@@ -5,7 +5,7 @@ import { MatchRules } from './RulesMatcher';
 import { flat } from './Flat';
 
 export const FlowerCoreStateSelectors: ISelectors = {
-  selectGlobal: (state) => state && state.flower,
+  selectGlobal: (state) => state && state,
   selectFlower: (name) => (state) => _get(state, [name]),
   selectFlowerFormNode: (id) => (state) => _get(state, ['form', id]),
   selectFlowerHistory: (flower) => _get(flower, ['history'], []),

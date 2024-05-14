@@ -5,7 +5,7 @@ import { FlowerCoreContext } from '../context';
 import { makeSelectCurrentNodeId, makeSelectNodeErrors } from '../selectors';
 import { actions } from '../reducer';
 import { useDispatch, useSelector, useStore } from '../provider';
-import { UseFlowerForm, UseFlowerProps } from './types/FlowerHooks';
+import { UseFlowerForm } from './types/FlowerHooks';
 
 /**  This hook allows you to manage and retrieve information about Forms.
  *
@@ -60,7 +60,7 @@ const useFlowerForm: UseFlowerForm = ({
         dispatch(
           actions.addDataByPath({
             flowName: flowNameFromPath,
-            id: newpath,
+            id: Array.isArray(newpath) ? newpath : [newpath],
             value: val,
           })
         );

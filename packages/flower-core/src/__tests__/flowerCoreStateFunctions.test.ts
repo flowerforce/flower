@@ -1,19 +1,20 @@
-import { CoreUtils } from "../CoreUtils";
-import { FlowerCoreReducers } from "../FlowerCoreStateFunctions";
-import { ActionWithPayload } from "../interfaces/ReducerInterface";
-import { Flower } from "../interfaces/Store";
+import { CoreUtils } from '../CoreUtils';
+import { FlowerCoreReducers } from '../FlowerCoreStateFunctions';
+import { ActionWithPayload } from '../interfaces/ReducerInterface';
+import { Flower } from '../interfaces/Store';
+import { cloneDeep } from 'lodash';
 
 const state: Flower<Record<string, any>> = {
   persist: false,
-  startId: "Start",
-  current: "Node1",
-  history: ["start", "Node1"],
+  startId: 'Start',
+  current: 'Node1',
+  history: ['start', 'Node1'],
   nodes: {
-    Start: { nodeId: "start", nodeType: "FlowerRoute" },
-    Node1: { nodeId: "Node1", nodeType: "FlowerNode" },
+    Start: { nodeId: 'start', nodeType: 'FlowerRoute' },
+    Node1: { nodeId: 'Node1', nodeType: 'FlowerNode' },
   },
   nextRules: {
-    Start: [{ nodeId: "Node1", rules: null }],
+    Start: [{ nodeId: 'Node1', rules: null }],
   },
   data: {},
   form: {
@@ -30,16 +31,16 @@ const FlowerStateWrap = (state: Flower<Record<string, any>>) => ({
 const mock = {
   first: {
     persist: false,
-    startId: "Start",
-    current: "Node1",
-    history: ["start", "Node1"],
+    startId: 'Start',
+    current: 'Node1',
+    history: ['start', 'Node1'],
     nodes: {
-      Start: { nodeId: "start", nodeType: "FlowerRoute" },
-      Node1: { nodeId: "Node1", nodeType: "FlowerNode" },
-      Node2: { nodeId: "Node2", nodeType: "FlowerNode" },
+      Start: { nodeId: 'start', nodeType: 'FlowerRoute' },
+      Node1: { nodeId: 'Node1', nodeType: 'FlowerNode' },
+      Node2: { nodeId: 'Node2', nodeType: 'FlowerNode' },
     },
     nextRules: {
-      Start: [{ nodeId: "Node1", rules: null }],
+      Start: [{ nodeId: 'Node1', rules: null }],
     },
     data: {},
     form: {
@@ -50,15 +51,15 @@ const mock = {
   },
 };
 
-describe("FlowerCoreReducers", () => {
-  describe("historyAdd", () => {
-    it("should add a node to the history and update the current node", () => {
+describe('FlowerCoreReducers', () => {
+  describe('historyAdd', () => {
+    it('should add a node to the history and update the current node', () => {
       const mockState: any = {
         flower: {
           persist: false,
-          startId: "Start",
-          current: "Start",
-          history: ["start", "Node1"],
+          startId: 'Start',
+          current: 'Start',
+          history: ['start', 'Node1'],
           nodes: {
             Start: { nodeId: 'start', nodeType: 'FlowerRoute' },
             Node1: { nodeId: 'Node1', nodeType: 'FlowerNode' },
@@ -67,7 +68,7 @@ describe("FlowerCoreReducers", () => {
             Node4: { nodeId: 'Node4', nodeType: 'FlowerNode' },
           },
           nextRules: {
-            Start: [{ nodeId: "Node1", rules: null }],
+            Start: [{ nodeId: 'Node1', rules: null }],
           },
           data: {},
           form: {
@@ -77,8 +78,8 @@ describe("FlowerCoreReducers", () => {
           },
         },
       };
-      const payload = { name: "flower", node: "Node2" };
-      const action = { payload, type: "historyAdd" };
+      const payload = { name: 'flower', node: 'Node2' };
+      const action = { payload, type: 'historyAdd' };
       const newState = FlowerCoreReducers.historyAdd(mockState, action);
 
       expect(newState?.flower.history).toEqual(['start', 'Node1', 'Node2']);
@@ -86,42 +87,45 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("historyPrevToNode", () => {
-    it("should go to the previous node in history if it exists", () => {
+  describe('historyPrevToNode', () => {
+    it('should go to the previous node in history if it exists', () => {
       const action = {
-        payload: "Node1",
-        type: "flowerAction",
+        payload: 'Node1',
+        type: 'flowerAction',
       };
 
       const newState = FlowerCoreReducers.historyPrevToNode(
-        FlowerStateWrap(state) as any,
+        FlowerStateWrap(state),
         action
       );
 
-      expect(newState?.history).toEqual(['start', 'Node1']);
-      expect(newState?.current).toEqual('Node1');
+      expect(newState?.flower?.history).toEqual(['start', 'Node1']);
+      expect(newState?.flower?.current).toEqual('Node1');
     });
 
-    it("should not edit state if the previous node does not exist", () => {
+    it('should not edit state if the previous node does not exist', () => {
       const action = {
-        payload: "UnknownNode",
-        type: "flowerAction",
+        payload: 'UnknownNode',
+        type: 'flowerAction',
       };
 
       const newState = FlowerCoreReducers.historyPrevToNode(
-        FlowerStateWrap(state) as any,
+        FlowerStateWrap(state),
         action
       );
 
-      expect(newState).toEqual(state);
+      expect(newState).toEqual(FlowerStateWrap(state));
     });
   });
 
-  describe("setFormTouched", () => {
+  describe('setFormTouched', () => {
     it("should set touched to true for the specified node's form", () => {
       const action = {
-        payload: "Start",
-        type: "flowerAction",
+        payload: {
+          flowName: 'flower',
+          currentNode: 'Start',
+        },
+        type: 'flowerAction',
       };
 
       const newState = FlowerCoreReducers.setFormTouched(
@@ -132,34 +136,36 @@ describe("FlowerCoreReducers", () => {
       expect(newState?.flower?.form?.Start.touched).toEqual(true);
     });
 
-    it("should not edit state if the specified node does not exist", () => {
+    it('should not edit state if the specified node does not exist', () => {
       const action = {
-        payload: "randomNode",
-        type: "flowerAction",
+        payload: {
+          flowName: 'flower',
+          currentNode: 'randomNode',
+        },
+        type: 'flowerAction',
       };
 
       const newState = FlowerCoreReducers.setFormTouched(
-        FlowerStateWrap(state) as any,
+        FlowerStateWrap({ ...cloneDeep(state) }) as any,
         action
       );
-
-      expect(newState).toEqual(state);
+      expect(newState).toEqual(FlowerStateWrap(state));
     });
   });
 
-  describe("historyPop", () => {
-    it("should return state unchanged if history length is less than 2 and current node has disabled or invalid type", () => {
+  describe('historyPop', () => {
+    it('should return state unchanged if history length is less than 2 and current node has disabled or invalid type', () => {
       const stateWithDisabledCurrentNode = {
         ...state,
         nodes: {
           ...state.nodes,
-          Node1: { nodeId: "Node1", nodeType: "FlowerAction", disabled: true },
+          Node1: { nodeId: 'Node1', nodeType: 'FlowerAction', disabled: true },
         },
       };
 
       const action = {
-        payload: { name: "Flower" },
-        type: "historyPop",
+        payload: { name: 'Flower' },
+        type: 'historyPop',
       };
 
       const newState = FlowerCoreReducers.historyPop(
@@ -171,12 +177,12 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("restoreHistory", () => {
-    it("should set current node to startId and history containing only startId", () => {
-      const payload = { name: "Flower" };
+  describe('restoreHistory', () => {
+    it('should set current node to startId and history containing only startId', () => {
+      const payload = { name: 'Flower' };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const newState = FlowerCoreReducers.restoreHistory(
@@ -193,17 +199,17 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("replaceNode", () => {
-    it("should not modify state if the specified node does not exist", () => {
+  describe('replaceNode', () => {
+    it('should not modify state if the specified node does not exist', () => {
       const payload = {
-        name: "Flower",
-        flowName: "TestFlow",
-        node: "UnknownNode",
+        name: 'Flower',
+        flowName: 'TestFlow',
+        node: 'UnknownNode',
       };
 
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const newState = FlowerCoreReducers.replaceNode(
@@ -222,17 +228,17 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("initializeFromNode", () => {
-    it("should initialize state with startId, current node, and history containing only startId if the specified node exists", () => {
+  describe('initializeFromNode', () => {
+    it('should initialize state with startId, current node, and history containing only startId if the specified node exists', () => {
       const payload = {
-        name: "Flower",
-        flowName: "TestFlow",
-        node: "Node3",
+        name: 'Flower',
+        flowName: 'TestFlow',
+        node: 'Node3',
       };
 
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const newState = FlowerCoreReducers.initializeFromNode(
@@ -252,12 +258,12 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("forceResetHistory", () => {
-    it("should reset history to an empty array", () => {
-      const payload = { name: "Flower" };
+  describe('forceResetHistory', () => {
+    it('should reset history to an empty array', () => {
+      const payload = { name: 'Flower' };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const newState = FlowerCoreReducers.forceResetHistory(
@@ -268,11 +274,11 @@ describe("FlowerCoreReducers", () => {
       expect(newState?.[payload.name].history).toEqual([]);
     });
 
-    it("should not edit the state if name or flowName is not provided in payload", () => {
+    it('should not edit the state if name or flowName is not provided in payload', () => {
       const payload = {};
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const newState = FlowerCoreReducers.forceResetHistory(
@@ -283,12 +289,12 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("destroy", () => {
-    it("this should destroy a flow by removing it from the state", () => {
-      const payload = { name: "first" };
+  describe('destroy', () => {
+    it('this should destroy a flow by removing it from the state', () => {
+      const payload = { name: 'first' };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const mock_2: any = { ...mock };
@@ -300,15 +306,15 @@ describe("FlowerCoreReducers", () => {
   });
 
   // TODO check use case to understand internal logic
-  describe("forceAddHistory", () => {
-    it("should add history to the flow", () => {
+  describe('forceAddHistory', () => {
+    it('should add history to the flow', () => {
       const payload = {
         name: 'first',
         history: ['Node3'],
       };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const mock_2: any = { ...mock };
@@ -320,34 +326,34 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("initNodes", () => {
-    it("initializes the state with the provided nodes and data", () => {
+  describe('initNodes', () => {
+    it('initializes the state with the provided nodes and data', () => {
       const payload = {
-        name: "first",
+        name: 'first',
         persist: false,
-        startId: "Start",
-        current: "Node1",
+        startId: 'Start',
+        current: 'Node1',
         nodes: [
-          { nodeId: "Start", nodeType: "FlowerRoute" },
-          { nodeId: "Node1", nodeType: "FlowerNode" },
-          { nodeId: "Node2", nodeType: "FlowerNode" },
+          { nodeId: 'Start', nodeType: 'FlowerRoute' },
+          { nodeId: 'Node1', nodeType: 'FlowerNode' },
+          { nodeId: 'Node2', nodeType: 'FlowerNode' },
         ],
         initialData: {},
       };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const expectedResult = {
         persist: false,
-        startId: "Start",
-        current: "Start",
-        history: ["Start"],
+        startId: 'Start',
+        current: 'Start',
+        history: ['Start'],
         nodes: {
-          Node1: { nodeId: "Node1", nodeType: "FlowerNode" },
-          Node2: { nodeId: "Node2", nodeType: "FlowerNode" },
-          Start: { nodeId: "Start", nodeType: "FlowerRoute" },
+          Node1: { nodeId: 'Node1', nodeType: 'FlowerNode' },
+          Node2: { nodeId: 'Node2', nodeType: 'FlowerNode' },
+          Start: { nodeId: 'Start', nodeType: 'FlowerRoute' },
         },
         nextRules: {
           Node1: undefined,
@@ -366,15 +372,15 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("setCurrentNode", () => {
-    it("should return previous current if the specified node does not exist", () => {
+  describe('setCurrentNode', () => {
+    it('should return previous current if the specified node does not exist', () => {
       const payload = {
-        name: "first",
-        node: "Node_not_existing",
+        name: 'first',
+        node: 'Node_not_existing',
       };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const mock_2: any = { ...mock };
@@ -383,35 +389,35 @@ describe("FlowerCoreReducers", () => {
 
       expect(mock_2.first.current).toEqual(mock.first.current);
     });
-    it("should set current to the specified node", () => {
+    it('should set current to the specified node', () => {
       const payload = {
-        name: "first",
-        node: "Node2",
+        name: 'first',
+        node: 'Node2',
       };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const mock_2: any = { ...mock };
 
       FlowerCoreReducers.setCurrentNode(mock_2, action);
 
-      expect(mock_2.first.current).toEqual("Node2");
+      expect(mock_2.first.current).toEqual('Node2');
     });
   });
 
-  describe("formAddErrors", () => {
-    it("should add errors to the form", () => {
+  describe('formAddErrors', () => {
+    it('should add errors to the form', () => {
       const payload = {
-        name: "first",
-        currentNode: "Node1",
-        id: "error1",
-        errors: ["Error message 1"],
+        name: 'first',
+        currentNode: 'Node1',
+        id: 'error1',
+        errors: ['Error message 1'],
       };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const mock_2: { [x: string]: any } = { ...mock };
@@ -424,20 +430,19 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("formRemoveErrors", () => {
-    it("removes errors from form", () => {
+  describe('formRemoveErrors', () => {
+    it('removes errors from form', () => {
       const payload = {
-        name: "first",
-        currentNode: "Node1",
-        id: "error1",
+        name: 'first',
+        currentNode: 'Node1',
+        id: 'error1',
       };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const mock_2: { [x: string]: any } = { ...mock };
-
 
       FlowerCoreReducers.formRemoveErrors(mock_2, action);
 
@@ -445,16 +450,16 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("addDataByPath", () => {
-    it("should add data to the specified path in the state", () => {
+  describe('addDataByPath', () => {
+    it('should add data to the specified path in the state', () => {
       const payload = {
-        flowName: "first",
-        id: ["nested", "path", "to", "data"],
-        value: "new data",
+        flowName: 'first',
+        id: ['nested', 'path', 'to', 'data'],
+        value: 'new data',
       };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
 
       const mock_2: { [x: string]: any } = { ...mock };
@@ -465,36 +470,36 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("replaceData", () => {
-    it("should replace the data in the specified flow with the provided data", () => {
+  describe('replaceData', () => {
+    it('should replace the data in the specified flow with the provided data', () => {
       const payload: any = {
-        flowName: "first",
+        flowName: 'first',
         value: {
-          newData: "new data",
+          newData: 'new data',
         },
       };
       const action: ActionWithPayload<typeof payload> = {
-      payload,
-      type: "flowerAction",
+        payload,
+        type: 'flowerAction',
       };
 
       const newState = FlowerCoreReducers.replaceData(mock as any, action);
 
       expect(mock.first.data).toEqual({
-        newData: "new data",
+        newData: 'new data',
       });
     });
   });
 
-  describe("unsetData", () => {
-    it("should unset the data at the specified path in the state", () => {
+  describe('unsetData', () => {
+    it('should unset the data at the specified path in the state', () => {
       const payload = {
-        flowName: "first",
-        id: "name",
+        flowName: 'first',
+        id: 'name',
       };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
       const mock_2: { [x: string]: any } = { ...mock };
 
@@ -504,18 +509,18 @@ describe("FlowerCoreReducers", () => {
     });
   });
 
-  describe("setFormIsValidating", () => {
+  describe('setFormIsValidating', () => {
     it("should set isValidating to the specified value for the specified node's form", () => {
       const payload = {
-        name: "first",
-        currentNode: "Node1",
+        name: 'first',
+        currentNode: 'Node1',
         isValidating: true,
       };
       const action = {
         payload,
-        type: "flowerAction",
+        type: 'flowerAction',
       };
-      
+
       const mock_2: { [x: string]: any } = { ...mock };
 
       FlowerCoreReducers.setFormIsValidating(mock_2, action);

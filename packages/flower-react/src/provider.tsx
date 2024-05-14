@@ -4,21 +4,21 @@ import {
   createDispatchHook,
   createSelectorHook,
   createStoreHook,
+  ReactReduxContextValue,
 } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { Action, configureStore } from '@reduxjs/toolkit';
 import { reducerFlower } from './reducer';
-import {
-  FlowerProviderInterface,
-  FlowerProviderProps,
-} from './components/types/FlowerProvider';
+import { FlowerProviderProps } from './components/types/FlowerProvider';
 
 //TODO check reduxContext type due to remove all any types
 
-const reduxContext = createContext(null);
+const reduxContext = createContext<ReactReduxContextValue<any, Action> | null>(
+  null
+);
 
-export const useDispatch = createDispatchHook(reduxContext as any);
-export const useSelector = createSelectorHook(reduxContext as any);
-export const useStore = createStoreHook(reduxContext as any);
+export const useDispatch = createDispatchHook(reduxContext);
+export const useSelector = createSelectorHook(reduxContext);
+export const useStore = createStoreHook(reduxContext);
 
 export const store = configureStore({
   reducer: reducerFlower,
@@ -37,7 +37,7 @@ class FlowerProvider extends Component<PropsWithChildren, FlowerProviderProps> {
   render() {
     const { children } = this.props;
     return (
-      <Provider context={reduxContext as any} store={this.store}>
+      <Provider context={reduxContext} store={this.store}>
         {children}
       </Provider>
     );

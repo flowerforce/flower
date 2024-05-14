@@ -1,2 +1,6 @@
-console.warn = function() {}
-console.error = function() {}
+console.warn = function () {
+  return null;
+};
+console.error = function () {
+  return null;
+};

@@ -41,7 +41,7 @@ describe('FlowerCoreSelectors', () => {
   describe('selectFlower', () => {
     it('should return the flower object for the given name', () => {
       const flower = FlowerCoreStateSelectors.selectFlower('flower')(
-        state.flower
+        state
       );
       expect(flower).toEqual(state.flower);
     });
