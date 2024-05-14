@@ -5,7 +5,7 @@ export default {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nx/react/plugins/jest',
     '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nx/react/babel'] }],
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/flower-react',
   setupFilesAfterEnv: ['<rootDir>/src/__tests__/setup.ts']
 };
