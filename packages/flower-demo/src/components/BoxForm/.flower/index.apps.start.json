@@ -1,0 +1,15 @@
+{
+  "//": "Do not publish this file",
+  "items": [
+    {
+      "_id": "nScqjY1JDcWAL0g",
+      "name": "Tab name",
+      "type": "jsonEditor",
+      "autoRunMode": "add",
+      "code": {
+        "a": 123
+      },
+      "autoRun": true
+    }
+  ]
+}
