@@ -75,7 +75,7 @@ export type RulesObject<T> =
         | Array<RulesOperatorsInArray<RulesValuesType<T>>>
         | Array<RulesObject<RulesValuesType<T>>>;
     }
-  | Array<RulesOperatorsInArray<RulesValuesType<T>>>;
+  | Array<Exclude<RulesOperatorsInArray<RulesValuesType<T>>, undefined>>;
 
 //Functions Declaration Types
 export type CleanPath = (name: string, char?: string) => string;

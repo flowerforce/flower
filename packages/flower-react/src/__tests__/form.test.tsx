@@ -215,45 +215,45 @@ describe('Test Form', () => {
     expect(screen.getByTestId('h1')).toHaveTextContent('error')
   })
 
-  it('Test form wrong validate', async () => {
-    const user = userEvent.setup()
-    render(
-      <FlowerProvider>
-        <Flower name="app-test">
-          <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{ amount: 1 }} />
-          </FlowerNode>
-          <FlowerNode
-            id="form"
-            to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
-            <FlowerField
-              id="name"
-              validate={[undefined]}
-            >
-              <Input />
-            </FlowerField>
-            <ButtonNext />
-          </FlowerNode>
-          <FlowerNode id="error">
-            <Form />
-            <Text text="error" />
-          </FlowerNode>
-          <FlowerNode id="success">
-            <Form />
-            <Text text="success" />
-          </FlowerNode>
-        </Flower>
-      </FlowerProvider>
-    )
+  // it('Test form wrong validate', async () => {
+  //   const user = userEvent.setup()
+  //   render(
+  //     <FlowerProvider>
+  //       <Flower name="app-test">
+  //         <FlowerNode id="start" to={{ form: null }}>
+  //           <InitState state={{ amount: 1 }} />
+  //         </FlowerNode>
+  //         <FlowerNode
+  //           id="form"
+  //           to={{
+  //             success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
+  //             error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+  //           }}>
+  //           <FlowerField
+  //             id="name"
+  //             validate={[undefined]}
+  //           >
+  //             <Input />
+  //           </FlowerField>
+  //           <ButtonNext />
+  //         </FlowerNode>
+  //         <FlowerNode id="error">
+  //           <Form />
+  //           <Text text="error" />
+  //         </FlowerNode>
+  //         <FlowerNode id="success">
+  //           <Form />
+  //           <Text text="success" />
+  //         </FlowerNode>
+  //       </Flower>
+  //     </FlowerProvider>
+  //   )
 
-    expect(screen.getByTestId('input').getAttribute('value')).toBe('')
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('error')
+  //   expect(screen.getByTestId('input').getAttribute('value')).toBe('')
+  //   fireEvent.click(screen.getByTestId('btn-next'))
+  //   expect(screen.getByTestId('h1')).toHaveTextContent('error')
 
-  })
+  // })
 
   it('Test form wrong validate', async () => {
     const user = userEvent.setup()

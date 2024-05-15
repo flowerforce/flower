@@ -258,24 +258,24 @@ describe('Test Visibility', () => {
     expect(screen.getByTestId('h1')).toHaveTextContent('HELLO')
   })
 
-  it('Test without rules undefined', async () => {
-    const user = userEvent.setup()
-    render(
-      <FlowerProvider>
-        <Flower name="app-test">
-          <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{ amount: 1 }} />
-          </FlowerNode>
-          <FlowerNode id="form">
-            <FlowerRule rules={[undefined]}>
-              <Text>HELLO</Text>
-            </FlowerRule>
-          </FlowerNode>
-        </Flower>
-      </FlowerProvider>
-    )
+  // it('Test without rules undefined', async () => {
+  //   const user = userEvent.setup()
+  //   render(
+  //     <FlowerProvider>
+  //       <Flower name="app-test">
+  //         <FlowerNode id="start" to={{ form: null }}>
+  //           <InitState state={{ amount: 1 }} />
+  //         </FlowerNode>
+  //         <FlowerNode id="form">
+  //           <FlowerRule rules={[undefined]}>
+  //             <Text>HELLO</Text>
+  //           </FlowerRule>
+  //         </FlowerNode>
+  //       </Flower>
+  //     </FlowerProvider>
+  //   )
 
-    expect(screen.getByTestId('h1')).toHaveTextContent('HELLO')
-  })
+  //   expect(screen.getByTestId('h1')).toHaveTextContent('HELLO')
+  // })
 
 })

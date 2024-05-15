@@ -59,7 +59,7 @@ export type FlowerFieldProps<T extends Record<string, any>> = {
    *
    * For every rule you can pass an error message, that Flower returns when that condition is note satisfied
    */
-  validate?: Record<string, any>[] | string[] | undefined[];
+  validate?: Record<string, any>[] | string[];
   /** A function to perform an async validation */
   asyncValidate?: (
     value: any,

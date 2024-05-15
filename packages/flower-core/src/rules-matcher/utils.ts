@@ -14,7 +14,6 @@ const rulesMatcherUtils: RulesMatcherUtils = {
     return !!num.match(/(^-?|^\d+\.)\d+$/);
   },
   rule: (val, data, options) => {
-    if (!val) return { valid: true, name: '' }
     const { prefix } = options || {};
     const path = Object.keys(val)[0];
     const valueBlock = val;
