@@ -96,7 +96,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
     const container = _get(state, [payload.name]);
     const startId = _get(container, ['startId']);
     const history = _get(container, ['history']);
-    const originHistory = [..._get(container, ['history'], [])];
+    const originHistory = _get(container, ['history'], []);
 
     if (originHistory.length < 2) {
       _set(state, [payload.name, 'current'], startId);
@@ -165,6 +165,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
   /* istanbul ignore next */
   forceResetHistory: (state, { payload }) => {
     const { name, flowName } = payload;
+    if (!name && !flowName) return state
     _set(state, [name || flowName || '', 'history'], []);
     return state;
   },
@@ -260,12 +261,6 @@ export const FlowerCoreReducers: ReducersFunctions = {
       type: 'setFormTouched',
       payload: { flowName, currentNode: currentNodeId },
     });
-    console.log(global.window, 'window **************** --------');
-    console.log(
-      _get(global.window, '__FLOWER_DEVTOOLS__'),
-      'dev tools key **************** --------'
-    );
-    console.log(history, 'history  **************** --------');
 
     /* istanbul ignore next */
     // eslint-disable-next-line no-underscore-dangle

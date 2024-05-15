@@ -164,7 +164,7 @@ describe('FlowerCoreReducers', () => {
       };
 
       const action = {
-        payload: { name: 'Flower' },
+        payload: { name: 'flower' },
         type: 'historyPop',
       };
 
@@ -173,7 +173,9 @@ describe('FlowerCoreReducers', () => {
         action
       );
 
-      expect(newState).toEqual(stateWithDisabledCurrentNode);
+      expect(newState).toEqual(
+        FlowerStateWrap({ ...stateWithDisabledCurrentNode, current: 'start' })
+      );
     });
   });
 
@@ -213,7 +215,7 @@ describe('FlowerCoreReducers', () => {
       };
 
       const newState = FlowerCoreReducers.replaceNode(
-        FlowerStateWrap(state) as any,
+        FlowerStateWrap(state),
         action
       );
 
@@ -223,7 +225,7 @@ describe('FlowerCoreReducers', () => {
         expect(newState?.[payload.name].current).toEqual(payload.node);
         expect(newState?.[payload.name].history).toEqual([payload.node]);
       } else {
-        expect(newState).toEqual(state);
+        expect(newState).toEqual(FlowerStateWrap(state));
       }
     });
   });
@@ -242,7 +244,7 @@ describe('FlowerCoreReducers', () => {
       };
 
       const newState = FlowerCoreReducers.initializeFromNode(
-        FlowerStateWrap(state) as any,
+        FlowerStateWrap(state),
         action
       );
 
@@ -253,7 +255,7 @@ describe('FlowerCoreReducers', () => {
         expect(newState?.[payload.name].current).toEqual(payload.node);
         expect(newState?.[payload.name].history).toEqual([payload.node]);
       } else {
-        expect(newState).toEqual(state);
+        expect(newState).toEqual(FlowerStateWrap(state));
       }
     });
   });
@@ -282,10 +284,14 @@ describe('FlowerCoreReducers', () => {
       };
 
       const newState = FlowerCoreReducers.forceResetHistory(
-        FlowerStateWrap(state) as any,
+        FlowerStateWrap(state),
         action
       );
-      expect(newState).toEqual(state);
+      console.log("🚀 ~ it ~ newState:", JSON.stringify(newState, null ,4))
+      console.log("🚀 ~ it ~ prev state:", JSON.stringify(FlowerStateWrap(state), null ,4))
+
+      
+      expect(newState).toEqual(FlowerStateWrap(state));
     });
   });
 

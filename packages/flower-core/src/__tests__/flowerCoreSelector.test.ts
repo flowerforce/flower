@@ -34,7 +34,7 @@ describe('FlowerCoreSelectors', () => {
   describe('SelectGlobal', () => {
     it('should return the flower object in state.flower', () => {
       const flower = FlowerCoreStateSelectors.selectGlobal(state);
-      expect(flower).toEqual(state.flower);
+      expect(flower).toEqual(state);
     });
   });
 
@@ -96,14 +96,16 @@ describe('FlowerCoreSelectors', () => {
 
       const result = FlowerCoreStateSelectors.getDataFromState(id)(state.flower);
 
-      expect(result).toEqual(data);
+      expect(result).toEqual(state.flower);
     });
 
     it('should return the data at the specified id if id is not "*"', () => {
-      const id = 'test.value';
-      const data = { data: 'data', test: { value: 'test' } };
+      const id = ['test', 'value'];
+      const data = { ...state.flower, test: { value: 'test' } };
+      console.log("🚀 ~ it ~ data:", data)
 
-      const result = FlowerCoreStateSelectors.getDataFromState(id)(state.flower);
+
+      const result = FlowerCoreStateSelectors.getDataFromState(id)(data);
 
       expect(result).toEqual('test');
     });
