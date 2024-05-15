@@ -100,7 +100,6 @@ describe('Test FlowerValue component', () => {
             <div data-testid="log">
               <FlowerValue>
                 {({ value }) => {
-                  console.log("🚀 ~ it ~ value:", value)
                   return JSON.stringify(value)
                 }}
               </FlowerValue>

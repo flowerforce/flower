@@ -652,7 +652,6 @@ describe('Test Form', () => {
             <FlowerField
               id="name"
               asyncValidate={(val, data) => {
-                console.log("🚀 ~ it ~ data:", val, data)
                 if (data?.['app-test']?.sourceName?.indexOf('@') > -1) return
                 if (val.indexOf('@') > -1) return
                 return ['is not email']
