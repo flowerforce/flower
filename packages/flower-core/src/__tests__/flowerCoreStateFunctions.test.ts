@@ -287,10 +287,6 @@ describe('FlowerCoreReducers', () => {
         FlowerStateWrap(state),
         action
       );
-      console.log("🚀 ~ it ~ newState:", JSON.stringify(newState, null ,4))
-      console.log("🚀 ~ it ~ prev state:", JSON.stringify(FlowerStateWrap(state), null ,4))
-
-      
       expect(newState).toEqual(FlowerStateWrap(state));
     });
   });

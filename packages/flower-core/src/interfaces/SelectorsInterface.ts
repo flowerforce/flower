@@ -7,7 +7,7 @@ export interface ISelectors {
    * @returns
    */
   selectGlobal<T extends Record<string, any>>(state: {
-    [x: string]: Flower<T>;
+    flower: { [x: string]: Flower<T> };
   }): { [x: string]: Flower<T> };
   /**
    * @param name
