@@ -1057,7 +1057,6 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
           <FlowerNode id="b" disabled={true} to={{ d: null }}>
             <Text text="step2" />
-            <ButtonNext />
           </FlowerNode>
           <FlowerAction id="d">
             <Text text="step3" />

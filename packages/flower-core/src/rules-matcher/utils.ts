@@ -14,6 +14,7 @@ const rulesMatcherUtils: RulesMatcherUtils = {
     return !!num.match(/(^-?|^\d+\.)\d+$/);
   },
   rule: (val, data, options) => {
+    if (!val) return { valid: true, name: '' }
     const { prefix } = options || {};
     const path = Object.keys(val)[0];
     const valueBlock = val;
@@ -27,10 +28,10 @@ const rulesMatcherUtils: RulesMatcherUtils = {
     const valueRef =
       value && String(value).indexOf('$ref:') === 0
         ? _get(
-            data,
-            rulesMatcherUtils.getPath(value.replace('$ref:', ''), prefix),
-            undefined
-          )
+          data,
+          rulesMatcherUtils.getPath(value.replace('$ref:', ''), prefix),
+          undefined
+        )
         : value;
 
     if (!operators[op]) {
@@ -87,10 +88,10 @@ const rulesMatcherUtils: RulesMatcherUtils = {
     Array.isArray(value)
       ? 'array'
       : rulesMatcherUtils.isNumber(value)
-      ? 'number'
-      : value === null
-      ? null
-      : typeof value,
+        ? 'number'
+        : value === null
+          ? null
+          : typeof value,
 
   getDefaultRule: (value) => {
     const valueType = rulesMatcherUtils.getTypeOf(value);
@@ -191,14 +192,14 @@ const rulesMatcherUtils: RulesMatcherUtils = {
   },
 
   checkRule: (block, data, options) => {
-    if (!Array.isArray(block) && Object.prototype.hasOwnProperty.call(block, '$and')) {
+    if (!Array.isArray(block) && block && Object.prototype.hasOwnProperty.call(block, '$and')) {
       if (block && block['$and'] && !block['$and'].length) return true;
       return block['$and'].every((item: any) =>
         rulesMatcherUtils.checkRule(item, data, options)
       );
     }
 
-    if (!Array.isArray(block) && Object.prototype.hasOwnProperty.call(block, '$or')) {
+    if (!Array.isArray(block) && block && Object.prototype.hasOwnProperty.call(block, '$or')) {
       if (block && block['$or'] && !block['$or'].length) return true;
       return block['$or'].some((item: any) =>
         rulesMatcherUtils.checkRule(item, data, options)

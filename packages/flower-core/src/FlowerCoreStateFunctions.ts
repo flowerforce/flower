@@ -96,7 +96,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
     const container = _get(state, [payload.name]);
     const startId = _get(container, ['startId']);
     const history = _get(container, ['history']);
-    const originHistory = _get(container, ['history'], []);
+    const originHistory = [..._get(container, ['history'], [])];
 
     if (originHistory.length < 2) {
       _set(state, [payload.name, 'current'], startId);
