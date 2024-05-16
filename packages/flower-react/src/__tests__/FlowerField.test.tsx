@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @jest-environment jsdom
  */
@@ -67,12 +69,12 @@ const InitState = ({ state, path }: { state: any; path?: any }) => {
     setData(state, path);
     // console.log(getData())
     onNext();
-  }, [onNext, setData, getData, state]);
+  }, [onNext, setData, getData, state, path]);
   return '...';
 };
 
 const Form = ({ flowName, path }: { flowName?: string; path?: string }) => {
-  const { errors, getData } = useFlowerForm({ flowName });
+  const { getData } = useFlowerForm({ flowName });
   useEffect(() => {
     getData(path);
     // console.log("🚀 ~ Form ~ getData:", getData())
@@ -331,7 +333,7 @@ describe('Test FlowerField component', () => {
   });
 
   it('Test asyncValidate initial Error', async () => {
-    const user = userEvent.setup();
+    userEvent.setup();
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -373,7 +375,7 @@ describe('Test FlowerField component', () => {
   });
 
   it('Test asyncValidate whitout asyncInitialError', async () => {
-    const user = userEvent.setup();
+    userEvent.setup();
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -575,7 +577,7 @@ describe('Test FlowerField component', () => {
   }, 3000);
 
   it('Test component', async () => {
-    const user = userEvent.setup();
+    userEvent.setup();
 
     render(
       <FlowerProvider>
@@ -599,7 +601,7 @@ describe('Test FlowerField component', () => {
   });
 
   it('Test component string', async () => {
-    const user = userEvent.setup();
+    userEvent.setup();
 
     render(
       <FlowerProvider>

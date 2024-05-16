@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @jest-environment jsdom
  */
@@ -49,7 +50,7 @@ const UnSetState = ({ path }: any) => {
   const { unsetData } = useFlowerForm()
   useEffect(() => {
     unsetData(path)
-  }, [unsetData])
+  }, [path, unsetData])
   return "..."
 }
 
@@ -57,24 +58,24 @@ const ReplaceState = ({ value }: any) => {
   const { replaceData } = useFlowerForm()
   useEffect(() => {
     replaceData(value)
-  }, [replaceData])
+  }, [replaceData, value])
   return "..."
 }
 
 const Form = ({ flowName }: any) => {
-  const { errors, getData } = useFlowerForm({ flowName })
+  const { getData } = useFlowerForm({ flowName })
   useEffect(() => {
     getData()
     // console.log("🚀 ~ Form ~ getData:", getData())
   }, [getData])
 
-  return<></>//errors && errors.join(',')
+  return null//errors && errors.join(',')
 }
 
 describe('Test Form', () => {
 
   it('Test form missing id', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
 
     render(
       <FlowerProvider>
@@ -103,7 +104,7 @@ describe('Test Form', () => {
   })
 
   it('Test form carret id', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
 
     render(
       <FlowerProvider>
@@ -172,7 +173,7 @@ describe('Test Form', () => {
   })
 
   it('Test form wrong validate', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
 
     render(
       <FlowerProvider>
@@ -256,7 +257,7 @@ describe('Test Form', () => {
   // })
 
   it('Test form wrong validate', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -297,7 +298,7 @@ describe('Test Form', () => {
 
 
   it('Test form wrong validate', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
 
     render(
       <FlowerProvider>
@@ -935,7 +936,7 @@ describe('Test Form', () => {
   })
 
   it('Test form async asyncValidate immediate next', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">

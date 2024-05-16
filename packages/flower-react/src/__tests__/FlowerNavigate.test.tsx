@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @jest-environment jsdom
  */
@@ -16,7 +17,7 @@ import FlowerAction from '../components/FlowerAction';
 import Flower from '../components/Flower';
 import FlowerNavigate from '../components/FlowerNavigate';
 import FlowerRoute from '../components/FlowerRoute';
-import FlowerProvider, { store } from '../provider';
+import FlowerProvider from '../provider';
 import useFlower from '../components/useFlower';
 import useFlowerForm from '../components/useFlowerForm';
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @jest-environment jsdom
  */
@@ -15,7 +16,7 @@ import FlowerNode from '../components/FlowerNode'
 import FlowerAction from '../components/FlowerAction'
 import Flower from '../components/Flower'
 import FlowerRoute from '../components/FlowerRoute'
-import FlowerProvider, { store } from '../provider';
+import FlowerProvider from '../provider';
 import useFlower from '../components/useFlower';
 import useFlowerForm from '../components/useFlowerForm';
 
@@ -23,8 +24,8 @@ const Text = ({ text, value }: any) => {
   return <h1 data-testid="h1">{text || value}</h1>
 }
 
-const Input = ({ onChange, value, name }: any) => <input name={name} value={value} onChange={evt => onChange(evt.target.value)} />
-const Container = ({ children, item }: any) => <div className='paper'>{item || children}</div>
+// const Input = ({ onChange, value, name }: any) => <input name={name} value={value} onChange={evt => onChange(evt.target.value)} />
+// const Container = ({ children, item }: any) => <div className='paper'>{item || children}</div>
 
 const ButtonNode = ({ route }: any) => {
   const { onNode } = useFlower()

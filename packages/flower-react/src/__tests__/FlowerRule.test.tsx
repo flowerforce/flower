@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @jest-environment jsdom
  */
@@ -6,7 +7,7 @@
 import React, { useEffect } from 'react'
 
 // import react-testing methods
-import { render, fireEvent, screen, waitFor } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 // add custom jest matchers from jest-dom
@@ -44,12 +45,12 @@ const InitState = ({ state }: any) => {
 }
 
 const Form = ({ flowName }: any) => {
-  const { errors, getData } = useFlowerForm({ flowName })
+  const { getData } = useFlowerForm({ flowName })
   useEffect(() => {
     // console.log("🚀 ~ Form ~ getData:", getData())
   }, [getData])
 
-  return <></>//errors && errors.join(',')
+  return null//errors && errors.join(',')
 }
 
 describe('Test FlowerRule component', () => {

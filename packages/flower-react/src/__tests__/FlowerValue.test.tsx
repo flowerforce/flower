@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @jest-environment jsdom
  */
@@ -6,7 +7,7 @@
 import React, { useEffect } from 'react'
 
 // import react-testing methods
-import { render, fireEvent, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 // add custom jest matchers from jest-dom
@@ -24,9 +25,9 @@ const Text = ({ text, value, children, ...props }: any) => <h1 data-testid="h1" 
   {text || value || children}
 </h1>
 
-const TextObj = ({ value, ...props }: any) => {
-  return <h1 data-testid="h1" {...props}>{value && JSON.stringify(value)}</h1>
-}
+// const TextObj = ({ value, ...props }: any) => {
+//   return <h1 data-testid="h1" {...props}>{value && JSON.stringify(value)}</h1>
+// }
 
 const Input = ({ onChange, value = '', name, ...props }: any) => {
   return <input {...props} data-testid={name || "input"} name={name} value={value} onChange={evt => onChange(evt.target.value)} />
@@ -50,14 +51,14 @@ const InitState = ({ state }: any) => {
   return "..."
 }
 
-const Form = ({ flowName }: any) => {
-  const { errors, getData } = useFlowerForm({ flowName })
-  useEffect(() => {
-    // console.log("🚀 ~ Form ~ getData:", getData())
-  }, [getData])
+// const Form = ({ flowName }: any) => {
+//   const { errors, getData } = useFlowerForm({ flowName })
+//   useEffect(() => {
+//     // console.log("🚀 ~ Form ~ getData:", getData())
+//   }, [getData])
 
-  return //errors && errors.join(',')
-}
+//   return //errors && errors.join(',')
+// }
 
 describe('Test FlowerValue component', () => {
 

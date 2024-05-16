@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @jest-environment jsdom
  */
@@ -6,8 +7,7 @@
 import React, { useEffect } from 'react';
 
 // import react-testing methods
-import { render, fireEvent, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom';
@@ -27,25 +27,25 @@ const Text = ({
   value?: string;
   children?: any;
 }) => <h1 data-testid="h1">{text || value || children}</h1>;
-const Input = ({ onChange, value = '', name }: any) => {
-  return (
-    <input
-      data-testid={name || 'input'}
-      name={name}
-      value={value}
-      onChange={(evt) => onChange(evt.target.value)}
-    />
-  );
-};
+// const Input = ({ onChange, value = '', name }: any) => {
+//   return (
+//     <input
+//       data-testid={name || 'input'}
+//       name={name}
+//       value={value}
+//       onChange={(evt) => onChange(evt.target.value)}
+//     />
+//   );
+// };
 
-const ButtonNext = ({ id = '' }) => {
-  const { onNext } = useFlower();
-  return (
-    <button data-testid={'btn-next' + id} onClick={() => onNext()}>
-      NEXT
-    </button>
-  );
-};
+// const ButtonNext = ({ id = '' }) => {
+//   const { onNext } = useFlower();
+//   return (
+//     <button data-testid={'btn-next' + id} onClick={() => onNext()}>
+//       NEXT
+//     </button>
+//   );
+// };
 
 const InitState = ({ state }: any) => {
   const { onNext } = useFlower();

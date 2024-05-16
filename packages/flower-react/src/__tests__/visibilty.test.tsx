@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @jest-environment jsdom
  */
@@ -6,7 +7,7 @@
 import React, { useEffect } from 'react'
 
 // import react-testing methods
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 // add custom jest matchers from jest-dom
@@ -20,16 +21,16 @@ import useFlowerForm from '../components/useFlowerForm';
 import FlowerRule from '../components/FlowerRule';
 
 const Text = ({ text, value, children }: any) => <h1 data-testid="h1">{text || value || children}</h1>
-const Input = ({ onChange, value = '', name }: any) => {
-  return <input data-testid={name || "input"} name={name} value={value} onChange={evt => onChange(evt.target.value)} />
-}
+// const Input = ({ onChange, value = '', name }: any) => {
+//   return <input data-testid={name || "input"} name={name} value={value} onChange={evt => onChange(evt.target.value)} />
+// }
 
-const ButtonNext = () => {
-  const { onNext } = useFlower()
-  return (
-    <button data-testid="btn-next" onClick={() => onNext()}>NEXT</button>
-  )
-}
+// const ButtonNext = () => {
+//   const { onNext } = useFlower()
+//   return (
+//     <button data-testid="btn-next" onClick={() => onNext()}>NEXT</button>
+//   )
+// }
 
 const InitState = ({ state }: any) => {
   const { onNext } = useFlower()
@@ -42,15 +43,15 @@ const InitState = ({ state }: any) => {
   return "..."
 }
 
-const Form = () => {
-  const { errors } = useFlowerForm()
-  return errors && errors.join(',')
-}
+// const Form = () => {
+//   const { errors } = useFlowerForm()
+//   return errors && errors.join(',')
+// }
 
 describe('Test Visibility', () => {
 
   it('Test show by rule', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -70,7 +71,7 @@ describe('Test Visibility', () => {
   })
 
   it('Test hide by rule', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -93,7 +94,7 @@ describe('Test Visibility', () => {
   })
 
   it('Test hide by rule with $ref', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -116,7 +117,7 @@ describe('Test Visibility', () => {
   })
 
   it('Test hide by rule all operators', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -179,7 +180,7 @@ describe('Test Visibility', () => {
   })
 
   it('Test without rules', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -199,7 +200,7 @@ describe('Test Visibility', () => {
   })
 
   it('Test without rules $and', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -219,7 +220,7 @@ describe('Test Visibility', () => {
   })
 
   it('Test without rules $or', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -239,7 +240,7 @@ describe('Test Visibility', () => {
   })
 
   it('Test without rules $and array', async () => {
-    const user = userEvent.setup()
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
