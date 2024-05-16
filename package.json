@@ -11,6 +11,7 @@
     "start:demo": "nx serve flower-demo",
     "build:demo": "nx build flower-demo",
     "lint": "nx run-many -t lint",
+    "lint:fix": "nx run-many -t lint --fix",
     "graph": "nx graph",
     "reset": "nx reset"
   },
