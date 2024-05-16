@@ -1,34 +1,47 @@
 # Flower React
 
-Flower is ad advance React library for managing state applications flows.
+<a alt="Flower logo" href="https://flower.stackhouse.dev/" target="_blank" rel="noreferrer"><img src="https://flower.stackhouse.dev/_next/static/media/flower-logo.bb32f863.svg" width="50"></a>
 
-## VS Code Plugin
-
-Through the VS Code plugin, it's possible to visually edit flows using a graphical editor.
-**only available for Enterprise** 
-
-Easy Editor Builder:
-It allows for quick code editing directly within the graphical editor.
-
-Debugging:
-Highlights the current node and all previously traversed nodes in the flow.
-
+Flower React is a front-end development library built on top of Flower Core, specifically designed for React applications. It seamlessly integrates Flower's powerful capabilities into React projects, providing a user-friendly interface for creating, modifying, and monitoring workflows.
 
 For more info [flower.stackhouse.dev/](https://flower.stackhouse.dev/)
 
-![Flower react tool](https://flower.stackhouse.dev/static/images/flower-react.gif)
+<!-- ![Flower react tool](https://flower.stackhouse.dev/static/images/flower-react.gif) -->
+
+## Features
+
+- **Workflow Management**: Comprehensive API for creating, updating, and managing workflows programmatically.
+- **Node and Connection Handling**: Functions to manage nodes and connections, including adding, removing, and editing.
+- **State Management**: Built-in state management to keep track of workflow changes and updates.
+- **Event System**: Customizable event handling to respond to user interactions and changes within the workflow.
+- **Serialization**: Convert workflows to and from different formats (e.g., JSON) for easy storage and retrieval.
+- **Validation**: Ensure workflows follow predefined rules and constraints to maintain integrity.
+- **Form Validation**: Built-in functionalities to validate form inputs within nodes, ensuring data integrity and correctness.
+- **History Management**: Internal management of flow history, tracking node traversal and changes for debugging and visualization purposes.
 
 
-## Installation
+### Installation
 
-To start using the Flower library, you can install it via npm or yarn:
+Flower React can be installed via npm or yarn for use in any JavaScript project.
+
+### Using npm
+
+1. Ensure you have Node.js and npm installed on your system.
+2. Run the following command to install the library:
 
 ```bash
-# NPM
-npm install @flowerforce/flower-react
+#NPM
+npm install @flowerforce/flower-core
+```
 
-# Yarn
-yarn add @flowerforce/flower-react
+### Using yarn
+
+1. Ensure you have yarn installed on your system.
+2. Run the following command to install the library:
+
+```bash
+#YARN
+yarn add @flowerforce/flower-core
 ```
 
 ## Configuration
