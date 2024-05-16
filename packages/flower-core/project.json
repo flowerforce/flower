@@ -17,7 +17,7 @@
         "xrollupConfig": "{projectRoot}/rollup.config.js"
       }
     },
-    "build": {
+    "xxbuild": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
