@@ -2,27 +2,33 @@ import Flower, {
   FlowerAction,
   FlowerNavigate,
   FlowerNode,
-  useFlower,
+  useFlower
 } from '@flowerforce/flower-react'
 import { memo, useEffect, useState } from 'react'
 import './styles.css'
 
-const ComponentAction = memo(({ setCounter }: { setCounter: React.Dispatch<React.SetStateAction<number>>}) => {
-  const { onNext } = useFlower()
+const ComponentAction = memo(
+  ({
+    setCounter
+  }: {
+    setCounter: React.Dispatch<React.SetStateAction<number>>
+  }) => {
+    const { onNext } = useFlower()
 
-  useEffect(() => {
-    // * do your staff here - api call etc **
-    setCounter((state) => state + 1)
+    useEffect(() => {
+      // * do your staff here - api call etc **
+      setCounter((state) => state + 1)
 
-    // setTimeout only for simulate delay
-    setTimeout(() => {
-      // * then next to Success step **
-      onNext('onSuccess')
-    }, 500)
-  }, [onNext, setCounter])
+      // setTimeout only for simulate delay
+      setTimeout(() => {
+        // * then next to Success step **
+        onNext('onSuccess')
+      }, 500)
+    }, [onNext, setCounter])
 
-  return <span className="loader"></span>
-})
+    return <span className="loader"></span>
+  }
+)
 
 export function Example6v1() {
   const [counter, setCounter] = useState(0)

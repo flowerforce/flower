@@ -2,7 +2,7 @@ import {
   FlowerComponent,
   FlowerField,
   FlowerValue,
-  useFlowerForm,
+  useFlowerForm
 } from '@flowerforce/flower-react'
 import { Input } from 'antd'
 import { FormStep3 } from './container3'
@@ -20,19 +20,22 @@ export const FormStep2 = () => {
           validate={[
             {
               rules: { $and: [{ '^login.username': { $exists: true } }] },
-              message: 'è required',
+              message: 'è required'
             },
             {
               rules: { $and: [{ '^login.username': { $strGt: '6' } }] },
-              message: '6 caratteri',
-            },
+              message: '6 caratteri'
+            }
           ]}
         >
           {({ onChange, errors = '', value }) => {
             return (
               <>
                 {' '}
-                <Input onChange={(e) => onChange(e.target.value)} value={value} />{' '}
+                <Input
+                  onChange={(e) => onChange(e.target.value)}
+                  value={value}
+                />{' '}
                 {errors && errors.join(', ')}{' '}
               </>
             )
@@ -46,12 +49,12 @@ export const FormStep2 = () => {
             validate={[
               {
                 rules: { $and: [{ username: { $exists: true } }] },
-                message: 'is required',
+                message: 'is required'
               },
               {
                 rules: { $and: [{ username: { $strGt: '6' } }] },
-                message: '6 caratteri',
-              },
+                message: '6 caratteri'
+              }
             ]}
           >
             {({ onChange, errors, value }) => {

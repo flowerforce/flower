@@ -7,29 +7,29 @@ import React, {
   useMemo,
   useRef,
   useState,
-  PropsWithChildren,
-} from 'react';
-import _keyBy from 'lodash/keyBy';
-import { Emitter } from '@flowerforce/flower-core';
-import { FlowerCoreContextProvider } from '../context';
-import _get from 'lodash/get';
-import { convertElements } from '../utils';
-import { actions } from '../reducer';
+  PropsWithChildren
+} from 'react'
+import _keyBy from 'lodash/keyBy'
+import { Emitter } from '@flowerforce/flower-core'
+import { FlowerCoreContextProvider } from '../context'
+import _get from 'lodash/get'
+import { convertElements } from '../utils'
+import { actions } from '../reducer'
 import {
   makeSelectStartNodeId,
   selectFlowerHistory,
   makeSelectCurrentNodeId,
   makeSelectCurrentNodeDisabled,
-  makeSelectPrevNodeRetain,
-} from '../selectors';
-import { useDispatch, useSelector, useStore } from '../provider';
+  makeSelectPrevNodeRetain
+} from '../selectors'
+import { useDispatch, useSelector, useStore } from '../provider'
 
 type FlowerClientProps = PropsWithChildren & {
-  name: string;
-  destroyOnUnmount?: boolean;
-  startId?: string | null;
-  initialData?: any;
-};
+  name: string
+  destroyOnUnmount?: boolean
+  startId?: string | null
+  initialData?: any
+}
 
 /**
  * FlowerClient
@@ -39,37 +39,37 @@ const FlowerClient = ({
   name,
   destroyOnUnmount = true,
   startId = null,
-  initialData = {},
+  initialData = {}
 }: FlowerClientProps) => {
-  const flowName = name;
+  const flowName = name
 
-  const dispatch = useDispatch();
-  const one = useRef(false);
+  const dispatch = useDispatch()
+  const one = useRef(false)
   const [wsDevtools, setWsDevtools] = useState<boolean>(
     global.window &&
       _get(global.window, '__FLOWER_DEVTOOLS_INITIALIZED__', false)
-  );
+  )
 
   // TODO rivedere il giro, potremmo fare le trasformazioni in CoreUtils.generateNodesForFlowerJson
   // eslint-disable-next-line react-hooks/exhaustive-deps, max-len
   const nodes = useMemo(
     () => convertElements(Children.toArray(children) as any),
     [children]
-  );
+  )
   const nodeById = useMemo(
     () => _keyBy(Children.toArray(children), 'props.id'),
     [children]
-  );
-  const isInitialized = useSelector(makeSelectStartNodeId(name));
-  const history = useSelector(selectFlowerHistory(name));
-  const current = useSelector(makeSelectCurrentNodeId(flowName));
-  const isDisabled = useSelector(makeSelectCurrentNodeDisabled(flowName));
-  const prevFlowerNodeId = useSelector(makeSelectPrevNodeRetain(flowName));
-  const store = useStore();
+  )
+  const isInitialized = useSelector(makeSelectStartNodeId(name))
+  const history = useSelector(selectFlowerHistory(name))
+  const current = useSelector(makeSelectCurrentNodeId(flowName))
+  const isDisabled = useSelector(makeSelectCurrentNodeDisabled(flowName))
+  const prevFlowerNodeId = useSelector(makeSelectPrevNodeRetain(flowName))
+  const store = useStore()
 
   useEffect(() => {
     if (nodes.length > 0 && one.current === false) {
-      one.current = true;
+      one.current = true
       dispatch(
         actions.initNodes({
           name: flowName,
@@ -77,60 +77,60 @@ const FlowerClient = ({
           nodes,
           startId: startId ?? '',
           persist: destroyOnUnmount === false,
-          initialData,
+          initialData
         })
-      );
+      )
     }
-  }, [dispatch, flowName, nodes, startId, initialData, destroyOnUnmount]);
+  }, [dispatch, flowName, nodes, startId, initialData, destroyOnUnmount])
 
   useEffect(() => {
     /* istanbul ignore next */
     const eventCb = (msg: any) => {
-      if (msg.source !== 'flower-devtool') return;
+      if (msg.source !== 'flower-devtool') return
 
       if (
         msg.action === 'FLOWER_EXTENSION_INIT' ||
         msg.action === 'FLOWER_DEVTOOL_WEB_INIT'
       ) {
-        setWsDevtools(true);
+        setWsDevtools(true)
       }
 
       if (msg.action === 'SELECTED_NODE' && msg.name === flowName) {
-        dispatch(actions.setCurrentNode({ name: msg.name, node: msg.id }));
+        dispatch(actions.setCurrentNode({ name: msg.name, node: msg.id }))
       }
 
       if (msg.action === 'REPLACE_DATA' && msg.name === flowName) {
-        dispatch(actions.replaceData({ flowName: msg.name, value: msg.data }));
+        dispatch(actions.replaceData({ flowName: msg.name, value: msg.data }))
       }
 
       if (msg.action === 'ADD_DATA' && msg.name === flowName) {
-        dispatch(actions.addData({ flowName: msg.name, value: msg.data }));
+        dispatch(actions.addData({ flowName: msg.name, value: msg.data }))
       }
-    };
+    }
 
     /* istanbul ignore next */
     if (global.window && _get(global.window, '__FLOWER_DEVTOOLS__')) {
-      Emitter.on('flower-devtool-to-client', eventCb);
+      Emitter.on('flower-devtool-to-client', eventCb)
     }
 
     return () => {
       /* istanbul ignore next */
       if (global.window && _get(global.window, '__FLOWER_DEVTOOLS__')) {
-        Emitter.off('flower-devtool-to-client', eventCb);
+        Emitter.off('flower-devtool-to-client', eventCb)
       }
-    };
-  }, [dispatch, flowName]);
+    }
+  }, [dispatch, flowName])
 
   useEffect(
     () => () => {
       // unmount function
       if (destroyOnUnmount && one.current === true) {
-        one.current = false;
-        dispatch(actions.destroy({ name: flowName }));
+        one.current = false
+        dispatch(actions.destroy({ name: flowName }))
       }
     },
     [dispatch, flowName, destroyOnUnmount]
-  );
+  )
 
   useEffect(() => {
     /* istanbul ignore next */
@@ -145,10 +145,10 @@ const FlowerClient = ({
         action: 'FLOWER_CLIENT_INIT',
         name: flowName,
         time: new Date(),
-        nodeId: isInitialized,
-      });
+        nodeId: isInitialized
+      })
     }
-  }, [dispatch, flowName, wsDevtools, isInitialized]);
+  }, [dispatch, flowName, wsDevtools, isInitialized])
 
   useEffect(() => {
     /* istanbul ignore next */
@@ -162,15 +162,15 @@ const FlowerClient = ({
         source: 'flower-client',
         action: 'SET_HISTORY',
         name: flowName,
-        history,
-      });
+        history
+      })
     }
-  }, [dispatch, flowName, history, wsDevtools, isInitialized]);
+  }, [dispatch, flowName, history, wsDevtools, isInitialized])
 
   useEffect(() => {
-    if (!current) return;
+    if (!current) return
     /* istanbul ignore next */
-    if (!isInitialized) return;
+    if (!isInitialized) return
     /* istanbul ignore next */
     if (
       isInitialized &&
@@ -182,18 +182,18 @@ const FlowerClient = ({
         source: 'flower-client',
         action: 'SET_CURRENT',
         name: flowName,
-        current,
-      });
+        current
+      })
     }
-  }, [flowName, current, wsDevtools, isInitialized]);
+  }, [flowName, current, wsDevtools, isInitialized])
 
   useEffect(() => {
-    if (!current) return;
+    if (!current) return
     /* istanbul ignore next */
-    if (!isInitialized) return;
+    if (!isInitialized) return
 
     if (isDisabled) {
-      dispatch({ type: 'flower/next', payload: { flowName, disabled: true } });
+      dispatch({ type: 'flower/next', payload: { flowName, disabled: true } })
       // eslint-disable-next-line no-underscore-dangle, no-undef
       /* istanbul ignore next */
       if (
@@ -207,10 +207,10 @@ const FlowerClient = ({
           nodeId: current,
           name: flowName,
           time: new Date(),
-          params: { action: 'next', payload: { flowName, disabled: true } },
-        });
+          params: { action: 'next', payload: { flowName, disabled: true } }
+        })
       }
-      return;
+      return
     }
 
     // eslint-disable-next-line no-underscore-dangle, no-undef
@@ -220,14 +220,14 @@ const FlowerClient = ({
       global.window &&
       _get(global.window, '__FLOWER_DEVTOOLS__')
     ) {
-      if (isInitialized === current) return; // salto il primo evento
+      if (isInitialized === current) return // salto il primo evento
       Emitter.emit('flower-devtool-from-client', {
         source: 'flower-client',
         action: 'SET_SELECTED',
         nodeId: current,
         name: flowName,
-        time: new Date(),
-      });
+        time: new Date()
+      })
     }
   }, [
     dispatch,
@@ -236,16 +236,16 @@ const FlowerClient = ({
     isDisabled,
     store,
     wsDevtools,
-    isInitialized,
-  ]);
+    isInitialized
+  ])
 
   const contextValues = useMemo(
     () => ({
       flowName,
-      currentNode: current,
+      currentNode: current
     }),
     [flowName, current]
-  );
+  )
 
   return isInitialized ? (
     <FlowerCoreContextProvider value={contextValues}>
@@ -254,7 +254,7 @@ const FlowerClient = ({
         nodeById[prevFlowerNodeId]}
       {!isDisabled && nodeById[current]}
     </FlowerCoreContextProvider>
-  ) : null;
-};
+  ) : null
+}
 
-export default memo(FlowerClient);
+export default memo(FlowerClient)

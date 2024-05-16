@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useFlower } from "@flowerforce/flower-react"
+import { useFlower } from '@flowerforce/flower-react'
 
 const Api = React.memo(({ flow }) => {
   const { onNode, nodeId } = useFlower()
@@ -14,7 +14,7 @@ const Api = React.memo(({ flow }) => {
         flow,
         startId: nodeId,
         value: {
-          val: Math.random()*100
+          val: Math.random() * 100
         }
       })
     })

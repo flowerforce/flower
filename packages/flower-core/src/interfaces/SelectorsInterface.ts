@@ -1,5 +1,5 @@
-import { RulesObject } from './CoreInterface';
-import { Flower, Form, Node } from './Store';
+import { RulesObject } from './CoreInterface'
+import { Flower, Form, Node } from './Store'
 
 export interface ISelectors {
   /**
@@ -7,43 +7,43 @@ export interface ISelectors {
    * @returns
    */
   selectGlobal<T extends Record<string, any>>(state: {
-    flower: { [x: string]: Flower<T> };
-  }): { [x: string]: Flower<T> };
+    flower: { [x: string]: Flower<T> }
+  }): { [x: string]: Flower<T> }
   /**
    * @param name
    * @returns
    */
   selectFlower<T extends Record<string, any>>(
     name: string
-  ): (state: { [x: string]: Flower<T> }) => Flower<T>;
+  ): (state: { [x: string]: Flower<T> }) => Flower<T>
   /**
    * @param id
    * @returns
    */
   selectFlowerFormNode<T extends Record<string, any>>(
     id: string
-  ): (state: Flower<T>) => Form<T>;
+  ): (state: Flower<T>) => Form<T>
   /**
    * @param flower
    * @returns
    */
   selectFlowerHistory<T extends Record<string, any>>(
     flower: Flower<T>
-  ): Array<string>;
+  ): Array<string>
   /**
    * @param flower
    * @returns
    */
   makeSelectNodesIds<T extends Record<string, any>>(
     flower: Flower<T>
-  ): Flower<T>['nodes'];
+  ): Flower<T>['nodes']
   /**
    * @param flower
    * @returns
    */
   makeSelectStartNodeId<T extends Record<string, any>>(
     flower: Flower<T>
-  ): string;
+  ): string
   /**
    * @param flower
    * @param startNodeId
@@ -52,7 +52,7 @@ export interface ISelectors {
   makeSelectCurrentNodeId<T extends Record<string, any>>(
     flower: Flower<T>,
     startNodeId: Flower<T>['startId']
-  ): string;
+  ): string
   /**
    * @param nodes
    * @param history
@@ -63,7 +63,7 @@ export interface ISelectors {
     nodes: Flower<T>['nodes'],
     history: Flower<T>['history'],
     current: Flower<T>['current']
-  ): boolean | string | undefined;
+  ): boolean | string | undefined
   /**
    * @param nodes
    * @param current
@@ -72,7 +72,7 @@ export interface ISelectors {
   makeSelectCurrentNodeDisabled<T extends Record<string, any>>(
     nodes: { [x: string]: Partial<Node> },
     current: Flower<T>['current']
-  ): boolean;
+  ): boolean
   /**
    * @param form
    * @returns
@@ -80,30 +80,30 @@ export interface ISelectors {
   makeSelectNodeErrors<T extends Record<string, any>>(
     form: Form<T> | undefined
   ): {
-    touched: boolean;
-    errors: any;
-    isValid: boolean;
-    isValidating?: boolean;
-  };
+    touched: boolean
+    errors: any
+    isValid: boolean
+    isValidating?: boolean
+  }
   /**
    * @param flower
    * @returns
    */
-  getDataByFlow<T extends Record<string, any>>(flower: Flower<T>): T;
+  getDataByFlow<T extends Record<string, any>>(flower: Flower<T>): T
   /**
    * @param id
    * @returns
    */
   getDataFromState<T extends Record<string, any>>(
     id: string | string[]
-  ): (data: T) => Partial<T>;
+  ): (data: T) => Partial<T>
   /**
    * @param form
    * @returns
    */
   makeSelectNodeFormTouched<T extends Record<string, any>>(
     form: Form<T>
-  ): boolean | undefined;
+  ): boolean | undefined
   /**
    * @param name
    * @param id
@@ -114,7 +114,7 @@ export interface ISelectors {
     name: string,
     id: string,
     validate: { rules?: RulesObject<any>; message?: string }[] | null
-  ): (data?: T) => Array<string>;
+  ): (data?: T) => Array<string>
   /**
    * @param id
    * @param rules
@@ -132,10 +132,10 @@ export interface ISelectors {
   ): (
     data: T | undefined,
     form: {
-      touched: boolean;
-      errors: any;
-      isValid: boolean;
-      isValidating?: boolean;
+      touched: boolean
+      errors: any
+      isValid: boolean
+      isValidating?: boolean
     }
-  ) => boolean;
+  ) => boolean
 }

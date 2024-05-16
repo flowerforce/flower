@@ -1,15 +1,15 @@
-import { Node } from './CoreInterface';
-import { Flower } from './Store';
+import { Node } from './CoreInterface'
+import { Flower } from './Store'
 
 export type ActionWithPayload<T> = {
-  type: string;
-  payload: T;
-};
+  type: string
+  payload: T
+}
 
 type ReducerFunctionSign<T extends object, R> = (
   state: Record<string, Flower<T>>,
   action: ActionWithPayload<R>
-) => Record<string, Flower<T>> | void;
+) => Record<string, Flower<T>> | void
 
 export type ActionsTypes =
   | 'historyAdd'
@@ -35,7 +35,7 @@ export type ActionsTypes =
   | 'prevToNode'
   | 'next'
   | 'prev'
-  | 'reset';
+  | 'reset'
 
 // TODO WATCH OVER FLOWER REDUCER STATE AND CREATE SOME MORE SPECIFIC TYPES
 /**
@@ -60,7 +60,7 @@ export type ReducersFunctions<
    *
    * @returns state
    */
-  historyAdd: ReducerFunctionSign<T, { name: string; node: string }>;
+  historyAdd: ReducerFunctionSign<T, { name: string; node: string }>
   /**
    * @param state
    * @param action
@@ -69,7 +69,10 @@ export type ReducersFunctions<
    *
    * @returns state
    */
-  historyPrevToNode: ReducerFunctionSign<T, { name: string; node: string } | string>;
+  historyPrevToNode: ReducerFunctionSign<
+    T,
+    { name: string; node: string } | string
+  >
   /**
    * @param state
    * @param action
@@ -81,7 +84,7 @@ export type ReducersFunctions<
   setFormTouched: ReducerFunctionSign<
     T,
     { flowName: string; currentNode: string } | string
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -93,7 +96,7 @@ export type ReducersFunctions<
   forceAddHistory: ReducerFunctionSign<
     T,
     { history: string[]; name?: string; flowName?: string }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -102,7 +105,7 @@ export type ReducersFunctions<
    *
    * @returns state
    */
-  historyPop: ReducerFunctionSign<T, { name: string }>;
+  historyPop: ReducerFunctionSign<T, { name: string }>
   /**
    * @param state
    * @param action
@@ -111,7 +114,7 @@ export type ReducersFunctions<
    *
    * @returns state
    */
-  restoreHistory: ReducerFunctionSign<T, { name: string }>;
+  restoreHistory: ReducerFunctionSign<T, { name: string }>
   /**
    * @param state
    * @param action
@@ -123,7 +126,7 @@ export type ReducersFunctions<
   replaceNode: ReducerFunctionSign<
     T,
     { node: string; name?: string; flowName?: string }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -135,7 +138,7 @@ export type ReducersFunctions<
   initializeFromNode: ReducerFunctionSign<
     T,
     { node: string; name?: string; flowName?: string }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -147,7 +150,7 @@ export type ReducersFunctions<
   forceResetHistory: ReducerFunctionSign<
     T,
     { name?: string; flowName?: string }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -156,7 +159,7 @@ export type ReducersFunctions<
    *
    * @returns state
    */
-  destroy: ReducerFunctionSign<T, { name: string }>;
+  destroy: ReducerFunctionSign<T, { name: string }>
   /**
    * @param state
    * @param action
@@ -168,13 +171,13 @@ export type ReducersFunctions<
   initNodes: ReducerFunctionSign<
     T,
     {
-      name: string;
-      startId: string;
-      persist: boolean;
-      nodes: Node[];
-      initialData: any;
+      name: string
+      startId: string
+      persist: boolean
+      nodes: Node[]
+      initialData: any
     }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -183,7 +186,7 @@ export type ReducersFunctions<
    *
    * @returns state
    */
-  setCurrentNode: ReducerFunctionSign<T, { name: string; node: string }>;
+  setCurrentNode: ReducerFunctionSign<T, { name: string; node: string }>
   /**
    * @param state
    * @param action
@@ -195,12 +198,12 @@ export type ReducersFunctions<
   formAddErrors: ReducerFunctionSign<
     T,
     {
-      name: string;
-      currentNode: string;
-      id: string;
-      errors: { [x: string]: string[] } | string[];
+      name: string
+      currentNode: string
+      id: string
+      errors: { [x: string]: string[] } | string[]
     }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -212,11 +215,11 @@ export type ReducersFunctions<
   formRemoveErrors: ReducerFunctionSign<
     T,
     {
-      name: string;
-      currentNode: string;
-      id: string;
+      name: string
+      currentNode: string
+      id: string
     }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -228,10 +231,10 @@ export type ReducersFunctions<
   addData: ReducerFunctionSign<
     T,
     {
-      flowName: string;
-      value: T;
+      flowName: string
+      value: T
     }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -243,11 +246,11 @@ export type ReducersFunctions<
   addDataByPath: ReducerFunctionSign<
     T,
     {
-      id: string[];
-      flowName: string;
-      value: T | string;
+      id: string[]
+      flowName: string
+      value: T | string
     }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -259,10 +262,10 @@ export type ReducersFunctions<
   replaceData: ReducerFunctionSign<
     T,
     {
-      flowName: string;
-      value: T;
+      flowName: string
+      value: T
     }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -274,10 +277,10 @@ export type ReducersFunctions<
   unsetData: ReducerFunctionSign<
     T,
     {
-      id: string[] | string;
-      flowName: string;
+      id: string[] | string
+      flowName: string
     }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -289,7 +292,7 @@ export type ReducersFunctions<
   setFormIsValidating: ReducerFunctionSign<
     T,
     { name: string; currentNode: string; isValidating?: boolean }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -301,13 +304,13 @@ export type ReducersFunctions<
   node: ReducerFunctionSign<
     T,
     {
-      name: string;
-      flowName?: string;
-      nodeId?: string;
-      node?: string;
-      history: string[];
+      name: string
+      flowName?: string
+      nodeId?: string
+      node?: string
+      history: string[]
     }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -319,7 +322,7 @@ export type ReducersFunctions<
   prevToNode: ReducerFunctionSign<
     T,
     { name?: string; flowName?: string; node: string }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -331,7 +334,7 @@ export type ReducersFunctions<
   next: ReducerFunctionSign<
     T,
     { name?: string; flowName?: string; data: T; route?: string }
-  >;
+  >
   /**
    * @param state
    * @param action
@@ -340,7 +343,7 @@ export type ReducersFunctions<
    *
    * @returns state
    */
-  prev: ReducerFunctionSign<T, { name?: string; flowName?: string }>;
+  prev: ReducerFunctionSign<T, { name?: string; flowName?: string }>
   /**
    * @param state
    * @param action
@@ -349,5 +352,5 @@ export type ReducersFunctions<
    *
    * @returns state
    */
-  reset: ReducerFunctionSign<T, { name?: string; flowName?: string }>;
-};
+  reset: ReducerFunctionSign<T, { name?: string; flowName?: string }>
+}

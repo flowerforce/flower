@@ -3,9 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/flower-core/src",
   "projectType": "library",
-  "tags": [
-    "core"
-  ],
+  "tags": ["core"],
   "targets": {
     "xbuild": {
       "executor": "@nx/rollup:rollup",

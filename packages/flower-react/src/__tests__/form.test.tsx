@@ -15,23 +15,32 @@ import '@testing-library/jest-dom'
 
 import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
-import FlowerProvider from '../provider';
-import useFlower from '../components/useFlower';
-import useFlowerForm from '../components/useFlowerForm';
-import FlowerField from '../components/FlowerField';
-import FlowerValue from '../components/FlowerValue';
+import FlowerProvider from '../provider'
+import useFlower from '../components/useFlower'
+import useFlowerForm from '../components/useFlowerForm'
+import FlowerField from '../components/FlowerField'
+import FlowerValue from '../components/FlowerValue'
 
-const delay = (ms: any) => new Promise((r) => setTimeout(r, ms));
+const delay = (ms: any) => new Promise((r) => setTimeout(r, ms))
 
 const Text = ({ text, value }: any) => <h1 data-testid="h1">{text || value}</h1>
 const Input = ({ onChange, value = '', name }: any) => {
-  return <input data-testid={name || "input"} name={name} value={value} onChange={evt => onChange(evt.target.value)} />
+  return (
+    <input
+      data-testid={name || 'input'}
+      name={name}
+      value={value}
+      onChange={(evt) => onChange(evt.target.value)}
+    />
+  )
 }
 
 const ButtonNext = ({ id = '' }: any) => {
   const { onNext } = useFlower()
   return (
-    <button data-testid={"btn-next" + id} onClick={() => onNext()}>NEXT</button>
+    <button data-testid={'btn-next' + id} onClick={() => onNext()}>
+      NEXT
+    </button>
   )
 }
 
@@ -43,7 +52,7 @@ const InitState = ({ state, path, flowName }: any) => {
     // console.log(getData())
     onNext()
   }, [onNext, setData, getData, state, path])
-  return "..."
+  return '...'
 }
 
 const UnSetState = ({ path }: any) => {
@@ -51,7 +60,7 @@ const UnSetState = ({ path }: any) => {
   useEffect(() => {
     unsetData(path)
   }, [path, unsetData])
-  return "..."
+  return '...'
 }
 
 const ReplaceState = ({ value }: any) => {
@@ -59,7 +68,7 @@ const ReplaceState = ({ value }: any) => {
   useEffect(() => {
     replaceData(value)
   }, [replaceData, value])
-  return "..."
+  return '...'
 }
 
 const Form = ({ flowName }: any) => {
@@ -69,11 +78,10 @@ const Form = ({ flowName }: any) => {
     // console.log("🚀 ~ Form ~ getData:", getData())
   }, [getData])
 
-  return null//errors && errors.join(',')
+  return null //errors && errors.join(',')
 }
 
 describe('Test Form', () => {
-
   it('Test form missing id', async () => {
     userEvent.setup()
 
@@ -83,16 +91,20 @@ describe('Test Form', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               validate={[
                 {
                   message: 'is required',
                   rules: { $and: [{ name: { $exists: true } }] }
-                },
-              ]}>
+                }
+              ]}
+            >
               <Input />
             </FlowerField>
           </FlowerNode>
@@ -116,15 +128,16 @@ describe('Test Form', () => {
             id="form"
             to={{
               success: { rules: { $and: [{ '^app.name': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id="^app.name"
               validate={[
                 {
                   message: 'is required',
                   rules: { $and: [{ '^app.name': { $exists: true } }] }
-                },
+                }
               ]}
             >
               <Input />
@@ -148,15 +161,18 @@ describe('Test Form', () => {
             <FlowerNode
               id="form"
               to={{
-                success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              }}>
+                success: {
+                  rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                }
+              }}
+            >
               <FlowerField
                 id="name"
                 validate={[
                   {
                     message: 'is required',
-                    rules: { '$self': { $eqxxxxx: true } }
-                  },
+                    rules: { $self: { $eqxxxxx: true } }
+                  }
                 ]}
               >
                 <Input />
@@ -165,11 +181,10 @@ describe('Test Form', () => {
           </Flower>
         </FlowerProvider>
       )
-      expect(true).toBe(false);
+      expect(true).toBe(false)
     } catch (e: any) {
-      expect(e.message).toBe("Error missing operator:$eqxxxxx");
+      expect(e.message).toBe('Error missing operator:$eqxxxxx')
     }
-
   })
 
   it('Test form wrong validate', async () => {
@@ -184,15 +199,18 @@ describe('Test Form', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id="name"
               validate={[
                 {
-                  message: 'is required',
-                },
+                  message: 'is required'
+                }
               ]}
             >
               <Input />
@@ -267,13 +285,13 @@ describe('Test Form', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
-            <FlowerField
-              id="name"
-              validate={[{}]}
-            >
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
+            <FlowerField id="name" validate={[{}]}>
               <Input />
             </FlowerField>
             <ButtonNext />
@@ -293,9 +311,7 @@ describe('Test Form', () => {
     expect(screen.getByTestId('input').getAttribute('value')).toBe('')
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(screen.getByTestId('h1')).toHaveTextContent('error')
-
   })
-
 
   it('Test form wrong validate', async () => {
     userEvent.setup()
@@ -309,13 +325,13 @@ describe('Test Form', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
-            <FlowerField
-              id="name"
-              validate={["ciao"]}
-            >
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
+            <FlowerField id="name" validate={['ciao']}>
               <Input />
             </FlowerField>
             <ButtonNext />
@@ -335,9 +351,7 @@ describe('Test Form', () => {
     expect(screen.getByTestId('input').getAttribute('value')).toBe('')
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(screen.getByTestId('h1')).toHaveTextContent('error')
-
   })
-
 
   it('Test form isValid', async () => {
     const user = userEvent.setup()
@@ -345,22 +359,30 @@ describe('Test Form', () => {
       <FlowerProvider>
         <Flower name="app-test">
           <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{ amount: 1 }} path="^app-test" flowName="app-test" />
+            <InitState
+              state={{ amount: 1 }}
+              path="^app-test"
+              flowName="app-test"
+            />
           </FlowerNode>
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id="name"
               validate={[
                 {
                   message: 'is required',
                   rules: { $and: [{ name: { $exists: true } }] }
-                },
-              ]}>
+                }
+              ]}
+            >
               <Input />
             </FlowerField>
             <ButtonNext />
@@ -395,17 +417,21 @@ describe('Test Form', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id=""
               validate={[
                 {
                   message: 'is required',
                   rules: { $and: [{ name: { $exists: true } }] }
-                },
-              ]}>
+                }
+              ]}
+            >
               <Input />
             </FlowerField>
             <ButtonNext />
@@ -439,9 +465,12 @@ describe('Test Form', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField id="name">
               <Input />
             </FlowerField>
@@ -479,12 +508,12 @@ describe('Test Form', () => {
                   $and: [
                     { '$form.isValid': { $eq: true } },
                     { '$form.isValidating': { $eq: false } }
-
                   ]
                 }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField id="name" asyncValidate={() => false}>
               <Input />
             </FlowerField>
@@ -506,7 +535,6 @@ describe('Test Form', () => {
     expect(screen.getByTestId('h1')).toHaveTextContent('success')
   })
 
-
   it('Test form isValid missing message error', async () => {
     const user = userEvent.setup()
     render(
@@ -518,16 +546,20 @@ describe('Test Form', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id="name"
               validate={[
                 {
                   rules: { $and: [{ name: { $exists: true } }] }
-                },
-              ]}>
+                }
+              ]}
+            >
               <Input />
             </FlowerField>
             <ButtonNext />
@@ -561,17 +593,21 @@ describe('Test Form', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id="name"
               validate={[
                 {
                   rules: { $and: [{ $self: { $exists: true } }] },
-                  message: "Il campo è obbligatorio.",
+                  message: 'Il campo è obbligatorio.'
                 }
-              ]}>
+              ]}
+            >
               <Input />
             </FlowerField>
             <ButtonNext />
@@ -597,21 +633,25 @@ describe('Test Form', () => {
 
     render(
       <FlowerProvider>
-        <Flower name="app-test" initialData={{ sourceName: "andrea" }}>
+        <Flower name="app-test" initialData={{ sourceName: 'andrea' }}>
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id="name"
               validate={[
                 {
                   message: 'is equal',
-                  rules: { $and: [{ name: { $eq: "$ref:sourceName" } }] }
-                },
-              ]}>
+                  rules: { $and: [{ name: { $eq: '$ref:sourceName' } }] }
+                }
+              ]}
+            >
               <Input />
             </FlowerField>
             <ButtonNext />
@@ -642,14 +682,22 @@ describe('Test Form', () => {
       <FlowerProvider>
         <Flower name="app-test">
           <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{ sourceName: "@andrea" }} />
+            <InitState state={{ sourceName: '@andrea' }} />
           </FlowerNode>
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $or: [{ '$form.isValid': { $eq: true } }, { 'metadata.age': { $gt: 18 } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: {
+                  $or: [
+                    { '$form.isValid': { $eq: true } },
+                    { 'metadata.age': { $gt: 18 } }
+                  ]
+                }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id="name"
               asyncValidate={(val, data) => {
@@ -660,9 +708,10 @@ describe('Test Form', () => {
               validate={[
                 {
                   message: 'is equal',
-                  rules: { $and: [{ name: { $eq: "@andrea" } }] }
-                },
-              ]}>
+                  rules: { $and: [{ name: { $eq: '@andrea' } }] }
+                }
+              ]}
+            >
               <Input />
             </FlowerField>
             <FlowerField
@@ -671,8 +720,9 @@ describe('Test Form', () => {
                 {
                   message: 'is gt 18',
                   rules: { $and: [{ $self: { $gt: 18 } }] }
-                },
-              ]}>
+                }
+              ]}
+            >
               <Input name="age" />
             </FlowerField>
             <ButtonNext />
@@ -705,14 +755,15 @@ describe('Test Form', () => {
       <FlowerProvider>
         <Flower name="app-test">
           <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{ sourceName: "@andrea" }} />
+            <InitState state={{ sourceName: '@andrea' }} />
           </FlowerNode>
           <FlowerNode
             id="form"
             to={{
               success: { rules: { $or: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id="name"
               asyncValidate={(val, data) => {
@@ -721,9 +772,10 @@ describe('Test Form', () => {
               validate={[
                 {
                   message: 'is equal',
-                  rules: { $and: [{ name: { $eq: "@andrea" } }] }
-                },
-              ]}>
+                  rules: { $and: [{ name: { $eq: '@andrea' } }] }
+                }
+              ]}
+            >
               <Input />
             </FlowerField>
             <FlowerField
@@ -732,8 +784,9 @@ describe('Test Form', () => {
                 {
                   message: null,
                   rules: { $and: [{ $self: { $gt: 18 } }] }
-                },
-              ]}>
+                }
+              ]}
+            >
               <Input name="age" />
             </FlowerField>
             <ButtonNext />
@@ -766,11 +819,9 @@ describe('Test Form', () => {
       <FlowerProvider>
         <Flower name="app-test">
           <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{ sourceName: "andrea" }} />
+            <InitState state={{ sourceName: 'andrea' }} />
           </FlowerNode>
-          <FlowerNode
-            id="form"
-            to={{ success: null }}>
+          <FlowerNode id="form" to={{ success: null }}>
             <FlowerField id="name" destroyValue>
               <Input />
             </FlowerField>
@@ -778,7 +829,7 @@ describe('Test Form', () => {
           </FlowerNode>
           <FlowerNode id="success">
             <FlowerValue id="name">
-              {({ value }) => <Text value={value || "EMPTY"} />}
+              {({ value }) => <Text value={value || 'EMPTY'} />}
             </FlowerValue>
             <Form />
           </FlowerNode>
@@ -799,11 +850,9 @@ describe('Test Form', () => {
       <FlowerProvider>
         <Flower name="app-test">
           <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{ sourceName: "andrea" }} />
+            <InitState state={{ sourceName: 'andrea' }} />
           </FlowerNode>
-          <FlowerNode
-            id="form"
-            to={{ success: null }}>
+          <FlowerNode id="form" to={{ success: null }}>
             <FlowerField id="name">
               <Input />
             </FlowerField>
@@ -812,7 +861,7 @@ describe('Test Form', () => {
           <FlowerNode id="success">
             <UnSetState path="name" />
             <FlowerValue id="name">
-              {({ value }) => <Text value={value || "EMPTY"} />}
+              {({ value }) => <Text value={value || 'EMPTY'} />}
             </FlowerValue>
             <Form />
           </FlowerNode>
@@ -833,11 +882,9 @@ describe('Test Form', () => {
       <FlowerProvider>
         <Flower name="app-test">
           <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{ sourceName: "andrea" }} />
+            <InitState state={{ sourceName: 'andrea' }} />
           </FlowerNode>
-          <FlowerNode
-            id="form"
-            to={{ success: null }}>
+          <FlowerNode id="form" to={{ success: null }}>
             <FlowerField id="name">
               <Input />
             </FlowerField>
@@ -846,7 +893,7 @@ describe('Test Form', () => {
           <FlowerNode id="success">
             <UnSetState path="^app-test.name" />
             <FlowerValue id="name">
-              {({ value }) => <Text value={value || "EMPTY"} />}
+              {({ value }) => <Text value={value || 'EMPTY'} />}
             </FlowerValue>
             <Form />
           </FlowerNode>
@@ -867,18 +914,16 @@ describe('Test Form', () => {
       <FlowerProvider>
         <Flower name="app-test">
           <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{ sourceName: "andrea" }} path={"sourceName"} />
+            <InitState state={{ sourceName: 'andrea' }} path={'sourceName'} />
           </FlowerNode>
-          <FlowerNode
-            id="form"
-            to={{ success: null }}>
+          <FlowerNode id="form" to={{ success: null }}>
             <FlowerField id="name">
               <Input />
             </FlowerField>
             <ButtonNext />
           </FlowerNode>
           <FlowerNode id="success">
-            <ReplaceState value={{ name: "ciao" }} />
+            <ReplaceState value={{ name: 'ciao' }} />
             <FlowerValue id="^app-test.name">
               <Text />
             </FlowerValue>
@@ -894,7 +939,6 @@ describe('Test Form', () => {
     expect(screen.getByTestId('h1')).toHaveTextContent('ciao')
   })
 
-
   it('Test form persist on destroy', async () => {
     const user = userEvent.setup()
 
@@ -903,9 +947,7 @@ describe('Test Form', () => {
         <Flower name="app-test">
           <FlowerNode id="start" to={{ success: null }}>
             <Flower name="form" destroyOnUnmount={false}>
-              <FlowerNode
-                id="form"
-                to={{ success: null }}>
+              <FlowerNode id="form" to={{ success: null }}>
                 <FlowerField id="name">
                   <Input />
                 </FlowerField>
@@ -914,17 +956,14 @@ describe('Test Form', () => {
             <ButtonNext />
           </FlowerNode>
           <FlowerNode id="success">
-            <FlowerValue flowName={"form"} id="name">
+            <FlowerValue flowName={'form'} id="name">
               <Text />
             </FlowerValue>
             <Form flowName="form" />
           </FlowerNode>
         </Flower>
         <Flower name="form" destroyOnUnmount={false}>
-          <FlowerNode
-            id="form"
-            to={{ success: null }}>
-          </FlowerNode>
+          <FlowerNode id="form" to={{ success: null }}></FlowerNode>
         </Flower>
       </FlowerProvider>
     )
@@ -946,16 +985,20 @@ describe('Test Form', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id="name"
-              asyncInitialError={"error"}
+              asyncInitialError={'error'}
               asyncValidate={async () => {
                 await delay(200)
                 return false
-              }}>
+              }}
+            >
               <Input />
             </FlowerField>
             <ButtonNext />
@@ -976,7 +1019,6 @@ describe('Test Form', () => {
     expect(screen.getByTestId('h1')).toHaveTextContent('error')
   })
 
-
   it('Test form async asyncValidate', async () => {
     const user = userEvent.setup()
     render(
@@ -988,15 +1030,19 @@ describe('Test Form', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField
               id="name"
               asyncValidate={async (val) => {
                 await delay(100)
-                return val === '123' ? [] : ["error"]
-              }}>
+                return val === '123' ? [] : ['error']
+              }}
+            >
               <Input />
             </FlowerField>
             <ButtonNext />
@@ -1044,14 +1090,16 @@ describe('Test Form', () => {
                     { '$form.isValidating': { $eq: false } }
                   ]
                 }
-              },
-            }}>
+              }
+            }}
+          >
             <FlowerField
               id="name"
               asyncValidate={async (val) => {
                 await delay(100)
-                return val === '123' ? ["error"] : []
-              }}>
+                return val === '123' ? ['error'] : []
+              }}
+            >
               <Input />
             </FlowerField>
             <ButtonNext />
@@ -1074,7 +1122,6 @@ describe('Test Form', () => {
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(screen.getByTestId('h1')).toHaveTextContent('error')
   })
-
 
   it('Test form async asyncValidate wrong2', async () => {
     const user = userEvent.setup()
@@ -1102,8 +1149,9 @@ describe('Test Form', () => {
                     { '$form.isValidating': { $eq: undefined } }
                   ]
                 }
-              },
-            }}>
+              }
+            }}
+          >
             <FlowerField id="name">
               <Input />
             </FlowerField>
@@ -1125,7 +1173,4 @@ describe('Test Form', () => {
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(screen.getByTestId('h1')).toHaveTextContent('success')
   })
-
-
-
 })

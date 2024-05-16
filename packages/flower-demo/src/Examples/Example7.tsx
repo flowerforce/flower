@@ -2,7 +2,7 @@ import Flower, {
   FlowerRule,
   FlowerNode,
   FlowerField,
-  FlowerNavigate,
+  FlowerNavigate
 } from '@flowerforce/flower-react'
 import './styles.css'
 
@@ -52,7 +52,10 @@ export function Example7() {
             {/**
              * visible only when rule is matched
              */}
-            <FlowerNavigate action="onNext" rules={{ enableNav: { $eq: true } }}>
+            <FlowerNavigate
+              action="onNext"
+              rules={{ enableNav: { $eq: true } }}
+            >
               <button>Next (hidden) &#8594;</button>
             </FlowerNavigate>
           </div>

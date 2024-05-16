@@ -2,7 +2,7 @@ import Flower, {
   FlowerRule,
   FlowerNode,
   FlowerField,
-  FlowerNavigate,
+  FlowerNavigate
 } from '@flowerforce/flower-react'
 import './styles.css'
 

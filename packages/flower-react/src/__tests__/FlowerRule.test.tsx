@@ -17,19 +17,32 @@ import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
 import FlowerField from '../components/FlowerField'
 import FlowerRule from '../components/FlowerRule'
-import FlowerProvider from '../provider';
-import useFlower from '../components/useFlower';
-import useFlowerForm from '../components/useFlowerForm';
+import FlowerProvider from '../provider'
+import useFlower from '../components/useFlower'
+import useFlowerForm from '../components/useFlowerForm'
 
-const Text = ({ text, value, children, id }: any) => <h1 data-testid={id || "h1"}>{text || value || children}</h1>
+const Text = ({ text, value, children, id }: any) => (
+  <h1 data-testid={id || 'h1'}>{text || value || children}</h1>
+)
 const Input = ({ onChange, value = '', name, hidden, ...props }: any) => {
-  return <input {...props} data-testid={name || "input"} disabled={hidden} name={name} value={value} onChange={evt => onChange(evt.target.value)} />
+  return (
+    <input
+      {...props}
+      data-testid={name || 'input'}
+      disabled={hidden}
+      name={name}
+      value={value}
+      onChange={(evt) => onChange(evt.target.value)}
+    />
+  )
 }
 
 const ButtonNext = ({ id = '' }: any) => {
   const { onNext } = useFlower()
   return (
-    <button data-testid={"btn-next" + id} onClick={() => onNext()}>NEXT</button>
+    <button data-testid={'btn-next' + id} onClick={() => onNext()}>
+      NEXT
+    </button>
   )
 }
 
@@ -41,7 +54,7 @@ const InitState = ({ state }: any) => {
     // console.log(getData())
     onNext()
   }, [onNext, setData, getData, state])
-  return "..."
+  return '...'
 }
 
 const Form = ({ flowName }: any) => {
@@ -50,11 +63,10 @@ const Form = ({ flowName }: any) => {
     // console.log("🚀 ~ Form ~ getData:", getData())
   }, [getData])
 
-  return null//errors && errors.join(',')
+  return null //errors && errors.join(',')
 }
 
 describe('Test FlowerRule component', () => {
-
   it('Test rule ok', async () => {
     const user = userEvent.setup()
 
@@ -67,16 +79,20 @@ describe('Test FlowerRule component', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField id="name">
               <Input />
             </FlowerField>
             <FlowerRule
               rules={{
-                name: { $eq: "@andrea" }
-              }}>
+                name: { $eq: '@andrea' }
+              }}
+            >
               <Text id="age" text="age" />
             </FlowerRule>
             <ButtonNext />
@@ -114,9 +130,12 @@ describe('Test FlowerRule component', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField id="name">
               <Input />
             </FlowerField>
@@ -160,14 +179,16 @@ describe('Test FlowerRule component', () => {
             </FlowerField>
             <FlowerRule
               rules={{
-                name: { $eq: "XXXX" }
-              }}>
+                name: { $eq: 'XXXX' }
+              }}
+            >
               <Input name="age1" />
             </FlowerRule>
             <FlowerRule
               rules={{
-                name: { $eq: "XXXX" }
-              }}>
+                name: { $eq: 'XXXX' }
+              }}
+            >
               {(props) => <Input {...props} name="age" />}
             </FlowerRule>
           </FlowerNode>
@@ -198,15 +219,17 @@ describe('Test FlowerRule component', () => {
             <FlowerRule
               alwaysDisplay
               rules={{
-                name: { $eq: "XXXX" }
-              }}>
+                name: { $eq: 'XXXX' }
+              }}
+            >
               <Input name="age1" />
             </FlowerRule>
             <FlowerRule
               alwaysDisplay
               rules={{
-                name: { $eq: "XXXX" }
-              }}>
+                name: { $eq: 'XXXX' }
+              }}
+            >
               {(props) => <Input {...props} name="age" />}
             </FlowerRule>
           </FlowerNode>
@@ -223,7 +246,7 @@ describe('Test FlowerRule component', () => {
 
   it('Test onUpdate', async () => {
     const user = userEvent.setup()
-    const onUpdateSpy = jest.fn();
+    const onUpdateSpy = jest.fn()
 
     render(
       <FlowerProvider>
@@ -234,18 +257,22 @@ describe('Test FlowerRule component', () => {
           <FlowerNode
             id="form"
             to={{
-              success: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
-            }}>
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
             <FlowerField id="name" onUpdate={onUpdateSpy}>
               <Input />
             </FlowerField>
             <FlowerRule
               id="name"
               rules={{
-                "name": { $eq: "@andrea" }
+                name: { $eq: '@andrea' }
               }}
-              onUpdate={onUpdateSpy}>
+              onUpdate={onUpdateSpy}
+            >
               <ButtonNext />
             </FlowerRule>
           </FlowerNode>
@@ -263,11 +290,10 @@ describe('Test FlowerRule component', () => {
     await user.type(screen.getByTestId('input'), '@andrea')
     expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
 
-    expect(onUpdateSpy).toBeCalledWith("@andrea");
+    expect(onUpdateSpy).toBeCalledWith('@andrea')
 
     fireEvent.click(screen.getByTestId('btn-next'))
 
     expect(screen.getByTestId('h1')).toHaveTextContent('success')
   })
-
 })

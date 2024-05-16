@@ -1,12 +1,17 @@
 export interface IEmitter {
-  on<F extends Function, C>(name: string, cb: F, ctx?: C): this;
-
-  once<F extends Function, C>(name: string, cb: F, ctx?: C): this;
-
-  emit(
+  on<F extends (...args: unknown[]) => unknown, C>(
     name: string,
-    opt?: Record<string, any>
-  ): this;
+    cb: F,
+    ctx?: C
+  ): this
 
-  off<F extends Function>(name: string, cb?: F): this;
+  once<F extends (...args: unknown[]) => unknown, C>(
+    name: string,
+    cb: F,
+    ctx?: C
+  ): this
+
+  emit(name: string, opt?: Record<string, any>): this
+
+  off<F extends (...args: unknown[]) => unknown>(name: string, cb?: F): this
 }

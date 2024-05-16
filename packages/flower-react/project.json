@@ -3,9 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/flower-react/src",
   "projectType": "library",
-  "tags": [
-    "react"
-  ],
+  "tags": ["react"],
   "targets": {
     "build": {
       "dependsOn": ["^build"],

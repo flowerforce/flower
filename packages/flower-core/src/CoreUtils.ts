@@ -9,39 +9,39 @@ import {
   isPlainObject,
   mapKeys,
   mapValues,
-  trimStart,
-} from "lodash";
-import { MatchRules } from "./RulesMatcher";
+  trimStart
+} from 'lodash'
+import { MatchRules } from './RulesMatcher'
 import {
   CoreUtilitiesFunctions,
-  GetRulesExists,
-} from "./interfaces/CoreInterface";
+  GetRulesExists
+} from './interfaces/CoreInterface'
 
 // TODO align this set of functions to selectors and reducers functions
 
 export const flattenRules = (ob: Record<string, any>) => {
-  let result: Record<string, any> = {};
+  const result: Record<string, any> = {}
 
   for (const i in ob) {
     if (ob[i] === null) {
-      result[i] = null;
+      result[i] = null
     }
 
     if (
-      (typeof ob[i] === "object" && !Array.isArray(ob[i])) ||
-      (Array.isArray(ob[i]) && typeof ob[i][0] === "object")
+      (typeof ob[i] === 'object' && !Array.isArray(ob[i])) ||
+      (Array.isArray(ob[i]) && typeof ob[i][0] === 'object')
     ) {
-      const temp = flattenRules(ob[i]);
+      const temp = flattenRules(ob[i])
 
       for (const j in temp) {
-        result[i + "*" + j] = temp[j];
+        result[i + '*' + j] = temp[j]
       }
     } else {
-      result[i] = ob[i];
+      result[i] = ob[i]
     }
   }
-  return result;
-};
+  return result
+}
 
 // export const searchEmptyKeyRecursively = <T extends object>(
 //   _key: "$and" | "$or",
@@ -67,8 +67,8 @@ export const flattenRules = (ob: Record<string, any>) => {
 // };
 
 const getRulesExists: GetRulesExists = (rules) => {
-  return Object.keys(rules).length ? CoreUtils.mapEdge(rules) : undefined;
-};
+  return Object.keys(rules).length ? CoreUtils.mapEdge(rules) : undefined
+}
 /**
  * Defines a collection of utility functions for processing rules, nodes and graph-like structures
  */
@@ -76,80 +76,80 @@ export const CoreUtils: CoreUtilitiesFunctions = {
   generateRulesName: (nextRules) => {
     const a = nextRules.reduce((acc, inc) => {
       const n =
-        typeof inc.rules === "string"
+        typeof inc.rules === 'string'
           ? inc.rules
-          : inc.rules?.name || "__ERROR_NAME__";
+          : inc.rules?.name || '__ERROR_NAME__'
       return {
         ...acc,
-        [n]: inc.nodeId,
-      };
-    }, {});
-    return a;
+        [n]: inc.nodeId
+      }
+    }, {})
+    return a
   },
 
   mapKeysDeepLodash: (obj, cb, isRecursive) => {
     /* istanbul ignore next */
     if (!obj && !isRecursive) {
-      return {};
+      return {}
     }
 
     if (!isRecursive) {
       /* istanbul ignore next */
       if (
-        typeof obj === "string" ||
-        typeof obj === "number" ||
-        typeof obj === "boolean"
+        typeof obj === 'string' ||
+        typeof obj === 'number' ||
+        typeof obj === 'boolean'
       ) {
-        return {};
+        return {}
       }
     }
 
     if (Array.isArray(obj)) {
-      return obj.map((item) => CoreUtils.mapKeysDeepLodash(item, cb, true));
+      return obj.map((item) => CoreUtils.mapKeysDeepLodash(item, cb, true))
     }
 
     if (!isPlainObject(obj)) {
-      return obj;
+      return obj
     }
 
-    const result = mapKeys(obj, cb);
+    const result = mapKeys(obj, cb)
 
     return mapValues(result, (value) =>
       CoreUtils.mapKeysDeepLodash(value, cb, true)
-    );
+    )
   },
 
   generateNodes: (nodes) =>
     keyBy(
-      nodes.map((s) => omit(s, "nextRules")),
-      "nodeId"
+      nodes.map((s) => omit(s, 'nextRules')),
+      'nodeId'
     ),
 
   makeObjectRules: (nodes) =>
     nodes.reduce((acc, inc) => ({ ...acc, [inc.nodeId!]: inc.nextRules }), {}),
 
-  hasNode: (state, name, node) => has(state, [name, "nodes", node]),
+  hasNode: (state, name, node) => has(state, [name, 'nodes', node]),
 
   isEmptyRules: (rules) => {
-    if (isEmpty(rules)) return true;
-    if (isEmpty(get(rules, "rules"))) return true;
+    if (isEmpty(rules)) return true
+    if (isEmpty(get(rules, 'rules'))) return true
     if (
       Object.keys(flattenRules(rules)).every(
-        (key) => key.endsWith("$and") || key.endsWith("$or")
+        (key) => key.endsWith('$and') || key.endsWith('$or')
       )
     ) {
-      return true;
+      return true
     }
-    return false;
+    return false
   },
 
   mapEdge: (nextNode) => {
     const res = nextNode.sort((a, b) => {
-      const x = CoreUtils.isEmptyRules(a.rules);
-      const y = CoreUtils.isEmptyRules(b.rules);
-      return Number(x) - Number(y);
-    });
-    return res;
+      const x = CoreUtils.isEmptyRules(a.rules)
+      const y = CoreUtils.isEmptyRules(b.rules)
+      return Number(x) - Number(y)
+    })
+    return res
   },
 
   makeRules: (rules) =>
@@ -160,47 +160,47 @@ export const CoreUtils: CoreUtilitiesFunctions = {
 
   generateNodesForFlowerJson: (nodes) =>
     nodes.map((e) => {
-      const rules = CoreUtils.makeRules(e.props.to ?? {});
-      const nextRules = getRulesExists(rules);
-      const children = e.props.data?.children;
+      const rules = CoreUtils.makeRules(e.props.to ?? {})
+      const nextRules = getRulesExists(rules)
+      const children = e.props.data?.children
       return {
         nodeId: e.props.id,
-        nodeType: e.type.displayName || e.props.as || "FlowerNode",
-        nodeTitle: get(e.props, "data.title"),
+        nodeType: e.type.displayName || e.props.as || 'FlowerNode',
+        nodeTitle: get(e.props, 'data.title'),
         children,
         nextRules,
         retain: e.props.retain,
-        disabled: e.props.disabled,
-      };
+        disabled: e.props.disabled
+      }
     }),
 
-  cleanPath: (name: string, char: string = "^") => trimStart(name, char),
+  cleanPath: (name: string, char = '^') => trimStart(name, char),
 
   getPath: (idValue?: string) => {
     if (!idValue) {
       return {
-        path: [],
-      };
+        path: []
+      }
     }
 
-    if (idValue === "*") {
+    if (idValue === '*') {
       return {
-        path: "*",
-      };
+        path: '*'
+      }
     }
 
-    if (idValue.indexOf("^") === 0) {
+    if (idValue.indexOf('^') === 0) {
       const [flowNameFromPath, ...rest] =
-        CoreUtils.cleanPath(idValue).split(".");
+        CoreUtils.cleanPath(idValue).split('.')
       return {
         flowNameFromPath,
-        path: rest,
-      };
+        path: rest
+      }
     }
 
     return {
-      path: idValue.split("."),
-    };
+      path: idValue.split('.')
+    }
   },
   allEqual: (arr, arr2) =>
     arr.length === arr2.length && arr.every((v) => arr2.includes(v)),
@@ -209,25 +209,25 @@ export const CoreUtils: CoreUtilitiesFunctions = {
     find(nextRules, (rule) => {
       // fix per evitare di entrare in un nodo senza regole, ma con un name,
       // invocando un onNext() senza paramentri
-      if (typeof rule.rules === "string") {
-        return false;
+      if (typeof rule.rules === 'string') {
+        return false
       }
 
       if (rule.rules === null) {
-        return true;
+        return true
       }
 
-      if (typeof rule.rules?.rules === "undefined") {
-        return false;
+      if (typeof rule.rules?.rules === 'undefined') {
+        return false
       }
 
-      if (typeof rule.rules.rules === "string") {
-        return false;
+      if (typeof rule.rules.rules === 'string') {
+        return false
       }
 
       const [valid] = MatchRules.rulesMatcher(rule.rules.rules, value, true, {
-        prefix,
-      });
-      return valid;
-    }),
-};
+        prefix
+      })
+      return valid
+    })
+}

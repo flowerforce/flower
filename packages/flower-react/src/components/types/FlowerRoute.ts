@@ -1,6 +1,6 @@
 export type FlowerRouteProps = {
   /** Unique identifier for the node inside the Flow */
-  id: string;
+  id: string
   /** TODO document what this props does */
   autostart?: boolean
   /** An object containing the informations about the node's links.
@@ -15,11 +15,11 @@ export type FlowerRouteProps = {
    *
    * Example: to={{ step2: null}
    */
-  to?: Record<string, any>;
+  to?: Record<string, any>
   /** The children of the FlowerRoute */
-  children?: React.ReactNode;
+  children?: React.ReactNode
   /** The function executed when you enter into this FlowerRoute */
-  onEnter?: () => void;
+  onEnter?: () => void
   /** The function executed when you leave this FlowerRoute */
-  onExit?: () => void;
-};
+  onExit?: () => void
+}

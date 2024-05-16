@@ -1,6 +1,6 @@
 export type FlowerNodeDefaultProps = {
   /** Unique identifier for the node inside the Flow */
-  id: string;
+  id: string
   /** An object containing the informations about the node's links.
    *
    * Example: to={{ step2: { rules: { $and: [{ name: { $eq: 'John' } }] } } }}
@@ -13,13 +13,13 @@ export type FlowerNodeDefaultProps = {
    *
    * Example: to={{ step2: null}
    */
-  to?: Record<string, any>;
+  to?: Record<string, any>
   /** The children of the FlowerNode */
-  children?: React.ReactNode;
+  children?: React.ReactNode
   /** The function executed when you enter into this FlowerNode */
-  onEnter?: () => void;
+  onEnter?: () => void
   /** The function executed when you leave this FlowerNode */
-  onExit?: () => void;
+  onExit?: () => void
   /** When set to true, the FlowerNode is ignored and skipped */
-  disabled?: boolean;
-};
+  disabled?: boolean
+}

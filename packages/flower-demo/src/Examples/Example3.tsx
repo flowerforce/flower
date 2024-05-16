@@ -7,7 +7,10 @@ export function Example3() {
       {/**
        * step 1
        */}
-      <FlowerNode id="step1" to={{ stepOK: 'onSuccess', stepKO: 'onError', step: null }}>
+      <FlowerNode
+        id="step1"
+        to={{ stepOK: 'onSuccess', stepKO: 'onError', step: null }}
+      >
         <div className="page step1">
           <span>Choose route</span>
           <div className="navigate">

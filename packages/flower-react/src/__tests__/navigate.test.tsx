@@ -16,9 +16,9 @@ import FlowerNode from '../components/FlowerNode'
 import FlowerAction from '../components/FlowerAction'
 import Flower from '../components/Flower'
 import FlowerRoute from '../components/FlowerRoute'
-import FlowerProvider from '../provider';
-import useFlower from '../components/useFlower';
-import useFlowerForm from '../components/useFlowerForm';
+import FlowerProvider from '../provider'
+import useFlower from '../components/useFlower'
+import useFlowerForm from '../components/useFlowerForm'
 
 const Text = ({ text, value }: any) => {
   return <h1 data-testid="h1">{text || value}</h1>
@@ -30,64 +30,81 @@ const Text = ({ text, value }: any) => {
 const ButtonNode = ({ route }: any) => {
   const { onNode } = useFlower()
   return (
-    <button data-testid="btn-node" onClick={() => onNode(route)}>NEXT</button>
+    <button data-testid="btn-node" onClick={() => onNode(route)}>
+      NEXT
+    </button>
   )
 }
 
 const ButtonNodeObject = ({ value }: any) => {
   const { onNode } = useFlower()
   return (
-    <button data-testid="btn-node" onClick={() => onNode(value)}>NEXT</button>
+    <button data-testid="btn-node" onClick={() => onNode(value)}>
+      NEXT
+    </button>
   )
 }
 
 const ButtonNext = ({ route, dataIn }: any) => {
   const { onNext } = useFlower()
   return (
-    <button data-testid="btn-next" onClick={() => onNext(dataIn || route)}>NEXT</button>
+    <button data-testid="btn-next" onClick={() => onNext(dataIn || route)}>
+      NEXT
+    </button>
   )
 }
 
 const ButtonPrev = () => {
   const { onPrev } = useFlower()
   return (
-    <button data-testid="btn-prev" onClick={() => onPrev()}>PREV</button>
+    <button data-testid="btn-prev" onClick={() => onPrev()}>
+      PREV
+    </button>
   )
 }
 
 const ButtonReset = () => {
   const { onReset } = useFlower()
   return (
-    <button data-testid="btn-reset" onClick={() => onReset()}>Reset</button>
+    <button data-testid="btn-reset" onClick={() => onReset()}>
+      Reset
+    </button>
   )
 }
 
 const ButtonResetNode = ({ node }: any) => {
   const { onReset } = useFlower()
   return (
-    <button data-testid="btn-reset" onClick={() => onReset(node)}>Reset</button>
+    <button data-testid="btn-reset" onClick={() => onReset(node)}>
+      Reset
+    </button>
   )
 }
 
 const ButtonResetNodeObject = ({ value }: any) => {
   const { onReset } = useFlower()
   return (
-    <button data-testid="btn-reset" onClick={() => onReset(value)}>Reset</button>
+    <button data-testid="btn-reset" onClick={() => onReset(value)}>
+      Reset
+    </button>
   )
 }
-
 
 const ButtonPrevNode = ({ node }: any) => {
   const { onPrev } = useFlower()
   return (
-    <button data-testid="btn-prev" onClick={() => onPrev(node)}>PREV</button>
+    <button data-testid="btn-prev" onClick={() => onPrev(node)}>
+      PREV
+    </button>
   )
 }
 
 const ButtonPrevNodeObject = ({ value }: any) => {
   const { onPrev } = useFlower()
   return (
-    <button data-testid="btn-prev" onClick={() => onPrev(value)}>PREV</button>
+    <button data-testid="btn-prev" onClick={() => onPrev(value)}>
+      PREV
+    </button>
   )
 }
 
@@ -100,7 +117,7 @@ const InitState = ({ state }: any) => {
     setData(state)
     onNext()
   }, [onNext, setData, state])
-  return "..."
+  return '...'
 }
 
 describe('Test render <Flower />', () => {
@@ -110,7 +127,7 @@ describe('Test render <Flower />', () => {
         <Flower name="app-test1"></Flower>
       </FlowerProvider>
     )
-    expect(container.innerHTML).toBe("")
+    expect(container.innerHTML).toBe('')
   })
 
   it('Test first node', () => {
@@ -120,8 +137,9 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": null
-            }}>
+              b: null
+            }}
+          >
             <Text text="andrea"></Text>
           </FlowerNode>
           <FlowerNode id="b">
@@ -142,8 +160,9 @@ describe('Test render <Flower />', () => {
             as="FlowerNode"
             id="a"
             to={{
-              "b": null
-            }}>
+              b: null
+            }}
+          >
             <Text text="andrea"></Text>
           </MyNode>
           <FlowerNode id="b">
@@ -163,8 +182,9 @@ describe('Test render <Flower />', () => {
           <MyNode
             id="a"
             to={{
-              "b": null
-            }}>
+              b: null
+            }}
+          >
             <Text text="andrea"></Text>
           </MyNode>
           <FlowerNode id="b">
@@ -184,8 +204,9 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": { rules: "aaa" }
-            }}>
+              b: { rules: 'aaa' }
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -203,9 +224,7 @@ describe('Test render <Flower />', () => {
     render(
       <FlowerProvider>
         <Flower name="app-test1">
-          <FlowerNode
-            id="a"
-            to={{}}>
+          <FlowerNode id="a" to={{}}>
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -226,8 +245,9 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": "aaa"
-            }}>
+              b: 'aaa'
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -248,8 +268,9 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": { rules: undefined }
-            }}>
+              b: { rules: undefined }
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -276,10 +297,14 @@ describe('Test render <Flower />', () => {
               c: { rules: { $and: [{ amount: { $gt: 1497.99 } }] } },
               b: {
                 rules: {
-                  $and: [{ amount: { $lte: 1497.99 } }, { '$form.isValid': { $eq: true } }],
-                },
-              },
-            }}>
+                  $and: [
+                    { amount: { $lte: 1497.99 } },
+                    { '$form.isValid': { $eq: true } }
+                  ]
+                }
+              }
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -306,7 +331,8 @@ describe('Test render <Flower />', () => {
             to={{
               c: { rules: { $and: [{ name: { $eq: 'asd' } }] } },
               b: null
-            }}>
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -331,9 +357,10 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: "onSuccess",
+              c: 'onSuccess',
               b: null
-            }}>
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext route="onSuccess" />
           </FlowerNode>
@@ -358,9 +385,10 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: "onSuccess",
+              c: 'onSuccess',
               b: null
-            }}>
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext route="ERRRRR" />
           </FlowerNode>
@@ -385,9 +413,10 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: "onSuccess",
-              b: "onError"
-            }}>
+              c: 'onSuccess',
+              b: 'onError'
+            }}
+          >
             <Text text="step0"></Text>
             <ButtonNode route="c" />
           </FlowerNode>
@@ -405,7 +434,6 @@ describe('Test render <Flower />', () => {
     expect(screen.getByTestId('h1')).toHaveTextContent('step2')
   })
 
-
   it('test next node with got to node object node', async () => {
     render(
       <FlowerProvider>
@@ -413,11 +441,12 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: "onSuccess",
-              b: "onError"
-            }}>
+              c: 'onSuccess',
+              b: 'onError'
+            }}
+          >
             <Text text="step0"></Text>
-            <ButtonNodeObject value={{ node: "c" }} />
+            <ButtonNodeObject value={{ node: 'c' }} />
           </FlowerNode>
           <FlowerNode id="b">
             <Text text="step1" />
@@ -440,9 +469,10 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: "onSuccess",
-              b: "onError"
-            }}>
+              c: 'onSuccess',
+              b: 'onError'
+            }}
+          >
             <Text text="step0"></Text>
             <ButtonNode route="WRONG" />
           </FlowerNode>
@@ -467,9 +497,10 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: { rules: { $and: [{ "$in.name": { $eq: 'andrea' } }] } },
-              b: { rules: { $and: [{ "$in.name": { $eq: 'zucca' } }] } },
-            }}>
+              c: { rules: { $and: [{ '$in.name': { $eq: 'andrea' } }] } },
+              b: { rules: { $and: [{ '$in.name': { $eq: 'zucca' } }] } }
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext dataIn={{ name: 'andrea' }} />
           </FlowerNode>
@@ -497,9 +528,10 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              d: { rules: { $and: [{ "name": { $eq: 'andrea' } }] } },
-              b: { rules: { $and: [{ "$in.name": { $eq: 'zucca' } }] } },
-            }}>
+              d: { rules: { $and: [{ name: { $eq: 'andrea' } }] } },
+              b: { rules: { $and: [{ '$in.name': { $eq: 'zucca' } }] } }
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -527,9 +559,10 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              d: { rules: { $and: [{ "name": { $eq: 'andrea' } }] } },
-              b: { rules: { $and: [{ "$in.name": { $eq: 'zucca' } }] } },
-            }}>
+              d: { rules: { $and: [{ name: { $eq: 'andrea' } }] } },
+              b: { rules: { $and: [{ '$in.name': { $eq: 'zucca' } }] } }
+            }}
+          >
             <Text text="form screen"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -558,14 +591,19 @@ describe('Test render <Flower />', () => {
             id="a"
             retain={true}
             to={{
-              b: null,
-            }}>
+              b: null
+            }}
+          >
             <Text text="form screen"></Text>
             <ButtonNext />
           </FlowerNode>
-          <FlowerAction id="b" disabled={true} to={{
-            d: null,
-          }}>
+          <FlowerAction
+            id="b"
+            disabled={true}
+            to={{
+              d: null
+            }}
+          >
             <Text text="zucca" />
             <ButtonNext />
           </FlowerAction>
@@ -593,14 +631,18 @@ describe('Test render <Flower />', () => {
             retain={true}
             disabled={true}
             to={{
-              b: null,
-            }}>
+              b: null
+            }}
+          >
             <Text text="form screen"></Text>
             <ButtonNext />
           </FlowerNode>
-          <FlowerAction id="b" to={{
-            d: null,
-          }}>
+          <FlowerAction
+            id="b"
+            to={{
+              d: null
+            }}
+          >
             <Text text="zucca" />
             <ButtonNext />
           </FlowerAction>
@@ -625,8 +667,9 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              b: null,
-            }}>
+              b: null
+            }}
+          >
             <Text text="step1"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -778,7 +821,7 @@ describe('Test render <Flower />', () => {
           </FlowerNode>
           <FlowerAction id="d">
             <Text text="step3" />
-            <ButtonResetNodeObject value={{ node: "newstart" }} />
+            <ButtonResetNodeObject value={{ node: 'newstart' }} />
           </FlowerAction>
           <FlowerAction id="e">
             <Text text="newstart-d" />
@@ -816,7 +859,7 @@ describe('Test render <Flower />', () => {
           </FlowerNode>
           <FlowerAction id="d">
             <Text text="step3" />
-            <ButtonPrevNodeObject value={{ node: "a" }} />
+            <ButtonPrevNodeObject value={{ node: 'a' }} />
           </FlowerAction>
         </Flower>
       </FlowerProvider>
@@ -841,7 +884,6 @@ describe('Test render <Flower />', () => {
         </Flower>
       </FlowerProvider>
     )
-
 
     fireEvent.click(screen.getByTestId('btn-prev'))
     expect(await screen.findByText('step1')).toBeVisible()
@@ -962,7 +1004,6 @@ describe('Test render <Flower />', () => {
     expect(await screen.findByText('step1')).toBeVisible()
   })
 
-
   it('test prev node disabled', async () => {
     render(
       <FlowerProvider>
@@ -973,13 +1014,20 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              b: null,
-            }}>
+              b: null
+            }}
+          >
             <Text text="step1"></Text>
             <ButtonNext />
           </FlowerNode>
-          <FlowerNode id="b" disabled={true} to={{ d: null }}><Text text="step2" /><ButtonNext /></FlowerNode>
-          <FlowerAction id="d"><Text text="step3" /><ButtonPrev /></FlowerAction>
+          <FlowerNode id="b" disabled={true} to={{ d: null }}>
+            <Text text="step2" />
+            <ButtonNext />
+          </FlowerNode>
+          <FlowerAction id="d">
+            <Text text="step3" />
+            <ButtonPrev />
+          </FlowerAction>
         </Flower>
       </FlowerProvider>
     )
@@ -1008,26 +1056,27 @@ describe('Test render <Flower />', () => {
               d: {
                 rules: {
                   $and: [
-                    { "name": { $eq: 'andrea' } },
-                    { "name": { $ne: 'z' } },
-                    { "name": { $strGt: 5 } },
-                    { "name": { $strGte: 6 } },
-                    { "name": { $strLte: 50 } },
-                    { "name": { $strLt: 50 } },
-                    { "age": { $gt: 17 } },
-                    { "age": { $gte: 18 } },
-                    { "age": { $lte: 118 } },
-                    { "age": { $lt: 118 } },
-                    { "name": { $exists: true } },
-                    { "name": { $regex: "^a" } },
-                    { "name": { $regex: /^a/ } },
-                    { "tags": { $in: ['a'] } },
-                    { "tags": { $nin: ['z'] } },
-                    { "tags": { $all: ['a', 'b'] } },
+                    { name: { $eq: 'andrea' } },
+                    { name: { $ne: 'z' } },
+                    { name: { $strGt: 5 } },
+                    { name: { $strGte: 6 } },
+                    { name: { $strLte: 50 } },
+                    { name: { $strLt: 50 } },
+                    { age: { $gt: 17 } },
+                    { age: { $gte: 18 } },
+                    { age: { $lte: 118 } },
+                    { age: { $lt: 118 } },
+                    { name: { $exists: true } },
+                    { name: { $regex: '^a' } },
+                    { name: { $regex: /^a/ } },
+                    { tags: { $in: ['a'] } },
+                    { tags: { $nin: ['z'] } },
+                    { tags: { $all: ['a', 'b'] } }
                   ]
                 }
-              },
-            }}>
+              }
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -1049,9 +1098,10 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              c: { rules: { $and: [{ "$in.name": { $eq: 'andrea' } }] } },
-              b: null,
-            }}>
+              c: { rules: { $and: [{ '$in.name': { $eq: 'andrea' } }] } },
+              b: null
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext dataIn={{ name: 'andrea' }} />
           </FlowerNode>
@@ -1077,8 +1127,9 @@ describe('Test render <Flower />', () => {
             id="a"
             to={{
               b: null,
-              c: { rules: { $and: [{ "$in.name": { $eq: 'andrea' } }] } },
-            }}>
+              c: { rules: { $and: [{ '$in.name': { $eq: 'andrea' } }] } }
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext dataIn={{ name: 'andrea' }} />
           </FlowerNode>
@@ -1103,8 +1154,9 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": { label: 'test', rules: null }
-            }}>
+              b: { label: 'test', rules: null }
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -1125,8 +1177,9 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": { label: 'test' }
-            }}>
+              b: { label: 'test' }
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext />
           </FlowerNode>
@@ -1147,8 +1200,9 @@ describe('Test render <Flower />', () => {
           <FlowerNode
             id="a"
             to={{
-              "b": { label: 'test', name: "success" }
-            }}>
+              b: { label: 'test', name: 'success' }
+            }}
+          >
             <Text text="andrea"></Text>
             <ButtonNext route="success" />
           </FlowerNode>
@@ -1161,5 +1215,4 @@ describe('Test render <Flower />', () => {
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(screen.getByTestId('h1')).toHaveTextContent('SUCCESS')
   })
-
 })

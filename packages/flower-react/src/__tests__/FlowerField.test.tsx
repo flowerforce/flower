@@ -5,35 +5,35 @@
  */
 
 // import dependencies
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 
 // import react-testing methods
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 // add custom jest matchers from jest-dom
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom'
 
-import FlowerNode from '../components/FlowerNode';
-import Flower from '../components/Flower';
-import FlowerField from '../components/FlowerField';
-import FlowerProvider from '../provider';
-import useFlower from '../components/useFlower';
-import useFlowerForm from '../components/useFlowerForm';
+import FlowerNode from '../components/FlowerNode'
+import Flower from '../components/Flower'
+import FlowerField from '../components/FlowerField'
+import FlowerProvider from '../provider'
+import useFlower from '../components/useFlower'
+import useFlowerForm from '../components/useFlowerForm'
 
-const delay = (ms: any) => new Promise((r) => setTimeout(r, ms));
+const delay = (ms: any) => new Promise((r) => setTimeout(r, ms))
 
 const Text = ({
   text,
   value,
   children,
-  id,
+  id
 }: {
-  text?: string;
-  value?: string;
-  children?: string;
-  id?: string;
-}) => <h1 data-testid={id || 'h1'}>{text || value || children}</h1>;
+  text?: string
+  value?: string
+  children?: string
+  id?: string
+}) => <h1 data-testid={id || 'h1'}>{text || value || children}</h1>
 
 const Input = ({
   onChange,
@@ -50,42 +50,42 @@ const Input = ({
       onBlur={(evt) => onBlur(evt)}
       onChange={(evt) => onChange(evt.target.value)}
     />
-  );
-};
+  )
+}
 
 const ButtonNext = ({ id = '' }) => {
-  const { onNext } = useFlower();
+  const { onNext } = useFlower()
   return (
     <button data-testid={'btn-next' + id} onClick={() => onNext()}>
       NEXT
     </button>
-  );
-};
+  )
+}
 
 const InitState = ({ state, path }: { state: any; path?: any }) => {
-  const { onNext } = useFlower();
-  const { setData, getData } = useFlowerForm();
+  const { onNext } = useFlower()
+  const { setData, getData } = useFlowerForm()
   useEffect(() => {
-    setData(state, path);
+    setData(state, path)
     // console.log(getData())
-    onNext();
-  }, [onNext, setData, getData, state, path]);
-  return '...';
-};
+    onNext()
+  }, [onNext, setData, getData, state, path])
+  return '...'
+}
 
 const Form = ({ flowName, path }: { flowName?: string; path?: string }) => {
-  const { getData } = useFlowerForm({ flowName });
+  const { getData } = useFlowerForm({ flowName })
   useEffect(() => {
-    getData(path);
+    getData(path)
     // console.log("🚀 ~ Form ~ getData:", getData())
-  }, [getData, path]);
+  }, [getData, path])
 
-  return <></>; //errors && errors.join(',')
-};
+  return <></> //errors && errors.join(',')
+}
 
 describe('Test FlowerField component', () => {
   it('Test flow success', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup()
 
     render(
       <FlowerProvider>
@@ -97,26 +97,26 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] },
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField
               id="name"
               asyncValidate={(val) => {
-                if (val?.indexOf('@') > -1) return;
+                if (val?.indexOf('@') > -1) return
                 return [
                   {
-                    message: 'is not email',
-                  },
-                ];
+                    message: 'is not email'
+                  }
+                ]
               }}
               validate={[
                 {
                   message: 'is equal',
-                  rules: { $and: [{ name: { $eq: '@andrea' } }] },
-                },
+                  rules: { $and: [{ name: { $eq: '@andrea' } }] }
+                }
               ]}
             >
               <Input />
@@ -126,8 +126,8 @@ describe('Test FlowerField component', () => {
               validate={[
                 {
                   message: 'is gt 18',
-                  rules: { $and: [{ $self: { $gt: 18 } }] },
-                },
+                  rules: { $and: [{ $self: { $gt: 18 } }] }
+                }
               ]}
             >
               <Input name="age" />
@@ -143,21 +143,21 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    await user.type(screen.getByTestId('input'), '@andrea');
-    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea');
+    await user.type(screen.getByTestId('input'), '@andrea')
+    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
 
-    await user.type(screen.getByTestId('age'), '19');
-    expect(screen.getByTestId('age').getAttribute('value')).toBe('19');
+    await user.type(screen.getByTestId('age'), '19')
+    expect(screen.getByTestId('age').getAttribute('value')).toBe('19')
 
-    fireEvent.click(screen.getByTestId('btn-next'));
+    fireEvent.click(screen.getByTestId('btn-next'))
 
-    expect(screen.getByTestId('h1')).toHaveTextContent('success');
-  });
+    expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
 
   it('Test flow functional children', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup()
 
     render(
       <FlowerProvider>
@@ -169,9 +169,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] },
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id=".name">
@@ -188,19 +188,19 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    await user.type(screen.getByTestId('input'), '@andrea');
-    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea');
+    await user.type(screen.getByTestId('input'), '@andrea')
+    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
 
-    fireEvent.click(screen.getByTestId('btn-next'));
+    fireEvent.click(screen.getByTestId('btn-next'))
 
-    expect(screen.getByTestId('h1')).toHaveTextContent('success');
-  });
+    expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
 
   it('Test onUpdate', async () => {
-    const user = userEvent.setup();
-    const onUpdateSpy = jest.fn();
+    const user = userEvent.setup()
+    const onUpdateSpy = jest.fn()
 
     render(
       <FlowerProvider>
@@ -212,9 +212,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] },
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name" onUpdate={onUpdateSpy}>
@@ -231,17 +231,17 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    await user.type(screen.getByTestId('input'), '@andrea');
-    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea');
+    await user.type(screen.getByTestId('input'), '@andrea')
+    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
 
-    expect(onUpdateSpy).toBeCalledWith('@andrea');
+    expect(onUpdateSpy).toBeCalledWith('@andrea')
 
-    fireEvent.click(screen.getByTestId('btn-next'));
+    fireEvent.click(screen.getByTestId('btn-next'))
 
-    expect(screen.getByTestId('h1')).toHaveTextContent('success');
-  });
+    expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
 
   it('Test defaultValue', async () => {
     render(
@@ -254,9 +254,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] },
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name" defaultValue={'@andrea'}>
@@ -273,17 +273,17 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea');
-    fireEvent.click(screen.getByTestId('btn-next'));
+    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
+    fireEvent.click(screen.getByTestId('btn-next'))
 
-    expect(screen.getByTestId('h1')).toHaveTextContent('success');
-  });
+    expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
 
   it('Test onBlur', async () => {
-    const user = userEvent.setup();
-    const onBlurSpy = jest.fn();
+    const user = userEvent.setup()
+    const onBlurSpy = jest.fn()
 
     render(
       <FlowerProvider>
@@ -295,9 +295,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] },
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name">
@@ -317,23 +317,23 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    screen.getByTestId('input').focus();
-    await waitFor(() => expect(screen.getByTestId('input')).toHaveFocus());
-    await user.type(screen.getByTestId('input'), '@andrea');
-    await user.tab(); // blur
-    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea');
+    screen.getByTestId('input').focus()
+    await waitFor(() => expect(screen.getByTestId('input')).toHaveFocus())
+    await user.type(screen.getByTestId('input'), '@andrea')
+    await user.tab() // blur
+    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
 
-    expect(onBlurSpy).toHaveBeenCalledTimes(1);
+    expect(onBlurSpy).toHaveBeenCalledTimes(1)
 
-    fireEvent.click(screen.getByTestId('btn-next'));
+    fireEvent.click(screen.getByTestId('btn-next'))
 
-    expect(screen.getByTestId('h1')).toHaveTextContent('success');
-  });
+    expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
 
   it('Test asyncValidate initial Error', async () => {
-    userEvent.setup();
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -344,8 +344,8 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] },
-              },
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              }
               // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
             }}
           >
@@ -353,7 +353,7 @@ describe('Test FlowerField component', () => {
               id="name"
               asyncInitialError={'Compila'}
               asyncValidate={(val) => {
-                return val !== 'a' ? ['error'] : [];
+                return val !== 'a' ? ['error'] : []
               }}
             >
               {({ errors }) => <Text value={errors?.join()} />}
@@ -368,14 +368,14 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    fireEvent.click(screen.getByTestId('btn-next'));
-    expect(screen.getByTestId('h1')).toHaveTextContent('Compila');
-  });
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(screen.getByTestId('h1')).toHaveTextContent('Compila')
+  })
 
   it('Test asyncValidate whitout asyncInitialError', async () => {
-    userEvent.setup();
+    userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -386,15 +386,15 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] },
-              },
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              }
               // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
             }}
           >
             <FlowerField
               id="name"
               asyncValidate={(val) => {
-                return val !== 'a' ? ['error2'] : [];
+                return val !== 'a' ? ['error2'] : []
               }}
             >
               {({ errors }) => <Text value={errors?.join()} />}
@@ -409,14 +409,14 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    fireEvent.click(screen.getByTestId('btn-next'));
-    expect(screen.getByTestId('h1')).toHaveTextContent('success');
-  });
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
 
   it('Test asyncValidate type and clear', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -427,8 +427,8 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] },
-              },
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              }
               // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
             }}
           >
@@ -436,7 +436,7 @@ describe('Test FlowerField component', () => {
               id="name"
               asyncInitialError="Error name"
               asyncValidate={(val) => {
-                return val !== '@andrea' ? ['error'] : [];
+                return val !== '@andrea' ? ['error'] : []
               }}
             >
               {({ errors, onChange, value, onBlur }) => (
@@ -453,19 +453,19 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    await user.type(screen.getByTestId('input'), '@');
-    fireEvent.click(screen.getByTestId('btn-next'));
-    await user.clear(screen.getByTestId('input'));
-    expect(screen.getByTestId('h1')).toHaveTextContent('Error name');
-    await user.type(screen.getByTestId('input'), '@andrea');
-    fireEvent.click(screen.getByTestId('btn-next'));
-    expect(screen.getByTestId('h1')).toHaveTextContent('success');
-  });
+    await user.type(screen.getByTestId('input'), '@')
+    fireEvent.click(screen.getByTestId('btn-next'))
+    await user.clear(screen.getByTestId('input'))
+    expect(screen.getByTestId('h1')).toHaveTextContent('Error name')
+    await user.type(screen.getByTestId('input'), '@andrea')
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
 
   it('Test asyncValidate type and clear', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup()
     render(
       <FlowerProvider>
         <Flower name="app-test">
@@ -476,8 +476,8 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] },
-              },
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              }
               // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
             }}
           >
@@ -485,7 +485,7 @@ describe('Test FlowerField component', () => {
               id="name"
               asyncInitialError="Invalid field"
               asyncValidate={(val) => {
-                return val !== '@andrea' ? ['error'] : [];
+                return val !== '@andrea' ? ['error'] : []
               }}
             >
               {({ errors, onChange, value, onBlur }) => (
@@ -502,20 +502,20 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    await user.type(screen.getByTestId('input'), '@');
-    fireEvent.click(screen.getByTestId('btn-next'));
-    await user.clear(screen.getByTestId('input'));
-    expect(screen.getByTestId('h1')).toHaveTextContent('Invalid field');
-    await user.type(screen.getByTestId('input'), '@andrea');
-    fireEvent.click(screen.getByTestId('btn-next'));
-    expect(screen.getByTestId('h1')).toHaveTextContent('success');
-  });
+    await user.type(screen.getByTestId('input'), '@')
+    fireEvent.click(screen.getByTestId('btn-next'))
+    await user.clear(screen.getByTestId('input'))
+    expect(screen.getByTestId('h1')).toHaveTextContent('Invalid field')
+    await user.type(screen.getByTestId('input'), '@andrea')
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
 
   it('Test asyncValidate asyncWaitingError', async () => {
-    const user = userEvent.setup();
-    const go = jest.fn();
+    const user = userEvent.setup()
+    const go = jest.fn()
 
     render(
       <FlowerProvider>
@@ -527,18 +527,18 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] },
-              },
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              }
             }}
           >
             <FlowerField
               id="name"
               asyncWaitingError="Attendi"
               asyncValidate={async () => {
-                await delay(500);
-                await go();
-                await delay(100);
-                return ['error'];
+                await delay(500)
+                await go()
+                await delay(100)
+                return ['error']
               }}
             >
               {({ errors, onChange, onBlur, value }) => {
@@ -548,7 +548,7 @@ describe('Test FlowerField component', () => {
                     <Text id="val" value={value} />
                     <Input onChange={onChange} value={value} onBlur={onBlur} />
                   </>
-                );
+                )
               }}
             </FlowerField>
             <FlowerField id="lastname">
@@ -561,23 +561,23 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    await user.type(screen.getByTestId('input'), '@andrea');
+    await user.type(screen.getByTestId('input'), '@andrea')
     await waitFor(() =>
       expect(screen.getByTestId('val')).toHaveTextContent('@andrea')
-    );
-    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea');
-    await user.type(screen.getByTestId('input2'), '@andrea');
-    await delay(500);
-    expect(screen.getByTestId('errors')).toHaveTextContent('Attendi');
-    await delay(150);
-    await waitFor(() => expect(go).toHaveBeenCalled());
-    await delay(10);
-  }, 3000);
+    )
+    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
+    await user.type(screen.getByTestId('input2'), '@andrea')
+    await delay(500)
+    expect(screen.getByTestId('errors')).toHaveTextContent('Attendi')
+    await delay(150)
+    await waitFor(() => expect(go).toHaveBeenCalled())
+    await delay(10)
+  }, 3000)
 
   it('Test component', async () => {
-    userEvent.setup();
+    userEvent.setup()
 
     render(
       <FlowerProvider>
@@ -595,13 +595,13 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    expect(screen.getByTestId('text')).toHaveTextContent('ciao');
-  });
+    expect(screen.getByTestId('text')).toHaveTextContent('ciao')
+  })
 
   it('Test component string', async () => {
-    userEvent.setup();
+    userEvent.setup()
 
     render(
       <FlowerProvider>
@@ -619,8 +619,8 @@ describe('Test FlowerField component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    expect(screen.getByTestId('text')).toHaveTextContent('ciao');
-  });
-});
+    expect(screen.getByTestId('text')).toHaveTextContent('ciao')
+  })
+})

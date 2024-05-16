@@ -1,11 +1,11 @@
-import React from 'react';
-import { FlowerServerProps } from './types/FlowerServer';
+import React from 'react'
+import { FlowerServerProps } from './types/FlowerServer'
 
 const FlowerServer = ({ children }: FlowerServerProps) => {
-  return children;
+  return children
 }
 
-const component = React.memo(FlowerServer);
-component.displayName = 'FlowerServer';
+const component = React.memo(FlowerServer)
+component.displayName = 'FlowerServer'
 
-export default component;
+export default component

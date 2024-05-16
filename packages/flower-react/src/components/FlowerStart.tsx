@@ -1,20 +1,22 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from '../provider';
-import { FlowerCoreContext } from '../context';
-import { makeSelectStartNodeId } from '../selectors';
+import React, { useContext, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from '../provider'
+import { FlowerCoreContext } from '../context'
+import { makeSelectStartNodeId } from '../selectors'
 
 function FlowerStart() {
-  const dispatch = useDispatch();
-  const one = useRef(false);
+  const dispatch = useDispatch()
+  const one = useRef(false)
   const {
-    flowName, autostart = true, currentNode,
-  } = useContext(FlowerCoreContext);
-  const startNodeId = useSelector(makeSelectStartNodeId(flowName ?? ''));
+    flowName,
+    autostart = true,
+    currentNode
+  } = useContext(FlowerCoreContext)
+  const startNodeId = useSelector(makeSelectStartNodeId(flowName ?? ''))
 
   useEffect(() => {
     if (startNodeId === currentNode && autostart && one.current === false) {
-      one.current = true;
-      dispatch({ type: 'flower/next', payload: { flowName, isStart: true } });
+      one.current = true
+      dispatch({ type: 'flower/next', payload: { flowName, isStart: true } })
 
       // if (global.window
       //   // eslint-disable-next-line no-underscore-dangle, no-undef
@@ -26,12 +28,12 @@ function FlowerStart() {
       //   });
       // }
     }
-  }, [dispatch, autostart, startNodeId, currentNode, flowName]);
+  }, [dispatch, autostart, startNodeId, currentNode, flowName])
 
-  return null;
+  return null
 }
 
-const component = React.memo(FlowerStart);
-component.displayName = 'FlowerStart';
+const component = React.memo(FlowerStart)
+component.displayName = 'FlowerStart'
 
-export default component;
+export default component

@@ -1,36 +1,36 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { useDispatch } from '../provider';
-import { FlowerCoreContext } from '../context';
-import { FlowerRouteProps } from './types/FlowerRoute';
+import React, { useContext, useEffect, useRef } from 'react'
+import { useDispatch } from '../provider'
+import { FlowerCoreContext } from '../context'
+import { FlowerRouteProps } from './types/FlowerRoute'
 
 const FlowerRoute = ({
   autostart = true,
   children,
   onEnter,
-  onExit,
+  onExit
 }: FlowerRouteProps) => {
-  const dispatch = useDispatch();
-  const one = useRef(false);
-  const { flowName } = useContext(FlowerCoreContext);
+  const dispatch = useDispatch()
+  const one = useRef(false)
+  const { flowName } = useContext(FlowerCoreContext)
 
   useEffect(() => {
-    onEnter?.();
+    onEnter?.()
     return () => {
-      onExit?.();
-    };
-  }, [onEnter, onExit]);
+      onExit?.()
+    }
+  }, [onEnter, onExit])
 
   useEffect(() => {
     if (autostart && one.current === false) {
-      one.current = true;
-      dispatch({ type: 'flower/next', payload: { flowName } });
+      one.current = true
+      dispatch({ type: 'flower/next', payload: { flowName } })
     }
-  }, [dispatch, flowName, autostart]);
+  }, [dispatch, flowName, autostart])
 
-  return children;
-};
+  return children
+}
 
-const component = React.memo(FlowerRoute);
-component.displayName = 'FlowerRoute';
+const component = React.memo(FlowerRoute)
+component.displayName = 'FlowerRoute'
 
-export default component;
+export default component

@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext } from 'react'
 
 export type FlowerContext = {
   flowName?: string | undefined
@@ -6,12 +6,14 @@ export type FlowerContext = {
   autostart?: boolean | undefined
 }
 
-const context = createContext<FlowerContext>({});
+const context = createContext<FlowerContext>({})
 
-const { Provider: FlowerCoreContextProvider } = context;
-const { Consumer: FlowerCoreContextConsumer } = context;
+const { Provider: FlowerCoreContextProvider } = context
+const { Consumer: FlowerCoreContextConsumer } = context
 
-const FlowerCoreContext = context;
+const FlowerCoreContext = context
 export {
-  FlowerCoreContextProvider, FlowerCoreContextConsumer, FlowerCoreContext,
-};
+  FlowerCoreContextProvider,
+  FlowerCoreContextConsumer,
+  FlowerCoreContext
+}

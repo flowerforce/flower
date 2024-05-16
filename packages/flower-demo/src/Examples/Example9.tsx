@@ -4,7 +4,7 @@ import Flower, {
   FlowerField,
   FlowerAction,
   useFlower,
-  useFlowerForm,
+  useFlowerForm
 } from '@flowerforce/flower-react'
 import { useEffect } from 'react'
 import './styles.css'
@@ -37,12 +37,12 @@ export function Example9() {
               validate={[
                 {
                   rules: { $and: [{ username: { $exists: true } }] },
-                  message: 'Field is required',
+                  message: 'Field is required'
                 },
                 {
                   rules: { $and: [{ username: { $strGte: '6' } }] },
-                  message: 'Field length must be greater than or equal to 6.',
-                },
+                  message: 'Field length must be greater than or equal to 6.'
+                }
               ]}
             >
               {({ onChange, value = '', errors, onBlur, hidden }) => (
@@ -69,8 +69,8 @@ export function Example9() {
               validate={[
                 {
                   rules: { $and: [{ password: { $exists: true } }] },
-                  message: 'Field is required',
-                },
+                  message: 'Field is required'
+                }
               ]}
             >
               {({ onChange, value = '', errors, onBlur, hidden }) => (

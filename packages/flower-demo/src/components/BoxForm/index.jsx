@@ -8,7 +8,7 @@ import Flower, {
   useSelector,
   getDataByFlow,
   FlowerRule,
-  useFlower,
+  useFlower
 } from '@flowerforce/flower-react'
 import { FormStep1 } from './container'
 import { FlowerFlow } from '@flowerforce/flower-react'
@@ -46,8 +46,7 @@ const Back = ({ rules }) => {
   )
 }
 
-const delay = (ms) => new Promise((r) => setTimeout(r, ms));
-
+const delay = (ms) => new Promise((r) => setTimeout(r, ms))
 
 function Subflow({ children }) {
   const { setData } = useFlowerForm({ flowName: 'auth' })
@@ -60,7 +59,9 @@ function Subflow({ children }) {
       <Flower name="app" initialData={{ isLogged: true, a: 11 }}>
         <FlowerNode
           id="start"
-          to={{ form: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } } }}
+          to={{
+            form: { rules: { $and: [{ '$form.isValid': { $eq: true } }] } }
+          }}
         >
           FORM
           <Input
@@ -70,10 +71,10 @@ function Subflow({ children }) {
             asyncValidate={async (val) => {
               await delay(1000)
               console.log('ok')
-              return (val !== "aaa") && ["Error name aaa"]
-            }}></Input>
+              return val !== 'aaa' && ['Error name aaa']
+            }}
+          ></Input>
           <MyButton />
-
         </FlowerNode>
 
         <FlowerNode id="form" to={{ login: null }}>

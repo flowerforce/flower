@@ -21,7 +21,10 @@ export function Example4() {
        */}
       <FlowerNode
         id="step2"
-        to={{ step4: { rules: { $and: [{ skipStep3: { $eq: true } }] } }, step3: null }}
+        to={{
+          step4: { rules: { $and: [{ skipStep3: { $eq: true } }] } },
+          step3: null
+        }}
       >
         <div className="page step2">
           <span>2</span>

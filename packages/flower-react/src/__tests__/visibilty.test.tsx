@@ -15,12 +15,14 @@ import '@testing-library/jest-dom'
 
 import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
-import FlowerProvider from '../provider';
-import useFlower from '../components/useFlower';
-import useFlowerForm from '../components/useFlowerForm';
-import FlowerRule from '../components/FlowerRule';
+import FlowerProvider from '../provider'
+import useFlower from '../components/useFlower'
+import useFlowerForm from '../components/useFlowerForm'
+import FlowerRule from '../components/FlowerRule'
 
-const Text = ({ text, value, children }: any) => <h1 data-testid="h1">{text || value || children}</h1>
+const Text = ({ text, value, children }: any) => (
+  <h1 data-testid="h1">{text || value || children}</h1>
+)
 // const Input = ({ onChange, value = '', name }: any) => {
 //   return <input data-testid={name || "input"} name={name} value={value} onChange={evt => onChange(evt.target.value)} />
 // }
@@ -40,7 +42,7 @@ const InitState = ({ state }: any) => {
     // console.log(getData())
     onNext()
   }, [onNext, setData, getData, state])
-  return "..."
+  return '...'
 }
 
 // const Form = () => {
@@ -49,7 +51,6 @@ const InitState = ({ state }: any) => {
 // }
 
 describe('Test Visibility', () => {
-
   it('Test show by rule', async () => {
     userEvent.setup()
     render(
@@ -102,7 +103,7 @@ describe('Test Visibility', () => {
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
           <FlowerNode id="form">
-            <FlowerRule rules={{ amount: { $eq: "$ref:name" } }}>
+            <FlowerRule rules={{ amount: { $eq: '$ref:name' } }}>
               <Text>HELLO</Text>
             </FlowerRule>
             <FlowerRule rules={{ amount: { $eq: 1 } }}>
@@ -122,53 +123,55 @@ describe('Test Visibility', () => {
       <FlowerProvider>
         <Flower name="app-test">
           <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{
-              name: "and",
-              lastname: null,
-              age: 2,
-              presence: true,
-              date: new Date(),
-              val: { a: 1 },
-              val2: {},
-              func: () => null,
-              arr: ["1"],
-              ageString: "2.1"
-            }} />
+            <InitState
+              state={{
+                name: 'and',
+                lastname: null,
+                age: 2,
+                presence: true,
+                date: new Date(),
+                val: { a: 1 },
+                val2: {},
+                func: () => null,
+                arr: ['1'],
+                ageString: '2.1'
+              }}
+            />
           </FlowerNode>
           <FlowerNode id="form">
-            <FlowerRule rules={{
-              $and: [
-                { date: { $exists: true } },
-                { val: { $exists: true } },
-                { val2: { $exists: false } },
-                { func: { $exists: true } },
-                { arr: { $exists: true } },
-                { name: "and" },
-                { name: "$required" },
-                { name: "$exists" },
-                { age: 2 },
-                { age: { $gt: "1and" } },
-                { name: { $strGt: 1 } },
-                { arr: { $gte: [1] } },
-                { presence: true },
-                { arr: ["1"] },
-                { lastname: null },
-                { lastname: { $strGte: 0 } },
-                { lastname: { $strLte: 0 } },
-                { lastname: { $strGt: -1 } },
-                { lastname: { $strLt: 1 } },
-                { xxxx: { $exists: false } },
-                { age: { $lte: Infinity } },
-                { age: { $lte: 100.5 } },
-                { age: { $gte: -100.5 } },
-                { ageString: { $gte: -100.5 } },
-                {
-                  $or: [
-                    { name: "and" },
-                  ]
-                }
-              ]
-            }}>
+            <FlowerRule
+              rules={{
+                $and: [
+                  { date: { $exists: true } },
+                  { val: { $exists: true } },
+                  { val2: { $exists: false } },
+                  { func: { $exists: true } },
+                  { arr: { $exists: true } },
+                  { name: 'and' },
+                  { name: '$required' },
+                  { name: '$exists' },
+                  { age: 2 },
+                  { age: { $gt: '1and' } },
+                  { name: { $strGt: 1 } },
+                  { arr: { $gte: [1] } },
+                  { presence: true },
+                  { arr: ['1'] },
+                  { lastname: null },
+                  { lastname: { $strGte: 0 } },
+                  { lastname: { $strLte: 0 } },
+                  { lastname: { $strGt: -1 } },
+                  { lastname: { $strLt: 1 } },
+                  { xxxx: { $exists: false } },
+                  { age: { $lte: Infinity } },
+                  { age: { $lte: 100.5 } },
+                  { age: { $gte: -100.5 } },
+                  { ageString: { $gte: -100.5 } },
+                  {
+                    $or: [{ name: 'and' }]
+                  }
+                ]
+              }}
+            >
               <Text>HELLO</Text>
             </FlowerRule>
           </FlowerNode>
@@ -278,5 +281,4 @@ describe('Test Visibility', () => {
 
   //   expect(screen.getByTestId('h1')).toHaveTextContent('HELLO')
   // })
-
 })

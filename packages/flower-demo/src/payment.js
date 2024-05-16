@@ -5,7 +5,7 @@ import Flower, {
   useFlowerForm,
   FlowerValue,
   FlowerRule,
-  FlowerFlow,
+  FlowerFlow
 } from '@flowerforce/flower-react'
 import { useCallback, useState } from 'react'
 

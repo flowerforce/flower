@@ -11,18 +11,20 @@ export const Input = ({
   asyncDebounce
 }) => {
   return (
-    <FlowerField id={id}
+    <FlowerField
+      id={id}
       asyncValidate={asyncValidate}
       asyncDebounce={asyncDebounce}
       asyncWaitingError={asyncWaitingError}
-      asyncInitialError={asyncInitialError}>
+      asyncInitialError={asyncInitialError}
+    >
       {({ onChange, value, errors, hasError, onBlur, isValidating }) => (
         <>
           <AntInput
             //type='number'
             placeholder={placeholder}
             value={value}
-            onChange={e => onChange(e.target.value)}
+            onChange={(e) => onChange(e.target.value)}
             status={isValidating ? 'warning' : hasError && 'error'}
             loading={isValidating}
             onBlur={onBlur}

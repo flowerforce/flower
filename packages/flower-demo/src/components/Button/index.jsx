@@ -1,17 +1,15 @@
 import React from 'react'
 import { memo } from 'react'
-import { useFlower } from "@flowerforce/flower-react"
+import { useFlower } from '@flowerforce/flower-react'
 
-
-const MyButton = ({
-  title,
-}) => {
-
+const MyButton = ({ title }) => {
   const { onNext } = useFlower()
   return (
-    <button onClick={() => {
-      onNext('onSuccess')
-    }}>
+    <button
+      onClick={() => {
+        onNext('onSuccess')
+      }}
+    >
       {title}
     </button>
   )

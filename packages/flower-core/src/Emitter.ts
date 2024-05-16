@@ -1,3 +1,3 @@
-import { TinyEmitter } from 'tiny-emitter';
+import { TinyEmitter } from 'tiny-emitter'
 
-export const Emitter = new TinyEmitter();
+export const Emitter = new TinyEmitter()

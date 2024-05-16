@@ -1,15 +1,15 @@
-import { store } from "./store"
-import { Provider } from "react-redux"
+import { store } from './store'
+import { Provider } from 'react-redux'
 import Flower, {
   FlowerNode,
   FlowerRoute,
-  FlowerAction,
-} from "@flowerforce/flower-react"
-import { Text } from "./components/Text"
-import { Button } from "./components/Button"
-import { Input } from "./components/Input"
-import Saga from "./components/Saga"
-import { useFlower } from "@flowerforce/flower-react"
+  FlowerAction
+} from '@flowerforce/flower-react'
+import { Text } from './components/Text'
+import { Button } from './components/Button'
+import { Input } from './components/Input'
+import Saga from './components/Saga'
+import { useFlower } from '@flowerforce/flower-react'
 
 // Flower.registerComponents({ Text, Input })
 // Devtools({ port: 8770 })
@@ -23,9 +23,9 @@ const Container = (
   <>
     <Gianluca
       show_rules={{
-        "^app.username": {
-          eq: "andrea",
-        },
+        '^app.username': {
+          eq: 'andrea'
+        }
       }}
     />
 
@@ -33,14 +33,14 @@ const Container = (
     <Input id="username"></Input>
     <Text
       rules={{
-        "^app.username": {
-          eq: "andreaz",
-        },
+        '^app.username': {
+          eq: 'andreaz'
+        }
       }}
     >
       CIAO ANDREA
     </Text>
-    <pre style={{ backgroundColor: "red" }}>
+    <pre style={{ backgroundColor: 'red' }}>
       <Text id="username"></Text>
     </pre>
   </>
@@ -51,12 +51,12 @@ const Component = ({ id }) => {
 
   return (
     <>
-      <div style={{ backgroundColor: "orange" }}>
-        {onShow({ "^app.username": { con: "1" } }) && "SHOW"}
-        <input onChange={(e) => onChange("^app.username", e.target.value)} />
+      <div style={{ backgroundColor: 'orange' }}>
+        {onShow({ '^app.username': { con: '1' } }) && 'SHOW'}
+        <input onChange={(e) => onChange('^app.username', e.target.value)} />
       </div>
 
-      <Text rules={{ "^isValid": { eq: true } }}>OK {value}</Text>
+      <Text rules={{ '^isValid': { eq: true } }}>OK {value}</Text>
     </>
   )
 }
@@ -68,24 +68,15 @@ function AppForm() {
     <FlowerNode
       id="A"
       to={{
-        B: { and: [{ "^app.username": { eq: "andrea1" } }] },
-        save: null,
+        B: { and: [{ '^app.username': { eq: 'andrea1' } }] },
+        save: null
       }}
     >
       <div className="paper">
         {Container}
-        <Input
-          id="^app.lastname"
-          {...Obj}
-          required={true}
-          title="title2"
-        />
+        <Input id="^app.lastname" {...Obj} required={true} title="title2" />
         <hr />
-        <Input
-          id="^app.lastname"
-          placeholder="asdas dasd"
-          required={true}
-        />
+        <Input id="^app.lastname" placeholder="asdas dasd" required={true} />
         <Component id="^app.username" />
         <Input id="as dad" title=" asdasd">
           <Button />
@@ -97,7 +88,6 @@ function AppForm() {
         // <Text value="asdasd" rules={{ "^app.lastname": { eq: "andrea" } }}></Text>
       }
     </FlowerNode>
-
   )
 }
 

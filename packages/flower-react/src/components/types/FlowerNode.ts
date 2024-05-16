@@ -1,4 +1,4 @@
-import { FlowerNodeDefaultProps } from "./DefaultNode";
+import { FlowerNodeDefaultProps } from './DefaultNode'
 
 export type FlowerNodeProps = FlowerNodeDefaultProps & {
   /** A Flower node is visible only when is the current node in the navigation history of the flow.
@@ -11,5 +11,5 @@ export type FlowerNodeProps = FlowerNodeDefaultProps & {
    *
    * The node with retain set to true will continue to be displayed until a new FlowerNode or FlowerFlow is added to the history
    * */
-  retain?: boolean;
-};
+  retain?: boolean
+}

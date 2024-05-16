@@ -17,26 +17,38 @@ import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
 import FlowerField from '../components/FlowerField'
 import FlowerValue from '../components/FlowerValue'
-import FlowerProvider from '../provider';
-import useFlower from '../components/useFlower';
-import useFlowerForm from '../components/useFlowerForm';
+import FlowerProvider from '../provider'
+import useFlower from '../components/useFlower'
+import useFlowerForm from '../components/useFlowerForm'
 
-const Text = ({ text, value, children, ...props }: any) => <h1 data-testid="h1" {...props}>
-  {text || value || children}
-</h1>
+const Text = ({ text, value, children, ...props }: any) => (
+  <h1 data-testid="h1" {...props}>
+    {text || value || children}
+  </h1>
+)
 
 // const TextObj = ({ value, ...props }: any) => {
 //   return <h1 data-testid="h1" {...props}>{value && JSON.stringify(value)}</h1>
 // }
 
 const Input = ({ onChange, value = '', name, ...props }: any) => {
-  return <input {...props} data-testid={name || "input"} name={name} value={value} onChange={evt => onChange(evt.target.value)} />
+  return (
+    <input
+      {...props}
+      data-testid={name || 'input'}
+      name={name}
+      value={value}
+      onChange={(evt) => onChange(evt.target.value)}
+    />
+  )
 }
 
 const ButtonNext = ({ id = '' }) => {
   const { onNext } = useFlower()
   return (
-    <button data-testid={"btn-next" + id} onClick={() => onNext()}>NEXT</button>
+    <button data-testid={'btn-next' + id} onClick={() => onNext()}>
+      NEXT
+    </button>
   )
 }
 
@@ -48,7 +60,7 @@ const InitState = ({ state }: any) => {
     // console.log(getData())
     onNext()
   }, [onNext, setData, getData, state])
-  return "..."
+  return '...'
 }
 
 // const Form = ({ flowName }: any) => {
@@ -61,7 +73,6 @@ const InitState = ({ state }: any) => {
 // }
 
 describe('Test FlowerValue component', () => {
-
   it('Test value ok', async () => {
     const user = userEvent.setup()
 
@@ -115,7 +126,7 @@ describe('Test FlowerValue component', () => {
 
   it('Test onUpdate', async () => {
     const user = userEvent.setup()
-    const onUpdateSpy = jest.fn();
+    const onUpdateSpy = jest.fn()
 
     render(
       <FlowerProvider>
@@ -138,7 +149,7 @@ describe('Test FlowerValue component', () => {
 
     await user.type(screen.getByTestId('input'), '@andrea')
     expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
-    expect(onUpdateSpy).toBeCalledWith("@andrea");
+    expect(onUpdateSpy).toBeCalledWith('@andrea')
   })
 
   it('Test spread value ok', async () => {
@@ -158,8 +169,7 @@ describe('Test FlowerValue component', () => {
       </FlowerProvider>
     )
 
-    expect(screen.getByTestId('h1')).toHaveAttribute('data-id', "1")
-    expect(screen.getByTestId('h1')).toHaveAttribute('data-val', "2")
+    expect(screen.getByTestId('h1')).toHaveAttribute('data-id', '1')
+    expect(screen.getByTestId('h1')).toHaveAttribute('data-val', '2')
   })
-
 })

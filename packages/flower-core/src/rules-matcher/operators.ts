@@ -1,6 +1,6 @@
-import { intersection as _intersection } from 'lodash';
-import RulesMatcherUtils from './utils';
-import { Operators } from './interface';
+import { intersection as _intersection } from 'lodash'
+import RulesMatcherUtils from './utils'
+import { Operators } from './interface'
 
 /**
  * Defines a set of comparison operators used for matching rules against user input.
@@ -58,7 +58,7 @@ const operators: Operators = {
   $regex: (a, b, opt) =>
     RulesMatcherUtils.forceArray(b).some((c) =>
       c instanceof RegExp ? c.test(a) : new RegExp(c, opt).test(a)
-    ),
-};
+    )
+}
 
-export default operators;
+export default operators

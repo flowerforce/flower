@@ -1,11 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback } from 'react'
 import { useFlowerForm, useFlower } from '@flowerforce/flower-react'
-import { Button } from 'antd';
+import { Button } from 'antd'
 
-export const Form = ({
-  children
-}) => {
-
+export const Form = ({ children }) => {
   const { onNext } = useFlower()
   const { isValid, getData, setData } = useFlowerForm()
 
@@ -18,7 +15,9 @@ export const Form = ({
   return (
     <form style={{ padding: 30 }}>
       {children}
-      <Button type='primary' onClick={onSubmit} /* disabled={!isValid} */>LOGIN</Button>
+      <Button type="primary" onClick={onSubmit} /* disabled={!isValid} */>
+        LOGIN
+      </Button>
     </form>
   )
 }

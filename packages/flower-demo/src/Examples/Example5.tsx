@@ -2,7 +2,7 @@ import Flower, {
   FlowerNavigate,
   FlowerField,
   FlowerNode,
-  FlowerValue,
+  FlowerValue
 } from '@flowerforce/flower-react'
 import './styles.css'
 
@@ -17,9 +17,9 @@ export function Example5() {
         to={{
           step3: {
             label: 'Go to step3 if skipStep2 is checked',
-            rules: { $and: [{ skipStep2: { $eq: true } }] },
+            rules: { $and: [{ skipStep2: { $eq: true } }] }
           },
-          step2: null,
+          step2: null
         }}
       >
         <div className="page step1">

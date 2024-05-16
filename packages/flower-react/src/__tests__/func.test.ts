@@ -1,10 +1,9 @@
-import { MatchRules } from '@flowerforce/flower-core';
+import { MatchRules } from '@flowerforce/flower-core'
 
 describe('Test elements utils', () => {
-  
   it('Test RulesMatcher empty args', () => {
-    expect(MatchRules.rulesMatcher()).toEqual([true]);
-  });
+    expect(MatchRules.rulesMatcher()).toEqual([true])
+  })
 
   // it('Test RulesMatcher rules string', () => {
   //   try {
@@ -15,11 +14,10 @@ describe('Test elements utils', () => {
   // });
 
   it('Test RulesMatcher option undefined', () => {
-    expect(MatchRules.rulesMatcher([{a: 1}])).toEqual([false]);
-  });
+    expect(MatchRules.rulesMatcher([{ a: 1 }])).toEqual([false])
+  })
 
   it('Test getKeys option undefined', () => {
-    expect(MatchRules.utils.getKeys([{a: 1}])).toEqual(["a"]);
-  });
-
-});
+    expect(MatchRules.utils.getKeys([{ a: 1 }])).toEqual(['a'])
+  })
+})

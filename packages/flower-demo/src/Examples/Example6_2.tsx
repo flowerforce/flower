@@ -1,7 +1,7 @@
 import Flower, {
   FlowerNode,
   FlowerAction,
-  FlowerNavigate,
+  FlowerNavigate
 } from '@flowerforce/flower-react'
 import './styles.css'
 

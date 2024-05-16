@@ -4,29 +4,29 @@
  */
 
 // import dependencies
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 
 // import react-testing methods
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react'
 
 // add custom jest matchers from jest-dom
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom'
 
-import FlowerNode from '../components/FlowerNode';
-import Flower from '../components/Flower';
-import FlowerProvider from '../provider';
-import useFlower from '../components/useFlower';
-import useFlowerForm from '../components/useFlowerForm';
+import FlowerNode from '../components/FlowerNode'
+import Flower from '../components/Flower'
+import FlowerProvider from '../provider'
+import useFlower from '../components/useFlower'
+import useFlowerForm from '../components/useFlowerForm'
 
 const Text = ({
   text,
   value,
-  children,
+  children
 }: {
-  text?: string;
-  value?: string;
-  children?: any;
-}) => <h1 data-testid="h1">{text || value || children}</h1>;
+  text?: string
+  value?: string
+  children?: any
+}) => <h1 data-testid="h1">{text || value || children}</h1>
 // const Input = ({ onChange, value = '', name }: any) => {
 //   return (
 //     <input
@@ -48,15 +48,15 @@ const Text = ({
 // };
 
 const InitState = ({ state }: any) => {
-  const { onNext } = useFlower();
-  const { setData, getData } = useFlowerForm();
+  const { onNext } = useFlower()
+  const { setData, getData } = useFlowerForm()
   useEffect(() => {
-    setData(state);
+    setData(state)
     // console.log(getData())
-    onNext();
-  }, [onNext, setData, getData, state]);
-  return '...';
-};
+    onNext()
+  }, [onNext, setData, getData, state])
+  return '...'
+}
 
 describe('Test Flower component', () => {
   it('Test flow success', async () => {
@@ -71,8 +71,8 @@ describe('Test Flower component', () => {
           </FlowerNode>
         </Flower>
       </FlowerProvider>
-    );
+    )
 
-    expect(screen.getByTestId('h1')).toHaveTextContent('Step 1');
-  });
-});
+    expect(screen.getByTestId('h1')).toHaveTextContent('Step 1')
+  })
+})

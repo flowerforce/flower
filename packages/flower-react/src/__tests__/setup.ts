@@ -1,6 +1,6 @@
 console.warn = function () {
-  return null;
-};
+  return null
+}
 console.error = function () {
-  return null;
-};
+  return null
+}

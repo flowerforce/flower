@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import { FlowerNodeDefaultProps } from './types/DefaultNode';
+import React, { useEffect } from 'react'
+import { FlowerNodeDefaultProps } from './types/DefaultNode'
 
 const FlowAction = ({ children, onEnter, onExit }: FlowerNodeDefaultProps) => {
   useEffect(() => {
-    onEnter?.();
+    onEnter?.()
     return () => {
-      onExit?.();
-    };
-  }, [onEnter, onExit]);
-  return children;
-};
+      onExit?.()
+    }
+  }, [onEnter, onExit])
+  return children
+}
 
-const component = React.memo(FlowAction);
-component.displayName = 'FlowerAction';
+const component = React.memo(FlowAction)
+component.displayName = 'FlowerAction'
 
-export default component;
+export default component

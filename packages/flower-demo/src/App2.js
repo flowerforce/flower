@@ -5,7 +5,7 @@ import Flower, {
   FlowerRule,
   FlowerRoute,
   FlowerValue,
-  useFlower,
+  useFlower
 } from '@flowerforce/flower-react'
 import { Input } from './components/Input'
 import { Text } from './components/Text'
