@@ -17,7 +17,8 @@
     "lint": "nx run-many -t lint",
     "lint:fix": "nx run-many -t lint --fix",
     "graph": "nx graph",
-    "reset": "nx reset"
+    "reset": "nx reset",
+    "release": "nx release publish"
   },
   "private": true,
   "repository": {

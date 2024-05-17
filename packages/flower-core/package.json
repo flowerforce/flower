@@ -1,20 +1,8 @@
 {
   "name": "@flowerforce/flower-core",
-  "version": "3.0.0",
+  "version": "2.0.6",
   "description": "Core functions for flowerJS",
-  "main": "'./lib/index.js",
-  "module": "'./es/index.js",
-  "files": [
-    "lib/*",
-    "es/*",
-    "LICENSE",
-    "README.md",
-    "CHANGELOG.md"
-  ],
   "scripts": {
-    "build:cjs": "rimraf lib && tsc --project tsconfig.lib.cjs.json",
-    "build:esm": "rimraf es && tsc --project tsconfig.lib.esm.json",
-    "build": "npm run build:cjs & npm run build:esm"
   },
   "license": "ISC",
   "peerDependencies": {
@@ -28,8 +16,5 @@
   },
   "dependencies": {
     "tiny-emitter": "^2.1.0"
-  },
-  "nx": {
-    "includedScripts": ["build"]
   }
 }
