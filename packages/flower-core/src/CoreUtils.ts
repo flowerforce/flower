@@ -77,7 +77,7 @@ export const CoreUtils: CoreUtilitiesFunctions = {
     const a = nextRules.reduce((acc, inc) => {
       const n =
         typeof inc.rules === 'string'
-          ? inc.rules
+          ? inc.rules || '__ERROR_NAME__'
           : inc.rules?.name || '__ERROR_NAME__'
       return {
         ...acc,

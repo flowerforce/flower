@@ -95,25 +95,26 @@ describe('CoreUtils object', () => {
     expect(result).toEqual({})
   })
 
-  test.skip('generateRulesName should handle empty rules', () => {
-    const nextRules = [
-      { rules: '', nodeId: 'Node1' },
+  test('generateRulesName should handle empty rules', () => {
+    const nextRulesEmptyString = [{ rules: '', nodeId: 'Node1' }]
+    const nextRulesEmptyObject = [
       {
-        rules: {},
+        rules: {
+          rules: null
+        },
         nodeId: 'Node2'
-      },
-      { rules: null, nodeId: 'Node3' }
+      }
     ]
 
-    //@ts-expect-error error
-    const result = CoreUtils.generateRulesName(nextRules)
+    const resultEmptyString = CoreUtils.generateRulesName(nextRulesEmptyString)
+    const resultEmptyObject = CoreUtils.generateRulesName(nextRulesEmptyObject)
 
-    expect(result).toEqual({
-      __ERROR_NAME__: 'Node1',
-      //@ts-expect-error error
-      __ERROR_NAME__: 'Node2',
-      //@ts-expect-error error
-      __ERROR_NAME__: 'Node3'
+    expect(resultEmptyString).toEqual({
+      __ERROR_NAME__: 'Node1'
+    })
+
+    expect(resultEmptyObject).toEqual({
+      __ERROR_NAME__: 'Node2'
     })
   })
 
