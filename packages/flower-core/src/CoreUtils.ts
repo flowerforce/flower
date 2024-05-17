@@ -208,7 +208,7 @@ export const CoreUtils: CoreUtilitiesFunctions = {
   findValidRule: (nextRules, value, prefix) =>
     find(nextRules, (rule) => {
       // fix per evitare di entrare in un nodo senza regole, ma con un name,
-      // invocando un onNext() senza paramentri
+      // invocando un next() senza paramentri
       if (typeof rule.rules === 'string') {
         return false
       }

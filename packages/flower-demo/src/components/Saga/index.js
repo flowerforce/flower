@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { useFlower } from '@flowerforce/flower-react'
 
 const Saga = React.memo(() => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
 
   useEffect(() => {
     console.log('>>>>>')
-    //onNext()
-  }, [onNext])
+    //next()
+  }, [next])
 
   return '...'
 })

@@ -22,8 +22,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* Implementing onReset feature, now resets to specified node ([d0095f0](https://github.com/stackhouse-dev/flower-react/commit/d0095f00672cc937afa9ebd2dd98072eda154380))
-* onReset extend feature on FlowerNavigate ([1c48f14](https://github.com/stackhouse-dev/flower-react/commit/1c48f147615da2d98cc268393c2a16ee841529d2))
+* Implementing reset feature, now resets to specified node ([d0095f0](https://github.com/stackhouse-dev/flower-react/commit/d0095f00672cc937afa9ebd2dd98072eda154380))
+* reset extend feature on FlowerNavigate ([1c48f14](https://github.com/stackhouse-dev/flower-react/commit/1c48f147615da2d98cc268393c2a16ee841529d2))
 
 ## [2.14.0](https://github.com/stackhouse-dev/flower-react/compare/v2.13.0...v2.14.0) (2024-03-13)
 
@@ -32,7 +32,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * add FlowerNavigate wrapper component ([9e9020f](https://github.com/stackhouse-dev/flower-react/commit/9e9020f61948cd643e18b8b02a66bfd6e77b3a5b))
 * add rules FlowerNavigate ([33e51da](https://github.com/stackhouse-dev/flower-react/commit/33e51da18f9b4c9f7ec8a8a3af2eeb8c0c9dce49))
-* clean nodeId - route  on action onNode  - on Prev ([c92c206](https://github.com/stackhouse-dev/flower-react/commit/c92c206345be07594fc098db307e0b7fb1a87947))
+* clean nodeId - route  on action jump  - on Prev ([c92c206](https://github.com/stackhouse-dev/flower-react/commit/c92c206345be07594fc098db307e0b7fb1a87947))
 * fix SET_HISTORY wsDevtools undefined on subflow case "fast" ([2ac5e7e](https://github.com/stackhouse-dev/flower-react/commit/2ac5e7ed6e5b94a9705e58a9a9e9feca41e8126f))
 * FlowerNavigate web + native ([de71441](https://github.com/stackhouse-dev/flower-react/commit/de7144176c9bf3d14ef6f11f5f16e3b8922b8e0f))
 * flowerRoute complete test coverage ([9c5cb20](https://github.com/stackhouse-dev/flower-react/commit/9c5cb20d04069ce100d29c7703565e6acb3925ae))

@@ -39,7 +39,7 @@ export function Example7() {
              * always visible component, hidden prop is true when rule is not matched
              */}
             <FlowerNavigate
-              action="onNext"
+              action="next"
               rules={{ enableNav: { $eq: true } }}
               alwaysDisplay
             >
@@ -52,10 +52,7 @@ export function Example7() {
             {/**
              * visible only when rule is matched
              */}
-            <FlowerNavigate
-              action="onNext"
-              rules={{ enableNav: { $eq: true } }}
-            >
+            <FlowerNavigate action="next" rules={{ enableNav: { $eq: true } }}>
               <button>Next (hidden) &#8594;</button>
             </FlowerNavigate>
           </div>
@@ -68,7 +65,7 @@ export function Example7() {
       <FlowerNode id="step2" to={{ step3: null }}>
         <div className="page step2">
           <span>2</span>
-          <FlowerNavigate action="onPrev">
+          <FlowerNavigate action="back">
             <button>&#8592; Back</button>
           </FlowerNavigate>
         </div>

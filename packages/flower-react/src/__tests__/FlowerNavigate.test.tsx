@@ -35,7 +35,7 @@ const Text = ({
 
 const ButtonNode = ({ route }: any) => {
   return (
-    <FlowerNavigate action="onNode" node={{ node: route }}>
+    <FlowerNavigate action="jump" node={{ node: route }}>
       <button data-testid="btn-node">NEXT</button>
     </FlowerNavigate>
   )
@@ -43,7 +43,7 @@ const ButtonNode = ({ route }: any) => {
 
 const ButtonNodeObject = ({ value }: any) => {
   return (
-    <FlowerNavigate action="onNode" node={value}>
+    <FlowerNavigate action="jump" node={value}>
       <button data-testid="btn-node">NEXT</button>
     </FlowerNavigate>
   )
@@ -59,7 +59,7 @@ const ButtonNextDefault = () => {
 
 const ButtonNext = ({ route, dataIn }: any) => {
   return (
-    <FlowerNavigate action="onNext" route={dataIn || route}>
+    <FlowerNavigate action="next" route={dataIn || route}>
       <button data-testid="btn-next">NEXT</button>
     </FlowerNavigate>
   )
@@ -67,7 +67,7 @@ const ButtonNext = ({ route, dataIn }: any) => {
 
 const ButtonNextFunc = ({ route, dataIn }: any) => {
   return (
-    <FlowerNavigate action="onNext" route={dataIn || route}>
+    <FlowerNavigate action="next" route={dataIn || route}>
       {({ onClick }) => (
         <button data-testid="btn-next" onClick={onClick}>
           NEXT
@@ -79,7 +79,7 @@ const ButtonNextFunc = ({ route, dataIn }: any) => {
 
 const ButtonPrev = () => {
   return (
-    <FlowerNavigate action="onPrev">
+    <FlowerNavigate action="back">
       prev
       <button data-testid="btn-prev">PREV</button>
     </FlowerNavigate>
@@ -88,7 +88,7 @@ const ButtonPrev = () => {
 
 const ButtonReset = () => {
   return (
-    <FlowerNavigate action="onReset">
+    <FlowerNavigate action="reset">
       <button data-testid="btn-reset">Reset</button>
     </FlowerNavigate>
   )
@@ -96,7 +96,7 @@ const ButtonReset = () => {
 
 const ButtonResetNode = ({ node }: any) => {
   return (
-    <FlowerNavigate action="onReset" node={node}>
+    <FlowerNavigate action="reset" node={node}>
       <button data-testid="btn-reset">Reset</button>
     </FlowerNavigate>
   )
@@ -104,7 +104,7 @@ const ButtonResetNode = ({ node }: any) => {
 
 const ButtonResetNodeObject = ({ value }: any) => {
   return (
-    <FlowerNavigate action="onReset" node={value}>
+    <FlowerNavigate action="reset" node={value}>
       <button data-testid="btn-reset">Reset</button>
     </FlowerNavigate>
   )
@@ -112,7 +112,7 @@ const ButtonResetNodeObject = ({ value }: any) => {
 
 const ButtonPrevNode = ({ node }: any) => {
   return (
-    <FlowerNavigate action="onPrev" node={node}>
+    <FlowerNavigate action="back" node={node}>
       <button data-testid="btn-prev">PREV</button>
     </FlowerNavigate>
   )
@@ -120,7 +120,7 @@ const ButtonPrevNode = ({ node }: any) => {
 
 const ButtonPrevNodeObject = ({ value }: any) => {
   return (
-    <FlowerNavigate action="onPrev" node={value}>
+    <FlowerNavigate action="back" node={value}>
       <button data-testid="btn-prev">PREV</button>
     </FlowerNavigate>
   )
@@ -129,12 +129,12 @@ const ButtonPrevNodeObject = ({ value }: any) => {
 const MyNode = ({ children, ...props }: any) => children
 
 const InitState = ({ state }: any) => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   const { setData } = useFlowerForm()
   useEffect(() => {
     setData(state)
-    onNext()
-  }, [onNext, setData, state])
+    next()
+  }, [next, setData, state])
   return '...'
 }
 
@@ -1287,10 +1287,10 @@ describe('FlowerNavigate test render <Flower />', () => {
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
           <FlowerNode id="form">
-            <FlowerNavigate action="onNext" rules={{ amount: { $eq: 2 } }}>
+            <FlowerNavigate action="next" rules={{ amount: { $eq: 2 } }}>
               <button data-testid="btn-next">HIDDEN</button>
             </FlowerNavigate>
-            <FlowerNavigate action="onNext" rules={{ amount: { $eq: 1 } }}>
+            <FlowerNavigate action="next" rules={{ amount: { $eq: 1 } }}>
               <button data-testid="btn-next2">VISIBLE</button>
             </FlowerNavigate>
           </FlowerNode>
@@ -1310,13 +1310,13 @@ describe('FlowerNavigate test render <Flower />', () => {
           </FlowerNode>
           <FlowerNode id="form">
             <FlowerNavigate
-              action="onNext"
+              action="next"
               rules={{ amount: { $eq: 2 } }}
               alwaysDisplay
             >
               <button data-testid="btn-next">ALWAYS</button>
             </FlowerNavigate>
-            <FlowerNavigate action="onNext" rules={{ amount: { $eq: 1 } }}>
+            <FlowerNavigate action="next" rules={{ amount: { $eq: 1 } }}>
               <button data-testid="btn-next2">VISIBLE</button>
             </FlowerNavigate>
           </FlowerNode>
@@ -1340,7 +1340,7 @@ describe('FlowerNavigate test render <Flower />', () => {
           />
           <FlowerNode id="step1" to={{ step2: null }}>
             <Text text="step1"></Text>
-            <FlowerNavigate action="onNext">
+            <FlowerNavigate action="next">
               {({ onClick, hidden }) => (
                 <button
                   data-testid="btn-next"

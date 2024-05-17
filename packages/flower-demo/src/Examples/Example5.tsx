@@ -37,7 +37,7 @@ export function Example5() {
               )}
             </FlowerField>
           </div>
-          <FlowerNavigate action="onNext">
+          <FlowerNavigate action="next">
             <button>Next &#8594;</button>
           </FlowerNavigate>
         </div>
@@ -57,10 +57,10 @@ export function Example5() {
             )}
           </FlowerValue>
           <div className="navigate">
-            <FlowerNavigate action="onPrev">
+            <FlowerNavigate action="back">
               <button>&#8592; Back</button>
             </FlowerNavigate>
-            <FlowerNavigate action="onNext">
+            <FlowerNavigate action="next">
               <button>Next &#8594;</button>
             </FlowerNavigate>
           </div>
@@ -80,7 +80,7 @@ export function Example5() {
               </label>
             )}
           </FlowerValue>
-          <FlowerNavigate action="onReset">
+          <FlowerNavigate action="reset">
             <button>Reset</button>
           </FlowerNavigate>
         </div>

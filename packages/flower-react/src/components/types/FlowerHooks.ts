@@ -31,13 +31,13 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
 
 type useFlowerActions = {
   /** Use this function to move to the next node inside the flow*/
-  onNext: (payload?: Route) => void
+  next: (payload?: Route) => void
   /**Use this function to move to the previous node inside the flow*/
-  onPrev: (payload?: RoutePrev) => void
+  back: (payload?: RoutePrev) => void
   /**Use this function to reset the flow data and history */
-  onReset: (payload?: RouteReset) => void
+  reset: (payload?: RouteReset) => void
   /**Use this function to move to a specific node*/
-  onNode: (payload: RouteNode) => void
+  jump: (payload: RouteNode) => void
 }
 
 export type UseFlower = (options?: UseFlowerProps) => useFlowerActions & {

@@ -14,14 +14,14 @@ export function Example3() {
         <div className="page step1">
           <span>Choose route</span>
           <div className="navigate">
-            <FlowerNavigate action="onNext" route="onSuccess">
+            <FlowerNavigate action="next" route="onSuccess">
               <button className="success">Success &#8594;</button>
             </FlowerNavigate>
-            <FlowerNavigate action="onNext" route="onError">
+            <FlowerNavigate action="next" route="onError">
               <button className="error">Error &#8594;</button>
             </FlowerNavigate>
           </div>
-          <FlowerNavigate action="onNext">
+          <FlowerNavigate action="next">
             <button>Next &#8594;</button>
           </FlowerNavigate>
         </div>
@@ -33,7 +33,7 @@ export function Example3() {
       <FlowerNode id="stepOK">
         <div className="page step2">
           <span>OK</span>
-          <FlowerNavigate action="onPrev">
+          <FlowerNavigate action="back">
             <button>&#8592; Back</button>
           </FlowerNavigate>
         </div>
@@ -45,7 +45,7 @@ export function Example3() {
       <FlowerNode id="stepKO">
         <div className="page step3">
           <span>KO</span>
-          <FlowerNavigate action="onPrev">
+          <FlowerNavigate action="back">
             <button>&#8592; Back</button>
           </FlowerNavigate>
         </div>
@@ -57,7 +57,7 @@ export function Example3() {
       <FlowerNode id="step">
         <div className="page step4">
           <span>step</span>
-          <FlowerNavigate action="onPrev">
+          <FlowerNavigate action="back">
             <button>&#8592; Back</button>
           </FlowerNavigate>
         </div>

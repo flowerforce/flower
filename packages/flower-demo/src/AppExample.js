@@ -25,30 +25,30 @@ import { useCallback } from 'react'
 // Flower.registerComponents({ Text, Input })
 
 const Gianluca = memo(() => {
-  const { onNext } = useFlower()
-  return <div onClick={() => onNext('onSuccess')}>Componente 1</div>
+  const { next } = useFlower()
+  return <div onClick={() => next('onSuccess')}>Componente 1</div>
 })
 
 const Gege = memo(() => {
-  const { onNext } = useFlower()
-  return <div onClick={() => onNext({ data: { isValid: true } })}>Componente 2</div>
+  const { next } = useFlower()
+  return <div onClick={() => next({ data: { isValid: true } })}>Componente 2</div>
 })
 
 const GianlucaErr = memo(() => {
-  const { onNext } = useFlower()
-  return <div onClick={() => onNext({ data: { error: true } })}>Componente ERROR</div>
+  const { next } = useFlower()
+  return <div onClick={() => next({ data: { error: true } })}>Componente ERROR</div>
 })
 
 const Back = memo(() => {
-  const { onPrev } = useFlower()
-  return <div onClick={() => onPrev('app')}>back</div>
+  const { back } = useFlower()
+  return <div onClick={() => back('app')}>back</div>
 })
 
 const Submit = memo(() => {
   const { isValid, errors, touched } = useFlowerForm()
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   return (
-    <div onClick={() => onNext({ isValid })}>
+    <div onClick={() => next({ isValid })}>
       SUBMIT {String(isValid)} {touched && errors && JSON.stringify(errors)}
     </div>
   )

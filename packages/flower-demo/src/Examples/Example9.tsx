@@ -18,7 +18,7 @@ export function Example9() {
       <FlowerNode id="step" to={{ step1: null }}>
         <div className="page step1">
           <span>1</span>
-          <FlowerNavigate action="onNext">
+          <FlowerNavigate action="next">
             <button>Next &#8594;</button>
           </FlowerNavigate>
         </div>
@@ -91,11 +91,11 @@ export function Example9() {
             </FlowerField>
           </div>
           <div className="navigate">
-            <FlowerNavigate action="onPrev">
+            <FlowerNavigate action="back">
               <button>&#8592; Go Back </button>
             </FlowerNavigate>
             <FlowerNavigate
-              action="onNext"
+              action="next"
               rules={{ $and: [{ '$form.isValid': { $eq: true } }] }}
               alwaysDisplay
             >
@@ -124,7 +124,7 @@ export function Example9() {
       <FlowerNode id="success">
         <div className="page step3">
           <span>Success</span>
-          <FlowerNavigate action="onReset">
+          <FlowerNavigate action="reset">
             <button>Reset</button>
           </FlowerNavigate>
         </div>
@@ -136,7 +136,7 @@ export function Example9() {
       <FlowerNode id="error">
         <div className="page step4">
           <span>Error</span>
-          <FlowerNavigate action="onReset">
+          <FlowerNavigate action="reset">
             <button>Reset</button>
           </FlowerNavigate>
         </div>
@@ -146,7 +146,7 @@ export function Example9() {
 }
 
 const ComponentAction = () => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   const { getData } = useFlowerForm()
 
   useEffect(() => {
@@ -158,13 +158,13 @@ const ComponentAction = () => {
       // example setTimout to simulate delay api call
       setTimeout(() => {
         //  navigate to success step
-        onNext('onSuccess')
+        next('onSuccess')
       }, 500)
     } catch (error) {
       // navigate to error step
-      onNext('onError')
+      next('onError')
     }
-  }, [onNext, getData])
+  }, [next, getData])
 
   return <span className="loader"></span>
 }

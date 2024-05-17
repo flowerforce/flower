@@ -15,7 +15,7 @@ export function Example6v2() {
         <div className="page auto step1">
           <span>1</span>
           <div className="navigate">
-            <FlowerNavigate action="onNext">
+            <FlowerNavigate action="next">
               <button>Next &#8594;</button>
             </FlowerNavigate>
           </div>
@@ -29,10 +29,10 @@ export function Example6v2() {
         <div className="page auto step2">
           <span>2</span>
           <div className="navigate">
-            <FlowerNavigate action="onPrev">
+            <FlowerNavigate action="back">
               <button>&#8592; Back</button>
             </FlowerNavigate>
-            <FlowerNavigate action="onNext">
+            <FlowerNavigate action="next">
               <button>Next &#8594;</button>
             </FlowerNavigate>
           </div>
@@ -46,10 +46,10 @@ export function Example6v2() {
         <div className="page auto step3">
           <span>3</span>
           <div className="navigate">
-            <FlowerNavigate action="onPrev">
+            <FlowerNavigate action="back">
               <button>&#8592; Back</button>
             </FlowerNavigate>
-            <FlowerNavigate action="onNext">
+            <FlowerNavigate action="next">
               <button>Next &#8594;</button>
             </FlowerNavigate>
           </div>

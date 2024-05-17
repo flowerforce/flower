@@ -15,19 +15,19 @@ import PaymentFlow from './payment'
 import { Example1 } from './Examples/Example1'
 
 const Back = ({ rules }) => {
-  const { onPrev } = useFlower()
+  const { back } = useFlower()
   return (
-    <div style={{ marginTop: 10 }} onClick={() => onPrev()}>
+    <div style={{ marginTop: 10 }} onClick={() => back()}>
       PREV LOGIN
     </div>
   )
 }
 
 const MyButton = ({ rules, flowName }) => {
-  const { onNext } = useFlower({ flowName })
+  const { next } = useFlower({ flowName })
   return (
     <FlowerRule rules={rules}>
-      <div onClick={() => onNext()}>NEXT</div>
+      <div onClick={() => next()}>NEXT</div>
     </FlowerRule>
   )
 }

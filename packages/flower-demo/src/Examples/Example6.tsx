@@ -13,7 +13,7 @@ const ComponentAction = memo(
   }: {
     setCounter: React.Dispatch<React.SetStateAction<number>>
   }) => {
-    const { onNext } = useFlower()
+    const { next } = useFlower()
 
     useEffect(() => {
       // * do your staff here - api call etc **
@@ -22,9 +22,9 @@ const ComponentAction = memo(
       // setTimeout only for simulate delay
       setTimeout(() => {
         // * then next to Success step **
-        onNext('onSuccess')
+        next('onSuccess')
       }, 500)
-    }, [onNext, setCounter])
+    }, [next, setCounter])
 
     return <span className="loader"></span>
   }
@@ -42,7 +42,7 @@ export function Example6() {
         <div className="page step1">
           <span>1</span>
           <div>Action invoked: {counter}</div>
-          <FlowerNavigate action="onNext">
+          <FlowerNavigate action="next">
             <button>Next &#8594;</button>
           </FlowerNavigate>
         </div>
@@ -64,7 +64,7 @@ export function Example6() {
         <div className="page step3">
           <span>Success</span>
           <div>Action invoked: {counter}</div>
-          <FlowerNavigate action="onPrev">
+          <FlowerNavigate action="back">
             <button>&#8592; Prev</button>
           </FlowerNavigate>
         </div>
@@ -76,7 +76,7 @@ export function Example6() {
       <FlowerNode id="error">
         <div className="page step4">
           <span>Error</span>
-          <FlowerNavigate action="onReset">
+          <FlowerNavigate action="reset">
             <button>Reset</button>
           </FlowerNavigate>
         </div>

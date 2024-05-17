@@ -3,14 +3,14 @@ import { useFlowerForm, useFlower } from '@flowerforce/flower-react'
 import { Button } from 'antd'
 
 export const Form = ({ children }) => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   const { isValid, getData, setData } = useFlowerForm()
 
   const onSubmit = useCallback(() => {
     setData({ gino: 1 })
     console.log(getData())
-    onNext({ isValid })
-  }, [isValid, onNext, getData, setData])
+    next({ isValid })
+  }, [isValid, next, getData, setData])
 
   return (
     <form style={{ padding: 30 }}>

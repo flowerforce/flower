@@ -3,7 +3,7 @@ import './styles.css'
 
 export function Example2() {
   // useFlower need to know context passing flowName
-  const { onNext, onPrev } = useFlower({ flowName: 'demo' })
+  const { next, back } = useFlower({ flowName: 'demo' })
 
   return (
     <Flower name="example2">
@@ -13,7 +13,7 @@ export function Example2() {
       <FlowerNode id="step1" to={{ step2: null }}>
         <div className="page step1">
           <span>1</span>
-          <button onClick={() => onNext()}>Next &#8594;</button>
+          <button onClick={() => next()}>Next &#8594;</button>
         </div>
       </FlowerNode>
 
@@ -24,8 +24,8 @@ export function Example2() {
         <div className="page step2">
           <span>2</span>
           <div className="navigate">
-            <button onClick={() => onPrev()}>&#8592; Back</button>
-            <button onClick={() => onNext()}>Next &#8594;</button>
+            <button onClick={() => back()}>&#8592; Back</button>
+            <button onClick={() => next()}>Next &#8594;</button>
           </div>
         </div>
       </FlowerNode>
@@ -36,7 +36,7 @@ export function Example2() {
       <FlowerNode id="step3">
         <div className="page step3">
           <span>3</span>
-          <button onClick={() => onPrev()}>&#8592; Back</button>
+          <button onClick={() => back()}>&#8592; Back</button>
         </div>
       </FlowerNode>
     </Flower>

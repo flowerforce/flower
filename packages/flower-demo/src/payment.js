@@ -12,24 +12,24 @@ import { useCallback, useState } from 'react'
 const abc = { a: 1 }
 
 const PaySimple = () => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
 
   return (
     <div>
       <input name="cc" />
-      <button onClick={() => onNext('onProcessPaypal')}>PAYPAL</button>
-      <button onClick={() => onNext('onProcessStripe')}>STRIPE</button>
+      <button onClick={() => next('onProcessPaypal')}>PAYPAL</button>
+      <button onClick={() => next('onProcessStripe')}>STRIPE</button>
     </div>
   )
 }
 
 const Pay = () => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   const { errors } = useFlowerForm()
 
   const Action = useCallback(() => {
-    onNext()
-  }, [onNext])
+    next()
+  }, [next])
 
   return (
     <div>
@@ -40,11 +40,11 @@ const Pay = () => {
 }
 
 const NextParent = ({ flowName }) => {
-  const { onNext } = useFlower({ flowName })
+  const { next } = useFlower({ flowName })
 
   const Action = useCallback(() => {
-    onNext()
-  }, [onNext])
+    next()
+  }, [next])
 
   return (
     <div>
@@ -54,29 +54,29 @@ const NextParent = ({ flowName }) => {
 }
 
 const ProcessPaypal = () => {
-  const { onPrev } = useFlower()
+  const { back } = useFlower()
 
   return (
     <div>
-      <button onClick={() => onPrev()}></button>
+      <button onClick={() => back()}></button>
     </div>
   )
 }
 
 const ProcessStripe = () => {
-  const { onPrev } = useFlower()
+  const { back } = useFlower()
 
   return (
     <div>
-      <button onClick={() => onPrev()}></button>
+      <button onClick={() => back()}></button>
     </div>
   )
 }
 
 const Back = ({ rules }) => {
-  const { onPrev } = useFlower()
+  const { back } = useFlower()
   return (
-    <div style={{ marginTop: 10 }} onClick={() => onPrev()}>
+    <div style={{ marginTop: 10 }} onClick={() => back()}>
       PREV PAY
     </div>
   )

@@ -29,19 +29,19 @@ const Item = ({ value }) => {
 }
 
 const MyButton = ({ rules }) => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   return (
     <FlowerRule rules={rules}>
-      <div onClick={() => onNext()}>onOK OKK</div>
+      <div onClick={() => next()}>onOK OKK</div>
     </FlowerRule>
   )
 }
 
 const Back = ({ rules }) => {
-  const { onPrev } = useFlower()
+  const { back } = useFlower()
   return (
     <FlowerRule rules={rules}>
-      <div onClick={() => onPrev()}>-PREV</div>
+      <div onClick={() => back()}>-PREV</div>
     </FlowerRule>
   )
 }

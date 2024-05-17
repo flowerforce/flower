@@ -28,20 +28,20 @@ const Text = ({ text, value, children }: any) => (
 // }
 
 // const ButtonNext = () => {
-//   const { onNext } = useFlower()
+//   const { next } = useFlower()
 //   return (
-//     <button data-testid="btn-next" onClick={() => onNext()}>NEXT</button>
+//     <button data-testid="btn-next" onClick={() => next()}>NEXT</button>
 //   )
 // }
 
 const InitState = ({ state }: any) => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   const { setData, getData } = useFlowerForm()
   useEffect(() => {
     setData(state)
     // console.log(getData())
-    onNext()
-  }, [onNext, setData, getData, state])
+    next()
+  }, [next, setData, getData, state])
   return '...'
 }
 

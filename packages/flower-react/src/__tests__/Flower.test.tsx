@@ -39,22 +39,22 @@ const Text = ({
 // };
 
 // const ButtonNext = ({ id = '' }) => {
-//   const { onNext } = useFlower();
+//   const { next } = useFlower();
 //   return (
-//     <button data-testid={'btn-next' + id} onClick={() => onNext()}>
+//     <button data-testid={'btn-next' + id} onClick={() => next()}>
 //       NEXT
 //     </button>
 //   );
 // };
 
 const InitState = ({ state }: any) => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   const { setData, getData } = useFlowerForm()
   useEffect(() => {
     setData(state)
     // console.log(getData())
-    onNext()
-  }, [onNext, setData, getData, state])
+    next()
+  }, [next, setData, getData, state])
   return '...'
 }
 

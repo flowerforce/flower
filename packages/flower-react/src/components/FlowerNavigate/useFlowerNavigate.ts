@@ -16,7 +16,7 @@ type UseFlowerNavigateProps = Pick<
 >;
 // {
 //   flowName?: string | undefined;
-//   action?: 'onNext' | 'onPrev' | 'onReset' | 'onNode';
+//   action?: 'next' | 'back' | 'reset' | 'jump';
 // } & (
 //   | {
 //       node?: undefined;
@@ -44,31 +44,31 @@ export const useFlowerNavigate = ({
 }: UseFlowerNavigateProps) => {
   const { flowName: flowNameContext } = useContext(FlowerCoreContext);
   const name = flowName || flowNameContext;
-  const { onNext, onNode, onPrev, onReset } = useFlower({ flowName: name });
+  const { next, jump, back, reset } = useFlower({ flowName: name });
 
   const onNavigate = useCallback(() => {
     switch (action) {
-      case 'onNext':
-        onNext(route);
+      case 'next':
+        next(route);
         return;
 
-      case 'onNode':
-        onNode(node!);
+      case 'jump':
+        jump(node!);
         return;
 
-      case 'onPrev':
-        onPrev(node);
+      case 'back':
+        back(node);
         return;
 
-      case 'onReset':
-        onReset(node);
+      case 'reset':
+        reset(node);
         return;
 
       default:
-        onNext();
+        next();
         return;
     }
-  }, [onNext, onNode, onPrev, onReset, node, route]);
+  }, [next, jump, back, reset, node, route]);
 
   return {
     onNavigate,

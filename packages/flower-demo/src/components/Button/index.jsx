@@ -3,11 +3,11 @@ import { memo } from 'react'
 import { useFlower } from '@flowerforce/flower-react'
 
 const MyButton = ({ title }) => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   return (
     <button
       onClick={() => {
-        onNext('onSuccess')
+        next('onSuccess')
       }}
     >
       {title}

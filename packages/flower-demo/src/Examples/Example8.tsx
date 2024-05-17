@@ -32,7 +32,7 @@ export function Example8() {
             <p>This is your message</p>
           </FlowerRule>
           <div className="navigate">
-            <FlowerNavigate action="onNext">
+            <FlowerNavigate action="next">
               <button>Next &#8594;</button>
             </FlowerNavigate>
           </div>
@@ -45,7 +45,7 @@ export function Example8() {
       <FlowerNode id="step2" to={{ step3: null }}>
         <div className="page step2">
           <span>2</span>
-          <FlowerNavigate action="onPrev">
+          <FlowerNavigate action="back">
             <button>&#8592; Back</button>
           </FlowerNavigate>
         </div>

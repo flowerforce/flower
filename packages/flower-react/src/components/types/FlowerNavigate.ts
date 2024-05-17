@@ -59,22 +59,22 @@ export type FlowerNavigateProps = {
   alwaysDisplay?: boolean
 } & (
   | {
-      action?: 'onNext'
+      action?: 'next'
       node?: undefined
       route?: Route
     }
   | {
-      action?: 'onPrev'
+      action?: 'back'
       node?: RoutePrev
       route?: undefined
     }
   | {
-      action?: 'onReset'
+      action?: 'reset'
       node?: RouteReset
       route?: undefined
     }
   | {
-      action?: 'onNode'
+      action?: 'jump'
       node?: RouteNode
       route?: undefined
     }

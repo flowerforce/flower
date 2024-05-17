@@ -81,7 +81,7 @@ export const Page = () => {
         to={{ step2: null }}>
         ...
 
-        <FlowerNavigate action="onNext">
+        <FlowerNavigate action="next">
           <button>click me to go next</button>
         </FlowerNavigate>
       </FlowerNode>
@@ -89,17 +89,17 @@ export const Page = () => {
       <FlowerNode id="step2" to={{ step3: null }}>
         ...
 
-        <FlowerNavigate action="onPrev">
+        <FlowerNavigate action="back">
           <button>click me to go back</button>
         </FlowerNavigate>
-        <FlowerNavigate action="onNext">
+        <FlowerNavigate action="next">
           <button>click me to go next</button>
         </FlowerNavigate>
       </FlowerNode>
 
       <FlowerNode id="step3">
         ...
-        <FlowerNavigate action="onReset">
+        <FlowerNavigate action="reset">
           <button>Reset</button>
         </FlowerNavigate>
       </FlowerNode>
@@ -132,15 +132,15 @@ export const Page = () => {
           }}>
         ...
 
-        <FlowerNavigate action="onNext" route="onSuccess">
+        <FlowerNavigate action="next" route="onSuccess">
           <button>click me to go on "stepOK"</button>
         </FlowerNavigate>
 
-        <FlowerNavigate action="onNext" route="onError">
+        <FlowerNavigate action="next" route="onError">
           <button>click me to go on "stepKO"</button>
         </FlowerNavigate>
 
-        <FlowerNavigate action="onNext">
+        <FlowerNavigate action="next">
           <button>click me to go on "default" </button>
         </FlowerNavigate>
       </FlowerNode>
@@ -184,7 +184,7 @@ export const Page = () => {
         >
         ...
         
-        <FlowerNavigate action="onNext">
+        <FlowerNavigate action="next">
           <button>click me to go next</button>
         </FlowerNavigate>
       </FlowerNode>
@@ -232,7 +232,7 @@ export const Page = () => {
           {({ onChange, value }) => <input type="checkbox" checked={value} onChange={e => onChange(e.target.checked)} />}
         </FlowerField>
 
-        <FlowerNavigate action="onNext">
+        <FlowerNavigate action="next">
           <button>click me to go next</button>
         </FlowerNavigate>
       </FlowerNode>
@@ -275,13 +275,13 @@ import { memo, useEffect } from "react";
 
 const ComponentAction = memo(
   () => {
-    const { onNext } = useFlower();
+    const { next } = useFlower();
 
     useEffect(() => {
       // * do your staff here - api call etc **
 
-       onNext();
-    }, [onNext]);
+       next();
+    }, [next]);
 
     return <span className="loader"></span>;
   }
@@ -293,7 +293,7 @@ export default function App() {
       {/* step 1 */}
       <FlowerNode id="step1" to={{ step2: null }}>
         ...
-        <FlowerNavigate action="onNext">
+        <FlowerNavigate action="next">
             <button>click me to go next</button>
         </FlowerNavigate>
       </FlowerNode>
@@ -307,7 +307,7 @@ export default function App() {
       {/* step 3 */}
       <FlowerNode id="success">
         ...
-        <FlowerNavigate action="onPrev">
+        <FlowerNavigate action="back">
             <button>click me to go back</button>
         </FlowerNavigate>
       </FlowerNode>
@@ -333,13 +333,13 @@ import { memo, useEffect } from "react";
 
 const ComponentAction = memo(
   () => {
-    const { onNext } = useFlower();
+    const { next } = useFlower();
 
     useEffect(() => {
       // * do your staff here - api call etc **
 
-       onNext();
-    }, [onNext]);
+       next();
+    }, [next]);
 
     return <span className="loader"></span>;
   }
@@ -351,7 +351,7 @@ export default function App() {
       {/* step 1 */}
       <FlowerNode id="step1" to={{ step2: null }} retain>
         ...
-        <FlowerNavigate action="onNext">
+        <FlowerNavigate action="next">
             <button>click me to go next</button>
         </FlowerNavigate>
       </FlowerNode>
@@ -365,7 +365,7 @@ export default function App() {
       {/* step 3 */}
       <FlowerNode id="success">
         ...
-        <FlowerNavigate action="onPrev">
+        <FlowerNavigate action="back">
             <button>click me to go back</button>
         </FlowerNavigate>
       </FlowerNode>
@@ -389,9 +389,9 @@ import Flower, { FlowerRoute, FlowerNavigate, FlowerNode, useFlower } from '@flo
 
 const ButtonNext = () => {
     // useFlower get the context of the parent Flower
-    const { onNext, onPrev, onNode } = useFlower();
+    const { next, back, jump } = useFlower();
     return (
-         <button onClick={() => onNext()}>click me to go next</button>
+         <button onClick={() => next()}>click me to go next</button>
     )
 }
 
@@ -425,11 +425,11 @@ import Flower, { FlowerRoute, FlowerNavigate, FlowerNode, useFlower } from '@flo
 
 export const Page = () => {
   // useFlower in external usage need to know context passing flowName 
-  const { onNext, onPrev, onNode } = useFlower({ flowName: "demo" });
+  const { next, back, jump } = useFlower({ flowName: "demo" });
 
   return (
     <>
-      <button onClick={() => onNext()}>click me and go next</button>
+      <button onClick={() => next()}>click me and go next</button>
 
       <Flower name="demo">
         ...
@@ -467,7 +467,7 @@ export const Page = () => {
         >
         ...
 
-        <FlowerNavigate action="onNext">
+        <FlowerNavigate action="next">
           <button>click me to go next</button>
         </FlowerNavigate>
       </FlowerNode>
@@ -501,7 +501,7 @@ import { useEffect } from "react";
 import "./styles.css";
 
 const ComponentAction = () => {
-  const { onNext } = useFlower();
+  const { next } = useFlower();
   const { getData } = useFlowerForm();
 
   useEffect(() => {
@@ -513,13 +513,13 @@ const ComponentAction = () => {
       // example setTimout to simulate delay api call
       setTimeout(() => {
         //  navigate to success step
-        onNext("onSuccess");
+        next("onSuccess");
       }, 500);
     } catch (error) {
       // navigate to error step
-      onNext("onError");
+      next("onError");
     }
-  }, [onNext, getData]);
+  }, [next, getData]);
 
   return <span className="loader"></span>;
 };
@@ -589,7 +589,7 @@ export default function App() {
           </div>
 
           <FlowerNavigate
-            action="onNext"
+            action="next"
             rules={{ $and: [{ "$form.isValid": { $eq: true } }] }}
             alwaysDisplay
           >
@@ -614,7 +614,7 @@ export default function App() {
         <div className="page step3">
           <span>Success</span>
 
-          <FlowerNavigate action="onReset">
+          <FlowerNavigate action="reset">
             <button>Reset</button>
           </FlowerNavigate>
         </div>
@@ -624,7 +624,7 @@ export default function App() {
       <FlowerNode id="error">
         <div className="page step4">
           <span>Error</span>
-          <FlowerNavigate action="onReset">
+          <FlowerNavigate action="reset">
             <button>Reset</button>
           </FlowerNavigate>
         </div>
@@ -737,7 +737,7 @@ export const Page = () => {
 
             {/* always visible component, hidden prop is true when rule is not matched */}
             <FlowerNavigate
-              action="onNext"
+              action="next"
               rules={{ enableNav: { $eq: true } }}
               alwaysDisplay
             >
@@ -750,7 +750,7 @@ export const Page = () => {
 
             {/* visible only when rule is matched */}
             <FlowerNavigate
-              action="onReset"
+              action="reset"
               rules={{ enableNav: { $eq: true } }}
             >
               <button>Reset</button>

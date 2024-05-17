@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useFlower } from '@flowerforce/flower-react'
 
 const Api = React.memo(({ flow }) => {
-  const { onNode, nodeId } = useFlower()
+  const { jump, nodeId } = useFlower()
 
   useEffect(() => {
     fetch(`http://localhost:3100/flower`, {
@@ -20,12 +20,12 @@ const Api = React.memo(({ flow }) => {
     })
       .then((data) => data.json())
       .then((data) => {
-        onNode(data)
+        jump(data)
       })
       .catch((err) => {
         console.log('TCL: Portal -> err', err)
       })
-  }, [nodeId, flow, onNode])
+  }, [nodeId, flow, jump])
 
   return '...'
 })

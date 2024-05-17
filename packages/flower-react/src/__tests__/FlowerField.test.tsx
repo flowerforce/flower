@@ -54,22 +54,22 @@ const Input = ({
 }
 
 const ButtonNext = ({ id = '' }) => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   return (
-    <button data-testid={'btn-next' + id} onClick={() => onNext()}>
+    <button data-testid={'btn-next' + id} onClick={() => next()}>
       NEXT
     </button>
   )
 }
 
 const InitState = ({ state, path }: { state: any; path?: any }) => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   const { setData, getData } = useFlowerForm()
   useEffect(() => {
     setData(state, path)
     // console.log(getData())
-    onNext()
-  }, [onNext, setData, getData, state, path])
+    next()
+  }, [next, setData, getData, state, path])
   return '...'
 }
 

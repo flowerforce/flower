@@ -28,81 +28,81 @@ const Text = ({ text, value }: any) => {
 // const Container = ({ children, item }: any) => <div className='paper'>{item || children}</div>
 
 const ButtonNode = ({ route }: any) => {
-  const { onNode } = useFlower()
+  const { jump } = useFlower()
   return (
-    <button data-testid="btn-node" onClick={() => onNode(route)}>
+    <button data-testid="btn-node" onClick={() => jump(route)}>
       NEXT
     </button>
   )
 }
 
 const ButtonNodeObject = ({ value }: any) => {
-  const { onNode } = useFlower()
+  const { jump } = useFlower()
   return (
-    <button data-testid="btn-node" onClick={() => onNode(value)}>
+    <button data-testid="btn-node" onClick={() => jump(value)}>
       NEXT
     </button>
   )
 }
 
 const ButtonNext = ({ route, dataIn }: any) => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   return (
-    <button data-testid="btn-next" onClick={() => onNext(dataIn || route)}>
+    <button data-testid="btn-next" onClick={() => next(dataIn || route)}>
       NEXT
     </button>
   )
 }
 
 const ButtonPrev = () => {
-  const { onPrev } = useFlower()
+  const { back } = useFlower()
   return (
-    <button data-testid="btn-prev" onClick={() => onPrev()}>
+    <button data-testid="btn-prev" onClick={() => back()}>
       PREV
     </button>
   )
 }
 
 const ButtonReset = () => {
-  const { onReset } = useFlower()
+  const { reset } = useFlower()
   return (
-    <button data-testid="btn-reset" onClick={() => onReset()}>
+    <button data-testid="btn-reset" onClick={() => reset()}>
       Reset
     </button>
   )
 }
 
 const ButtonResetNode = ({ node }: any) => {
-  const { onReset } = useFlower()
+  const { reset } = useFlower()
   return (
-    <button data-testid="btn-reset" onClick={() => onReset(node)}>
+    <button data-testid="btn-reset" onClick={() => reset(node)}>
       Reset
     </button>
   )
 }
 
 const ButtonResetNodeObject = ({ value }: any) => {
-  const { onReset } = useFlower()
+  const { reset } = useFlower()
   return (
-    <button data-testid="btn-reset" onClick={() => onReset(value)}>
+    <button data-testid="btn-reset" onClick={() => reset(value)}>
       Reset
     </button>
   )
 }
 
 const ButtonPrevNode = ({ node }: any) => {
-  const { onPrev } = useFlower()
+  const { back } = useFlower()
   return (
-    <button data-testid="btn-prev" onClick={() => onPrev(node)}>
+    <button data-testid="btn-prev" onClick={() => back(node)}>
       PREV
     </button>
   )
 }
 
 const ButtonPrevNodeObject = ({ value }: any) => {
-  const { onPrev } = useFlower()
+  const { back } = useFlower()
   return (
-    <button data-testid="btn-prev" onClick={() => onPrev(value)}>
+    <button data-testid="btn-prev" onClick={() => back(value)}>
       PREV
     </button>
   )
@@ -111,12 +111,12 @@ const ButtonPrevNodeObject = ({ value }: any) => {
 const MyNode = ({ children }: any) => children
 
 const InitState = ({ state }: any) => {
-  const { onNext } = useFlower()
+  const { next } = useFlower()
   const { setData } = useFlowerForm()
   useEffect(() => {
     setData(state)
-    onNext()
-  }, [onNext, setData, state])
+    next()
+  }, [next, setData, state])
   return '...'
 }
 

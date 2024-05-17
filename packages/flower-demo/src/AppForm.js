@@ -15,8 +15,8 @@ import { useFlower } from '@flowerforce/flower-react'
 // Devtools({ port: 8770 })
 
 const Gianluca = ({ ...props }) => {
-  const { onNext } = useFlower()
-  return <div onClick={onNext}>Gianluca</div>
+  const { next } = useFlower()
+  return <div onClick={next}>Gianluca</div>
 }
 
 const Container = (

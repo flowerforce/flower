@@ -2,13 +2,13 @@ import Flower, { FlowerNode, useFlower } from '@flowerforce/flower-react'
 import './styles.css'
 
 const ButtonNext = () => {
-  const { onNext } = useFlower() // useFlower get the context of the parent Flower
-  return <button onClick={() => onNext()}>Next &#8594;</button>
+  const { next } = useFlower() // useFlower get the context of the parent Flower
+  return <button onClick={() => next()}>Next &#8594;</button>
 }
 
 const ButtonPrev = () => {
-  const { onPrev } = useFlower() // useFlower get the context of the parent Flower
-  return <button onClick={() => onPrev()}>&#8592; Back</button>
+  const { back } = useFlower() // useFlower get the context of the parent Flower
+  return <button onClick={() => back()}>&#8592; Back</button>
 }
 
 export function Example2v1() {
