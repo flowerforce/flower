@@ -16,7 +16,10 @@
         "project": "{projectRoot}/package.json",
         "format": ["esm", "cjs"],
         "generateExportsField": true,
-        "xrollupConfig": "{projectRoot}/rollup.config.js"
+        "assets": [
+          { "glob": "*.md", "input": ".", "output": "." },
+          { "glob": "LICENSE", "input": ".", "output": "." }
+         ]
       }
     },
     "xbuild": {
@@ -28,6 +31,12 @@
         "tsConfig": "{projectRoot}/tsconfig.lib.json",
         "generateExportsField": true,
         "assets": ["{projectRoot}/*.md", "{projectRoot}/LICENCE"]
+      }
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "options": {
+        "packageRoot": "{projectRoot}/dist"
       }
     }
   }

@@ -2,27 +2,12 @@
   "name": "@flowerforce/flower-react",
   "version": "2.15.2",
   "description": "FlowerJS components, hooks and utils for React.",
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "prepublish": "npm run build:tsc",
-    "build-w": "babel -d lib src --copy-files --extensions '.ts,.tsx,.js,.jsx' --minified --watch",
-    "build:tsc": "tsc --project .",
-    "buildw": "concurrently \"npm run build:cjs-w\" \"npm run build:esm-w\"",
-    "buildb": "babel -d lib src --copy-files --no-comments --minified",
-    "build-dev": "babel -d lib src --copy-files",
-    "build": "babel -d lib src --copy-files --extensions '.ts,.tsx,.js,.jsx' --minified",
-    "build:cjs": "babel -d lib src --copy-files --no-comments --minified",
-    "build:esm": "BABEL_ENV=esm babel -d lib-esm src --copy-files --no-comments --minified",
-    "build:cjs-w": "babel -d lib src --copy-files --watch",
-    "build:esm-w": "BABEL_ENV=esm babel -d lib-esm src --copy-files --watch",
-    "test-w": "jest --watch",
-    "coverage": "jest --collect-coverage"
   },
   "license": "ISC",
   "peerDependencies": {
-    "react": ">=18"
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
@@ -34,7 +19,9 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@flowerforce/flower-core": "2.0.6",
     "@reduxjs/toolkit": "^2.2.4",
+    "lodash": "^4.17.21",
     "react-redux": "^9.1.2",
     "reselect": "^5.1.0"
   }
