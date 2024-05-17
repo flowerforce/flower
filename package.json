@@ -6,6 +6,10 @@
   "scripts": {
     "test:core": "nx test flower-core",
     "test:react": "nx test flower-react",
+    "core:showcoverage": "open ./coverage/packages/flower-core/index.html",
+    "react:showcoverage": "open ./coverage/packages/flower-react/index.html",
+    "coverage:core": "nx test flower-core --collectCoverage && npm run core:showcoverage",
+    "coverage:react": "nx test flower-react --collectCoverage && npm run react:showcoverage",
     "build:core": "nx build flower-core",
     "build:react": "nx build flower-react",
     "start:demo": "nx serve flower-demo",
