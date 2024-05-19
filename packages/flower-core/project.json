@@ -8,33 +8,12 @@
     "build": {
       "executor": "@nx/rollup:rollup",
       "options": {
-        "outputPath": "dist/{projectName}",
+        "outputPath": "{projectRoot}/dist",
         "main": "{projectRoot}/src/index.ts",
         "tsConfig": "{projectRoot}/tsconfig.lib.json",
         "project": "{projectRoot}/package.json",
         "format": ["esm", "cjs"],
-        "generateExportsField": true,
-        "assets": [
-          { "glob": "*.md", "input": ".", "output": "." },
-          { "glob": "LICENSE", "input": ".", "output": "." }
-         ]
-      }
-    },
-    "xbuild": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "{projectRoot}/dist",
-        "main": "{projectRoot}/src/index.ts",
-        "tsConfig": "{projectRoot}/tsconfig.lib.json",
-        "assets": ["{projectRoot}/*.md"]
-      }
-    },
-    "nx-release-publish": {
-      "executor": "@nx/js:release-publish",
-      "dependsOn": ["build"],
-      "options": {
-        "packageRoot": "dist/{projectName}"
+        "generateExportsField": true
       }
     }
   }

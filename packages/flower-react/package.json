@@ -2,8 +2,14 @@
   "name": "@flowerforce/flower-react",
   "version": "2.15.2",
   "description": "FlowerJS components, hooks and utils for React.",
-  "scripts": {
-  },
+  "files": [
+    "dist",
+    "!dist/package.json",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {},
   "license": "ISC",
   "peerDependencies": {
     "react": ">=18",
@@ -24,5 +30,15 @@
     "lodash": "^4.17.21",
     "react-redux": "^9.1.2",
     "reselect": "^5.1.0"
-  }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "module": "./dist/index.esm.js",
+      "import": "./dist/index.cjs.mjs",
+      "default": "./dist/index.cjs.js"
+    }
+  },
+  "module": "./dist/index.esm.js",
+  "main": "./dist/index.cjs.js"
 }
