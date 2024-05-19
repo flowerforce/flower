@@ -9,15 +9,19 @@
   "release": {
     "projects": ["flower-core"],
     "projectsRelationship": "independent",
+    "git": {
+      "commitMessage": "chore({projectName}): release {version}"
+    },
     "changelog": {
       "projectChangelogs": {
+        "createRelease": "github",
         "renderOptions": {
           "authors": false
         }
       }
     },
     "version": {
-      "conventionalCommits": true
+      "conventionalCommits": false
     }
   },
   "targetDefaults": {
