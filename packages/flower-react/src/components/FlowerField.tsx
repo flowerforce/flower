@@ -13,7 +13,7 @@ import {
   makeSelectFieldError,
   makeSelectNodeFormTouched,
 } from '../selectors';
-import { FlowerCoreContext } from '../context';
+import FlowerContext from '../context';
 import FlowerRule from './FlowerRule';
 import { store, useDispatch, useSelector } from '../provider';
 import debounce from 'lodash/debounce';
@@ -248,7 +248,7 @@ const FlowerField = ({
   onUpdate,
 }: FlowerFieldProps<any>) => {
   const { flowName: flowNameContext, currentNode } =
-    useContext(FlowerCoreContext);
+    useContext(FlowerContext);
 
   const name = flowName || flowNameContext;
 

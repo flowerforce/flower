@@ -8,12 +8,4 @@ export type FlowerContext = {
 
 const context = createContext<FlowerContext>({})
 
-const { Provider: FlowerCoreContextProvider } = context
-const { Consumer: FlowerCoreContextConsumer } = context
-
-const FlowerCoreContext = context
-export {
-  FlowerCoreContextProvider,
-  FlowerCoreContextConsumer,
-  FlowerCoreContext
-}
+export default context

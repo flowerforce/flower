@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useCallback, useContext } from 'react';
-import { FlowerCoreContext } from '../../context';
+import FlowerContext from '../../context';
 import useFlower from '../useFlower';
 import {
   FlowerNavigateProps,
@@ -42,7 +42,7 @@ export const useFlowerNavigate = ({
   route,
   node,
 }: UseFlowerNavigateProps) => {
-  const { flowName: flowNameContext } = useContext(FlowerCoreContext);
+  const { flowName: flowNameContext } = useContext(FlowerContext);
   const name = flowName || flowNameContext;
   const { next, jump, back, reset } = useFlower({ flowName: name });
 

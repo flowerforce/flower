@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react'
 import { CoreUtils } from '@flowerforce/flower-core'
 import get from 'lodash/get'
-import { FlowerCoreContext } from '../context'
+import FlowerContext from '../context'
 import { makeSelectCurrentNodeId, makeSelectNodeErrors } from '../selectors'
 import { actions } from '../reducer'
 import { useDispatch, useSelector, useStore } from '../provider'
@@ -28,7 +28,7 @@ const useFlowerForm: UseFlowerForm = ({
   flowName: customFlowName,
   name
 } = {}) => {
-  const { flowName: flowNameDefault } = useContext(FlowerCoreContext)
+  const { flowName: flowNameDefault } = useContext(FlowerContext)
 
   const dispatch = useDispatch()
   const store = useStore()

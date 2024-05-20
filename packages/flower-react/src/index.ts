@@ -1,11 +1,10 @@
-import Flower from './components/Flower'
-
 /* // FOR REACT NATIVE
 if (global.window === undefined) {
   global.window = global;
 } */
 
-export { FlowerCoreContext as FlowerContext } from './context'
+export { default as FlowerContext } from './context'
+export { default as Flower } from './components/Flower'
 export { default as FlowerNode } from './components/FlowerNode'
 export { default as FlowerAction } from './components/FlowerAction'
 export { default as FlowerServer } from './components/FlowerServer'
@@ -22,5 +21,3 @@ export { default as useFlowerForm } from './components/useFlowerForm'
 export { default as FlowerProvider } from './provider'
 export { getDataByFlow } from './selectors'
 export { useSelector } from './provider'
-
-export default Flower
