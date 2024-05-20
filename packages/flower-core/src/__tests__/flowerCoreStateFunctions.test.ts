@@ -452,6 +452,32 @@ describe('FlowerCoreReducers', () => {
     })
   })
 
+  describe('addData', () => {
+    it('should add data to the specified flowname', () => {
+      const payload: any = {
+        flowName: 'first',
+        value: {
+          newData: {
+            name: 'test new data'
+          }
+        }
+      }
+
+      const action = {
+        payload,
+        type: 'addDataAction'
+      }
+
+      const clonedState = { ...mock }
+
+      FlowerCoreReducers.addData(clonedState, action)
+
+      expect(clonedState.first.data).toEqual({
+        newData: { name: 'test new data' }
+      })
+    })
+  })
+
   describe('addDataByPath', () => {
     it('should add data to the specified path in the state', () => {
       const payload = {
@@ -466,7 +492,7 @@ describe('FlowerCoreReducers', () => {
 
       const mock_2: { [x: string]: any } = { ...mock }
 
-      const newState = FlowerCoreReducers.addDataByPath(mock_2, action)
+      FlowerCoreReducers.addDataByPath(mock_2, action)
 
       expect(mock_2.first.data.nested.path.to.data).toEqual('new data')
     })
@@ -485,7 +511,7 @@ describe('FlowerCoreReducers', () => {
         type: 'flowerAction'
       }
 
-      const newState = FlowerCoreReducers.replaceData(mock as any, action)
+      FlowerCoreReducers.replaceData(mock as any, action)
 
       expect(mock.first.data).toEqual({
         newData: 'new data'
@@ -505,7 +531,7 @@ describe('FlowerCoreReducers', () => {
       }
       const mock_2: { [x: string]: any } = { ...mock }
 
-      const newState = FlowerCoreReducers.unsetData(mock_2, action)
+      FlowerCoreReducers.unsetData(mock_2, action)
 
       expect(mock_2.first.data.name).toBeUndefined()
     })
