@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useMemo } from 'react';
 import { CoreUtils } from '@flowerforce/flower-core';
 import { useSelector } from '../provider';
 import { getDataFromState } from '../selectors';
-import FlowerContext from '../context';
+import { context } from '../context';
 import FlowerRule from './FlowerRule';
 import { FlowerValueProps } from './types/FlowerValue';
 
@@ -88,7 +88,7 @@ const FlowerValue = ({
   flowName,
   onUpdate,
 }: FlowerValueProps) => {
-  const { flowName: flowNameContext } = useContext(FlowerContext);
+  const { flowName: flowNameContext } = useContext(context);
 
   const name = flowName || flowNameContext;
   if (typeof children === 'function') {

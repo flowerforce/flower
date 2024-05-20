@@ -2,8 +2,9 @@
 if (global.window === undefined) {
   global.window = global;
 } */
-
-export { default as FlowerContext } from './context'
+export { Consumer as FlowerContextConsumer } from './context'
+export { Provider as FlowerContextProvider } from './context'
+export { context as FlowerContext } from './context'
 export { default as Flower } from './components/Flower'
 export { default as FlowerNode } from './components/FlowerNode'
 export { default as FlowerAction } from './components/FlowerAction'

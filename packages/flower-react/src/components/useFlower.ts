@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react'
-import FlowerContext from '../context'
+import { context } from '../context'
 import { makeSelectCurrentNodeId } from '../selectors'
 import { useDispatch, useSelector } from '../provider'
 import { UseFlower } from './types/FlowerHooks'
@@ -77,7 +77,7 @@ const makeActionPayloadOnNext = makeActionPayload(
 const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const dispatch = useDispatch()
 
-  const { flowName: flowNameDefault } = useContext(FlowerContext)
+  const { flowName: flowNameDefault } = useContext(context)
 
   const flowName = customFlowName || name || flowNameDefault
   const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''))

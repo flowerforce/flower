@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import { useDispatch } from '../provider'
-import FlowerContext from '../context'
+import { context } from '../context'
 import { FlowerRouteProps } from './types/FlowerRoute'
 
 const FlowerRoute = ({
@@ -11,7 +11,7 @@ const FlowerRoute = ({
 }: FlowerRouteProps) => {
   const dispatch = useDispatch()
   const one = useRef(false)
-  const { flowName } = useContext(FlowerContext)
+  const { flowName } = useContext(context)
 
   useEffect(() => {
     onEnter?.()

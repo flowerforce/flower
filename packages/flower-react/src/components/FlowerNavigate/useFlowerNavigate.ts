@@ -1,19 +1,13 @@
 /* eslint-disable */
-import React, { useCallback, useContext } from 'react';
-import FlowerContext from '../../context';
-import useFlower from '../useFlower';
-import {
-  FlowerNavigateProps,
-  Route,
-  RouteNode,
-  RoutePrev,
-  RouteReset,
-} from '../types/FlowerNavigate';
+import React, { useCallback, useContext } from 'react'
+import { context } from '../../context'
+import useFlower from '../useFlower'
+import { FlowerNavigateProps } from '../types/FlowerNavigate'
 
 type UseFlowerNavigateProps = Pick<
   FlowerNavigateProps,
   'flowName' | 'node' | 'route' | 'action'
->;
+>
 // {
 //   flowName?: string | undefined;
 //   action?: 'next' | 'back' | 'reset' | 'jump';
@@ -40,38 +34,38 @@ export const useFlowerNavigate = ({
   flowName,
   action,
   route,
-  node,
+  node
 }: UseFlowerNavigateProps) => {
-  const { flowName: flowNameContext } = useContext(FlowerContext);
-  const name = flowName || flowNameContext;
-  const { next, jump, back, reset } = useFlower({ flowName: name });
+  const { flowName: flowNameContext } = useContext(context)
+  const name = flowName || flowNameContext
+  const { next, jump, back, reset } = useFlower({ flowName: name })
 
   const onNavigate = useCallback(() => {
     switch (action) {
       case 'next':
-        next(route);
-        return;
+        next(route)
+        return
 
       case 'jump':
-        jump(node!);
-        return;
+        jump(node!)
+        return
 
       case 'back':
-        back(node);
-        return;
+        back(node)
+        return
 
       case 'reset':
-        reset(node);
-        return;
+        reset(node)
+        return
 
       default:
-        next();
-        return;
+        next()
+        return
     }
-  }, [next, jump, back, reset, node, route]);
+  }, [next, jump, back, reset, node, route])
 
   return {
     onNavigate,
-    flowName,
-  };
-};
+    flowName
+  }
+}
