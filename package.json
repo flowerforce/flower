@@ -20,8 +20,11 @@
     "test": "nx run-many -t test --passWithNoTests",
     "graph": "nx graph",
     "reset": "nx reset",
-    "release:core": "npm run build:core && nx release --first-release --yes",
-    "release:react": "npm run build:react && nx release --first-release --dry-run --yes"
+    "build:packages": "nx run-many -t build --exclude=flower-demo",
+    "prerelease:prepare": "npm run build:packages && nx release --specifier prerelease --skip-publish",
+    "prerelease:publish": "nx release publish --tag prerelease",
+    "release:prepare": "npm run build:packages && nx release --skip-publish",
+    "release:publish": "nx release publish"
   },
   "private": true,
   "repository": {
