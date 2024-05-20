@@ -556,4 +556,35 @@ describe('FlowerCoreReducers', () => {
       expect(mock_2.first.form.Node1.isValidating).toEqual(true)
     })
   })
+
+  describe('reset', () => {
+    it('should perform a reset on the selected flowname', () => {
+      const payload = {
+        flowName: 'first'
+      }
+      const action = { payload, type: 'flowerResetAction' }
+
+      const clonedMock = { ...mock }
+
+      FlowerCoreReducers.reset(clonedMock, action)
+
+      expect(clonedMock.first).toEqual({
+        current: 'Start',
+        data: { newData: 'new data' },
+        form: {
+          Node1: { errors: {}, isValidating: true },
+          Start: { touched: true }
+        },
+        history: ['Start'],
+        nextRules: { Start: [{ nodeId: 'Node1', rules: null }] },
+        nodes: {
+          Node1: { nodeId: 'Node1', nodeType: 'FlowerNode' },
+          Node2: { nodeId: 'Node2', nodeType: 'FlowerNode' },
+          Start: { nodeId: 'start', nodeType: 'FlowerRoute' }
+        },
+        persist: false,
+        startId: 'Start'
+      })
+    })
+  })
 })
