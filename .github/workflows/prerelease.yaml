@@ -1,4 +1,4 @@
-name: Prerelease to npm
+name: Publish prerelease
 
 on:
   workflow_dispatch:
@@ -22,6 +22,7 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+          registry-url: https://registry.npmjs.org/
       - name: Install deps
         run: npm ci --include=optional
       - name: Prepare prerelease
