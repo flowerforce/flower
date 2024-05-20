@@ -2,6 +2,9 @@
   "name": "@flowerforce/flower-core",
   "version": "3.0.0-0",
   "description": "Core functions for flowerJS",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "tsc:noemit": "tsc -p tsconfig.lib.json --noEmit"
   },

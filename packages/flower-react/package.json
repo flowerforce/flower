@@ -2,6 +2,9 @@
   "name": "@flowerforce/flower-react",
   "version": "3.0.0-0",
   "description": "FlowerJS components, hooks and utils for React.",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist",
     "!dist/package.json",
