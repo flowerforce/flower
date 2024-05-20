@@ -9,7 +9,9 @@
     "README.md",
     "CHANGELOG.md"
   ],
-  "scripts": {},
+  "scripts": {
+    "tsc:noemit": "tsc -p tsconfig.lib.json --noEmit"
+  },
   "license": "ISC",
   "peerDependencies": {
     "react": ">=18",

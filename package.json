@@ -10,15 +10,18 @@
     "react:showcoverage": "open ./coverage/packages/flower-react/index.html",
     "coverage:core": "nx test flower-core --collectCoverage && npm run core:showcoverage",
     "coverage:react": "nx test flower-react --collectCoverage && npm run react:showcoverage",
+    "tsc:noemit": "nx run-many -t tsc:noemit",
     "build:core": "nx build flower-core",
     "build:react": "nx build flower-react",
     "start:demo": "nx serve flower-demo",
     "build:demo": "nx build flower-demo",
     "lint": "nx run-many -t lint",
     "lint:fix": "nx run-many -t lint --fix",
+    "test": "nx run-many -t test --passWithNoTests",
     "graph": "nx graph",
     "reset": "nx reset",
-    "release:core": "npm run build:core && nx release --first-release --dry-run --yes"
+    "release:core": "npm run build:core && nx release --first-release --yes",
+    "release:react": "npm run build:react && nx release --first-release --dry-run --yes"
   },
   "private": true,
   "repository": {

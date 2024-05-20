@@ -2,7 +2,9 @@
   "name": "@flowerforce/flower-core",
   "version": "2.0.6",
   "description": "Core functions for flowerJS",
-  "scripts": {},
+  "scripts": {
+    "tsc:noemit": "tsc -p tsconfig.lib.json --noEmit"
+  },
   "files": [
     "dist",
     "!dist/package.json",
