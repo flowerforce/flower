@@ -4,8 +4,6 @@ import {
   // searchEmptyKeyRecursively,
 } from '../CoreUtils'
 
-// some tests can't be done (instanbul skip tests)
-
 describe('flattenRules function', () => {
   test('should flatten nested object into a single-level object', () => {
     const nestedObject = {
