@@ -1,4 +1,4 @@
-import Flower, { FlowerNavigate, FlowerNode } from '@flowerforce/flower-react'
+import { Flower, FlowerNavigate, FlowerNode } from '@flowerforce/flower-react'
 import './styles.css'
 import { FlowerCoreReducers } from '@flowerforce/flower-core'
 

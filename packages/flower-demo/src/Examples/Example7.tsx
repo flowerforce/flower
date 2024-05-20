@@ -1,4 +1,5 @@
-import Flower, {
+import {
+  Flower,
   FlowerRule,
   FlowerNode,
   FlowerField,
