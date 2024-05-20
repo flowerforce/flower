@@ -557,6 +557,7 @@ describe('FlowerCoreReducers', () => {
     })
   })
 
+  //Todo: add test for next
   describe('reset', () => {
     it('should perform a reset on the selected flowname', () => {
       const payload = {
