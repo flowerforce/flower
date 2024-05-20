@@ -7,7 +7,7 @@
   "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "release": {
-    "projects": ["flower-core"],
+    "projects": ["flower-core","flower-react"],
     "projectsRelationship": "independent",
     "git": {
       "commitMessage": "chore({projectName}): release {version}"
