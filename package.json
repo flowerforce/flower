@@ -73,5 +73,11 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "optionalDependencies": {
+    "@nx/nx-darwin-arm64": "19.0.2",
+    "@nx/nx-darwin-x64": "19.0.2",
+    "@nx/nx-linux-x64-gnu": "19.0.2",
+    "@nx/nx-win32-x64-msvc": "19.0.2"
+  }
 }

@@ -15,7 +15,7 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Install deps
-        run: npm ci
+        run: npm ci --include=optional
       - name: Typecheck
         run: npm run tsc:noemit
       - name: Run tests
