@@ -1,0 +1,24 @@
+{
+    "type": "component",
+    "name": "Input",
+    "category": "FORM",
+    "example": {
+        "type": "Input"
+    },
+    "editing": [
+        {
+            "type": "Input",
+            "id": "id",
+            "label": "Value"
+        },
+        {
+            "type": "Input",
+            "id": "title",
+            "label": "placeholder"
+        },
+        {
+            "type": "Rules",
+            "id": "rules"
+        }
+    ]
+}

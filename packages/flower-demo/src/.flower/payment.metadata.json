@@ -1,0 +1,65 @@
+{
+  "//": "Do not publish this file",
+  "type": "flow",
+  "name": "payment",
+  "apps": [],
+  "elements": {
+    "pay": {
+      "id": "pay",
+      "position": {
+        "x": 190,
+        "y": 0
+      },
+      "animated": false,
+      "_metadata": {
+        "previewUrl": "https://www.figma.com/file/956dpBajnU3sjBzEwfakKl/Multi-step-Form-Figma-Template-%7C-BRIX-Templates-(Community)?type=design&mode=design",
+        "description": "as dda dad asd",
+        "title": "asd as dasd"
+      },
+      "type": "FlowerNode",
+      "sourceType": "FlowerNode"
+    },
+    "success": {
+      "id": "success",
+      "position": {
+        "x": 17.754096645483855,
+        "y": 443.8393845144191
+      },
+      "animated": false,
+      "type": "FlowerNode",
+      "sourceType": "FlowerNode"
+    },
+    "error": {
+      "id": "error",
+      "position": {
+        "x": 364.3707417671712,
+        "y": 443.51408638453273
+      },
+      "animated": false,
+      "type": "FlowerNode",
+      "sourceType": "FlowerNode"
+    },
+    "reactflow__edge-pay-success": {
+      "id": "reactflow__edge-pay-success",
+      "label": "+",
+      "animated": false,
+      "style": {
+        "stroke": "#97A3AC"
+      },
+      "labelStyle": {
+        "fill": "#97A3AC"
+      }
+    },
+    "reactflow__edge-pay-error": {
+      "id": "reactflow__edge-pay-error",
+      "label": "+",
+      "animated": false,
+      "style": {
+        "stroke": "#97A3AC"
+      },
+      "labelStyle": {
+        "fill": "#97A3AC"
+      }
+    }
+  }
+}

@@ -7,9 +7,11 @@
   "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "release": {
+    "projects": ["flower-core", "flower-react"],
     "projectsRelationship": "independent",
     "changelog": {
       "projectChangelogs": {
+        "createRelease": "github",
         "renderOptions": {
           "authors": false
         }
@@ -42,6 +44,14 @@
       "plugin": "@nx/jest/plugin",
       "options": {
         "targetName": "test"
+      }
+    },
+    {
+      "plugin": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview"
       }
     }
   ]
