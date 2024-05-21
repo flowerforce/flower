@@ -45,5 +45,6 @@
     }
   },
   "module": "./dist/index.esm.js",
-  "main": "./dist/index.cjs.js"
+  "main": "./dist/index.cjs.js",
+  "types": "./src/index.d.ts"
 }
