@@ -2,6 +2,11 @@
   "name": "@flowerforce/flower-react",
   "version": "3.0.0",
   "description": "FlowerJS components, hooks and utils for React.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flowerforce/flower.git"
+  },
+  "homepage": "https://www.flowerjs.it",
   "publishConfig": {
     "access": "public"
   },

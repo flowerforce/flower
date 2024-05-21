@@ -2,6 +2,11 @@
   "name": "@flowerforce/flower-core",
   "version": "3.0.0",
   "description": "Core functions for flowerJS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flowerforce/flower.git"
+  },
+  "homepage": "https://www.flowerjs.it",
   "publishConfig": {
     "access": "public"
   },
