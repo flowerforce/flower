@@ -1,5 +1,6 @@
 import { get as _get, trimStart as _trimStart } from 'lodash'
-import operators from './operators'
+import { intersection as _intersection } from 'lodash'
+import { Operators } from './interface'
 import { RulesMatcherUtils } from './interface'
 import { RulesObject } from '../interfaces/CoreInterface'
 
@@ -231,5 +232,74 @@ const rulesMatcherUtils: RulesMatcherUtils = {
     return Object.keys(keys)
   }
 }
+
+/**
+ * Defines a set of comparison operators used for matching rules against user input.
+ */
+const operators: Operators = {
+  $exists: (a, b) => !rulesMatcherUtils.isEmpty(a) === b,
+
+  $eq: (a, b) => a === b,
+
+  $ne: (a, b) => a !== b,
+
+  $gt: (a, b) => rulesMatcherUtils.forceNumber(a) > parseFloat(b),
+
+  $gte: (a, b) => rulesMatcherUtils.forceNumber(a) >= parseFloat(b),
+
+  $lt: (a, b) => rulesMatcherUtils.forceNumber(a) < parseFloat(b),
+
+  $lte: (a, b) => rulesMatcherUtils.forceNumber(a) <= parseFloat(b),
+
+  $strGt: (a, b) => String(a || '').length > parseFloat(b),
+
+  $strGte: (a, b) => String(a || '').length >= parseFloat(b),
+
+  $strLt: (a, b) => String(a || '').length < parseFloat(b),
+
+  $strLte: (a, b) => String(a || '').length <= parseFloat(b),
+
+  $in: (a, b) =>
+    rulesMatcherUtils
+      .forceArray(b)
+      .some(
+        (c) =>
+          _intersection(
+            rulesMatcherUtils.forceArray(a),
+            rulesMatcherUtils.forceArray(c)
+          ).length
+      ),
+
+  $nin: (a, b) =>
+    !rulesMatcherUtils
+      .forceArray(b)
+      .some(
+        (c) =>
+          _intersection(
+            rulesMatcherUtils.forceArray(a),
+            rulesMatcherUtils.forceArray(c)
+          ).length
+      ),
+
+  $all: (a, b) =>
+    rulesMatcherUtils
+      .forceArray(b)
+      .every(
+        (c) =>
+          _intersection(
+            rulesMatcherUtils.forceArray(a),
+            rulesMatcherUtils.forceArray(c)
+          ).length
+      ),
+
+  $regex: (a, b, opt) =>
+    rulesMatcherUtils
+      .forceArray(b)
+      .some((c) =>
+        c instanceof RegExp ? c.test(a) : new RegExp(c, opt).test(a)
+      )
+}
+
+// export default operators
 
 export default rulesMatcherUtils
