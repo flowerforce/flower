@@ -1,0 +1,22 @@
+{
+  "name": "flower-react",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/flower-react/src",
+  "projectType": "library",
+  "tags": ["react"],
+  "targets": {
+    "build": {
+      "dependsOn": ["^build"],
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "{projectRoot}/dist",
+        "main": "{projectRoot}/src/index.ts",
+        "tsConfig": "{projectRoot}/tsconfig.lib.json",
+        "project": "{projectRoot}/package.json",
+        "format": ["esm", "cjs"],
+        "generateExportsField": true
+      }
+    }
+  }
+}
