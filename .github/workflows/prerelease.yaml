@@ -2,14 +2,12 @@ name: Publish prerelease
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
     branches: 
       - prerelease
-    types: [closed]
 
 jobs:
   prerelease:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: read
