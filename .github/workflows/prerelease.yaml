@@ -24,11 +24,11 @@ jobs:
       - name: Install deps
         run: npm ci --include=optional
       - name: Prepare prerelease
-        run: npm run prerelease:prepare
+        run: npm run prepare:prerelease
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish to npm
-        run: npm run prerelease:publish
+        run: npm run publish:prerelease
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
           NPM_CONFIG_PROVENANCE: true

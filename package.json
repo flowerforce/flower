@@ -21,10 +21,10 @@
     "graph": "nx graph",
     "reset": "nx reset",
     "build:packages": "nx run-many -t build --exclude=flower-demo",
-    "prerelease:prepare": "npm run build:packages && nx release --specifier prerelease --skip-publish",
-    "prerelease:publish": "nx release publish --tag prerelease",
-    "release:prepare": "npm run build:packages && nx release --skip-publish",
-    "release:publish": "nx release publish"
+    "prepare:prerelease": "npm run build:packages && nx release version --specifier prerelease --preid beta --git-commit true",
+    "publish:prerelease": "nx release publish --tag prerelease",
+    "prepare:release": "npm run build:packages && nx release --skip-publish",
+    "publish:release": "nx release publish"
   },
   "private": true,
   "repository": {
