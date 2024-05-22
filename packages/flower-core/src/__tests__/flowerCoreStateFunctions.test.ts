@@ -2,7 +2,7 @@ import { CoreUtils } from '../CoreUtils'
 import { FlowerCoreReducers } from '../FlowerCoreStateFunctions'
 import { ActionWithPayload } from '../interfaces/ReducerInterface'
 import { Flower } from '../interfaces/Store'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 
 const state: Flower<Record<string, any>> = {
   persist: false,

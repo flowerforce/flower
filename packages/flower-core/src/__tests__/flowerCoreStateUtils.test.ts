@@ -1,4 +1,3 @@
-import { get as _get } from 'lodash'
 import { FlowerStateUtils } from '../FlowerCoreStateUtils'
 
 describe('FlowerStateUtils', () => {

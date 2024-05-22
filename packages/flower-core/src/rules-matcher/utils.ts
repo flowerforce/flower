@@ -1,5 +1,6 @@
-import { get as _get, trimStart as _trimStart } from 'lodash'
-import { intersection as _intersection } from 'lodash'
+import _get from 'lodash/get'
+import _trimStart from 'lodash/trimStart'
+import _intersection from 'lodash/intersection'
 import { Operators } from './interface'
 import { RulesMatcherUtils } from './interface'
 import { RulesObject } from '../interfaces/CoreInterface'

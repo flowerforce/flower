@@ -1,4 +1,4 @@
-import { get as _get } from 'lodash'
+import _get from 'lodash/get'
 import { CoreStateUtils } from './interfaces/UtilsInterface'
 
 export const FlowerStateUtils: CoreStateUtils = {

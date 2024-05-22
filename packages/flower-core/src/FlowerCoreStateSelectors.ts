@@ -1,4 +1,4 @@
-import { get as _get } from 'lodash'
+import _get from 'lodash/get'
 import { ISelectors } from './interfaces/SelectorsInterface'
 import { CoreUtils } from './CoreUtils'
 import { MatchRules } from './RulesMatcher'

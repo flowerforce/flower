@@ -1,16 +1,14 @@
 /* eslint-disable no-useless-escape */
-import {
-  find,
-  get,
-  keyBy,
-  has,
-  omit,
-  isEmpty,
-  isPlainObject,
-  mapKeys,
-  mapValues,
-  trimStart
-} from 'lodash'
+import find from 'lodash/find'
+import get from 'lodash/get'
+import keyBy from 'lodash/keyBy'
+import has from 'lodash/has'
+import omit from 'lodash/omit'
+import isEmpty from 'lodash/isEmpty'
+import isPlainObject from 'lodash/isPlainObject'
+import mapKeys from 'lodash/mapKeys'
+import mapValues from 'lodash/mapValues'
+import trimStart from 'lodash/trimStart'
 import { MatchRules } from './RulesMatcher'
 import {
   CoreUtilitiesFunctions,
