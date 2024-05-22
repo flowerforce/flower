@@ -19,7 +19,6 @@ For more info [flower.stackhouse.dev/](https://flower.stackhouse.dev/)
 - **Form Validation**: Built-in functionalities to validate form inputs within nodes, ensuring data integrity and correctness.
 - **History Management**: Internal management of flow history, tracking node traversal and changes for debugging and visualization purposes.
 
-
 ### Installation
 
 Flower React can be installed via npm or yarn for use in any JavaScript project.
@@ -49,38 +48,35 @@ yarn add @flowerforce/flower-core
 The **FlowerProvider** component wraps the entire application, providing a global context for managing the application flow.
 
 ```jsx
-import React from 'react';
-import Flower, { FlowerProvider } from '@flowerforce/flower-react';
+import React from 'react'
+import { Flower, FlowerProvider } from '@flowerforce/flower-react'
 
 function Root() {
   return (
     <FlowerProvider>
       <App />
     </FlowerProvider>
-  );
+  )
 }
 ```
 
-
 ## How to use
+
 ### Simple Example
 
 The **Flower** component defines an application flow with a specific name, which serves as a unique identifier for the flow. It is the main component for defining the application flow, accepting a required "name" property and an initialData field for prepopulating values.
 
 The **FlowerNode** component represents a UI state or a step within the application flow. Transitions between nodes can be specified using the **to** object.
 
-
 ```jsx
 import React from 'react'
-import Flower, { FlowerNavigate, FlowerNode } from '@flowerforce/flower-react'
+import { Flower, FlowerNavigate, FlowerNode } from '@flowerforce/flower-react'
 
 export const Page = () => {
   return (
     <Flower name="demo">
-      <FlowerNode id="step1"
-        to={{ step2: null }}>
+      <FlowerNode id="step1" to={{ step2: null }}>
         ...
-
         <FlowerNavigate action="next">
           <button>click me to go next</button>
         </FlowerNavigate>
@@ -88,7 +84,6 @@ export const Page = () => {
 
       <FlowerNode id="step2" to={{ step3: null }}>
         ...
-
         <FlowerNavigate action="back">
           <button>click me to go back</button>
         </FlowerNavigate>
@@ -106,10 +101,9 @@ export const Page = () => {
     </Flower>
   )
 }
-
 ```
 
-Edit on  [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-9wsjv7)
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-9wsjv7)
 
 ### Navigate with routes
 
@@ -117,44 +111,45 @@ Additionally, it's possible to navigate between nodes by defining specific route
 
 ```jsx
 import React from 'react'
-import Flower, { FlowerRoute, FlowerNavigate, FlowerNode } from '@flowerforce/flower-react'
+import {
+  Flower,
+  FlowerRoute,
+  FlowerNavigate,
+  FlowerNode
+} from '@flowerforce/flower-react'
 
 export const Page = () => {
   return (
     <Flower name="demo">
       <FlowerRoute id="start" to={{ step1: null }} /> {/* autonext */}
-      
-      <FlowerNode id="step1"
-        to={{ 
-          stepOK: "onSuccess",
-          stepKO: "onError",
+      <FlowerNode
+        id="step1"
+        to={{
+          stepOK: 'onSuccess',
+          stepKO: 'onError',
           default: null
-          }}>
+        }}
+      >
         ...
-
         <FlowerNavigate action="next" route="onSuccess">
           <button>click me to go on "stepOK"</button>
         </FlowerNavigate>
-
         <FlowerNavigate action="next" route="onError">
           <button>click me to go on "stepKO"</button>
         </FlowerNavigate>
-
         <FlowerNavigate action="next">
           <button>click me to go on "default" </button>
         </FlowerNavigate>
       </FlowerNode>
-
       <FlowerNode id="stepOK">... </FlowerNode>
       <FlowerNode id="stepKO">... </FlowerNode>
       <FlowerNode id="default">... </FlowerNode>
-
     </Flower>
   )
 }
-
 ```
-Edit on  [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-9k4kfk)
+
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-9k4kfk)
 
 ### Navigation State Rules
 
@@ -166,24 +161,28 @@ The FlowerNode step1 connects to both step2 and step3. However, the rule states 
 
 ```jsx
 import React from 'react'
-import Flower, { FlowerRoute, FlowerNavigate, FlowerNode } from '@flowerforce/flower-react'
+import {
+  Flower,
+  FlowerRoute,
+  FlowerNavigate,
+  FlowerNode
+} from '@flowerforce/flower-react'
 
 export const Page = () => {
   return (
     <Flower name="demo" initialData={{ skipStep2: true }}>
       <FlowerRoute id="start" to={{ step1: null }} />
-      
-      <FlowerNode 
+
+      <FlowerNode
         id="step1"
-        to={{ 
+        to={{
           step3: {
-              rules: { $and: [{ skipStep2: { $eq: true } }] },
-            },
+            rules: { $and: [{ skipStep2: { $eq: true } }] }
+          },
           step2: null
-          }}
-        >
+        }}
+      >
         ...
-        
         <FlowerNavigate action="next">
           <button>click me to go next</button>
         </FlowerNavigate>
@@ -192,34 +191,39 @@ export const Page = () => {
       <FlowerNode id="step2">...</FlowerNode>
 
       <FlowerNode id="step3">...</FlowerNode>
-
     </Flower>
   )
 }
-
 ```
-Edit on  [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-5c4rs4)
 
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-5c4rs4)
 
 ### Basic WRITE | READ State
 
-To modify the internal state of Flower, besides passing initialData as a prop, we can always modify and read the state through the components **FlowerField** and **FlowerValue**. 
+To modify the internal state of Flower, besides passing initialData as a prop, we can always modify and read the state through the components **FlowerField** and **FlowerValue**.
 
-*FlowerField* pass two props, onChange and value, to properly modify and read the value from the state of Flower.
-*FlowerValue* pass value, to properly read the value from the state of Flower.
+_FlowerField_ pass two props, onChange and value, to properly modify and read the value from the state of Flower.
+_FlowerValue_ pass value, to properly read the value from the state of Flower.
 
 Here's an example of how it works:
 
 ```jsx
 import React from 'react'
-import Flower, { FlowerRoute, FlowerNavigate, FlowerNode, FlowerField, FlowerValue } from '@flowerforce/flower-react'
+import { 
+  Flower,
+  FlowerRoute,
+  FlowerNavigate,
+  FlowerNode,
+  FlowerField,
+  FlowerValue
+} from '@flowerforce/flower-react'
 
 export const Page = () => {
   return (
     <Flower name="demo">
-      <FlowerNode 
-        id="step1" 
-        to={{ 
+      <FlowerNode
+        id="step1"
+        to={{
               step3: {
                 rules={{ $and: [{ skipStep2: { $eq: true } }] }}
               },
@@ -227,7 +231,7 @@ export const Page = () => {
             }}
         >
         ...
-        
+
         <FlowerField id="skipStep2">
           {({ onChange, value }) => <input type="checkbox" checked={value} onChange={e => onChange(e.target.checked)} />}
         </FlowerField>
@@ -239,7 +243,7 @@ export const Page = () => {
 
       <FlowerNode id="step2">...</FlowerNode>
 
-      <FlowerNode id="step3"> 
+      <FlowerNode id="step3">
         <FlowerValue id="enableFinal">
           {({ value }) => <span>skipStep2: {String(!!value)}</span>}
         </FlowerValue>
@@ -251,41 +255,36 @@ export const Page = () => {
 
 ```
 
-Edit on  [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-3-forked-r3hgnj)
-
-
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-3-forked-r3hgnj)
 
 ### Action Node
 
-
 The **FlowerAction** component serves as an action entity within the application flow, enabling the definition of specific actions to execute during the progression of the flow.
 
-The distinction between **FlowerNode** and **FlowerAction** lies in how they behave within the flow. 
+The distinction between **FlowerNode** and **FlowerAction** lies in how they behave within the flow.
 In the context of a **FlowerNode**, if a "back" action is taken but the preceding step is a **FlowerAction**, that particular step is skipped.
 
-
 ```jsx
-import Flower, {
+import {
+  Flower,
   FlowerAction,
   FlowerNavigate,
   FlowerNode,
-  useFlower,
-} from "@flowerforce/flower-react";
-import { memo, useEffect } from "react";
+  useFlower
+} from '@flowerforce/flower-react'
+import { memo, useEffect } from 'react'
 
-const ComponentAction = memo(
-  () => {
-    const { next } = useFlower();
+const ComponentAction = memo(() => {
+  const { next } = useFlower()
 
-    useEffect(() => {
-      // * do your staff here - api call etc **
+  useEffect(() => {
+    // * do your staff here - api call etc **
 
-       next();
-    }, [next]);
+    next()
+  }, [next])
 
-    return <span className="loader"></span>;
-  }
-);
+  return <span className="loader"></span>
+})
 
 export default function App() {
   return (
@@ -294,7 +293,7 @@ export default function App() {
       <FlowerNode id="step1" to={{ step2: null }}>
         ...
         <FlowerNavigate action="next">
-            <button>click me to go next</button>
+          <button>click me to go next</button>
         </FlowerNavigate>
       </FlowerNode>
 
@@ -308,42 +307,39 @@ export default function App() {
       <FlowerNode id="success">
         ...
         <FlowerNavigate action="back">
-            <button>click me to go back</button>
+          <button>click me to go back</button>
         </FlowerNavigate>
       </FlowerNode>
     </Flower>
-  );
+  )
 }
-
 ```
 
-Edit on  [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-actionnode-766vhj)
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-actionnode-766vhj)
 
 Another difference between **FlowerNode** and **FlowerAction** is that upon mounting a FlowerAction, if the preceding node of type **FlowerNode** has the **retain** property, this node will not be unmounted.
 
-
 ```jsx
-import Flower, {
+import {
+  Flower,
   FlowerAction,
   FlowerNavigate,
   FlowerNode,
-  useFlower,
-} from "@flowerforce/flower-react";
-import { memo, useEffect } from "react";
+  useFlower
+} from '@flowerforce/flower-react'
+import { memo, useEffect } from 'react'
 
-const ComponentAction = memo(
-  () => {
-    const { next } = useFlower();
+const ComponentAction = memo(() => {
+  const { next } = useFlower()
 
-    useEffect(() => {
-      // * do your staff here - api call etc **
+  useEffect(() => {
+    // * do your staff here - api call etc **
 
-       next();
-    }, [next]);
+    next()
+  }, [next])
 
-    return <span className="loader"></span>;
-  }
-);
+  return <span className="loader"></span>
+})
 
 export default function App() {
   return (
@@ -352,7 +348,7 @@ export default function App() {
       <FlowerNode id="step1" to={{ step2: null }} retain>
         ...
         <FlowerNavigate action="next">
-            <button>click me to go next</button>
+          <button>click me to go next</button>
         </FlowerNavigate>
       </FlowerNode>
 
@@ -366,16 +362,15 @@ export default function App() {
       <FlowerNode id="success">
         ...
         <FlowerNavigate action="back">
-            <button>click me to go back</button>
+          <button>click me to go back</button>
         </FlowerNavigate>
       </FlowerNode>
     </Flower>
-  );
+  )
 }
-
 ```
-Edit on  [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-actionnode-forked-7cd68s)
 
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-actionnode-forked-7cd68s)
 
 ### Hook - useFlower
 
@@ -385,61 +380,65 @@ Here, we are using the useFlower hook to obtain some essential functions for nav
 
 ```jsx
 import React from 'react'
-import Flower, { FlowerRoute, FlowerNavigate, FlowerNode, useFlower } from '@flowerforce/flower-react'
+import {
+  Flower,
+  FlowerRoute,
+  FlowerNavigate,
+  FlowerNode,
+  useFlower
+} from '@flowerforce/flower-react'
 
 const ButtonNext = () => {
-    // useFlower get the context of the parent Flower
-    const { next, back, jump } = useFlower();
-    return (
-         <button onClick={() => next()}>click me to go next</button>
-    )
+  // useFlower get the context of the parent Flower
+  const { next, back, jump } = useFlower()
+  return <button onClick={() => next()}>click me to go next</button>
 }
 
 export const Page = () => {
   return (
     <Flower name="demo">
       <FlowerRoute id="start" to={{ step1: null }} />
-      
-      <FlowerNode id="step1" 
-        to={{ step2: null }}>
-        ...
 
+      <FlowerNode id="step1" to={{ step2: null }}>
+        ...
         <ButtonNext />
       </FlowerNode>
 
-      <FlowerNode id="step2">
-        ...
-      </FlowerNode>
+      <FlowerNode id="step2">...</FlowerNode>
     </Flower>
   )
 }
-
 ```
-Edit on  [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-6wj3l9)
 
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-6wj3l9)
 
 #### External use
+
 ```jsx
 import React from 'react'
-import Flower, { FlowerRoute, FlowerNavigate, FlowerNode, useFlower } from '@flowerforce/flower-react'
+import {
+  Flower,
+  FlowerRoute,
+  FlowerNavigate,
+  FlowerNode,
+  useFlower
+} from '@flowerforce/flower-react'
 
 export const Page = () => {
-  // useFlower in external usage need to know context passing flowName 
-  const { next, back, jump } = useFlower({ flowName: "demo" });
+  // useFlower in external usage need to know context passing flowName
+  const { next, back, jump } = useFlower({ flowName: 'demo' })
 
   return (
     <>
       <button onClick={() => next()}>click me and go next</button>
 
-      <Flower name="demo">
-        ...
-      </Flower>
+      <Flower name="demo">...</Flower>
     </>
   )
 }
-
 ```
-Edit on  [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-jk86mh)
+
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-jk86mh)
 
 ### Utils Callback onEnter - onExit
 
@@ -449,39 +448,40 @@ onExit (function): A callback function that is executed when exiting the node st
 
 ```jsx
 import React from 'react'
-import Flower, { FlowerRoute, FlowerNavigate, FlowerNode } from '@flowerforce/flower-react'
+import {
+  Flower,
+  FlowerRoute,
+  FlowerNavigate,
+  FlowerNode
+} from '@flowerforce/flower-react'
 
 export const Page = () => {
   return (
     <Flower name="demo">
       <FlowerRoute id="start" to={{ step1: null }} />
-      
-      <FlowerNode id="step1" 
+
+      <FlowerNode
+        id="step1"
         to={{ step2: null }}
-
         // On mount component
-        onEnter={() => console.log("enter on step1")}
-        
+        onEnter={() => console.log('enter on step1')}
         // On unmount component
-        onExit={() => console.log("exit from step1")}
-        >
+        onExit={() => console.log('exit from step1')}
+      >
         ...
-
         <FlowerNavigate action="next">
           <button>click me to go next</button>
         </FlowerNavigate>
       </FlowerNode>
 
-      <FlowerNode id="step2">
-        ...
-      </FlowerNode>
+      <FlowerNode id="step2">...</FlowerNode>
     </Flower>
   )
 }
-
 ```
 
 ## Form
+
 Flower enables the quick creation of forms.
 
 It keeps track of the form's validity status. This status not only facilitates displaying error messages to the user but can also be leveraged for implementing flow rules.
@@ -489,40 +489,41 @@ It keeps track of the form's validity status. This status not only facilitates d
 ### Basic Usage
 
 ```jsx
-import Flower, {
+import {
+  Flower,
   FlowerNavigate,
   FlowerNode,
   FlowerField,
   FlowerAction,
   useFlower,
-  useFlowerForm,
-} from "@flowerforce/flower-react";
-import { useEffect } from "react";
-import "./styles.css";
+  useFlowerForm
+} from '@flowerforce/flower-react'
+import { useEffect } from 'react'
+import './styles.css'
 
 const ComponentAction = () => {
-  const { next } = useFlower();
-  const { getData } = useFlowerForm();
+  const { next } = useFlower()
+  const { getData } = useFlowerForm()
 
   useEffect(() => {
     // get form data
-    const formData = getData();
+    const formData = getData()
 
     try {
       // * do your staff here - api call etc **
       // example setTimout to simulate delay api call
       setTimeout(() => {
         //  navigate to success step
-        next("onSuccess");
-      }, 500);
+        next('onSuccess')
+      }, 500)
     } catch (error) {
       // navigate to error step
-      next("onError");
+      next('onError')
     }
-  }, [next, getData]);
+  }, [next, getData])
 
-  return <span className="loader"></span>;
-};
+  return <span className="loader"></span>
+}
 
 export default function App() {
   return (
@@ -539,12 +540,12 @@ export default function App() {
               validate={[
                 {
                   rules: { $and: [{ username: { $exists: true } }] },
-                  message: "Field is required",
+                  message: 'Field is required'
                 },
                 {
-                  rules: { $and: [{ username: { $strGte: "6" } }] },
-                  message: "Field length must be greater than or equal to 6.",
-                },
+                  rules: { $and: [{ username: { $strGte: '6' } }] },
+                  message: 'Field length must be greater than or equal to 6.'
+                }
               ]}
             >
               {({ onChange, value, errors }) => (
@@ -556,7 +557,7 @@ export default function App() {
                     placeholder="Username"
                     onChange={(e) => onChange(e.target.value)}
                   />
-                  {errors && <div className="error">{errors.join(", ")}</div>}
+                  {errors && <div className="error">{errors.join(', ')}</div>}
                 </div>
               )}
             </FlowerField>
@@ -569,8 +570,8 @@ export default function App() {
               validate={[
                 {
                   rules: { $and: [{ password: { $exists: true } }] },
-                  message: "Field is required",
-                },
+                  message: 'Field is required'
+                }
               ]}
             >
               {({ onChange, value, errors }) => (
@@ -582,7 +583,7 @@ export default function App() {
                     placeholder="Password"
                     onChange={(e) => onChange(e.target.value)}
                   />
-                  {errors && <div className="error">{errors.join(", ")}</div>}
+                  {errors && <div className="error">{errors.join(', ')}</div>}
                 </>
               )}
             </FlowerField>
@@ -590,7 +591,7 @@ export default function App() {
 
           <FlowerNavigate
             action="next"
-            rules={{ $and: [{ "$form.isValid": { $eq: true } }] }}
+            rules={{ $and: [{ '$form.isValid': { $eq: true } }] }}
             alwaysDisplay
           >
             {({ onClick, hidden }) => (
@@ -603,7 +604,7 @@ export default function App() {
       </FlowerNode>
 
       {/* step 2 */}
-      <FlowerAction id="step2" to={{ success: "onSuccess", error: "onError" }}>
+      <FlowerAction id="step2" to={{ success: 'onSuccess', error: 'onError' }}>
         <div className="page step2">
           <ComponentAction />
         </div>
@@ -630,9 +631,8 @@ export default function App() {
         </div>
       </FlowerNode>
     </Flower>
-  );
+  )
 }
-
 ```
 
 Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-2f43gh)
@@ -664,8 +664,8 @@ The rules schema follows the MongoDB style, below is the list of available opera
 Rules in $and | $or
 
 ```jsx
-<FlowerNode id="node" 
-  to={{ 
+<FlowerNode id="node"
+  to={{
     node2: {
       rules: { $and: [
         { myValue: { $exists: true } },
@@ -677,8 +677,8 @@ Rules in $and | $or
         ...
 </Flower>
 
-<FlowerNode id="node" 
-  to={{ 
+<FlowerNode id="node"
+  to={{
     node2: {
       rules: { $or: [
         { myValue: { $exists: false } },
@@ -696,8 +696,8 @@ Compare state value, use '$ref:'
 
 ```jsx
 <Flower name="demo" initialData={{ myValue1: 'test', myValue2: 'test2' }}>
-<FlowerNode id="node" 
-  to={{ 
+<FlowerNode id="node"
+  to={{
     node2: {
       rules: [
         { myValue1: { $eq: '$ref:myValue2' } }
@@ -707,7 +707,6 @@ Compare state value, use '$ref:'
 </Flower>
 ```
 
-
 ## Display Rules
 
 Showing or Hiding Fields: You can use rules to show or hide specific fields based on user choices. For example, hiding a "Buttons" unless the user selects a certain option.
@@ -716,55 +715,51 @@ We can use the FlowerRule component to hide a part of the UI according to certai
 
 If the "alwaysDisplay" property is passed, however, the component will not be automatically hidden, but a "hidden" property will be provided when the rules are not met.
 
-### Example 
+### Example
 
 ```jsx
 import React from 'react'
-import Flower, { FlowerRoute, FlowerNode, FlowerRule, FlowerNavigate } from '@flowerforce/flower-react'
-
+import {
+  Flower,
+  FlowerRoute,
+  FlowerNode,
+  FlowerRule,
+  FlowerNavigate
+} from '@flowerforce/flower-react'
 
 export const Page = () => {
   return (
     <Flower name="demo" initialData={{ enableNav: true }}>
-      <FlowerNode id="step1" 
-        to={{ step2: null }}>
+      <FlowerNode id="step1" to={{ step2: null }}>
         ...
-
-          {/* show / hidden based on rule */}
-          <FlowerRule rules={{ enableNav: { $eq: true } }}>
-            <p>Buttons nav are enabled</p>
-          </FlowerRule>
-
-            {/* always visible component, hidden prop is true when rule is not matched */}
-            <FlowerNavigate
-              action="next"
-              rules={{ enableNav: { $eq: true } }}
-              alwaysDisplay
-            >
-              {({ onClick, hidden }) => (
-                <button disabled={hidden} onClick={onClick}>
-                  Next &#8594;
-                </button>
-              )}
-            </FlowerNavigate>
-
-            {/* visible only when rule is matched */}
-            <FlowerNavigate
-              action="reset"
-              rules={{ enableNav: { $eq: true } }}
-            >
-              <button>Reset</button>
-            </FlowerNavigate>
+        {/* show / hidden based on rule */}
+        <FlowerRule rules={{ enableNav: { $eq: true } }}>
+          <p>Buttons nav are enabled</p>
+        </FlowerRule>
+        {/* always visible component, hidden prop is true when rule is not matched */}
+        <FlowerNavigate
+          action="next"
+          rules={{ enableNav: { $eq: true } }}
+          alwaysDisplay
+        >
+          {({ onClick, hidden }) => (
+            <button disabled={hidden} onClick={onClick}>
+              Next &#8594;
+            </button>
+          )}
+        </FlowerNavigate>
+        {/* visible only when rule is matched */}
+        <FlowerNavigate action="reset" rules={{ enableNav: { $eq: true } }}>
+          <button>Reset</button>
+        </FlowerNavigate>
       </FlowerNode>
-
       ...
     </Flower>
   )
 }
-
 ```
-Edit on  [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-sfn6ml)
 
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-sfn6ml)
 
 # Documentation
 
