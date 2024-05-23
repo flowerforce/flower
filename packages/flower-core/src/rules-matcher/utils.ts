@@ -21,7 +21,7 @@ const rulesMatcherUtils: RulesMatcherUtils = {
     const valueBlock = val
     const pathWithPrefix = rulesMatcherUtils.getPath(path, prefix)
     const valueForKey = _get(data, pathWithPrefix, undefined)
-    const { name } = _get(valueBlock, [path], {}) || {}
+    const { name } = _get(valueBlock, [path]) || {}
     const { op, value, opt } = rulesMatcherUtils.getDefaultRule(
       valueBlock[path]
     )
