@@ -86,13 +86,13 @@ export const CoreUtils: CoreUtilitiesFunctions = {
   },
 
   mapKeysDeepLodash: (obj, cb, isRecursive) => {
-    /* istanbul ignore next */
+    /* c8 ignore next */
     if (!obj && !isRecursive) {
       return {}
     }
 
     if (!isRecursive) {
-      /* istanbul ignore next */
+      /* c8 ignore next */
       if (
         typeof obj === 'string' ||
         typeof obj === 'number' ||

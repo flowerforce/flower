@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-underscore-dangle */
 import React, {
   Children,
   memo,
@@ -83,8 +81,8 @@ const FlowerClient = ({
     }
   }, [dispatch, flowName, nodes, startId, initialData, destroyOnUnmount])
 
+  /* c8 ignore start */
   useEffect(() => {
-    /* istanbul ignore next */
     const eventCb = (msg: any) => {
       if (msg.source !== 'flower-devtool') return
 
@@ -108,18 +106,19 @@ const FlowerClient = ({
       }
     }
 
-    /* istanbul ignore next */
+    /* c8 ignore next */
     if (global.window && _get(global.window, '__FLOWER_DEVTOOLS__')) {
       Emitter.on('flower-devtool-to-client', eventCb)
     }
 
     return () => {
-      /* istanbul ignore next */
+      /* c8 ignore next */
       if (global.window && _get(global.window, '__FLOWER_DEVTOOLS__')) {
         Emitter.off('flower-devtool-to-client', eventCb)
       }
     }
   }, [dispatch, flowName])
+  /* c8 ignore stop */
 
   useEffect(
     () => () => {
@@ -132,8 +131,8 @@ const FlowerClient = ({
     [dispatch, flowName, destroyOnUnmount]
   )
 
+  /* c8 ignore start */
   useEffect(() => {
-    /* istanbul ignore next */
     if (
       isInitialized &&
       wsDevtools &&
@@ -149,9 +148,10 @@ const FlowerClient = ({
       })
     }
   }, [dispatch, flowName, wsDevtools, isInitialized])
+  /* c8 ignore stop */
 
+  /* c8 ignore start */
   useEffect(() => {
-    /* istanbul ignore next */
     if (
       isInitialized &&
       wsDevtools &&
@@ -166,12 +166,12 @@ const FlowerClient = ({
       })
     }
   }, [dispatch, flowName, history, wsDevtools, isInitialized])
+  /* c8 ignore stop */
 
+  /* c8 ignore start */
   useEffect(() => {
     if (!current) return
-    /* istanbul ignore next */
     if (!isInitialized) return
-    /* istanbul ignore next */
     if (
       isInitialized &&
       wsDevtools &&
@@ -186,16 +186,17 @@ const FlowerClient = ({
       })
     }
   }, [flowName, current, wsDevtools, isInitialized])
+  /* c8 ignore stop */
 
   useEffect(() => {
     if (!current) return
-    /* istanbul ignore next */
+    /* c8 ignore next */
     if (!isInitialized) return
 
     if (isDisabled) {
       dispatch({ type: 'flower/next', payload: { flowName, disabled: true } })
       // eslint-disable-next-line no-underscore-dangle, no-undef
-      /* istanbul ignore next */
+      /* c8 ignore start */
       if (
         wsDevtools &&
         global.window &&
@@ -210,11 +211,12 @@ const FlowerClient = ({
           params: { action: 'next', payload: { flowName, disabled: true } }
         })
       }
+      /* c8 ignore stop */
       return
     }
 
     // eslint-disable-next-line no-underscore-dangle, no-undef
-    /* istanbul ignore next */
+    /* c8 ignore start */
     if (
       wsDevtools &&
       global.window &&
@@ -229,6 +231,7 @@ const FlowerClient = ({
         time: new Date()
       })
     }
+    /* c8 ignore stop */
   }, [
     dispatch,
     flowName,

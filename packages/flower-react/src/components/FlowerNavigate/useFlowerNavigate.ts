@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useCallback, useContext } from 'react'
 import { context } from '../../context'
 import useFlower from '../useFlower'

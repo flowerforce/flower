@@ -1,11 +1,10 @@
-/* eslint-disable */
-import React, { useContext, useEffect, useMemo } from 'react';
-import { CoreUtils } from '@flowerforce/flower-core';
-import { useSelector } from '../provider';
-import { getDataFromState } from '../selectors';
-import { context } from '../context';
-import FlowerRule from './FlowerRule';
-import { FlowerValueProps } from './types/FlowerValue';
+import React, { useContext, useEffect, useMemo } from 'react'
+import { CoreUtils } from '@flowerforce/flower-core'
+import { useSelector } from '../provider'
+import { getDataFromState } from '../selectors'
+import { context } from '../context'
+import FlowerRule from './FlowerRule'
+import { FlowerValueProps } from './types/FlowerValue'
 
 //TODO make types for wrapper function
 function Wrapper({
@@ -20,18 +19,18 @@ function Wrapper({
   const { flowNameFromPath = flowName, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
-  );
-  const value = useSelector(getDataFromState(flowNameFromPath, path));
+  )
+  const value = useSelector(getDataFromState(flowNameFromPath, path))
   const values =
     spreadValue && typeof value === 'object' && !Array.isArray(value)
       ? value
-      : { value };
+      : { value }
 
   useEffect(() => {
     if (onUpdate) {
-      onUpdate(value);
+      onUpdate(value)
     }
-  }, [onUpdate, value]);
+  }, [onUpdate, value])
 
   return (
     <Component
@@ -41,7 +40,7 @@ function Wrapper({
       hidden={hidden}
       {...values}
     />
-  );
+  )
 }
 
 const RenderRules = ({
@@ -75,8 +74,8 @@ const RenderRules = ({
         />
       )}
     </FlowerRule>
-  );
-};
+  )
+}
 
 const FlowerValue = ({
   id = '*',
@@ -86,11 +85,11 @@ const FlowerValue = ({
   children,
   spreadValue,
   flowName,
-  onUpdate,
+  onUpdate
 }: FlowerValueProps) => {
-  const { flowName: flowNameContext } = useContext(context);
+  const { flowName: flowNameContext } = useContext(context)
 
-  const name = flowName || flowNameContext;
+  const name = flowName || flowNameContext
   if (typeof children === 'function') {
     return (
       <RenderRules
@@ -103,13 +102,13 @@ const FlowerValue = ({
         flowName={name}
         onUpdate={onUpdate}
       />
-    );
+    )
   }
 
   return React.Children.map(children, (child, i) => {
-    if (!React.isValidElement(child)) return child;
-    const {type, props} = child
-    const Component = type;
+    if (!React.isValidElement(child)) return child
+    const { type, props } = child
+    const Component = type
     // eslint-disable-next-line react/jsx-props-no-spreading
     return (
       <RenderRules
@@ -124,11 +123,11 @@ const FlowerValue = ({
         {...props}
         onUpdate={onUpdate}
       />
-    );
-  });
-};
+    )
+  })
+}
 
-const component = React.memo(FlowerValue);
-component.displayName = 'FlowerValue';
+const component = React.memo(FlowerValue)
+component.displayName = 'FlowerValue'
 
-export default component;
+export default component

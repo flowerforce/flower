@@ -237,7 +237,7 @@ const rulesMatcherUtils: RulesMatcherUtils = {
 /**
  * Defines a set of comparison operators used for matching rules against user input.
  */
-const operators: Operators = {
+export const operators: Operators = {
   $exists: (a, b) => !rulesMatcherUtils.isEmpty(a) === b,
 
   $eq: (a, b) => a === b,

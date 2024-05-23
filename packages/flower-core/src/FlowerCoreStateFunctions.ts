@@ -79,7 +79,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
     return state
   },
   // TODO check internal logic and use case
-  /* istanbul ignore next */
+  /* c8 ignore next */
   forceAddHistory: (state, { payload }) => {
     const { name, flowName, history } = payload
 
@@ -140,16 +140,16 @@ export const FlowerCoreReducers: ReducersFunctions = {
   replaceNode: (state, { payload }) => {
     const { name, flowName, node } = payload
     // non ancora implementanto nell'hook useFlower
-    /* istanbul ignore next */
+    /* c8 ignore next */
     if (hasNode(state, name || flowName || '', node)) {
       _set(state, [name || flowName || '', 'current'], node)
       _set(state, [name || flowName || '', 'history'], [node])
     }
-    /* istanbul ignore next */
+    /* c8 ignore next */
     return state
   },
 
-  /* istanbul ignore next */
+  /* c8 ignore next */
   initializeFromNode: (state, { payload }) => {
     const { name, flowName, node } = payload
     if (hasNode(state, name || flowName || '', node)) {
@@ -160,7 +160,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
     return state
   },
 
-  /* istanbul ignore next */
+  /* c8 ignore next */
   forceResetHistory: (state, { payload }) => {
     const { name, flowName } = payload
     if (!name && !flowName) return state
@@ -177,7 +177,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
     const startId = payload.startId || _get(payload, 'nodes.0.nodeId')
 
     // TODO non verificato, controllo precendente che non lo permette
-    /* istanbul ignore next */
+    /* c8 ignore next */
     if (!startId) {
       // eslint-disable-next-line no-console
       console.warn('Flower is empty')
@@ -195,8 +195,8 @@ export const FlowerCoreReducers: ReducersFunctions = {
     })
   },
   // TODO usato solo da flower su vscode
-  setCurrentNode: /* istanbul ignore next */ (state, { payload }) => {
-    /* istanbul ignore next */
+  setCurrentNode: /* c8 ignore next */ (state, { payload }) => {
+    /* c8 ignore next */
     if (hasNode(state, payload.name, payload.node)) {
       const startId = _get(state, [payload.name, 'startId'])
       if (payload.node === startId) {
@@ -234,8 +234,8 @@ export const FlowerCoreReducers: ReducersFunctions = {
     }
   },
   // TODO usato al momento solo il devtool
-  replaceData: /* istanbul ignore next */ (state, { payload }) => {
-    /* istanbul ignore next */
+  replaceData: /* c8 ignore next */ (state, { payload }) => {
+    /* c8 ignore next */
     _set(state, [payload.flowName, 'data'], payload.value)
   },
   unsetData: (state, { payload }) => {
@@ -260,7 +260,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
       payload: { flowName, currentNode: currentNodeId }
     })
 
-    /* istanbul ignore next */
+    /* c8 ignore next */
     // eslint-disable-next-line no-underscore-dangle
     if (
       global.window &&

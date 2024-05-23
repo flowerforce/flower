@@ -85,7 +85,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const emitNavigateEvent = useCallback(
     //TODO check this function is needed
     (params: any) => {
-      /* istanbul ignore next */
+      /* c8 ignore next */
       // eslint-disable-next-line no-underscore-dangle, no-undef
       // if (global.window && global.window.__FLOWER_DEVTOOLS__) {
       //   Emitter.emit('flower-devtool-from-client', {

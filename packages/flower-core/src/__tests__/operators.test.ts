@@ -1,70 +1,70 @@
 import { Operators } from '../rules-matcher/interface'
-import rulesMatcherUtils from '../rules-matcher/utils'
+import rulesMatcherUtils, { operators } from '../rules-matcher/utils'
 import _intersection from 'lodash/intersection'
 
-const operators: Operators = {
-  $exists: (a, b) => !rulesMatcherUtils.isEmpty(a) === b,
+// const operators: Operators = {
+//   $exists: (a, b) => !rulesMatcherUtils.isEmpty(a) === b,
 
-  $eq: (a, b) => a === b,
+//   $eq: (a, b) => a === b,
 
-  $ne: (a, b) => a !== b,
+//   $ne: (a, b) => a !== b,
 
-  $gt: (a, b) => rulesMatcherUtils.forceNumber(a) > parseFloat(b),
+//   $gt: (a, b) => rulesMatcherUtils.forceNumber(a) > parseFloat(b),
 
-  $gte: (a, b) => rulesMatcherUtils.forceNumber(a) >= parseFloat(b),
+//   $gte: (a, b) => rulesMatcherUtils.forceNumber(a) >= parseFloat(b),
 
-  $lt: (a, b) => rulesMatcherUtils.forceNumber(a) < parseFloat(b),
+//   $lt: (a, b) => rulesMatcherUtils.forceNumber(a) < parseFloat(b),
 
-  $lte: (a, b) => rulesMatcherUtils.forceNumber(a) <= parseFloat(b),
+//   $lte: (a, b) => rulesMatcherUtils.forceNumber(a) <= parseFloat(b),
 
-  $strGt: (a, b) => String(a || '').length > parseFloat(b),
+//   $strGt: (a, b) => String(a || '').length > parseFloat(b),
 
-  $strGte: (a, b) => String(a || '').length >= parseFloat(b),
+//   $strGte: (a, b) => String(a || '').length >= parseFloat(b),
 
-  $strLt: (a, b) => String(a || '').length < parseFloat(b),
+//   $strLt: (a, b) => String(a || '').length < parseFloat(b),
 
-  $strLte: (a, b) => String(a || '').length <= parseFloat(b),
+//   $strLte: (a, b) => String(a || '').length <= parseFloat(b),
 
-  $in: (a, b) =>
-    rulesMatcherUtils
-      .forceArray(b)
-      .some(
-        (c) =>
-          _intersection(
-            rulesMatcherUtils.forceArray(a),
-            rulesMatcherUtils.forceArray(c)
-          ).length
-      ),
+//   $in: (a, b) =>
+//     rulesMatcherUtils
+//       .forceArray(b)
+//       .some(
+//         (c) =>
+//           _intersection(
+//             rulesMatcherUtils.forceArray(a),
+//             rulesMatcherUtils.forceArray(c)
+//           ).length
+//       ),
 
-  $nin: (a, b) =>
-    !rulesMatcherUtils
-      .forceArray(b)
-      .some(
-        (c) =>
-          _intersection(
-            rulesMatcherUtils.forceArray(a),
-            rulesMatcherUtils.forceArray(c)
-          ).length
-      ),
+//   $nin: (a, b) =>
+//     !rulesMatcherUtils
+//       .forceArray(b)
+//       .some(
+//         (c) =>
+//           _intersection(
+//             rulesMatcherUtils.forceArray(a),
+//             rulesMatcherUtils.forceArray(c)
+//           ).length
+//       ),
 
-  $all: (a, b) =>
-    rulesMatcherUtils
-      .forceArray(b)
-      .every(
-        (c) =>
-          _intersection(
-            rulesMatcherUtils.forceArray(a),
-            rulesMatcherUtils.forceArray(c)
-          ).length
-      ),
+//   $all: (a, b) =>
+//     rulesMatcherUtils
+//       .forceArray(b)
+//       .every(
+//         (c) =>
+//           _intersection(
+//             rulesMatcherUtils.forceArray(a),
+//             rulesMatcherUtils.forceArray(c)
+//           ).length
+//       ),
 
-  $regex: (a, b, opt) =>
-    rulesMatcherUtils
-      .forceArray(b)
-      .some((c) =>
-        c instanceof RegExp ? c.test(a) : new RegExp(c, opt).test(a)
-      )
-}
+//   $regex: (a, b, opt) =>
+//     rulesMatcherUtils
+//       .forceArray(b)
+//       .some((c) =>
+//         c instanceof RegExp ? c.test(a) : new RegExp(c, opt).test(a)
+//       )
+// }
 
 describe('Operators tests', () => {
   describe('$exists - exists', () => {

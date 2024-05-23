@@ -1,6 +1,6 @@
 import { MatchRules } from '../RulesMatcher'
 
-const { rulesMatcher } = MatchRules
+const { rulesMatcher, utils } = MatchRules
 
 const testRules = [
   { date: { $exists: true } },
@@ -91,5 +91,32 @@ describe('rulesMatcher', () => {
       testFormValue
     )
     expect(result).toEqual([true])
+  })
+  test('returns error if selected operator does not exist', () => {
+    const rules = { age: { $null: 2 } }
+    const f = () => rulesMatcher(rules, testFormValue)
+    expect(f).toThrow(Error)
+  })
+  test('returns true if value is instance of date', () => {
+    const date = new Date()
+    const result = utils.isDate(date)
+    expect(result).toEqual(true)
+  })
+  test('returns true if value is defined', () => {
+    const data = ''
+    const result = utils.isDefined(data)
+    expect(result).toEqual(true)
+  })
+  test('returns true if value is a object', () => {
+    const data = {}
+    const result = utils.isObject(data)
+    expect(result).toEqual(true)
+  })
+  test('returns true if value is a function', () => {
+    const data = () => {
+      console.log('ciao')
+    }
+    const result = utils.isObject(data)
+    expect(result).toEqual(true)
   })
 })
