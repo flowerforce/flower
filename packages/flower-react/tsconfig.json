@@ -4,7 +4,9 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "sourceMap": false
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
   },
   "files": [],
   "include": [],
