@@ -13,5 +13,6 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/flower-core',
+  coverageProvider: 'v8',
   setupFilesAfterEnv: ['<rootDir>/src/__tests__/setup.ts']
 }
