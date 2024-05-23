@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "dist/out-tsc",
     "module": "ESNext",
-    "allowSyntheticDefaultImports": true,
     "jsx": "react",
     "declaration": true,
     "removeComments": true,
