@@ -1,12 +1,10 @@
-import {
-  set as _set,
-  unset as _unset,
-  get as _get,
-  last as _last,
-  slice as _slice,
-  cloneDeep as _cloneDeep,
-  lastIndexOf
-} from 'lodash'
+import _set from 'lodash/set'
+import _unset from 'lodash/unset'
+import _get from 'lodash/get'
+import _last from 'lodash/last'
+import _slice from 'lodash/slice'
+import _cloneDeep from 'lodash/cloneDeep'
+import lastIndexOf from 'lodash/lastIndexOf'
 import { CoreUtils } from './CoreUtils'
 import { ReducersFunctions } from './interfaces/ReducerInterface'
 import { FlowerStateUtils } from './FlowerCoreStateUtils'

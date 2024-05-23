@@ -11,7 +11,7 @@ import React, {
 } from 'react'
 import _keyBy from 'lodash/keyBy'
 import { Emitter } from '@flowerforce/flower-core'
-import { FlowerCoreContextProvider } from '../context'
+import { Provider } from '../context'
 import _get from 'lodash/get'
 import { convertElements } from '../utils'
 import { actions } from '../reducer'
@@ -248,13 +248,15 @@ const FlowerClient = ({
   )
 
   return isInitialized ? (
-    <FlowerCoreContextProvider value={contextValues}>
+    <Provider value={contextValues}>
       {prevFlowerNodeId !== current &&
         typeof prevFlowerNodeId === 'string' &&
         nodeById[prevFlowerNodeId]}
       {!isDisabled && nodeById[current]}
-    </FlowerCoreContextProvider>
+    </Provider>
   ) : null
 }
 
-export default memo(FlowerClient)
+const component = memo(FlowerClient)
+
+export default component

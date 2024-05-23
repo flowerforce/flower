@@ -20,8 +20,11 @@
     "test": "nx run-many -t test --passWithNoTests",
     "graph": "nx graph",
     "reset": "nx reset",
-    "release:core": "npm run build:core && nx release --first-release --yes",
-    "release:react": "npm run build:react && nx release --first-release --dry-run --yes"
+    "build:packages": "nx run-many -t build --exclude=flower-demo",
+    "prepare:prerelease": "npm run build:packages && nx release version --specifier prerelease --preid beta --git-commit true",
+    "publish:prerelease": "nx release publish --tag prerelease",
+    "prepare:release": "npm run build:packages && nx release --skip-publish",
+    "publish:release": "nx release publish"
   },
   "private": true,
   "repository": {
@@ -78,6 +81,7 @@
     "@nx/nx-darwin-arm64": "19.0.2",
     "@nx/nx-darwin-x64": "19.0.2",
     "@nx/nx-linux-x64-gnu": "19.0.2",
-    "@nx/nx-win32-x64-msvc": "19.0.2"
+    "@nx/nx-win32-x64-msvc": "19.0.2",
+    "@rollup/rollup-linux-x64-gnu":"4.17.2"
   }
 }

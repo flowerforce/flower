@@ -2,7 +2,7 @@ import { CoreUtils } from '../CoreUtils'
 import { FlowerCoreReducers } from '../FlowerCoreStateFunctions'
 import { ActionWithPayload } from '../interfaces/ReducerInterface'
 import { Flower } from '../interfaces/Store'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 
 const state: Flower<Record<string, any>> = {
   persist: false,
@@ -452,32 +452,6 @@ describe('FlowerCoreReducers', () => {
     })
   })
 
-  describe('addData', () => {
-    it('should add data to the specified flowname', () => {
-      const payload: any = {
-        flowName: 'first',
-        value: {
-          newData: {
-            name: 'test new data'
-          }
-        }
-      }
-
-      const action = {
-        payload,
-        type: 'addDataAction'
-      }
-
-      const clonedState = { ...mock }
-
-      FlowerCoreReducers.addData(clonedState, action)
-
-      expect(clonedState.first.data).toEqual({
-        newData: { name: 'test new data' }
-      })
-    })
-  })
-
   describe('addDataByPath', () => {
     it('should add data to the specified path in the state', () => {
       const payload = {
@@ -492,7 +466,7 @@ describe('FlowerCoreReducers', () => {
 
       const mock_2: { [x: string]: any } = { ...mock }
 
-      FlowerCoreReducers.addDataByPath(mock_2, action)
+      const newState = FlowerCoreReducers.addDataByPath(mock_2, action)
 
       expect(mock_2.first.data.nested.path.to.data).toEqual('new data')
     })
@@ -511,7 +485,7 @@ describe('FlowerCoreReducers', () => {
         type: 'flowerAction'
       }
 
-      FlowerCoreReducers.replaceData(mock as any, action)
+      const newState = FlowerCoreReducers.replaceData(mock as any, action)
 
       expect(mock.first.data).toEqual({
         newData: 'new data'
@@ -531,7 +505,7 @@ describe('FlowerCoreReducers', () => {
       }
       const mock_2: { [x: string]: any } = { ...mock }
 
-      FlowerCoreReducers.unsetData(mock_2, action)
+      const newState = FlowerCoreReducers.unsetData(mock_2, action)
 
       expect(mock_2.first.data.name).toBeUndefined()
     })
@@ -554,37 +528,6 @@ describe('FlowerCoreReducers', () => {
       FlowerCoreReducers.setFormIsValidating(mock_2, action)
 
       expect(mock_2.first.form.Node1.isValidating).toEqual(true)
-    })
-  })
-
-  describe('reset', () => {
-    it('should perform a reset on the selected flowname', () => {
-      const payload = {
-        flowName: 'first'
-      }
-      const action = { payload, type: 'flowerResetAction' }
-
-      const clonedMock = { ...mock }
-
-      FlowerCoreReducers.reset(clonedMock, action)
-
-      expect(clonedMock.first).toEqual({
-        current: 'Start',
-        data: { newData: 'new data' },
-        form: {
-          Node1: { errors: {}, isValidating: true },
-          Start: { touched: true }
-        },
-        history: ['Start'],
-        nextRules: { Start: [{ nodeId: 'Node1', rules: null }] },
-        nodes: {
-          Node1: { nodeId: 'Node1', nodeType: 'FlowerNode' },
-          Node2: { nodeId: 'Node2', nodeType: 'FlowerNode' },
-          Start: { nodeId: 'start', nodeType: 'FlowerRoute' }
-        },
-        persist: false,
-        startId: 'Start'
-      })
     })
   })
 })

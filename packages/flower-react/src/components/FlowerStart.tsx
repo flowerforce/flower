@@ -1,16 +1,12 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from '../provider'
-import { FlowerCoreContext } from '../context'
+import { context } from '../context'
 import { makeSelectStartNodeId } from '../selectors'
 
 function FlowerStart() {
   const dispatch = useDispatch()
   const one = useRef(false)
-  const {
-    flowName,
-    autostart = true,
-    currentNode
-  } = useContext(FlowerCoreContext)
+  const { flowName, autostart = true, currentNode } = useContext(context)
   const startNodeId = useSelector(makeSelectStartNodeId(flowName ?? ''))
 
   useEffect(() => {

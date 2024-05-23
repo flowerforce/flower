@@ -3,6 +3,7 @@
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "allowSyntheticDefaultImports": true,
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": false

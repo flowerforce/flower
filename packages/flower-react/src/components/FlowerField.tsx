@@ -6,28 +6,28 @@ import React, {
   useState,
   useMemo,
   useEffect,
-  useRef,
-} from 'react';
+  useRef
+} from 'react'
 import {
   getDataFromState,
   makeSelectFieldError,
-  makeSelectNodeFormTouched,
-} from '../selectors';
-import { FlowerCoreContext } from '../context';
-import FlowerRule from './FlowerRule';
-import { store, useDispatch, useSelector } from '../provider';
-import debounce from 'lodash/debounce';
-import get from 'lodash/get';
+  makeSelectNodeFormTouched
+} from '../selectors'
+import { context } from '../context'
+import FlowerRule from './FlowerRule'
+import { store, useDispatch, useSelector } from '../provider'
+import debounce from 'lodash/debounce'
+import get from 'lodash/get'
 import {
   MatchRules,
   CoreUtils,
   Selectors,
-  FlowerStateUtils,
-} from '@flowerforce/flower-core';
-import { FlowerFieldProps } from './types/FlowerField';
+  FlowerStateUtils
+} from '@flowerforce/flower-core'
+import { FlowerFieldProps } from './types/FlowerField'
 
 function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
-  return typeof x === 'string';
+  return typeof x === 'string'
 }
 
 //TODO make types for wrapper function props
@@ -48,75 +48,77 @@ function Wrapper({
   defaultValue,
   ...props
 }: any) {
-  const dispatch = useDispatch();
-  const [touched, setTouched] = useState<boolean | undefined>();
+  const dispatch = useDispatch()
+  const [touched, setTouched] = useState<boolean | undefined>()
   const [customErrors, setCustomErrors] = useState(
     asyncValidate && [asyncInitialError]
-  );
-  const [isValidating, setIsValidating] = useState<boolean | undefined>(undefined);
+  )
+  const [isValidating, setIsValidating] = useState<boolean | undefined>(
+    undefined
+  )
 
   const { flowNameFromPath = flowName, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
-  );
-  const value = useSelector(getDataFromState(flowNameFromPath, path));
+  )
+  const value = useSelector(getDataFromState(flowNameFromPath, path))
   const errors = useSelector(
     makeSelectFieldError(flowName, id, validate),
     CoreUtils.allEqual
-  );
-  const refValue = useRef<Record<string, any>>();
-  const one = useRef<boolean>();
+  )
+  const refValue = useRef<Record<string, any>>()
+  const one = useRef<boolean>()
 
   const validateFn = useCallback(
     async (value: any) => {
       if (asyncWaitingError) {
-        setCustomErrors([asyncWaitingError]);
+        setCustomErrors([asyncWaitingError])
       }
-      setIsValidating(true);
-      const state = FlowerStateUtils.getAllData(store);
-      const res = await asyncValidate(value, state, errors);
-      setIsValidating(false);
-      setCustomErrors(res);
+      setIsValidating(true)
+      const state = FlowerStateUtils.getAllData(store)
+      const res = await asyncValidate(value, state, errors)
+      setIsValidating(false)
+      setCustomErrors(res)
     },
     [asyncWaitingError, errors]
-  );
+  )
 
   const debouncedValidation = useCallback(debounce(validateFn, asyncDebounce), [
-    validateFn,
-  ]);
+    validateFn
+  ])
 
   useEffect(() => {
     if (asyncValidate) {
-      if (refValue.current === value) return;
-      refValue.current = value;
+      if (refValue.current === value) return
+      refValue.current = value
 
-      const hasValue = !MatchRules.utils.isEmpty(value);
+      const hasValue = !MatchRules.utils.isEmpty(value)
 
       if (!hasValue) {
-        setCustomErrors([asyncInitialError]);
-        setIsValidating(false);
-        return;
+        setCustomErrors([asyncInitialError])
+        setIsValidating(false)
+        return
       }
 
-      setTouched(true);
-      debouncedValidation(value);
+      setTouched(true)
+      debouncedValidation(value)
     }
-  }, [asyncValidate, asyncInitialError, value, debouncedValidation]);
+  }, [asyncValidate, asyncInitialError, value, debouncedValidation])
 
   const touchedForm = useSelector(
     makeSelectNodeFormTouched(flowName, currentNode)
-  );
+  )
 
   const allErrors = useMemo(
     () => [...errors, ...(customErrors || []).filter(Boolean)],
     [errors, customErrors]
-  );
+  )
 
   useEffect(() => {
     if (onUpdate) {
-      onUpdate(value);
+      onUpdate(value)
     }
-  }, [value, onUpdate]);
+  }, [value, onUpdate])
 
   const onChange = useCallback(
     (val: any) => {
@@ -125,20 +127,20 @@ function Wrapper({
         payload: {
           flowName: flowNameFromPath,
           id: path,
-          value: val,
-        },
-      });
+          value: val
+        }
+      })
     },
     [flowNameFromPath, path, onBlur, dispatch]
-  );
+  )
 
   const onBlurInternal = useCallback(
     (e: Event) => {
-      setTouched(true);
-      onBlur && onBlur(e);
+      setTouched(true)
+      onBlur && onBlur(e)
     },
     [onBlur]
-  );
+  )
 
   useLayoutEffect(() => {
     dispatch({
@@ -147,10 +149,10 @@ function Wrapper({
         name: flowName,
         id,
         currentNode,
-        errors: allErrors,
-      },
-    });
-  }, [id, flowName, allErrors, currentNode]);
+        errors: allErrors
+      }
+    })
+  }, [id, flowName, allErrors, currentNode])
 
   useEffect(() => {
     dispatch({
@@ -158,10 +160,10 @@ function Wrapper({
       payload: {
         name: flowName,
         currentNode,
-        isValidating,
-      },
-    });
-  }, [flowName, currentNode, isValidating]);
+        isValidating
+      }
+    })
+  }, [flowName, currentNode, isValidating])
 
   useLayoutEffect(() => {
     // destroy
@@ -169,28 +171,28 @@ function Wrapper({
       if (destroyValue) {
         dispatch({
           type: `flower/unsetData`,
-          payload: { flowName: flowNameFromPath, id: path },
-        });
+          payload: { flowName: flowNameFromPath, id: path }
+        })
       }
       dispatch({
         type: 'flower/formRemoveErrors',
         payload: {
           name: flowName,
           id,
-          currentNode,
-        },
-      });
-    };
-  }, [destroyValue]);
+          currentNode
+        }
+      })
+    }
+  }, [destroyValue])
 
   useEffect(() => {
     if (defaultValue && !one.current) {
-      one.current = true;
-      onChange(defaultValue);
+      one.current = true
+      onChange(defaultValue)
     }
-  }, [defaultValue, onChange]);
+  }, [defaultValue, onChange])
 
-  const isTouched = touched || touchedForm;
+  const isTouched = touched || touchedForm
 
   const newProps = useMemo(
     () => ({
@@ -203,7 +205,7 @@ function Wrapper({
       onBlur: onBlurInternal,
       isTouched,
       hidden,
-      isValidating,
+      isValidating
     }),
     [
       props,
@@ -214,21 +216,21 @@ function Wrapper({
       onChange,
       onBlurInternal,
       hidden,
-      isValidating,
+      isValidating
     ]
-  );
+  )
 
   if (typeof Component === 'function') {
-    return Component(newProps);
+    return Component(newProps)
   }
 
   // TODO si arriva in questa condizione quando si passa un componente primitivo es. div
   // in questo caso non posso props custom di flower
   if (isIntrinsicElement(Component)) {
-    return <Component id={id} {...props} />;
+    return <Component id={id} {...props} />
   }
 
-  return Component && <Component {...newProps} />;
+  return Component && <Component {...newProps} />
 }
 
 const FlowerField = ({
@@ -245,12 +247,11 @@ const FlowerField = ({
   defaultValue,
   destroyValue,
   flowName,
-  onUpdate,
+  onUpdate
 }: FlowerFieldProps<any>) => {
-  const { flowName: flowNameContext, currentNode } =
-    useContext(FlowerCoreContext);
+  const { flowName: flowNameContext, currentNode } = useContext(context)
 
-  const name = flowName || flowNameContext;
+  const name = flowName || flowNameContext
 
   if (typeof children === 'function') {
     return (
@@ -279,15 +280,15 @@ const FlowerField = ({
           />
         )}
       </FlowerRule>
-    );
+    )
   }
 
   return React.Children.map(children, (child, i) => {
     if (!React.isValidElement(child)) {
-      return child;
+      return child
     }
-    const { type, props } = child;
-    const Component = type;
+    const { type, props } = child
+    const Component = type
     return (
       <FlowerRule
         key={i}
@@ -315,11 +316,11 @@ const FlowerField = ({
           />
         )}
       </FlowerRule>
-    );
-  });
-};
+    )
+  })
+}
 
-const component = React.memo(FlowerField);
-component.displayName = 'FlowerField';
+const component = React.memo(FlowerField)
+component.displayName = 'FlowerField'
 
-export default component;
+export default component

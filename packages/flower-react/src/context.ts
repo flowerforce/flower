@@ -6,14 +6,8 @@ export type FlowerContext = {
   autostart?: boolean | undefined
 }
 
-const context = createContext<FlowerContext>({})
+const _context = createContext<FlowerContext>({})
 
-const { Provider: FlowerCoreContextProvider } = context
-const { Consumer: FlowerCoreContextConsumer } = context
-
-const FlowerCoreContext = context
-export {
-  FlowerCoreContextProvider,
-  FlowerCoreContextConsumer,
-  FlowerCoreContext
-}
+export const context = _context
+export const Provider = _context.Provider
+export const Consumer = _context.Consumer

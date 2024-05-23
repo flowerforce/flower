@@ -1,6 +1,4 @@
-import { get as _get } from 'lodash'
 import RulesMatcherUtils from './rules-matcher/utils'
-import operators from './rules-matcher/operators'
 import utils from './rules-matcher/utils'
 import { RulesObject } from './interfaces/Store'
 
@@ -28,6 +26,5 @@ const rulesMatcher = (
 
 export const MatchRules = {
   rulesMatcher,
-  operators,
   utils
 }

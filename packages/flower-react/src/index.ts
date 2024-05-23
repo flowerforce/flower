@@ -1,11 +1,11 @@
-import Flower from './components/Flower'
-
 /* // FOR REACT NATIVE
 if (global.window === undefined) {
   global.window = global;
 } */
-
-export { FlowerCoreContext as FlowerContext } from './context'
+export { Consumer as FlowerContextConsumer } from './context'
+export { Provider as FlowerContextProvider } from './context'
+export { context as FlowerContext } from './context'
+export { default as Flower } from './components/Flower'
 export { default as FlowerNode } from './components/FlowerNode'
 export { default as FlowerAction } from './components/FlowerAction'
 export { default as FlowerServer } from './components/FlowerServer'
@@ -22,5 +22,27 @@ export { default as useFlowerForm } from './components/useFlowerForm'
 export { default as FlowerProvider } from './provider'
 export { getDataByFlow } from './selectors'
 export { useSelector } from './provider'
-
-export default Flower
+export type { FlowerContext as FlowerContextProps } from './context'
+export type { FlowerNodeDefaultProps } from './components/types/DefaultNode'
+export type { FlowerComponentProps } from './components/types/FlowerComponent'
+export type { FlowerFieldProps } from './components/types/FlowerField'
+export type { FlowerFlowProps } from './components/types/FlowerFlow'
+export type {
+  UseFlower,
+  UseFlowerForm,
+  UseFlowerProps,
+  NavigateFunctionParams
+} from './components/types/FlowerHooks'
+export type {
+  RouteReset,
+  RoutePrev,
+  RouteNode,
+  Route,
+  FlowerNavigateProps
+} from './components/types/FlowerNavigate'
+export type { FlowerNodeProps } from './components/types/FlowerNode'
+export type { FlowerProviderProps } from './components/types/FlowerProvider'
+export type { FlowerRouteProps } from './components/types/FlowerRoute'
+export type { FlowerRuleProps } from './components/types/FlowerRule'
+export type { FlowerServerProps } from './components/types/FlowerServer'
+export type { FlowerValueProps } from './components/types/FlowerValue'

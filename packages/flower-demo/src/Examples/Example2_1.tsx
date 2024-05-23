@@ -1,4 +1,4 @@
-import Flower, { FlowerNode, useFlower } from '@flowerforce/flower-react'
+import { Flower, FlowerNode, useFlower } from '@flowerforce/flower-react'
 import './styles.css'
 
 const ButtonNext = () => {

@@ -6,7 +6,8 @@ import {
   GetKey,
   Unflatten
 } from './interfaces/FlatInterface'
-import { get, isBuffer } from 'lodash'
+import get from 'lodash/get'
+import isBuffer from 'lodash/isBuffer'
 
 const keyIdentity: KeyIdentity = (key) => key
 

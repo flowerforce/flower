@@ -1,10 +1,11 @@
-import Flower, {
+import {
   FlowerNavigate,
   FlowerNode,
   FlowerField,
   FlowerAction,
   useFlower,
-  useFlowerForm
+  useFlowerForm,
+  Flower
 } from '@flowerforce/flower-react'
 import { useEffect } from 'react'
 import './styles.css'
