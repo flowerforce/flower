@@ -6,7 +6,7 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": false,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
   "files": [],
   "include": [],

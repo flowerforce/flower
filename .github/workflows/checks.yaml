@@ -16,6 +16,8 @@ jobs:
           cache: 'npm'
       - name: Install deps
         run: npm ci --include=optional
+      - name: Lint check
+        run: npm run lint:check # Check linting and apply possible fixes
       - name: Typecheck
         run: npm run tsc:noemit
       - name: Run tests
