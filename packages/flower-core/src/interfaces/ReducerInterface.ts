@@ -348,9 +348,21 @@ export type ReducersFunctions<
    * @param state
    * @param action
    *
-   * Resets a flow to its initial state.
+   * Return back to the first node and resets history.
    *
    * @returns state
    */
   reset: ReducerFunctionSign<T, { name?: string; flowName?: string }>
+  /**
+   * @param state
+   * @param action
+   *
+   * Returns back to the first node, resets history and clean all previous data from flow.
+   *
+   * @returns state
+   */
+  restart: ReducerFunctionSign<
+    T,
+    { name?: string; flowName?: string; initialData?: Record<string, any> }
+  >
 }
