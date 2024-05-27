@@ -10,13 +10,15 @@ const ACTION_TYPES = {
   back: ['prev', 'prevToNode'],
   reset: ['reset', 'initializeFromNode'],
   jump: ['node', 'node'],
-  next: ['next', 'next']
+  next: ['next', 'next'],
+  restart: ['restart', 'restart']
 }
 const PAYLAOAD_KEYS_NEEDED = {
   back: ['node'],
   reset: ['node'],
   jump: ['node', 'history'],
-  next: ['node', 'route', 'data']
+  next: ['node', 'route', 'data'],
+  restart: ['node', 'initialData']
 }
 
 const makeActionPayload =
@@ -57,6 +59,11 @@ const makeActionPayloadOnNext = makeActionPayload(
   ACTION_TYPES.next,
   PAYLAOAD_KEYS_NEEDED.next
 )
+
+const makeActionPayloadOnRestart = makeActionPayload(
+  ACTION_TYPES.restart,
+  PAYLAOAD_KEYS_NEEDED.restart
+)
 /** This hook allows you to read flow informations, such as the flowName and ID of the current node.
  *
  * It also exposes all the functions to navigate within the flow:
@@ -69,6 +76,7 @@ const makeActionPayloadOnNext = makeActionPayload(
  *
  * - reset
  *
+ * - restart
  *
  * @param {string} flowName - first optional parameter
  *
@@ -77,7 +85,7 @@ const makeActionPayloadOnNext = makeActionPayload(
 const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const dispatch = useDispatch()
 
-  const { flowName: flowNameDefault } = useContext(context)
+  const { flowName: flowNameDefault, initialData } = useContext(context)
 
   const flowName = customFlowName || name || flowNameDefault
   const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''))
@@ -137,6 +145,19 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
     [dispatch, emitNavigateEvent, flowName]
   )
 
+  const restart = useCallback(
+    (param?: NavigateFunctionParams) => {
+      const { type, payload } = makeActionPayloadOnRestart(flowName, {
+        param,
+        initialData
+      })
+      dispatch({ type: `flower/${type}`, payload })
+
+      emitNavigateEvent({ type, payload })
+    },
+    [dispatch, emitNavigateEvent, flowName, initialData]
+  )
+
   const jump = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnNode(flowName, param)
@@ -153,7 +174,8 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
     next,
     jump,
     back,
-    reset
+    reset,
+    restart
   }
 }
 

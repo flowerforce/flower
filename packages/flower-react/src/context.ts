@@ -4,6 +4,7 @@ export type FlowerContext = {
   flowName?: string | undefined
   currentNode?: string | undefined
   autostart?: boolean | undefined
+  initialData?: Record<string, any>
 }
 
 const _context = createContext<FlowerContext>({})

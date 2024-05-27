@@ -38,7 +38,7 @@ export const useFlowerNavigate = ({
 }: UseFlowerNavigateProps) => {
   const { flowName: flowNameContext } = useContext(context)
   const name = flowName || flowNameContext
-  const { next, jump, back, reset } = useFlower({ flowName: name })
+  const { next, jump, back, reset, restart } = useFlower({ flowName: name })
 
   const onNavigate = useCallback(() => {
     switch (action) {
@@ -58,11 +58,15 @@ export const useFlowerNavigate = ({
         reset(node)
         return
 
+      case 'restart':
+        restart(node)
+        return
+
       default:
         next()
         return
     }
-  }, [next, jump, back, reset, node, route])
+  }, [next, jump, back, reset, restart, node, route])
 
   return {
     onNavigate,

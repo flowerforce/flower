@@ -1,4 +1,10 @@
-import { Route, RouteNode, RoutePrev, RouteReset } from './FlowerNavigate'
+import {
+  Route,
+  RouteNode,
+  RoutePrev,
+  RouteReset,
+  RouteRestart
+} from './FlowerNavigate'
 
 export type UseFlowerProps = { [x in 'name' | 'flowName']?: string }
 
@@ -34,10 +40,12 @@ type useFlowerActions = {
   next: (payload?: Route) => void
   /**Use this function to move to the previous node inside the flow*/
   back: (payload?: RoutePrev) => void
-  /**Use this function to reset the flow data and history */
+  /**Use this function to return to the first node and restore history */
   reset: (payload?: RouteReset) => void
   /**Use this function to move to a specific node*/
   jump: (payload: RouteNode) => void
+  /**Use this function to reset the flow data and history */
+  restart: (payload?: RouteRestart) => void
 }
 
 export type UseFlower = (options?: UseFlowerProps) => useFlowerActions & {
