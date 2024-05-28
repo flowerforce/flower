@@ -531,7 +531,7 @@ describe('FlowerCoreReducers', () => {
     })
   })
 
-  describe('restart', () => {
+  describe('reset', () => {
     it('should set data to undefined, should reset form, should restore history and current node', () => {
       const payload = {
         flowName: 'flower'
@@ -562,7 +562,7 @@ describe('FlowerCoreReducers', () => {
         })
       }
 
-      FlowerCoreReducers.restart(mock_2, action)
+      FlowerCoreReducers.reset(mock_2, action)
       console.log('🚀 ~ it ~ mock_2:', mock_2)
 
       expect(mock_2).toEqual(expectedResult)
@@ -597,7 +597,7 @@ describe('FlowerCoreReducers', () => {
         })
       }
 
-      FlowerCoreReducers.restart(mock_2, action)
+      FlowerCoreReducers.reset(mock_2, action)
       console.log('🚀 ~ it ~ mock_2:', mock_2)
 
       expect(mock_2).toEqual(expectedResult)

@@ -8,17 +8,17 @@ type NavigateFunctionParams = string | Record<string, any>
 
 const ACTION_TYPES = {
   back: ['prev', 'prevToNode'],
-  reset: ['reset', 'initializeFromNode'],
   jump: ['node', 'node'],
   next: ['next', 'next'],
-  restart: ['restart', 'restart']
+  restart: ['restart', 'restart'],
+  reset: ['reset', 'initializeFromNode']
 }
 const PAYLAOAD_KEYS_NEEDED = {
   back: ['node'],
-  reset: ['node'],
   jump: ['node', 'history'],
   next: ['node', 'route', 'data'],
-  restart: ['node', 'initialData']
+  restart: ['node'],
+  reset: ['node', 'initialData']
 }
 
 const makeActionPayload =
@@ -135,9 +135,9 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
     [dispatch, emitNavigateEvent, flowName]
   )
 
-  const reset = useCallback(
+  const restart = useCallback(
     (param?: NavigateFunctionParams) => {
-      const { type, payload } = makeActionPayloadOnReset(flowName, param)
+      const { type, payload } = makeActionPayloadOnRestart(flowName, param)
       dispatch({ type: `flower/${type}`, payload })
 
       emitNavigateEvent({ type, payload })
@@ -145,12 +145,18 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
     [dispatch, emitNavigateEvent, flowName]
   )
 
-  const restart = useCallback(
+  const reset = useCallback(
     (param?: NavigateFunctionParams) => {
-      const { type, payload } = makeActionPayloadOnRestart(flowName, {
-        param,
-        initialData
-      })
+      const { type, payload } = makeActionPayloadOnReset(
+        flowName,
+        typeof param === 'string'
+          ? { node: param, initialData }
+          : {
+              ...param,
+              initialData
+            }
+      )
+
       dispatch({ type: `flower/${type}`, payload })
 
       emitNavigateEvent({ type, payload })

@@ -352,7 +352,7 @@ export type ReducersFunctions<
    *
    * @returns state
    */
-  reset: ReducerFunctionSign<T, { name?: string; flowName?: string }>
+  restart: ReducerFunctionSign<T, { name?: string; flowName?: string }>
   /**
    * @param state
    * @param action
@@ -361,7 +361,7 @@ export type ReducersFunctions<
    *
    * @returns state
    */
-  restart: ReducerFunctionSign<
+  reset: ReducerFunctionSign<
     T,
     { name?: string; flowName?: string; initialData?: Record<string, any> }
   >
