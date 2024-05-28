@@ -21,6 +21,8 @@ import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
 import useFlowerForm from '../components/useFlowerForm'
 
+const delay = (ms) => new Promise((r) => setTimeout(r, ms))
+
 const Text = ({
   text,
   value
@@ -1084,6 +1086,7 @@ describe('FlowerNavigate test render <Flower />', () => {
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(await screen.findByText('step3')).toBeVisible()
     fireEvent.click(screen.getByTestId('btn-restart'))
+    await delay(300)
     expect(await screen.findByText('step1')).toBeVisible()
   })
 
