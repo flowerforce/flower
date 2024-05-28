@@ -22,8 +22,7 @@
   },
   "license": "ISC",
   "peerDependencies": {
-    "react": ">=18",
-    "react-dom": ">=18"
+    "react": ">=18"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",

@@ -3,7 +3,7 @@ name: Publish release
 on:
   push:
     branches: 
-      - main
+      - release
 
 jobs:
   release:
@@ -32,15 +32,12 @@ jobs:
         run: npm ci --include=optional
       - name: Prepare release and push commit
         run: |
-          npm run release:prepare
-          git push
-          git checkout -b develop
-          git merge main
+          npm run prepare:release
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish to npm
-        run: npm run release:publish
+        run: npm run publish:release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
