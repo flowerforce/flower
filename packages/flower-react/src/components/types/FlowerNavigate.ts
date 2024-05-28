@@ -17,7 +17,7 @@ export type RouteNode =
       history?: string[]
     }
 
-export type RouteReset =
+export type RouteRestart =
   //** The target node id */
   | string
   | {
@@ -27,7 +27,7 @@ export type RouteReset =
       flowName?: string
     }
 
-export type RouteRestart =
+export type RouteReset =
   //** The target node id */
   | string
   | {

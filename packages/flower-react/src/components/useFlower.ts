@@ -8,17 +8,17 @@ type NavigateFunctionParams = string | Record<string, any>
 
 const ACTION_TYPES = {
   back: ['prev', 'prevToNode'],
-  reset: ['reset', 'initializeFromNode'],
   jump: ['node', 'node'],
   next: ['next', 'next'],
-  restart: ['restart', 'restart']
+  restart: ['restart', 'restart'],
+  reset: ['reset', 'initializeFromNode']
 }
 const PAYLAOAD_KEYS_NEEDED = {
   back: ['node'],
-  reset: ['node'],
   jump: ['node', 'history'],
   next: ['node', 'route', 'data'],
-  restart: ['node', 'initialData']
+  restart: ['node'],
+  reset: ['node', 'initialData']
 }
 
 const makeActionPayload =
