@@ -563,7 +563,6 @@ describe('FlowerCoreReducers', () => {
       }
 
       FlowerCoreReducers.reset(mock_2, action)
-      console.log('🚀 ~ it ~ mock_2:', mock_2)
 
       expect(mock_2).toEqual(expectedResult)
     })
@@ -598,7 +597,6 @@ describe('FlowerCoreReducers', () => {
       }
 
       FlowerCoreReducers.reset(mock_2, action)
-      console.log('🚀 ~ it ~ mock_2:', mock_2)
 
       expect(mock_2).toEqual(expectedResult)
     })

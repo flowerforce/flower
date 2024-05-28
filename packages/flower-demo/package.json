@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/flower-demo",
-  "version": "3.0.0",
+  "version": "3.0.1-beta.1",
   "description": "FlowerJS React demo app.",
   "license": "ISC",
   "devDependencies": {
