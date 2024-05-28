@@ -17,6 +17,16 @@ export type RouteNode =
       history?: string[]
     }
 
+export type RouteRestart =
+  //** The target node id */
+  | string
+  | {
+      //** The target node id */
+      node: string
+      //** The name of the flow in which call the function.*/
+      flowName?: string
+    }
+
 export type RouteReset =
   //** The target node id */
   | string
@@ -25,6 +35,8 @@ export type RouteReset =
       node: string
       //** The name of the flow in which call the function.*/
       flowName?: string
+      //** The initial flow data to restore */
+      initialData?: Record<string, any>
     }
 
 export type RoutePrev =
@@ -76,6 +88,11 @@ export type FlowerNavigateProps = {
   | {
       action?: 'jump'
       node?: RouteNode
+      route?: undefined
+    }
+  | {
+      action?: 'restart'
+      node?: RouteRestart
       route?: undefined
     }
 )

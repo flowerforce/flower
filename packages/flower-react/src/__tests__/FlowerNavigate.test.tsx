@@ -102,6 +102,22 @@ const ButtonResetNode = ({ node }: any) => {
   )
 }
 
+const ButtonRestart = () => {
+  return (
+    <FlowerNavigate action="restart">
+      <button data-testid="btn-restart">Restart</button>
+    </FlowerNavigate>
+  )
+}
+
+const ButtonRestartNode = ({ node }: any) => {
+  return (
+    <FlowerNavigate action="restart" node={node}>
+      <button data-testid="btn-restart">Restart</button>
+    </FlowerNavigate>
+  )
+}
+
 const ButtonResetNodeObject = ({ value }: any) => {
   return (
     <FlowerNavigate action="reset" node={value}>
@@ -1037,6 +1053,37 @@ describe('FlowerNavigate test render <Flower />', () => {
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(await screen.findByText('step3')).toBeVisible()
     fireEvent.click(screen.getByTestId('btn-reset'))
+    expect(await screen.findByText('step1')).toBeVisible()
+  })
+
+  it('FlowerNavigate test restart flow', async () => {
+    render(
+      <FlowerProvider>
+        <Flower name="app-test5">
+          <FlowerNode id="start" to={{ a: null }}>
+            <InitState state={{ name: 'aaaa' }} />
+          </FlowerNode>
+          <FlowerNode id="a" to={{ b: null }}>
+            <Text text="step1"></Text>
+            <ButtonNext />
+          </FlowerNode>
+          <FlowerNode id="b" to={{ d: null }}>
+            <Text text="step2" />
+            <ButtonNext />
+          </FlowerNode>
+          <FlowerAction id="d">
+            <Text text="step3" />
+            <ButtonRestart />
+          </FlowerAction>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(await screen.findByText('step2')).toBeVisible()
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(await screen.findByText('step3')).toBeVisible()
+    fireEvent.click(screen.getByTestId('btn-restart'))
     expect(await screen.findByText('step1')).toBeVisible()
   })
 

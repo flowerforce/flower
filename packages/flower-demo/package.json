@@ -14,7 +14,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@flowerforce/flower-react": "3.0.1-beta.1",
+    "@flowerforce/flower-react": "3.0.0",
     "@reduxjs/toolkit": "^2.2.4",
     "antd": "^5.17.2",
     "lodash": "^4.17.21",

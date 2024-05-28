@@ -242,9 +242,10 @@ const FlowerClient = ({
   const contextValues = useMemo(
     () => ({
       flowName,
+      initialData,
       currentNode: current
     }),
-    [flowName, current]
+    [flowName, initialData, current]
   )
 
   return isInitialized ? (

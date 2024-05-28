@@ -361,11 +361,20 @@ export const FlowerCoreReducers: ReducersFunctions = {
       payload: { name: name || flowName || '' }
     })
   },
-  reset: (state, { payload }) => {
+  restart: (state, { payload }) => {
     const { name, flowName } = payload
     FlowerCoreReducers.restoreHistory(state, {
       type: 'restoreHistory',
       payload: { name: name || flowName || '' }
     })
+  },
+  reset: (state, { payload }) => {
+    const { name, flowName, initialData } = payload
+    FlowerCoreReducers.restoreHistory(state, {
+      type: 'restoreHistory',
+      payload: { name: name || flowName || '' }
+    })
+    _set(state, [name || flowName || '', 'form'], {})
+    _set(state, [name || flowName || '', 'data'], initialData)
   }
 }

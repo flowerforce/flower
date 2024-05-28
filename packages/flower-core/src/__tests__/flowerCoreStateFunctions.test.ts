@@ -530,4 +530,77 @@ describe('FlowerCoreReducers', () => {
       expect(mock_2.first.form.Node1.isValidating).toEqual(true)
     })
   })
+
+  describe('reset', () => {
+    it('should set data to undefined, should reset form, should restore history and current node', () => {
+      const payload = {
+        flowName: 'flower'
+      }
+      const action = {
+        payload,
+        type: 'flowerAction'
+      }
+
+      const mock_2: { [x: string]: any } = {
+        ...FlowerStateWrap({
+          ...state,
+          history: ['Start', 'Node1', 'Node2'],
+          current: 'Node2',
+          data: { something: 'aaa' },
+          form: { ...state.form }
+        })
+      }
+
+      const expectedResult = {
+        ...FlowerStateWrap({
+          ...state,
+          history: ['Start'],
+          current: 'Start',
+          // @ts-expect-error TYPE ERROR
+          data: undefined,
+          form: {}
+        })
+      }
+
+      FlowerCoreReducers.reset(mock_2, action)
+      console.log('🚀 ~ it ~ mock_2:', mock_2)
+
+      expect(mock_2).toEqual(expectedResult)
+    })
+    it('should set data to initialData, should reset form, should restore history and current node', () => {
+      const payload = {
+        flowName: 'flower',
+        initialData: { something_initial: 'INITIAL DATA' }
+      }
+      const action = {
+        payload,
+        type: 'flowerAction'
+      }
+
+      const mock_2: { [x: string]: any } = {
+        ...FlowerStateWrap({
+          ...state,
+          history: ['Start', 'Node1', 'Node2'],
+          current: 'Node2',
+          data: { something: 'aaa' },
+          form: { ...state.form }
+        })
+      }
+
+      const expectedResult = {
+        ...FlowerStateWrap({
+          ...state,
+          history: ['Start'],
+          current: 'Start',
+          data: { something_initial: 'INITIAL DATA' },
+          form: {}
+        })
+      }
+
+      FlowerCoreReducers.reset(mock_2, action)
+      console.log('🚀 ~ it ~ mock_2:', mock_2)
+
+      expect(mock_2).toEqual(expectedResult)
+    })
+  })
 })
