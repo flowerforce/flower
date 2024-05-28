@@ -1,0 +1,88 @@
+{
+  "//": "Do not publish this file",
+  "type": "flow",
+  "name": "example3",
+  "elements": {
+    "step1": {
+      "id": "step1",
+      "position": {
+        "x": 350,
+        "y": 0
+      },
+      "animated": false,
+      "type": "FlowerNode",
+      "sourceType": "FlowerNode",
+      "_metadata": {}
+    },
+    "stepOK": {
+      "id": "stepOK",
+      "position": {
+        "x": 0,
+        "y": 350
+      },
+      "animated": false,
+      "type": "FlowerNode",
+      "sourceType": "FlowerNode",
+      "_metadata": {}
+    },
+    "stepKO": {
+      "id": "stepKO",
+      "position": {
+        "x": 350,
+        "y": 350
+      },
+      "animated": false,
+      "type": "FlowerNode",
+      "sourceType": "FlowerNode",
+      "_metadata": {}
+    },
+    "step": {
+      "id": "step",
+      "position": {
+        "x": 700,
+        "y": 350
+      },
+      "animated": false,
+      "type": "FlowerNode",
+      "sourceType": "FlowerNode",
+      "_metadata": {}
+    },
+    "reactflow__edge-step1-stepOK": {
+      "id": "reactflow__edge-step1-stepOK",
+      "label": "◈",
+      "animated": false,
+      "style": {
+        "stroke": "#97A3AC"
+      },
+      "labelStyle": {
+        "fill": "#97A3AC"
+      },
+      "_metadata": {}
+    },
+    "reactflow__edge-step1-stepKO": {
+      "id": "reactflow__edge-step1-stepKO",
+      "label": "◈",
+      "animated": false,
+      "style": {
+        "stroke": "#97A3AC"
+      },
+      "labelStyle": {
+        "fill": "#97A3AC"
+      },
+      "_metadata": {}
+    },
+    "reactflow__edge-step1-step": {
+      "id": "reactflow__edge-step1-step",
+      "label": "+",
+      "animated": false,
+      "style": {
+        "stroke": "#97A3AC"
+      },
+      "labelStyle": {
+        "fill": "#97A3AC"
+      },
+      "_metadata": {}
+    }
+  },
+  "apps": []
+}

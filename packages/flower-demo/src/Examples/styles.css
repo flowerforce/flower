@@ -1,0 +1,141 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: helvetica;
+  color: white;
+}
+
+.page {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page.auto {
+  height: auto;
+}
+
+.page.mask {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background: rgb(0 0 0 / 32%);
+  justify-content: center;
+  align-items: center;
+}
+.page input {
+  width: 200px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  font-size: 15px;
+}
+
+.page span {
+  font-weight: bold;
+  color: white;
+  font-size: 8vw;
+}
+
+.page button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.page button:disabled {
+  opacity: 0.5;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.navigate {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.step1 {
+  background: #2980b9;
+}
+.step1 button {
+  background: #3498db;
+}
+
+.step3 {
+  background: #c0392b;
+}
+.step3 button {
+  background: #e74c3c;
+}
+
+.step2 {
+  background: #27ae60;
+}
+.step2 button {
+  background: #2ecc71;
+}
+
+.step4 {
+  background: #2c3e50;
+}
+.step4 button {
+  background: #34495e;
+}
+
+button.success {
+  background: #27ae60;
+}
+
+button.error {
+  background: #c0392b;
+}
+
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
