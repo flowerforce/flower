@@ -147,10 +147,16 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
 
   const reset = useCallback(
     (param?: NavigateFunctionParams) => {
-      const { type, payload } = makeActionPayloadOnReset(flowName, {
-        param,
-        initialData
-      })
+      const { type, payload } = makeActionPayloadOnReset(
+        flowName,
+        typeof param === 'string'
+          ? { node: param, initialData }
+          : {
+              ...param,
+              initialData
+            }
+      )
+
       dispatch({ type: `flower/${type}`, payload })
 
       emitNavigateEvent({ type, payload })
