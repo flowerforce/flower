@@ -19,6 +19,7 @@ jobs:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
           fetch-tags: true
+          persist-credentials: false
       - name: Config GitHub user
         run: |
           git config user.name "${GITHUB_ACTOR}"
