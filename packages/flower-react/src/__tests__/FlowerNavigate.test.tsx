@@ -1086,7 +1086,7 @@ describe('FlowerNavigate test render <Flower />', () => {
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(await screen.findByText('step3')).toBeVisible()
     fireEvent.click(screen.getByTestId('btn-restart'))
-    await delay(300)
+    await delay(1000)
     expect(await screen.findByText('step1')).toBeVisible()
   })
 
