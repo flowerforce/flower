@@ -1,12 +1,12 @@
 # Flower React
 
-<a alt="Flower logo" href="https://flower.stackhouse.dev/" target="_blank" rel="noreferrer"><img src="https://flower.stackhouse.dev/_next/static/media/flower-logo.bb32f863.svg" width="50"></a>
+<a alt="Flower logo" href="https://flowerjs.it/" target="_blank" rel="noreferrer"><img src="https://flowerjs.it/_next/static/media/flower-logo.bb32f863.svg" width="50"></a>
 
 Flower React is a front-end development library built on top of Flower Core, specifically designed for React applications. It seamlessly integrates Flower's powerful capabilities into React projects, providing a user-friendly interface for creating, modifying, and monitoring workflows.
 
-For more info [flower.stackhouse.dev/](https://flower.stackhouse.dev/)
+For more info [flowerjs.it/](https://flowerjs.it/)
 
-<!-- ![Flower react tool](https://flower.stackhouse.dev/static/images/flower-react.gif) -->
+<!-- ![Flower react tool](https://flowerjs.it/static/images/flower-react.gif) -->
 
 ## Features
 
@@ -763,4 +763,4 @@ Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-f
 
 # Documentation
 
-The Flower React docs are published at [flower.stackhouse.dev/](https://flower.stackhouse.dev)
+The Flower React docs are published at [flowerjs.it/](https://flowerjs.it)

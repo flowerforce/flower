@@ -1,6 +1,6 @@
 # Flower
 
-<a alt="Flower logo" href="https://flower.stackhouse.dev/" target="_blank" rel="noreferrer"><img src="https://flower.stackhouse.dev/_next/static/media/flower-logo.bb32f863.svg" width="50"></a>
+<a alt="Flower logo" href="https://flowerjs.it/" target="_blank" rel="noreferrer"><img src="https://flowerjs.it/_next/static/media/flower-logo.bb32f863.svg" width="50"></a>
 
 Flower is a front-end development library that allows you to manage and visualize workflows through an intuitive graphical representation. This library is designed to help developers create, modify, and monitor workflows via a user-friendly graphical interface.
 
@@ -18,7 +18,7 @@ Flower is currently available for React only. -->
 
 ## Full Documentation
 
-For more info [flower.stackhouse.dev/](https://flower.stackhouse.dev/).
+For more info [flowerjs.it/](https://flowerjs.it/).
 
 ## Contributing
 

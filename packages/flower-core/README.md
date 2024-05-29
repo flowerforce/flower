@@ -1,6 +1,6 @@
 # Flower Core
 
-<a alt="Flower logo" href="https://flower.stackhouse.dev/" target="_blank" rel="noreferrer"><img src="https://flower.stackhouse.dev/_next/static/media/flower-logo.bb32f863.svg" width="50"></a>
+<a alt="Flower logo" href="https://flowerjs.it/" target="_blank" rel="noreferrer"><img src="https://flowerjs.it/_next/static/media/flower-logo.bb32f863.svg" width="50"></a>
 
 Flower Core is the foundational business logic library that powers all Flower front-end workflow visualization tools. It provides the essential functionalities required to create, modify, and visualize workflows in a graphical format. This core library serves as the backbone for various versions of Flower, such as Flower-React, and will support future versions for other frameworks and platforms.
 
@@ -53,7 +53,7 @@ The future of Flower Core includes:
 
 ## Full Documentation
 
-For more info [flower.stackhouse.dev/](https://flower.stackhouse.dev/).
+For more info [flowerjs.it/](https://flowerjs.it/).
 
 ## Contributing
 
