@@ -1,6 +1,6 @@
+import { RulesObject } from './interfaces'
 import RulesMatcherUtils from './rules-matcher/utils'
 import utils from './rules-matcher/utils'
-import { RulesObject } from './interfaces/Store'
 
 const rulesMatcher = (
   rules?: Record<string, any> | Record<string, any>[],

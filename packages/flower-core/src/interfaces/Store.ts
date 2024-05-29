@@ -18,21 +18,6 @@ export enum RulesOperators {
   $regex = '$regex'
 }
 
-type RulesValuesType<T> = { '$form.isValid': boolean } & T
-
-type RulesOperatorsInArray<T> = Partial<{
-  [KEY in keyof T]: Partial<{
-    [K in keyof typeof RulesOperators]: T[KEY]
-  }>
-}>
-export type RulesObject<T> =
-  | {
-      [K in keyof typeof RulesModes]:
-        | Array<RulesOperatorsInArray<RulesValuesType<T>>>
-        | Array<RulesObject<RulesValuesType<T>>>
-    }
-  | Array<RulesOperatorsInArray<RulesValuesType<T>>>
-
 export interface StoreRoot<T extends Record<string, any>> {
   flower: { [x: string]: Flower<T> }
 }
