@@ -761,6 +761,56 @@ export const Page = () => {
 
 Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-sfn6ml)
 
+
+# Debugging Your Flower Application with @flowerforce/devtool
+To enhance the debugging process of your Flower application, we offer a specialized library named @flowerforce/devtool. This tool is designed to provide a more convenient and powerful debugging experience.
+
+### Installation
+You can install @flowerforce/devtool using either npm or Yarn. Choose your preferred package manager and follow the instructions below
+
+### Using npm
+
+1. Ensure you have Node.js and npm installed on your system.
+2. Run the following command to install the library:
+
+```bash
+#NPM
+npm install @flowerforce/devtool
+```
+
+### Using yarn
+
+1. Ensure you have yarn installed on your system.
+2. Run the following command to install the library:
+
+```bash
+#YARN
+yarn add @flowerforce/devtool
+```
+
+### Example
+
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+import App from './App'
+import { FlowerProvider } from '@flowerforce/flower-react'
+import { Devtool } from '@flowerforce/devtool'
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+
+root.render(
+  <FlowerProvider>
+    <App />
+  </FlowerProvider>
+)
+
+Devtool({
+  port: 8774
+})
+```
+
 # Documentation
 
 The Flower React docs are published at [flowerjs.it/](https://flowerjs.it)
