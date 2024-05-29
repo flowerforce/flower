@@ -145,10 +145,11 @@ const FlowerClient = ({
         action: 'FLOWER_CLIENT_INIT',
         name: flowName,
         time: new Date(),
-        nodeId: isInitialized
+        nodeId: isInitialized,
+        getState: store.getState
       })
     }
-  }, [dispatch, flowName, wsDevtools, isInitialized])
+  }, [dispatch, flowName, wsDevtools, isInitialized, store])
 
   useEffect(() => {
     /* istanbul ignore next */

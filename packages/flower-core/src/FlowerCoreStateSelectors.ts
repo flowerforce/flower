@@ -2,7 +2,7 @@ import _get from 'lodash/get'
 import { ISelectors } from './interfaces/SelectorsInterface'
 import { CoreUtils } from './CoreUtils'
 import { MatchRules } from './RulesMatcher'
-import { flat } from './Flat'
+import { unflatten } from 'flat'
 
 export const FlowerCoreStateSelectors: ISelectors = {
   selectGlobal: (state) => state && state.flower,
@@ -84,7 +84,7 @@ export const FlowerCoreStateSelectors: ISelectors = {
 
     const [disabled] = MatchRules.rulesMatcher(
       rules,
-      { ...flat.unflatten(res) },
+      { ...unflatten(res) },
       false,
       { prefix: flowName }
     )
