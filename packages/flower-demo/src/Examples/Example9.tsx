@@ -87,10 +87,8 @@ export function Example9() {
             </FlowerField>
             <FlowerRule
               rules={(data: any) => {
-                console.log('asd')
                 return !data.$form.isValid
               }}
-              alwaysDisplay
             >
               Ciao Andrea
             </FlowerRule>

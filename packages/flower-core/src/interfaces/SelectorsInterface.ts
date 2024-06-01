@@ -1,5 +1,5 @@
 import { RulesObject } from './CoreInterface'
-import { Flower, Form, Node } from './Store'
+import { Flower, Form, INode } from './Store'
 
 export interface ISelectors {
   /**
@@ -70,7 +70,7 @@ export interface ISelectors {
    * @returns
    */
   makeSelectCurrentNodeDisabled<T extends Record<string, any>>(
-    nodes: { [x: string]: Partial<Node> },
+    nodes: { [x: string]: Partial<INode> },
     current: Flower<T>['current']
   ): boolean
   /**
