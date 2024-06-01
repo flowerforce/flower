@@ -1,4 +1,3 @@
-export { flat as Flat } from './Flat'
 export { Emitter } from './Emitter'
 export { FlowerCoreReducers } from './FlowerCoreStateFunctions'
 export { FlowerStateUtils } from './FlowerCoreStateUtils'
