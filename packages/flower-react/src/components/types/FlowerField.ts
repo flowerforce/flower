@@ -56,7 +56,14 @@ export type FlowerFieldProps<
    *             },
    *           },
    *           message: 'Value not valid',
-   *         },
+   *        },
+   *        {
+   *          // Don't use promises
+   *          rules: (data)=> {
+   *            return data.name === 'Andrea'
+   *          },
+   *          message: 'Value not valid',
+   *        }
    *       ]}
    *
    * For every rule you can pass an error message, that Flower returns when that condition is note satisfied
