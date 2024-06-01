@@ -70,6 +70,8 @@ type RulesWithName = {
   rules: string | { name?: string; rules: RulesObject<any> }
 }
 
+export type FunctionRule = (data: Record<string, any>) => Boolean
+
 export type RulesObject<T> =
   | RulesValuesType<T>
   | {

@@ -29,10 +29,10 @@ const rulesMatcherUtils: RulesMatcherUtils = {
     const valueRef =
       value && String(value).indexOf('$ref:') === 0
         ? _get(
-            data,
-            rulesMatcherUtils.getPath(value.replace('$ref:', ''), prefix),
-            undefined
-          )
+          data,
+          rulesMatcherUtils.getPath(value.replace('$ref:', ''), prefix),
+          undefined
+        )
         : value
 
     if (!operators[op]) {
@@ -220,6 +220,8 @@ const rulesMatcherUtils: RulesMatcherUtils = {
 
   getKeys: (rules, options) => {
     if (!rules) return null
+    if (typeof rules == 'function') return []
+
     if (
       !rulesMatcherUtils
         .forceArray(rules)

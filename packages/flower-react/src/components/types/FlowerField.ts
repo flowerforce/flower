@@ -1,4 +1,4 @@
-import { RulesObject } from '@flowerforce/flower-core'
+import { FunctionRule, RulesObject } from '@flowerforce/flower-core'
 
 export type FlowerFieldProps<
   T extends Record<string, any> = Record<string, any>
@@ -90,7 +90,7 @@ export type FlowerFieldProps<
    *
    * Example: rules={{ $and: [{ name: { $exist: true } }] }}
    */
-  rules?: RulesObject<T>
+  rules?: RulesObject<T> | FunctionRule
   /** The name of the flow from which read the data
    *
    * - note: the default value is the name of the flow where the component is used

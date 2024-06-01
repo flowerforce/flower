@@ -1,4 +1,4 @@
-import { RulesObject } from '@flowerforce/flower-core'
+import { FunctionRule, RulesObject } from '@flowerforce/flower-core'
 
 export type FlowerRuleProps = {
   /** The path to the value you want to read from the flow's data
@@ -10,12 +10,13 @@ export type FlowerRuleProps = {
   id?: string
   /** */
   value?: any
-  /** An object containing the display rules of that component. When the conditions are not satisfied, the children is hidden.
+  /** An object or function containing the display rules of that component. When the conditions are not satisfied, the children is hidden.
    *
    * Example: rules={{ $and: [{ name: { $exist: true } }] }}
+   * Example: rules={(state) => state... === true}
    * if missing it is always visible
    */
-  rules?: RulesObject<any>
+  rules?: RulesObject<any> | FunctionRule
   /** The name of the flow from which read the data
    *
    * - note: the default value is the name of the flow where the component is used

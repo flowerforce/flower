@@ -77,6 +77,10 @@ export const FlowerCoreStateSelectors: ISelectors = {
     if (!rules) return false
     if (!keys) return false
 
+    if (typeof rules === 'function') {
+      return rules(state)
+    }
+
     const res = keys.reduce((acc, inc) => {
       const k = inc
       return Object.assign(acc, { [k]: _get(state, k) })

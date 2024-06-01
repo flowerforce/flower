@@ -1,4 +1,4 @@
-import { RulesObject } from '@flowerforce/flower-core'
+import { FunctionRule, RulesObject } from '@flowerforce/flower-core'
 
 export type FlowerValueProps = {
   /** The path to the value you want to read from the flow's data
@@ -14,7 +14,7 @@ export type FlowerValueProps = {
    *
    * Example: rules={{ $and: [{ name: { $exist: true } }] }}
    */
-  rules?: RulesObject<any>
+  rules?: RulesObject<any> | FunctionRule
   /** The FlowerValue's children  */
   children:
     | React.ReactNode

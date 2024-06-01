@@ -5,7 +5,8 @@ import {
   FlowerAction,
   useFlower,
   useFlowerForm,
-  Flower
+  Flower,
+  FlowerRule
 } from '@flowerforce/flower-react'
 import { useEffect } from 'react'
 import './styles.css'
@@ -62,6 +63,12 @@ export function Example9() {
                 </div>
               )}
             </FlowerField>
+
+            <FlowerRule rules={(data: any) => {
+              return !data.$form.isValid
+            }}>
+              Ciao Andrea
+            </FlowerRule>
           </div>
           <div className="field">
             <label htmlFor="password">Password *</label>
