@@ -14,9 +14,9 @@ import './styles.css'
  * Here we are using restart action to reset all not initial datas, form state and returns to first node
  */
 
-export function Example9() {
+export function Example10() {
   return (
-    <Flower name="example9">
+    <Flower name="example10">
       {/**
        * step 1
        */}

@@ -6,7 +6,7 @@ import {
   useFlower,
   useFlowerForm,
   Flower,
-  FlowerRule
+  FlowerRule,
 } from '@flowerforce/flower-react'
 import { useEffect } from 'react'
 import './styles.css'
@@ -38,13 +38,35 @@ export function Example9() {
               id="username"
               validate={[
                 {
-                  rules: { $and: [{ username: { $exists: true } }] },
-                  message: 'Field is required'
+                  rules: {
+                    $and: [
+                      {
+                        username: {
+                          $exists: true,
+                        },
+                      },
+                    ],
+                  },
+                  message: 'Field is required',
                 },
                 {
-                  rules: { $and: [{ username: { $strGte: '6' } }] },
-                  message: 'Field length must be greater than or equal to 6.'
-                }
+                  rules: {
+                    $and: [
+                      {
+                        username: {
+                          $strGte: '6',
+                        },
+                      },
+                    ],
+                  },
+                  message: 'Field length must be greater than or equal to 6.',
+                },
+                {
+                  rules: (data: any) => {
+                    return true
+                  },
+                  message: 'Error custom',
+                },
               ]}
             >
               {({ onChange, value = '', errors, onBlur, hidden }) => (
@@ -63,10 +85,13 @@ export function Example9() {
                 </div>
               )}
             </FlowerField>
-
-            <FlowerRule rules={(data: any) => {
-              return !data.$form.isValid
-            }}>
+            <FlowerRule
+              rules={(data: any) => {
+                console.log('asd')
+                return !data.$form.isValid
+              }}
+              alwaysDisplay
+            >
               Ciao Andrea
             </FlowerRule>
           </div>
@@ -77,8 +102,8 @@ export function Example9() {
               validate={[
                 {
                   rules: { $and: [{ password: { $exists: true } }] },
-                  message: 'Field is required'
-                }
+                  message: 'Field is required',
+                },
               ]}
             >
               {({ onChange, value = '', errors, onBlur, hidden }) => (
