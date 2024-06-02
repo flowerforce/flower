@@ -26,7 +26,7 @@
     "publish:prerelease": "nx release publish --tag prerelease",
     "prepare:release": "npm run build:packages && nx release --skip-publish",
     "publish:release": "nx release publish",
-    "generate": "nx flower-sourcemap flower-demo"
+    "generate": "nx build-sourcemap flower-demo"
   },
   "private": true,
   "repository": {
