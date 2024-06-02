@@ -3,6 +3,8 @@ import { context } from '../context'
 import { makeSelectCurrentNodeId } from '../selectors'
 import { useDispatch, useSelector } from '../provider'
 import { UseFlower } from './types/FlowerHooks'
+import { Emitter } from '@flowerforce/flower-core'
+import _get from 'lodash/get'
 
 type NavigateFunctionParams = string | Record<string, any>
 
@@ -23,22 +25,22 @@ const PAYLAOAD_KEYS_NEEDED = {
 
 const makeActionPayload =
   (actions: string[], keys: string[]) =>
-  (flowName: string | undefined, params: any) => {
-    const rest: Record<string, any> =
-      typeof params === 'string' ? { node: params } : params
+    (flowName: string | undefined, params: any) => {
+      const rest: Record<string, any> =
+        typeof params === 'string' ? { node: params } : params
 
-    const payload: Record<string, any> = {
-      flowName: params?.flowName || flowName,
-      ...Object.fromEntries(
-        Object.entries(rest ?? {}).filter(([k]) => keys.includes(k))
-      )
+      const payload: Record<string, any> = {
+        flowName: params?.flowName || flowName,
+        ...Object.fromEntries(
+          Object.entries(rest ?? {}).filter(([k]) => keys.includes(k))
+        )
+      }
+      const type = !params || !payload.node ? actions[0] : actions[1]
+      return {
+        type,
+        payload
+      }
     }
-    const type = !params || !payload.node ? actions[0] : actions[1]
-    return {
-      type,
-      payload
-    }
-  }
 
 const makeActionPayloadOnPrev = makeActionPayload(
   ACTION_TYPES.back,
@@ -95,16 +97,16 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
     (params: any) => {
       /* istanbul ignore next */
       // eslint-disable-next-line no-underscore-dangle, no-undef
-      // if (global.window && global.window.__FLOWER_DEVTOOLS__) {
-      //   Emitter.emit('flower-devtool-from-client', {
-      //     source: 'flower-client',
-      //     action: 'FLOWER_NAVIGATE',
-      //     nodeId,
-      //     name: flowName,
-      //     time: new Date(),
-      //     params,
-      //   });
-      // }
+      if (_get(global.window, '__FLOWER_DEVTOOLS__')) {
+        Emitter.emit('flower-devtool-from-client', {
+          source: 'flower-client',
+          action: 'FLOWER_NAVIGATE',
+          nodeId,
+          name: flowName,
+          time: new Date(),
+          params,
+        });
+      }
     },
     [flowName, nodeId]
   )
@@ -152,9 +154,9 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
         typeof param === 'string'
           ? { node: param, initialData }
           : {
-              ...param,
-              initialData
-            }
+            ...param,
+            initialData
+          }
       )
 
       dispatch({ type: `flower/${type}`, payload })
