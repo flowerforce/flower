@@ -3,6 +3,9 @@
   "version": "3.0.1-beta.1",
   "description": "FlowerJS React demo app.",
   "license": "ISC",
+  "scripts": {
+    "build-sourcemap": "flower-sourcemap"
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",

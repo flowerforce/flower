@@ -811,6 +811,34 @@ Devtool({
 })
 ```
 
+#### Devtool remote
+
+```jsx
+Devtool({
+  remote: 'passKey',
+  sourceMap: require('./.flower.source-map.json')
+})
+```
+
+To generate the source maps, add the command flower-sourcemap to your package.
+
+```json
+  "scripts": {
+    "build-sourcemap": "flower-sourcemap -p passKey"
+  },
+```
+
+
+```bash
+  flower-sourcemap --help
+
+  -p --passKey <type>   Choose pass key for devtool inspect (default: "RANDOM STRING")
+  -f, --pattern <type>  Add glob for search <Flower/> files (default: "src/**/*.{js,ts,tsx,jsx}")
+  -s, --dirsave <type>  Directory on save sourcemap (default: "src")
+  -h --help             Display help for command
+```
+
+
 # Documentation
 
 The Flower React docs are published at [flowerjs.it/](https://flowerjs.it)
