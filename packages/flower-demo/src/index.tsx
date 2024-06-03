@@ -8,8 +8,10 @@ import { Devtool } from '@flowerforce/devtool'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
+const ref = React.createRef()
+
 root.render(
-  <FlowerProvider>
+  <FlowerProvider ref={ref}>
     <App />
   </FlowerProvider>
 )

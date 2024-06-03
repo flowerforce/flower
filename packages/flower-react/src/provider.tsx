@@ -27,9 +27,10 @@ export const store = ({ enableDevtool }: { enableDevtool?: boolean }) => configu
 
 class FlowerProvider extends Component<PropsWithChildren, FlowerProviderProps> {
   private store: FlowerProviderProps
-  constructor(props: PropsWithChildren & { enableDevtool?: boolean }) {
+  constructor(props: PropsWithChildren & { enableDevtool?: boolean, ref?: any }) {
     super(props)
     this.store = store({ enableDevtool: props.enableDevtool })
+    props.ref = this.store
   }
 
   render() {

@@ -6,6 +6,8 @@ export interface FlowerProviderInterface {
   render(): JSX.Element
 }
 
+// TODO add ref, enableDevtool
+
 export type FlowerProviderProps = ReturnType<
   typeof configureStore<
     {
