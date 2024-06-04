@@ -75,11 +75,11 @@ export const FlowerCoreStateSelectors: ISelectors = {
     )
 
     if (!rules) return false
-    if (!keys) return false
-
     if (typeof rules === 'function') {
-      return rules(state)
+      return !rules(state)
     }
+
+    if (!keys) return false
 
     const res = keys.reduce((acc, inc) => {
       const k = inc

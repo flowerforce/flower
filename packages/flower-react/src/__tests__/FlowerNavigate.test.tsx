@@ -247,6 +247,31 @@ describe('FlowerNavigate test render <Flower />', () => {
     expect(screen.getByTestId('h1')).toHaveTextContent('andrea')
   })
 
+  it('FlowerNavigate test node with rules function', () => {
+    render(
+      <FlowerProvider>
+        <Flower name="app-test1">
+          <FlowerNode
+            id="a"
+            to={{
+              b: (val) => {
+                return val.$form.isValid
+              }
+            }}
+          >
+            <Text text="andrea"></Text>
+            <ButtonNext />
+          </FlowerNode>
+          <FlowerNode id="b">
+            <Text text="OK"></Text>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(screen.getByTestId('h1')).toHaveTextContent('OK')
+  })
+
   it('FlowerNavigate test node no rules', () => {
     render(
       <FlowerProvider>
