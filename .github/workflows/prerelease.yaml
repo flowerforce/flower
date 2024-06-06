@@ -19,6 +19,7 @@ jobs:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
           fetch-tags: true
+          token: ${{ secrets.GH_TOKEN }}
       - name: Config GitHub user
         run: |
           git config user.name "flower-github-bot"
