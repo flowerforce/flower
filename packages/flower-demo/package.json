@@ -4,7 +4,7 @@
   "description": "FlowerJS React demo app.",
   "license": "ISC",
   "scripts": {
-    "build-sourcemap": "flower-sourcemap"
+    "build-sourcemap": "flower generate-sourcemap"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",

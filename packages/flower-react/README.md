@@ -824,18 +824,18 @@ To generate the source maps, add the command flower-sourcemap to your package.
 
 ```json
   "scripts": {
-    "build-sourcemap": "flower-sourcemap -p passKey"
+    "build-sourcemap": "flower generate-sourcemap -p NEWPASSKEY"
   },
 ```
 
 
 ```bash
-  flower-sourcemap --help
+  flower sourcemap --help
 
-  -p --passKey <type>   Choose pass key for devtool inspect (default: "RANDOM STRING")
+  -p, --passKey <type>   Choose pass key for devtool inspect (default: "RANDOM STRING")
   -f, --pattern <type>  Add glob for search <Flower/> files (default: "src/**/*.{js,ts,tsx,jsx}")
   -s, --dirsave <type>  Directory on save sourcemap (default: "src")
-  -h --help             Display help for command
+  -h, --help             Display help for command
 ```
 
 
