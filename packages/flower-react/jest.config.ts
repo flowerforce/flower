@@ -8,5 +8,6 @@ export default {
   moduleFileExtensions: ['ts', 'js', 'tsx', 'html'],
   coverageDirectory: '../../coverage/packages/flower-react',
   coverageProvider: 'v8',
-  setupFilesAfterEnv: ['<rootDir>/src/__tests__/setup.ts']
+  setupFilesAfterEnv: ['<rootDir>/src/__tests__/setup.ts'],
+  transformIgnorePatterns: ['!/node_modules/(?!flat).+\\.js$']
 }
