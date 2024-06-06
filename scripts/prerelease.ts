@@ -30,6 +30,7 @@ import yargs from 'yargs'
     },
     preid: 'beta',
     gitCommit: true,
+    gitCommitMessage: 'chore(prerelease): publish [skip ci]',
     dryRun: options.dryRun,
     verbose: options.verbose
   })
