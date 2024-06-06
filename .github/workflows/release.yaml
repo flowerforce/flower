@@ -18,10 +18,11 @@ jobs:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
           fetch-tags: true
+          token: ${{ secrets.GH_TOKEN }}
       - name: Config GitHub user
         run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config user.name "flower-github-bot"
+          git config user.email "flower-github-bot@users.noreply.github.com"
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -33,6 +34,9 @@ jobs:
       - name: Prepare release and push commit
         run: |
           npm run prepare:release
+          git push
+          git checkout -b main
+          git merge release
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
