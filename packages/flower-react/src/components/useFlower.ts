@@ -25,22 +25,22 @@ const PAYLAOAD_KEYS_NEEDED = {
 
 const makeActionPayload =
   (actions: string[], keys: string[]) =>
-    (flowName: string | undefined, params: any) => {
-      const rest: Record<string, any> =
-        typeof params === 'string' ? { node: params } : params
+  (flowName: string | undefined, params: any) => {
+    const rest: Record<string, any> =
+      typeof params === 'string' ? { node: params } : params
 
-      const payload: Record<string, any> = {
-        flowName: params?.flowName || flowName,
-        ...Object.fromEntries(
-          Object.entries(rest ?? {}).filter(([k]) => keys.includes(k))
-        )
-      }
-      const type = !params || !payload.node ? actions[0] : actions[1]
-      return {
-        type,
-        payload
-      }
+    const payload: Record<string, any> = {
+      flowName: params?.flowName || flowName,
+      ...Object.fromEntries(
+        Object.entries(rest ?? {}).filter(([k]) => keys.includes(k))
+      )
     }
+    const type = !params || !payload.node ? actions[0] : actions[1]
+    return {
+      type,
+      payload
+    }
+  }
 
 const makeActionPayloadOnPrev = makeActionPayload(
   ACTION_TYPES.back,
@@ -104,8 +104,8 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
           nodeId,
           name: flowName,
           time: new Date(),
-          params,
-        });
+          params
+        })
       }
     },
     [flowName, nodeId]
@@ -154,9 +154,9 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
         typeof param === 'string'
           ? { node: param, initialData }
           : {
-            ...param,
-            initialData
-          }
+              ...param,
+              initialData
+            }
       )
 
       dispatch({ type: `flower/${type}`, payload })
