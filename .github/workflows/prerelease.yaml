@@ -33,7 +33,8 @@ jobs:
       - name: Install deps
         run: npm ci --include=optional
       - name: Prepare prerelease and push commit
-        run: |
+        run: | # Fix me: ugly hack for nx conflicting configuration
+          sed -i '/"git": {/,/}/d' nx.json
           npm run prepare:prerelease
           git push
         env:
