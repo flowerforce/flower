@@ -18,6 +18,8 @@ jobs:
         run: npm ci --include=optional
       - name: Lint check
         run: npm run lint:check # Check linting and apply possible fixes
+      - name: Build core
+        run: npm run build:core
       - name: Typecheck
         run: npm run tsc:noemit
       - name: Run tests
