@@ -11,7 +11,6 @@ export default {
       }
     ]
   },
-  transformIgnorePatterns: ['!/node_modules/(?!flat).+\\.js$'],
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/flower-core',
   coverageProvider: 'v8',
