@@ -21,8 +21,8 @@ jobs:
           fetch-tags: true
       - name: Config GitHub user
         run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config user.name "flower-github-bot"
+          git config user.email "info+github-bot@stackhouse.it"
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
