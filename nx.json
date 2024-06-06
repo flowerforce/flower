@@ -17,6 +17,9 @@
         }
       }
     },
+    "git": {
+      "commitMessage": "chore(release): publish [skip ci]"
+    },
     "version": {
       "conventionalCommits": true
     }
