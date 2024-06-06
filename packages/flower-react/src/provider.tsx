@@ -20,18 +20,17 @@ export const useDispatch = createDispatchHook(reduxContext)
 export const useSelector = createSelectorHook(reduxContext)
 export const useStore = createStoreHook(reduxContext)
 
-export const store = configureStore({
-  reducer: reducerFlower,
-  devTools: {
-    name: 'flower'
-  }
-})
+export const store = ({ enableDevtool }: { enableDevtool?: boolean }) =>
+  configureStore({
+    reducer: reducerFlower,
+    devTools: enableDevtool ? { name: 'flower' } : false
+  })
 
 class FlowerProvider extends Component<PropsWithChildren, FlowerProviderProps> {
   private store: FlowerProviderProps
-  constructor(props: PropsWithChildren) {
+  constructor(props: PropsWithChildren & { enableDevtool?: boolean }) {
     super(props)
-    this.store = store
+    this.store = store({ enableDevtool: props.enableDevtool })
   }
 
   render() {

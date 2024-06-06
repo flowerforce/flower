@@ -1,8 +1,11 @@
 {
   "name": "@flowerforce/flower-demo",
-  "version": "3.0.1-beta.1",
+  "version": "3.0.0",
   "description": "FlowerJS React demo app.",
   "license": "ISC",
+  "scripts": {
+    "build-sourcemap": "flower generate-sourcemap"
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
@@ -15,7 +18,7 @@
   },
   "dependencies": {
     "@flowerforce/flower-react": "3.0.0",
-    "@flowerforce/devtool": "^3.0.3",
+    "@flowerforce/devtool": "^3.0.6",
     "@reduxjs/toolkit": "^2.2.4",
     "antd": "^5.17.2",
     "lodash": "^4.17.21",

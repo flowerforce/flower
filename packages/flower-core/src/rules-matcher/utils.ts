@@ -220,6 +220,8 @@ const rulesMatcherUtils: RulesMatcherUtils = {
 
   getKeys: (rules, options) => {
     if (!rules) return null
+    if (typeof rules == 'function') return []
+
     if (
       !rulesMatcherUtils
         .forceArray(rules)

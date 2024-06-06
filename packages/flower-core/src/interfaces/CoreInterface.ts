@@ -70,6 +70,8 @@ type RulesWithName = {
   rules: string | { name?: string; rules: RulesObject<any> }
 }
 
+export type FunctionRule = (data: Record<string, any>) => boolean
+
 export type RulesObject<T> =
   | RulesValuesType<T>
   | {
@@ -90,7 +92,7 @@ export type GetPath = (idValue?: string) => {
 export type AllEqual = (...args: Array<number | string | boolean>[]) => boolean
 
 export type FindValidRule<T = Rules<RulesObject<any>>> = (
-  nextRules: { rules: { rules: T } },
+  nextRules: { rules: { rules: T | FunctionRule } },
   value: Record<string, any>,
   prefix?: { prefix: string } | string
 ) => T[keyof T] | undefined

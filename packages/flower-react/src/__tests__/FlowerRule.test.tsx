@@ -203,6 +203,45 @@ describe('Test FlowerRule component', () => {
     expect(screen.queryByTestId('age')).not.toBeInTheDocument()
   })
 
+  it('Test rule hidden with function', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <FlowerProvider>
+        <Flower name="app-test">
+          <FlowerNode id="start" to={{ form: null }}>
+            <InitState state={{ amount: 1 }} />
+          </FlowerNode>
+          <FlowerNode id="form">
+            <FlowerField id="name">
+              <Input />
+            </FlowerField>
+            <FlowerRule
+              rules={() => {
+                return false
+              }}
+            >
+              <Input name="age1" />
+            </FlowerRule>
+            <FlowerRule
+              rules={() => {
+                return false
+              }}
+            >
+              {(props) => <Input {...props} name="age" />}
+            </FlowerRule>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    await user.type(screen.getByTestId('input'), '@andrea')
+    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
+
+    expect(screen.queryByTestId('age1')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('age')).not.toBeInTheDocument()
+  })
+
   it('Test rule disabled', async () => {
     const user = userEvent.setup()
 
