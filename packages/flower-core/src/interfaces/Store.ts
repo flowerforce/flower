@@ -27,14 +27,14 @@ export interface Flower<T extends Record<string, any>> {
   startId: string
   current: string
   history: string[]
-  nodes: { [x: string]: Node }
+  nodes: { [x: string]: INode }
   //TODO: REMOVE ANY
   nextRules: { [x: string]: RulesByNodeId<T>[] }
   data: T
   form: { [x: string]: Form<T> }
 }
 
-export interface Node {
+export interface INode {
   nodeId: string
   nodeType: string
   retain?: boolean

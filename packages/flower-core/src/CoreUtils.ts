@@ -211,6 +211,10 @@ export const CoreUtils: CoreUtilitiesFunctions = {
         return false
       }
 
+      if (typeof rule.rules === 'function') {
+        return rule.rules(value) as boolean
+      }
+
       if (rule.rules === null) {
         return true
       }

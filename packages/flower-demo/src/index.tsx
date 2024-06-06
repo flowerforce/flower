@@ -15,5 +15,6 @@ root.render(
 )
 
 Devtool({
-  port: 8774
+  remote: 'demo',
+  sourceMap: require('./.flower.source-map.json')
 })

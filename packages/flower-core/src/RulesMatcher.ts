@@ -1,9 +1,9 @@
-import { RulesObject } from './interfaces'
+import { FunctionRule, RulesObject } from './interfaces'
 import RulesMatcherUtils from './rules-matcher/utils'
 import utils from './rules-matcher/utils'
 
 const rulesMatcher = (
-  rules?: Record<string, any> | Record<string, any>[],
+  rules?: Record<string, any> | Record<string, any>[] | FunctionRule,
   formValue: Record<string, any> = {},
   apply = true,
   options?: Record<string, any>
@@ -13,9 +13,14 @@ const rulesMatcher = (
   //   throw new Error('Rules accept only array or object');
   // }
 
+  if (typeof rules === 'function') {
+    return [rules(formValue) === apply]
+  }
+
   const conditions = Array.isArray(rules)
     ? ({ $and: rules } as RulesObject<any>)
     : (rules as RulesObject<any>)
+
   const valid = RulesMatcherUtils.checkRule(
     conditions,
     formValue,

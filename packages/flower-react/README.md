@@ -14,7 +14,7 @@ For more info [flowerjs.it/](https://flowerjs.it/)
 - **Node and Connection Handling**: Functions to manage nodes and connections, including adding, removing, and editing.
 - **State Management**: Built-in state management to keep track of workflow changes and updates.
 - **Event System**: Customizable event handling to respond to user interactions and changes within the workflow.
-- **Serialization**: Convert workflows to and from different formats (e.g., JSON) for easy storage and retrieval.
+- **Serialization**: Convert workflows to JSON for easy storage and retrieval. (only server side flow)
 - **Validation**: Ensure workflows follow predefined rules and constraints to maintain integrity.
 - **Form Validation**: Built-in functionalities to validate form inputs within nodes, ensuring data integrity and correctness.
 - **History Management**: Internal management of flow history, tracking node traversal and changes for debugging and visualization purposes.
@@ -30,7 +30,7 @@ Flower React can be installed via npm or yarn for use in any JavaScript project.
 
 ```bash
 #NPM
-npm install @flowerforce/flower-core
+npm install @flowerforce/flower-react
 ```
 
 ### Using yarn
@@ -40,7 +40,7 @@ npm install @flowerforce/flower-core
 
 ```bash
 #YARN
-yarn add @flowerforce/flower-core
+yarn add @flowerforce/flower-react
 ```
 
 ## Configuration
@@ -810,6 +810,34 @@ Devtool({
   port: 8774
 })
 ```
+
+#### Devtool remote
+
+```jsx
+Devtool({
+  remote: 'passKey',
+  sourceMap: require('./.flower.source-map.json')
+})
+```
+
+To generate the source maps, add the command flower-sourcemap to your package.
+
+```json
+  "scripts": {
+    "build-sourcemap": "flower generate-sourcemap -p NEWPASSKEY"
+  },
+```
+
+
+```bash
+  flower sourcemap --help
+
+  -p, --passKey <type>   Choose pass key for devtool inspect (default: "RANDOM STRING")
+  -f, --pattern <type>  Add glob for search <Flower/> files (default: "src/**/*.{js,ts,tsx,jsx}")
+  -s, --dirsave <type>  Directory on save sourcemap (default: "src")
+  -h, --help             Display help for command
+```
+
 
 # Documentation
 
