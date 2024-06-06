@@ -31,7 +31,8 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "tiny-emitter": "^2.1.0"
+    "tiny-emitter": "^2.1.0",
+    "flat": "^6.0.1"
   },
   "exports": {
     "./package.json": "./package.json",
