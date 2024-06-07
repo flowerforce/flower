@@ -13,6 +13,5 @@ import { Example9 } from './Examples/Example9' // Simple example form
 
 function AppLogin() {
   return <Example9 />
-  // return <span>asdasdasd</span>
 }
 export default AppLogin
