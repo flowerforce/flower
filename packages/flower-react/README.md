@@ -816,7 +816,7 @@ Devtool({
 ```jsx
 Devtool({
   remote: 'passKey',
-  sourceMap: require('./.flower.source-map.json')
+  sourceMap: require('./.flower.sourcemap.json')
 })
 ```
 
@@ -824,20 +824,19 @@ To generate the source maps, add the command flower-sourcemap to your package.
 
 ```json
   "scripts": {
-    "build-sourcemap": "flower generate-sourcemap -p NEWPASSKEY"
+    "build-sourcemap": "flower generate-sourcemap"
   },
 ```
 
 
 ```bash
-  flower sourcemap --help
+  flower generate-sourcemap --help
 
-  -p, --passKey <type>   Choose pass key for devtool inspect (default: "RANDOM STRING")
-  -f, --pattern <type>  Add glob for search <Flower/> files (default: "src/**/*.{js,ts,tsx,jsx}")
-  -s, --dirsave <type>  Directory on save sourcemap (default: "src")
-  -h, --help             Display help for command
+  -p, --pattern <type>  Add glob for search <Flower/> files (default: "src/**/*.{js,ts,tsx,jsx}")
+  -d, --dirsave <type>  The directory where to save the sourcemap (default: "src")
+  -h, --help            Quick overview of usage options
+  -w, --watch           Watch for files changes
 ```
-
 
 # Documentation
 
