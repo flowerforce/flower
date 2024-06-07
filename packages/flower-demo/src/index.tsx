@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
-// import App from './components/BoxForm/index';
 import { FlowerProvider } from '@flowerforce/flower-react'
 import { Devtool } from '@flowerforce/devtool'
 
@@ -15,6 +14,6 @@ root.render(
 )
 
 Devtool({
-  remote: 'demo',
+  remote: 'L2ak8Aw13e2C9Lc0WgQ7e',
   sourceMap: require('./.flower.source-map.json')
 })

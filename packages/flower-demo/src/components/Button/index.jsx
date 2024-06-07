@@ -16,20 +16,3 @@ const MyButton = ({ title }) => {
 }
 
 export const Button = memo(MyButton)
-
-/*
-// flower
-name: MyButton
-editing:
-- type: Input
-  id: id
-  label: Value
-- type: Input
-  id: title
-  label: placeholder
-- type: Rules
-  id: rules
-output:
-  success: bool
-  error: text
-*/
