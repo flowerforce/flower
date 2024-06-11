@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, Component, createContext } from 'react'
+import React, { PropsWithChildren, createContext, PureComponent } from 'react'
 import {
   Provider,
   createDispatchHook,
@@ -26,11 +26,14 @@ export const store = ({ enableDevtool }: { enableDevtool?: boolean }) =>
     devTools: enableDevtool ? { name: 'flower' } : false
   })
 
-class FlowerProvider extends Component<PropsWithChildren, FlowerProviderProps> {
+class FlowerProvider extends PureComponent<
+  PropsWithChildren<{ enableReduxDevtool?: boolean }>,
+  FlowerProviderProps
+> {
   private store: FlowerProviderProps
-  constructor(props: PropsWithChildren & { enableDevtool?: boolean }) {
+  constructor(props: PropsWithChildren<{ enableReduxDevtool?: boolean }>) {
     super(props)
-    this.store = store({ enableDevtool: props.enableDevtool })
+    this.store = store({ enableDevtool: props.enableReduxDevtool })
   }
 
   render() {
