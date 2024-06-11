@@ -7,12 +7,13 @@
 import React, { useEffect } from 'react'
 
 // import react-testing methods
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
 
 import FlowerNode from '../components/FlowerNode'
+import FlowerNavigate from '../components/FlowerNavigate'
 import Flower from '../components/Flower'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
@@ -58,7 +59,7 @@ const InitState = ({ state }: any) => {
   return '...'
 }
 
-describe('Test Flower component', () => {
+describe.only('Test Flower component', () => {
   it('Test flow success', async () => {
     render(
       <FlowerProvider>
@@ -74,5 +75,62 @@ describe('Test Flower component', () => {
     )
 
     expect(screen.getByTestId('h1')).toHaveTextContent('Step 1')
+  })
+  it('Test flow with initial state and startId', async () => {
+    render(
+      <FlowerProvider>
+        <Flower name="app-test" initialState={{ startId: 'customStart' }}>
+          <FlowerNode id="start" to={{ form: null }}>
+            <div>Original Start</div>
+          </FlowerNode>
+          <FlowerNode id="customStart">
+            <div data-testid="customStart">Custom step start</div>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    expect(screen.getByTestId('customStart')).toHaveTextContent(
+      'Custom step start'
+    )
+  })
+  it('Test flow with initial state and history', async () => {
+    render(
+      <FlowerProvider>
+        <Flower
+          name="app-test"
+          initialState={{
+            startId: 'step3',
+            current: 'step3',
+            history: ['step1', 'step4', 'step3']
+          }}
+        >
+          <FlowerNode id="step1" to={{ step2: null }}>
+            <div data-testid="step1">Step 1</div>
+          </FlowerNode>
+          <FlowerNode id="step2" to={{ step3: null }}>
+            <div data-testid="step2">Step 2</div>
+          </FlowerNode>
+          <FlowerNode id="step3" to={{ step4: null }}>
+            <div data-testid="step3">Step 3</div>
+            <FlowerNavigate action="back">
+              <button data-testid="back-button3">Go back</button>
+            </FlowerNavigate>
+          </FlowerNode>
+          <FlowerNode id="step4">
+            <div data-testid="step4">Step 4</div>
+            <FlowerNavigate action="back">
+              <button data-testid="back-button4">Go back</button>
+            </FlowerNavigate>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    expect(screen.getByTestId('step3')).toHaveTextContent('Step 3')
+    fireEvent.click(screen.getByTestId('back-button3'))
+    expect(screen.getByTestId('step4')).toHaveTextContent('Step 4')
+    fireEvent.click(screen.getByTestId('back-button4'))
+    expect(screen.getByTestId('step1')).toHaveTextContent('Step 1')
   })
 })

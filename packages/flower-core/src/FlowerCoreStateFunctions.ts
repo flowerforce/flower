@@ -174,7 +174,10 @@ export const FlowerCoreReducers: ReducersFunctions = {
   initNodes: (state, { payload }) => {
     if (payload.persist && _get(state, [payload.name, 'persist'])) return
 
-    const startId = payload.startId || _get(payload, 'nodes.0.nodeId')
+    const startId =
+      payload.startId ||
+      payload.initialState.startId ||
+      _get(payload, 'nodes.0.nodeId')
 
     // TODO non verificato, controllo precendente che non lo permette
     /* istanbul ignore next */
@@ -184,11 +187,14 @@ export const FlowerCoreReducers: ReducersFunctions = {
       return
     }
 
+    const current = payload.initialState.current || startId
+    const history = payload.initialState.history || [startId]
+
     _set(state, payload.name, {
       persist: payload.persist,
       startId,
-      current: startId,
-      history: [startId],
+      current,
+      history,
       nodes: generateNodes(payload.nodes),
       nextRules: makeObjectRules(payload.nodes),
       data: payload.initialData
