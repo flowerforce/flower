@@ -59,6 +59,7 @@ function Root() {
   )
 }
 ```
+> You can pass the prop `enableReduxDevtool` to the `FlowerProvider` to show the Flower Store data inside the redux devtool of your browser.
 
 ## How to use
 
