@@ -37,7 +37,7 @@ jobs:
           git push
           git checkout -b main
           git merge release
-          git push --set-upstream origin main
+          #git push --set-upstream origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish to npm
