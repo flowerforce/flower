@@ -157,20 +157,22 @@ export const CoreUtils: CoreUtilitiesFunctions = {
     ),
 
   generateNodesForFlowerJson: (nodes) =>
-    nodes.map((e) => {
-      const rules = CoreUtils.makeRules(e.props.to ?? {})
-      const nextRules = getRulesExists(rules)
-      const children = e.props.data?.children
-      return {
-        nodeId: e.props.id,
-        nodeType: e.type.displayName || e.props.as || 'FlowerNode',
-        nodeTitle: get(e.props, 'data.title'),
-        children,
-        nextRules,
-        retain: e.props.retain,
-        disabled: e.props.disabled
-      }
-    }),
+    nodes
+      .filter((e) => !!get(e, 'props.id'))
+      .map((e) => {
+        const rules = CoreUtils.makeRules(e.props.to ?? {})
+        const nextRules = getRulesExists(rules)
+        const children = e.props.data?.children
+        return {
+          nodeId: e.props.id,
+          nodeType: e.type.displayName || e.props.as || 'FlowerNode',
+          nodeTitle: get(e.props, 'data.title'),
+          children,
+          nextRules,
+          retain: e.props.retain,
+          disabled: e.props.disabled
+        }
+      }),
 
   cleanPath: (name: string, char = '^') => trimStart(name, char),
 
