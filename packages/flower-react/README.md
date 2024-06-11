@@ -121,7 +121,8 @@ import {
 export const Page = () => {
   return (
     <Flower name="demo">
-      <FlowerRoute id="start" to={{ step1: null }} /> {/* autonext */}
+      {/* autonext */}
+      <FlowerRoute id="start" to={{ step1: null }} /> 
       <FlowerNode
         id="step1"
         to={{
@@ -225,7 +226,7 @@ export const Page = () => {
         id="step1"
         to={{
               step3: {
-                rules={{ $and: [{ skipStep2: { $eq: true } }] }}
+                rules: { $and: [{ skipStep2: { $eq: true } }] }
               },
               step2: null
             }}
@@ -432,7 +433,14 @@ export const Page = () => {
     <>
       <button onClick={() => next()}>click me and go next</button>
 
-      <Flower name="demo">...</Flower>
+      <Flower name="demo">
+        <FlowerNode id="step1" to={{ step2: null }}>
+          ...
+          <button onClick={() => next()}>click me and go next</button>
+        </FlowerNode>
+
+        <FlowerNode id="step2">...</FlowerNode>
+      </Flower>
     </>
   )
 }
@@ -837,6 +845,73 @@ To generate the source maps, add the command flower-sourcemap to your package.
   -h, --help            Quick overview of usage options
   -w, --watch           Watch for files changes
 ```
+
+
+> When you execute this command, you will receive the secretKey, which must be inserted into the `remote` field within the Devtool function.
+
+# Using React components with the VS Code extension
+
+With Flower, you can configure and use your components through a **graphical interface**. After creating the component in code, you need to associate it with a `JSON configuration file`. This file will be used by Flower to provide users the ability to configure each component's props via a graphical interface, **without writing code**.
+
+
+For example, let's configure a `Text` component so that it can be used through Flower's graphical interface.
+
+## Step-by-Step Guide
+
+1) `Create the JSON File`
+
+First, create the JSON file at the same level as the component file.
+
+```
+src
+│  
+│
+└───components
+│   │
+│   └───Text
+│       │   index.tsx
+│       │   text.flower.json
+│       │   ...
+...
+```
+
+2) `Insert the Basic Structure`
+
+Once the file is created, insert the basic structure of the JSON file, which will be common to any component:
+
+```json
+{
+    "type": "component",
+    "name": "Text",
+    "category": "UI",
+    "description": "This is the Text component",
+    "editing": []
+}
+```
+
+The keys in the JSON file have the following purposes:
+  - `type`: indicates what is being described with this JSON file, in this case, a component
+  - `name`: the name of the component being configured
+  - `category`: components are grouped into categories in Flower's graphical interface, so you can choose a category to which the component belongs
+  - `description`: a brief description of the component that will be displayed in the graphical interface. This is particularly useful for understanding the functionality of a specific component without reading the code
+  - `editing`: in this key, we will insert the options that will allow us to configure the component's behavior directly from the graphical interface
+
+Once you have completed these two steps, you will be able to use your `Text component` through the graphical interface.
+
+## Configuring the editing Field
+
+Within the editing field, you can insert a series of entries that will allow us to choose the values of the props to pass to the component.
+
+The editing field is an array of objects, one for each prop we want to configure, which contain the following keys:
+
+1) `type`: Represents the type of field that will be used within the graphical interface. Possible basic values are `Input`, `Select`, `Switch`, `ButtonGroup`. In addition to these basic types, you can choose the `Rules` type, which allows you to insert rules directly from the graphical interface, and the `SelectNode` type, which allows you to have a Select populated with the nodes present in the flow.
+2) `id`: Represents the name of the prop being configured
+3) `label`: The label that will be displayed above the field in the graphical interface
+4) `default`: Specifies a default value for that prop in case no value is configured on the graphical interface
+5) `options`: An array of objects with keys `label` and `value` for the `Select` type, and `name` and `value` for the `ButtonGroup` type
+
+In any case, there is a JSON schema that will guide you in writing the file associated with each component.
+
 
 # Documentation
 
