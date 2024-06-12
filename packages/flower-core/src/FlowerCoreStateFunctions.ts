@@ -176,7 +176,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
 
     const startId =
       payload.startId ||
-      payload.initialState.startId ||
+      _get(payload, 'initialState.startId') ||
       _get(payload, 'nodes.0.nodeId')
 
     // TODO non verificato, controllo precendente che non lo permette
@@ -187,8 +187,8 @@ export const FlowerCoreReducers: ReducersFunctions = {
       return
     }
 
-    const current = payload.initialState.current || startId
-    const history = payload.initialState.history || [startId]
+    const current = _get(payload, 'initialState.current') || startId
+    const history = _get(payload, 'initialState.history') || [startId]
 
     _set(state, payload.name, {
       persist: payload.persist,
