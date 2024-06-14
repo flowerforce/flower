@@ -47,7 +47,7 @@ export interface RulesMatcherUtils {
    * @returns
    */
   getKey: (
-    block: RulesObject<any>,
+    block: RulesObject,
     keys: Record<string, any>,
     options: Record<string, any>
   ) => Record<string, any>

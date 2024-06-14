@@ -16,7 +16,7 @@ export type FlowerRuleProps = {
    * Example: rules={(state) => state... === true}
    * if missing it is always visible
    */
-  rules?: RulesObject<any> | FunctionRule
+  rules?: RulesObject | FunctionRule
   /** The name of the flow from which read the data
    *
    * - note: the default value is the name of the flow where the component is used

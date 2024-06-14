@@ -63,7 +63,7 @@ export type FlowerNavigateProps = {
         props: Record<string, any>
       ) => React.ReactNode | React.ReactElement | undefined)
   /** An object containing the display rules of that component. When the conditions are not satisfied, the children is hidden. */
-  rules?: RulesObject<Record<string, any>> | Record<string, RulesObject<any>>
+  rules?: RulesObject | Record<string, RulesObject>
   /** When set to true, the children is shown even if the rules are not satisfied
    *
    * The FlowerValue returns the boolean variable "hidden" to notify you if the conditions are satisfied or not

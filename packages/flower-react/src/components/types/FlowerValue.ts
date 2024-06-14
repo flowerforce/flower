@@ -14,7 +14,7 @@ export type FlowerValueProps = {
    *
    * Example: rules={{ $and: [{ name: { $exist: true } }] }}
    */
-  rules?: RulesObject<any> | FunctionRule
+  rules?: RulesObject | FunctionRule
   /** The FlowerValue's children  */
   children:
     | React.ReactNode

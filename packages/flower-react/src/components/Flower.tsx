@@ -28,7 +28,7 @@ type FlowerClientProps = PropsWithChildren & {
   name: string
   destroyOnUnmount?: boolean
   startId?: string | null
-  initialData?: any
+  initialData?: Record<string, any>
 }
 
 /**

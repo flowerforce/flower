@@ -1,6 +1,7 @@
 import _get from 'lodash/get'
 import _trimStart from 'lodash/trimStart'
 import _intersection from 'lodash/intersection'
+import _isEmpty from 'lodash/isEmpty'
 import { Operators } from './interface'
 import { RulesMatcherUtils } from './interface'
 import { RulesObject } from '../interfaces/CoreInterface'
@@ -44,23 +45,24 @@ const rulesMatcherUtils: RulesMatcherUtils = {
     return { valid, name: `${pathWithPrefix}___${name || op}` }
   },
 
-  getKey: (block: RulesObject<any>, keys, options) => {
+  getKey: (block: RulesObject, keys, options) => {
+    if (_isEmpty(block)) return
     if (Object.prototype.hasOwnProperty.call(block, '$and')) {
-      return block.$and.map((item: any) =>
+      return _get(block, ['$and']).map((item: any) =>
         rulesMatcherUtils.getKey(item, keys, options)
       )
     }
     if (Object.prototype.hasOwnProperty.call(block, '$or')) {
-      return block.$or.map((item: any) =>
+      return _get(block, ['$or']).map((item: any) =>
         rulesMatcherUtils.getKey(item, keys, options)
       )
     }
 
     const { prefix } = options || {}
     const path = Object.keys(block)[0]
-    const valueBlock = block
+    const valueBlock = _get(block, [path])
     const res = rulesMatcherUtils.getPath(path, prefix)
-    const { value } = rulesMatcherUtils.getDefaultRule(valueBlock[path])
+    const { value } = rulesMatcherUtils.getDefaultRule(valueBlock)
 
     if (value && String(value).indexOf('$ref:') === 0) {
       keys[rulesMatcherUtils.getPath(value.replace('$ref:', ''), prefix)] = true
@@ -165,6 +167,8 @@ const rulesMatcherUtils: RulesMatcherUtils = {
   forceArray: (a) => (Array.isArray(a) ? a : [a]),
 
   getPath: (path, prefix) => {
+    // Avoid crash if someone leaves a empty object as rules in validation
+    if (!path) return ''
     if (path.indexOf('^') === 0) {
       return _trimStart(path, '^')
     }

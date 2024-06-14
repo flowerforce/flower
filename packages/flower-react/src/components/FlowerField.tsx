@@ -17,12 +17,11 @@ import { context } from '../context'
 import FlowerRule from './FlowerRule'
 import { store, useDispatch, useSelector } from '../provider'
 import debounce from 'lodash/debounce'
-import get from 'lodash/get'
 import {
   MatchRules,
   CoreUtils,
-  Selectors,
-  FlowerStateUtils
+  FlowerStateUtils,
+  Flower,
 } from '@flowerforce/flower-core'
 import { FlowerFieldProps } from './types/FlowerField'
 
@@ -248,7 +247,12 @@ const FlowerField = ({
   destroyValue,
   flowName,
   onUpdate
-}: FlowerFieldProps<any>) => {
+  /* 
+   * Trying to pass type of data inside Flower state 
+   * due to make object rules conscious of possible keys to check
+   * and eventually let him know the type of each data key, to suggest comparisons in a better and safer way
+  */
+}: FlowerFieldProps<Flower['data']>) => {
   const { flowName: flowNameContext, currentNode } = useContext(context)
 
   const name = flowName || flowNameContext

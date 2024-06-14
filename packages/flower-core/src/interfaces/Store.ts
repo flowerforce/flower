@@ -1,4 +1,4 @@
-import { RulesByNodeId, RulesModes } from './CoreInterface'
+import { RulesByNodeId } from './CoreInterface'
 
 export enum RulesOperators {
   $exist = '$exist',
@@ -22,13 +22,12 @@ export interface StoreRoot<T extends Record<string, any>> {
   flower: { [x: string]: Flower<T> }
 }
 
-export interface Flower<T extends Record<string, any>> {
+export interface Flower<T extends Record<string, any> = Record<string, any>> {
   persist: boolean
   startId: string
   current: string
   history: string[]
   nodes: { [x: string]: INode }
-  //TODO: REMOVE ANY
   nextRules: { [x: string]: RulesByNodeId<T>[] }
   data: T
   form: { [x: string]: Form<T> }

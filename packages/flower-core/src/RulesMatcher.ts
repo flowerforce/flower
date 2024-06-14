@@ -18,8 +18,8 @@ const rulesMatcher = (
   }
 
   const conditions = Array.isArray(rules)
-    ? ({ $and: rules } as RulesObject<any>)
-    : (rules as RulesObject<any>)
+    ? ({ $and: rules } as RulesObject)
+    : (rules as RulesObject)
 
   const valid = RulesMatcherUtils.checkRule(
     conditions,

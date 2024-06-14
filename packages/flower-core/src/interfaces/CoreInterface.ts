@@ -1,11 +1,11 @@
 // Functions Parameters Types
-export type Rules<T> = { rules: Rules<T> | string | null | undefined | T }
+export type Rules<T> = { rules: Rules<T> | string | undefined | T }
 
-export type Edge<T = object> = {
+export type Edge = {
   source: string
   target: string
   id?: string
-  data?: { rules: RulesObject<T> }
+  data?: { rules: RulesObject }
 }
 
 export type Node = {
@@ -13,19 +13,13 @@ export type Node = {
   nodeType: string
   nodeTitle: string
   children: Record<string, any> | Record<string, any>[] | undefined
-  nextRules:
-    | { [x: string]: { rules: RulesObject<any> } | RulesObject<any> }
-    | undefined
+  nextRules: { [x: string]: { rules: RulesObject } | RulesObject } | undefined
   retain: boolean
   disabled: boolean
 
   id: string
   props: Record<string, any>
   type: Record<string, any>
-  // nodeId?: string;
-  // nextRules?: { [x: string]: { rules: RulesObject<any> } | RulesObject<any> };
-  // to?: { [x: string]: { rules: RulesObject<any> } | RulesObject<any> };
-  // children?: Array<Record<string, any>> | Record<string, any>;
 }
 
 export enum RulesModes {
@@ -51,7 +45,7 @@ enum RulesOperators {
   $regex = '$regex'
 }
 
-type RulesValuesType<T> = { '$form.isValid': boolean } & T
+type RulesValuesType<T> = { '$form.isValid'?: boolean } & T
 
 type RulesOperatorsInArray<T> = Partial<{
   [KEY in keyof T]: Partial<{
@@ -67,12 +61,12 @@ export type RulesByNodeId<T extends Record<string, any>> = {
 
 type RulesWithName = {
   nodeId: string
-  rules: string | { name?: string; rules: RulesObject<any> }
+  rules: string | { name?: string; rules: RulesObject }
 }
 
 export type FunctionRule = (data: Record<string, any>) => boolean
 
-export type RulesObject<T> =
+export type RulesObject<T extends Record<string, any> = Record<string, any>> =
   | RulesValuesType<T>
   | {
       [K in keyof typeof RulesModes]:
@@ -91,13 +85,13 @@ export type GetPath = (idValue?: string) => {
 
 export type AllEqual = (...args: Array<number | string | boolean>[]) => boolean
 
-export type FindValidRule<T = Rules<RulesObject<any>>> = (
+export type FindValidRule<T = Rules<RulesObject>> = (
   nextRules: { rules: { rules: T | FunctionRule } },
   value: Record<string, any>,
   prefix?: { prefix: string } | string
 ) => T[keyof T] | undefined
 
-export type IsEmptyRules<T = { rules: RulesObject<any> } | RulesObject<any>> = (
+export type IsEmptyRules<T = { rules: RulesObject } | RulesObject> = (
   rules: T
 ) => boolean
 
@@ -105,7 +99,7 @@ export type MapEdge<K = RulesByNodeId<any>, T = K[]> = (nextNode: T) => Array<K>
 
 export type MakeRules<
   T extends Record<string, any> = {
-    rules: RulesObject<any> | object
+    rules: RulesObject | object
   }
 > = (rules: T) => Array<RulesByNodeId<T>>
 

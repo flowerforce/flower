@@ -1,8 +1,6 @@
 import { FunctionRule, RulesObject } from '@flowerforce/flower-core'
 
-export type FlowerFieldProps<
-  T extends Record<string, any> = Record<string, any>
-> = {
+export type FlowerFieldProps<T> = {
   /** The path to the value you want to read from the flow's data
    *
    * Example: id="loginForm.name"
@@ -68,7 +66,9 @@ export type FlowerFieldProps<
    *
    * For every rule you can pass an error message, that Flower returns when that condition is note satisfied
    */
-  validate?: Record<string, any>[] | string[]
+  validate?:
+    | { rules: RulesObject<{ [K in keyof T]: T[K] }>; message: string }[]
+    | string[]
   /** A function to perform an async validation */
   asyncValidate?: (
     value: any,
@@ -97,7 +97,7 @@ export type FlowerFieldProps<
    *
    * Example: rules={{ $and: [{ name: { $exist: true } }] }}
    */
-  rules?: RulesObject<T> | FunctionRule
+  rules?: RulesObject<{ [K in keyof T]: T[K] }> | FunctionRule
   /** The name of the flow from which read the data
    *
    * - note: the default value is the name of the flow where the component is used
