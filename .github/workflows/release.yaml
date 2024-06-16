@@ -43,9 +43,6 @@ jobs:
         run: |
           npm run prepare:release
           git push
-          git checkout -b main
-          git merge release
-          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish to npm
@@ -53,3 +50,10 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+      - name: Align main branch # Keep this step at the end in case of errors (e.g. merge conflicts)
+        run: |
+          git checkout -b main
+          git merge release
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
