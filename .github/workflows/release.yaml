@@ -23,21 +23,26 @@ jobs:
         run: |
           git config user.name "flower-github-bot"
           git config user.email "flower-github-bot@users.noreply.github.com"
+          git config push.autoSetupRemote true
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
           registry-url: https://registry.npmjs.org/
+      - name: Wait for status check # Do not continue if the status check is not successful
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.ref }}
+          check-name: checks
+          repo-token: ${{ secrets.GH_TOKEN }}
+          wait-interval: 20
       - name: Install deps
         run: npm ci --include=optional
       - name: Prepare release and push commit
         run: |
           npm run prepare:release
           git push
-          git checkout -b main
-          git merge release
-          #git push --set-upstream origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Publish to npm
@@ -45,3 +50,10 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+      - name: Align main branch # Keep this step at the end in case of errors (e.g. merge conflicts)
+        run: |
+          git checkout -b main
+          git merge release
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
