@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/flower-react",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "FlowerJS components, hooks and utils for React.",
   "repository": {
     "type": "git",
