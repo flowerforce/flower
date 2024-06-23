@@ -1,0 +1,45 @@
+{
+  "name": "@flowerforce/flower-react-components",
+  "version": "3.1.1",
+  "description": "Components for flowerJS",  
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flowerforce/flower.git"
+  },
+  "homepage": "https://www.flowerjs.it",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "tsc:noemit": "tsc -p tsconfig.lib.json --noEmit"
+  },
+  "files": [
+    "dist",
+    "!dist/package.json",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "@types/flat": "^5.0.5",
+    "@types/lodash": "^4.17.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "@flowerforce/flower-react": "3.1.1"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "module": "./dist/index.esm.js",
+      "import": "./dist/index.cjs.mjs",
+      "default": "./dist/index.cjs.js"
+    }
+  },
+  "module": "./dist/index.esm.js",
+  "main": "./dist/index.cjs.js"
+}

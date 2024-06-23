@@ -1,0 +1,119 @@
+{
+    "type": "component",
+    "name": "FlowerCheckbox",
+    "description": "Checkbox Component",
+    "category": "Flower Form",
+    "editing": [
+        {
+            "type": "Input",
+            "id": "id",
+            "label": "Field ID"
+        },
+        {
+            "type": "Input",
+            "id": "label",
+            "label": "Label"
+        },
+        {
+            "type": "Input",
+            "id": "caption",
+            "label": "Caption"
+        },
+        {
+            "type": "ButtonGroup",
+            "id": "labelPlacement",
+            "label": "Label Placement",
+            "options": [
+              {
+                "label": "Right",
+                "value": "right"
+              },
+              {
+                "label": "Top",
+                "value": "top"
+              },
+              {
+                "label": "Bottom",
+                "value": "bottom"
+              }  ,
+              {
+                "label": "Left",
+                "value": "left"
+              }       
+            ]
+        },
+        {
+            "type": "ButtonGroup",
+            "id": "checkmarkType",
+            "label": "Checkmark Type",
+            "options": [
+              {
+                "label": "Default",
+                "value": "default"
+              },
+              {
+                "label": "Toggle",
+                "value": "toggle"
+              },
+              {
+                "label": "Toogle Round",
+                "value": "toggle_round"
+              }
+            ]
+        },
+        {
+            "type": "List",
+            "id": "options",
+            "emptyState": "Add an option",
+            "item": {
+                "children": [
+                    {
+                        "type": "Input",
+                        "id": "label",
+                        "label": "Label"
+                    },
+                    {
+                        "type": "Input",
+                        "id": "value",
+                        "title": "Value"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Rules",
+            "id": "rules",
+            "label": "Regole di visualizzazione"
+        },
+        {
+            "type": "Switch",
+            "id": "isDisabled",
+            "default": false,
+            "label": "Mostralo disabilitato"
+        },
+        {
+            "type": "Switch",
+            "id": "destroyValue",
+            "label": "Destroy value on remove field"
+        },
+        {
+            "type": "List",
+            "id": "validate",
+            "emptyState": "Add a new validation rule",
+            "item": {
+                "children": [
+                    {
+                        "type": "Input",
+                        "id": "message",
+                        "label": "Message"
+                    },
+                    {
+                        "type": "Rules",
+                        "id": "rules",
+                        "title": "Regole di validazione"
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -15,6 +15,7 @@
     "build:react": "nx build flower-react",
     "start:demo": "nx serve flower-demo",
     "build:demo": "nx build flower-demo",
+    "build:react-components": "nx build flower-react-components",
     "lint": "nx run-many -t lint",
     "lint:fix": "nx run-many -t lint --fix",
     "test": "nx run-many -t test --passWithNoTests",

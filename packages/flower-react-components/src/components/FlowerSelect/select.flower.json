@@ -1,0 +1,107 @@
+{
+    "type": "component",
+    "name": "FlowerSelect",
+    "description": "Select Component",
+    "category": "Flower Form",
+    "editing": [
+        {
+            "type": "Input",
+            "id": "id",
+            "label": "Field ID"
+        },
+        {
+            "type": "Input",
+            "id": "label",
+            "label": "Label"
+        },
+        {
+            "type": "List",
+            "id": "options",
+            "emptyState": "Add an option",
+            "item": {
+                "children": [
+                    {
+                        "type": "Input",
+                        "id": "label",
+                        "label": "Label"
+                    },
+                    {
+                        "type": "Input",
+                        "id": "value",
+                        "title": "Value"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Switch",
+            "id": "multi",
+            "default": false,
+            "label": "Multi selected"
+        },
+        {
+            "type": "Select",
+            "id": "selectSize",
+            "label": "Select Size",
+            "default": "default",
+            "options": [
+                {
+                    "name": "Default",
+                    "value": "default"
+                },
+                {
+                    "name": "Mini",
+                    "value": "mini"
+                },
+                {
+                    "name": "Large",
+                    "value": "large"
+                },
+                {
+                    "name": "Compact",
+                    "value": "compact"
+                }
+            ]
+        },
+        {
+            "type": "Input",
+            "id": "caption",
+            "label": "Caption"
+        },
+        {
+            "type": "Rules",
+            "id": "rules",
+            "label": "Regole di visualizzazione"
+        },
+        {
+            "type": "Switch",
+            "id": "isDisabled",
+            "default": false,
+            "label": "Mostralo disabilitato"
+        },
+        {
+            "type": "Switch",
+            "id": "destroyValue",
+            "label": "Destroy value on remove field"
+        },
+        {
+            "type": "List",
+            "id": "validate",
+            "emptyState": "Add a new validation rule",
+            "item": {
+                "children": [
+                    {
+                        "type": "Input",
+                        "id": "message",
+                        "label": "Message"
+                    },
+                    {
+                        "type": "Rules",
+                        "id": "rules",
+                        "title": "Regole di validazione"
+                    }
+                ]
+            }
+        }
+    ]
+}
