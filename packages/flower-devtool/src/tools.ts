@@ -1,13 +1,9 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-underscore-dangle */
 import omit from 'lodash/omit'
 import set from 'lodash/set'
 
 import { record } from 'rrweb'
 import { Emitter } from '@flowerforce/flower-core'
-// import { store } from '../provider';
 import { screenshot } from './screenshot'
-//import { listenerHandler } from 'rrweb/typings/types';
 
 const cleanStore = (state = {}, omitStateKeys: string[]) =>
   Object.entries(state).reduce(
