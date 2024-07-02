@@ -3,7 +3,7 @@ import { context } from '../context'
 import { makeSelectCurrentNodeId, makeSelectStartNodeId } from '../selectors'
 import { useDispatch, useSelector } from '../provider'
 import { UseFlower } from './types/FlowerHooks'
-import { Emitter } from '@flowerforce/flower-core'
+import { Emitter, devtoolState } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
 
 type NavigateFunctionParams = string | Record<string, any>
@@ -98,7 +98,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
     (params: any) => {
       /* istanbul ignore next */
       // eslint-disable-next-line no-underscore-dangle, no-undef
-      if (_get(global.window, '__FLOWER_DEVTOOLS__')) {
+      if (_get(devtoolState, '__FLOWER_DEVTOOLS__')) {
         Emitter.emit('flower-devtool-from-client', {
           source: 'flower-client',
           action: 'FLOWER_NAVIGATE',
