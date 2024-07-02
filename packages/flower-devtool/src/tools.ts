@@ -2,7 +2,7 @@ import omit from 'lodash/omit'
 import set from 'lodash/set'
 
 import { record } from 'rrweb'
-import { Emitter } from '@flowerforce/flower-core'
+import { Emitter, devtoolState } from '@flowerforce/flower-core'
 import { screenshot } from './screenshot'
 
 const cleanStore = (state = {}, omitStateKeys: string[]) =>
@@ -67,10 +67,10 @@ export default function Devtool({
   mainFlow,
   sessionId: customSessionId
 }: DeltoolsProps) {
-  set(global.window, ['__FLOWER_DEVTOOLS__'], true)
+  set(devtoolState, ['__FLOWER_DEVTOOLS__'], true)
 
   if (auto) {
-    set(global.window, ['__FLOWER_DEVTOOLS__AUTO'], true)
+    set(devtoolState, ['__FLOWER_DEVTOOLS__AUTO'], true)
   }
 
   const uri = remote
@@ -98,7 +98,7 @@ export default function Devtool({
       if (msg.source !== 'flower-devtool') return
 
       if (msg.action === 'FLOWER_DEVTOOL_DELAY') {
-        set(global.window, ['__FLOWER_DEVTOOLS__DELAY'], msg.state)
+        set(devtoolState, ['__FLOWER_DEVTOOLS__DELAY'], msg.state)
       }
 
       if (msg.action === 'START_RECORDING_TEST') {
@@ -137,7 +137,7 @@ export default function Devtool({
       }
 
       if (msg.action === 'FLOWER_EXTENSION_INIT') {
-        set(global.window, ['__FLOWER_DEVTOOLS_INITIALIZED__'], true)
+        set(devtoolState, ['__FLOWER_DEVTOOLS_INITIALIZED__'], true)
         ws.send(
           JSON.stringify({
             from: 'flower-devtool-from-client',
@@ -147,7 +147,7 @@ export default function Devtool({
       }
 
       if (msg.action === 'FLOWER_DEVTOOL_WEB_INIT') {
-        set(global.window, ['__FLOWER_DEVTOOLS_INITIALIZED__'], true)
+        set(devtoolState, ['__FLOWER_DEVTOOLS_INITIALIZED__'], true)
         enableScreenshot = !!msg.enableScreenshot
         ws.send(
           JSON.stringify({
