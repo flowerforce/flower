@@ -5,7 +5,7 @@
     "module": "ESNext",
     "jsx": "react",
     "declaration": true,
-    "removeComments": true,
+    "removeComments": false,
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
