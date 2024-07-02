@@ -7,7 +7,7 @@
   "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "release": {
-    "projects": ["flower-core", "flower-react"],
+    "projects": ["flower-core", "flower-react", "flower-devtool"],
     "projectsRelationship": "independent",
     "changelog": {
       "projectChangelogs": {

@@ -113,6 +113,13 @@ button.error {
   background: #c0392b;
 }
 
+.success {
+  background: #27ae60 !important;
+}
+
+.error {
+  background: #c0392b !important;
+}
 
 .loader {
   width: 48px;

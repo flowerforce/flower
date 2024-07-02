@@ -31,26 +31,3 @@ const Api = React.memo(({ flow }) => {
 })
 
 export default Api
-
-/*
-// flower
-{
-  "type": "component",
-  "isAction": true,
-  "isServer": true,
-  "name": "Api",
-  "title": "Api",
-  "category": "utils",
-  "editing": [
-    {
-      "type": "Input",
-      "id": "name",
-      "label": "Saga name"
-    }
-  ],
-  "output": {
-    "success": "bool",
-    "error": "text"
-  }
-}
-*/

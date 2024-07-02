@@ -1,3 +1,10 @@
+## 3.1.1 (2024-06-11)
+
+
+### 🩹 Fixes
+
+- generate nodes function ([952c58d](https://github.com/flowerforce/flower/commit/952c58d))
+
 ## 3.1.0 (2024-06-06)
 
 

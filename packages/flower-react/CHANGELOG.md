@@ -1,3 +1,10 @@
+## 3.1.1 (2024-06-11)
+
+
+### 🩹 Fixes
+
+- enableReduxDevtool prop inside FlowerProvider ([ff0e57a](https://github.com/flowerforce/flower/commit/ff0e57a))
+
 ## 3.1.0 (2024-06-06)
 
 

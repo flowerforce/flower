@@ -10,7 +10,7 @@ import React, {
   PropsWithChildren
 } from 'react'
 import _keyBy from 'lodash/keyBy'
-import { Emitter } from '@flowerforce/flower-core'
+import { Emitter, devtoolState } from '@flowerforce/flower-core'
 import { Provider } from '../context'
 import _get from 'lodash/get'
 import { convertElements } from '../utils'
@@ -46,8 +46,7 @@ const FlowerClient = ({
   const dispatch = useDispatch()
   const one = useRef(false)
   const [wsDevtools, setWsDevtools] = useState<boolean>(
-    global.window &&
-      _get(global.window, '__FLOWER_DEVTOOLS_INITIALIZED__', false)
+    devtoolState && _get(devtoolState, '__FLOWER_DEVTOOLS_INITIALIZED__', false)
   )
 
   // TODO rivedere il giro, potremmo fare le trasformazioni in CoreUtils.generateNodesForFlowerJson
@@ -109,13 +108,13 @@ const FlowerClient = ({
     }
 
     /* istanbul ignore next */
-    if (global.window && _get(global.window, '__FLOWER_DEVTOOLS__')) {
+    if (devtoolState && _get(devtoolState, '__FLOWER_DEVTOOLS__')) {
       Emitter.on('flower-devtool-to-client', eventCb)
     }
 
     return () => {
       /* istanbul ignore next */
-      if (global.window && _get(global.window, '__FLOWER_DEVTOOLS__')) {
+      if (devtoolState && _get(devtoolState, '__FLOWER_DEVTOOLS__')) {
         Emitter.off('flower-devtool-to-client', eventCb)
       }
     }
@@ -137,8 +136,8 @@ const FlowerClient = ({
     if (
       isInitialized &&
       wsDevtools &&
-      global.window &&
-      _get(global.window, '__FLOWER_DEVTOOLS__')
+      devtoolState &&
+      _get(devtoolState, '__FLOWER_DEVTOOLS__')
     ) {
       Emitter.emit('flower-devtool-from-client', {
         source: 'flower-client',
@@ -156,8 +155,8 @@ const FlowerClient = ({
     if (
       isInitialized &&
       wsDevtools &&
-      global.window &&
-      _get(global.window, '__FLOWER_DEVTOOLS__')
+      devtoolState &&
+      _get(devtoolState, '__FLOWER_DEVTOOLS__')
     ) {
       Emitter.emit('flower-devtool-from-client', {
         source: 'flower-client',
@@ -176,8 +175,8 @@ const FlowerClient = ({
     if (
       isInitialized &&
       wsDevtools &&
-      global.window &&
-      _get(global.window, '__FLOWER_DEVTOOLS__')
+      devtoolState &&
+      _get(devtoolState, '__FLOWER_DEVTOOLS__')
     ) {
       Emitter.emit('flower-devtool-from-client', {
         source: 'flower-client',
@@ -199,8 +198,8 @@ const FlowerClient = ({
       /* istanbul ignore next */
       if (
         wsDevtools &&
-        global.window &&
-        _get(global.window, '__FLOWER_DEVTOOLS__')
+        devtoolState &&
+        _get(devtoolState, '__FLOWER_DEVTOOLS__')
       ) {
         Emitter.emit('flower-devtool-from-client', {
           source: 'flower-client',
@@ -218,8 +217,8 @@ const FlowerClient = ({
     /* istanbul ignore next */
     if (
       wsDevtools &&
-      global.window &&
-      _get(global.window, '__FLOWER_DEVTOOLS__')
+      devtoolState &&
+      _get(devtoolState, '__FLOWER_DEVTOOLS__')
     ) {
       if (isInitialized === current) return // salto il primo evento
       Emitter.emit('flower-devtool-from-client', {

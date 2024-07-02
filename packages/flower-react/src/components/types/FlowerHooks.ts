@@ -53,6 +53,8 @@ export type UseFlower = (options?: UseFlowerProps) => useFlowerActions & {
   flowName?: string
   /**Current node id*/
   nodeId: string
+  /**Initial start node id*/
+  startId: string
 }
 
 export type NavigateFunctionParams = string | Record<string, any>

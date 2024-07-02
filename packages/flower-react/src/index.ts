@@ -1,7 +1,3 @@
-/* // FOR REACT NATIVE
-if (global.window === undefined) {
-  global.window = global;
-} */
 export { Consumer as FlowerContextConsumer } from './context'
 export { Provider as FlowerContextProvider } from './context'
 export { context as FlowerContext } from './context'

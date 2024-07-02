@@ -3,9 +3,8 @@
   "compilerOptions": {
     "outDir": "dist/out-tsc",
     "module": "ESNext",
-    "jsx": "react",
     "declaration": true,
-    "removeComments": false,
+    "removeComments": true,
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],

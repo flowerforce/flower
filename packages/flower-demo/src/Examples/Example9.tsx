@@ -6,7 +6,7 @@ import {
   useFlower,
   useFlowerForm,
   Flower,
-  FlowerRule,
+  FlowerRule
 } from '@flowerforce/flower-react'
 import { useEffect } from 'react'
 import './styles.css'
@@ -42,31 +42,31 @@ export function Example9() {
                     $and: [
                       {
                         username: {
-                          $exists: true,
-                        },
-                      },
-                    ],
+                          $exists: true
+                        }
+                      }
+                    ]
                   },
-                  message: 'Field is required',
+                  message: 'Field is required'
                 },
                 {
                   rules: {
                     $and: [
                       {
                         username: {
-                          $strGte: '6',
-                        },
-                      },
-                    ],
+                          $strGte: '6'
+                        }
+                      }
+                    ]
                   },
-                  message: 'Field length must be greater than or equal to 6.',
+                  message: 'Field length must be greater than or equal to 6.'
                 },
                 {
                   rules: (data: any) => {
                     return true
                   },
-                  message: 'Error custom',
-                },
+                  message: 'Error custom'
+                }
               ]}
             >
               {({ onChange, value = '', errors, onBlur, hidden }) => (
@@ -100,8 +100,8 @@ export function Example9() {
               validate={[
                 {
                   rules: { $and: [{ password: { $exists: true } }] },
-                  message: 'Field is required',
-                },
+                  message: 'Field is required'
+                }
               ]}
             >
               {({ onChange, value = '', errors, onBlur, hidden }) => (
@@ -153,10 +153,10 @@ export function Example9() {
        * step 3
        */}
       <FlowerNode id="success">
-        <div className="page step3">
+        <div className="page step3 success">
           <span>Success</span>
           <FlowerNavigate action="reset">
-            <button>Reset</button>
+            <button className="success">Reset</button>
           </FlowerNavigate>
         </div>
       </FlowerNode>
@@ -165,10 +165,10 @@ export function Example9() {
        * step 4
        */}
       <FlowerNode id="error">
-        <div className="page step4">
+        <div className="page step4 error">
           <span>Error</span>
           <FlowerNavigate action="reset">
-            <button>Reset</button>
+            <button className="error">Reset</button>
           </FlowerNavigate>
         </div>
       </FlowerNode>
