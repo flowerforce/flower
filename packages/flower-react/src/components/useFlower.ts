@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react'
 import { context } from '../context'
-import { makeSelectCurrentNodeId } from '../selectors'
+import { makeSelectCurrentNodeId, makeSelectStartNodeId } from '../selectors'
 import { useDispatch, useSelector } from '../provider'
 import { UseFlower } from './types/FlowerHooks'
 import { Emitter, devtoolState } from '@flowerforce/flower-core'
@@ -91,6 +91,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
 
   const flowName = customFlowName || name || flowNameDefault
   const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''))
+  const startId = useSelector(makeSelectStartNodeId(flowName ?? ''))
 
   const emitNavigateEvent = useCallback(
     //TODO check this function is needed
@@ -179,6 +180,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   return {
     flowName,
     nodeId,
+    startId,
     next,
     jump,
     back,
