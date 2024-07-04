@@ -29,6 +29,7 @@ type FlowerClientProps = PropsWithChildren & {
   destroyOnUnmount?: boolean
   startId?: string | null
   initialData?: any
+  layout?: 'vertical' | 'horizontal'
 }
 
 /**
@@ -39,7 +40,8 @@ const FlowerClient = ({
   name,
   destroyOnUnmount = true,
   startId = null,
-  initialData = {}
+  initialData = {},
+  layout = 'vertical'
 }: FlowerClientProps) => {
   const flowName = name
 
