@@ -10,6 +10,7 @@ const get = require('lodash/get')
 const watch = require('glob-watcher')
 const { nanoid } = require('nanoid')
 const { logDevtoolData } = require('./cliUtils')
+const { merge } = require('lodash')
 
 const loadFlowMetadata = (file) => {
   const sourceDir = path.dirname(file)
@@ -45,17 +46,22 @@ const execute = ({ pattern, secretKey, dir }) =>
               flowName: parsed.name,
               private: flowMetadata?.private,
               elements: parsed.elements.map((el) => {
-                const metadata = get(
-                  flowMetadata,
-                  ['elements', el.id, '_metadata'],
-                  {}
+
+
+                const metadata = merge(get(flowMetadata, ['elements', el.id, '_metadata'], {}), el?.data?._metadata)
+
+                const previewUrl = metadata.previewUrl && (
+                  metadata.previewUrl?.indexOf('http') === 0
+                    ? metadata.previewUrl
+                    : fs.readFileSync(path.join(process.cwd(), metadata.previewUrl), { encoding: 'base64' })
                 )
+
                 if (el.sourceHandle) {
                   return {
                     ...el,
                     data: {
                       ...metadata,
-                      ...el?.data?._metadata,
+                      previewUrl,
                       rules: el.data.rules,
                       source: el.source,
                       target: el.target,
@@ -67,7 +73,7 @@ const execute = ({ pattern, secretKey, dir }) =>
                     ...el,
                     data: {
                       ...metadata,
-                      ...el?.data?._metadata,
+                      previewUrl,
                       label: el.id,
                       nodeId: el.id,
                       flowName: parsed.name
@@ -95,9 +101,9 @@ const execute = ({ pattern, secretKey, dir }) =>
             layout: 'vertical',
             elements: secretKey
               ? CryptoJS.AES.encrypt(
-                  JSON.stringify(v.elements),
-                  secretKey
-                ).toString()
+                JSON.stringify(v.elements),
+                secretKey
+              ).toString()
               : JSON.stringify(v.elements)
           }
         }
