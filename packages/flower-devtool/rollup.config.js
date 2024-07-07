@@ -10,7 +10,7 @@ module.exports = withNx(
     generateExportsField: true,
     assets: [
       {
-        input: './bin',
+        input: 'packages/flower-devtool/bin',
         glob: '**/*.js',
         output: 'bin'
       }
