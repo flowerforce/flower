@@ -13,6 +13,7 @@
       "projectChangelogs": {
         "createRelease": "github",
         "renderOptions": {
+          "commitReferences": true,
           "authors": false
         }
       }
