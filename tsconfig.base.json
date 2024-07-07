@@ -14,7 +14,8 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "@flowerforce/flower-core": ["packages/flower-core/src/index.ts"],
-      "@flowerforce/flower-react": ["packages/flower-react/src/index.ts"]
+      "@flowerforce/flower-react": ["packages/flower-react/src/index.ts"],
+      "@flowerforce/devtool": ["packages/flower-devtool/src/index.ts"]
     }
   },
   "exclude": ["node_modules"]
