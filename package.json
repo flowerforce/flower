@@ -14,6 +14,7 @@
     "coverage:core": "nx test flower-core --collectCoverage && npm run core:showcoverage",
     "coverage:react": "nx test flower-react --collectCoverage && npm run react:showcoverage",
     "tsc:noemit": "nx run-many -t tsc:noemit",
+    "build:devtool": "nx build flower-devtool",
     "build:core": "nx build flower-core",
     "build:react": "nx build flower-react",
     "start:demo": "nx serve flower-demo",
