@@ -3,7 +3,7 @@
   "version": "3.2.1",
   "description": "Devtool",
   "bin": {
-    "flower": "./dist/bin/cli.js"
+    "flower": "./bin/cli.js"
   },
   "repository": {
     "type": "git",
@@ -14,6 +14,7 @@
     "access": "public"
   },
   "files": [
+    "bin",
     "dist",
     "!dist/package.json",
     "LICENSE",
