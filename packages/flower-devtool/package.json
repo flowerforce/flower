@@ -48,7 +48,7 @@
     "@babel/parser": "7.24.7"
   },
   "peerDependencies": {
-    "@flowerforce/flower-core": "3.1.1"
+    "@flowerforce/flower-core": "*"
   },
   "devDependencies": {
     "@types/flat": "^5.0.5",
