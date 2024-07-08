@@ -21,7 +21,7 @@ jobs:
         run: |
           # Get PR title
           PR_TITLE="${{ github.event.pull_request.title }}"
-          PATTERN="^(feat|fix|docs|style|refactor|perf|test|chore): .+$"
+          PATTERN="^(?i)(feat|fix|docs|style|ci|refactor|perf|test|chore)(\([^\)]+\))?: .+$"
           if [[ ! "$PR_TITLE" =~ $PATTERN ]]; then
             echo "Invalid PR title. Must match Conventional Commits pattern: $PATTERN"
             exit 1
