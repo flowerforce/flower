@@ -24,6 +24,7 @@ jobs:
           PATTERN="^(?i)(feat|fix|docs|style|ci|refactor|perf|test|chore)(\([^\)]+\))?: .+$"
           if [[ ! "$PR_TITLE" =~ $PATTERN ]]; then
             echo "Invalid PR title. Must match Conventional Commits pattern: $PATTERN"
+            echo "PR TITLE: $PR_TITLE"
             exit 1
           fi 
       - name: Install deps
