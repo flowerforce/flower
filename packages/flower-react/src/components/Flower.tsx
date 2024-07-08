@@ -24,11 +24,18 @@ import {
 } from '../selectors'
 import { useDispatch, useSelector, useStore } from '../provider'
 
+type FlowerInitalState = {
+  startId?: string
+  current?: string
+  history?: string[]
+}
+
 type FlowerClientProps = PropsWithChildren & {
   name: string
   destroyOnUnmount?: boolean
   startId?: string | null
   initialData?: any
+  initialState?: FlowerInitalState
 }
 
 /**
@@ -39,7 +46,8 @@ const FlowerClient = ({
   name,
   destroyOnUnmount = true,
   startId = null,
-  initialData = {}
+  initialData = {},
+  initialState = {}
 }: FlowerClientProps) => {
   const flowName = name
 
@@ -76,11 +84,20 @@ const FlowerClient = ({
           nodes,
           startId: startId ?? '',
           persist: destroyOnUnmount === false,
-          initialData
+          initialData,
+          initialState
         })
       )
     }
-  }, [dispatch, flowName, nodes, startId, initialData, destroyOnUnmount])
+  }, [
+    dispatch,
+    flowName,
+    nodes,
+    startId,
+    initialData,
+    destroyOnUnmount,
+    initialState
+  ])
 
   useEffect(() => {
     /* istanbul ignore next */

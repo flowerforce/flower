@@ -611,7 +611,7 @@ describe('Test FlowerField component', () => {
               id="name"
               asyncWaitingError="Attendi"
               asyncValidate={async () => {
-                await delay(500)
+                await delay(300)
                 await go()
                 await delay(100)
                 return ['error']
@@ -645,7 +645,7 @@ describe('Test FlowerField component', () => {
     )
     expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
     await user.type(screen.getByTestId('input2'), '@andrea')
-    await delay(500)
+    await delay(300)
     expect(screen.getByTestId('errors')).toHaveTextContent('Attendi')
     await delay(150)
     await waitFor(() => expect(go).toHaveBeenCalled())

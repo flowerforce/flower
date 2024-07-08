@@ -176,6 +176,11 @@ export type ReducersFunctions<
       persist: boolean
       nodes: Node[]
       initialData: any
+      initialState: {
+        startId?: string
+        current?: string
+        history?: string[]
+      }
     }
   >
   /**
