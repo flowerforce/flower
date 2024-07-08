@@ -13,6 +13,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "paths": {
+      "@flowerforce/devtool": ["packages/flower-devtool/src/index.ts"],
       "@flowerforce/flower-core": ["packages/flower-core/src/index.ts"],
       "@flowerforce/flower-react": ["packages/flower-react/src/index.ts"]
     }
