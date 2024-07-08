@@ -7,7 +7,14 @@ module.exports = withNx(
     tsConfig: './tsconfig.lib.json',
     compiler: 'tsc',
     format: ['cjs', 'esm'],
-    generateExportsField: true
+    generateExportsField: true,
+    assets: [
+      {
+        input: 'packages/flower-devtool/bin',
+        glob: '**/*.js',
+        output: 'bin'
+      }
+    ]
   },
   {
     // Provide additional rollup configuration here. See: https://rollupjs.org/configuration-options

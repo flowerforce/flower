@@ -74,7 +74,7 @@ export default function Devtool({
   }
 
   const uri = remote
-    ? `https://web.flower.stackhouse.dev/remote/${remote}`
+    ? `https://web.flower.stackhouse.dev/#/remote/${remote}`
     : `open vscode ${port}`
 
   const pathWs = remote

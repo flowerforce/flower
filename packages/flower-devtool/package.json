@@ -39,7 +39,7 @@
     "@babel/traverse": "^7.22.15",
     "commander": "^8.3.0",
     "crypto-js": "^4.1.1",
-    "glob": "7.2.3",
+    "glob": "9.3.5",
     "glob-watcher": "^6.0.0",
     "html-to-image": "^1.11.11",
     "lodash": "^4.17.15",

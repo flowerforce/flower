@@ -13,6 +13,7 @@
       "projectChangelogs": {
         "createRelease": "github",
         "renderOptions": {
+          "commitReferences": true,
           "authors": false
         }
       }
@@ -21,6 +22,9 @@
       "commitMessage": "chore(release): publish [skip ci]"
     },
     "version": {
+      "generatorOptions": {
+        "updateDependents": "auto"
+      },
       "conventionalCommits": true
     }
   },
@@ -29,14 +33,15 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["default", "^default"]
-    },
-    "@nx/rollup:rollup": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
     }
   },
   "plugins": [
+    {
+      "plugin": "@nx/rollup/plugin",
+      "options": {
+        "buildTargetName": "build"
+      }
+    },
     {
       "plugin": "@nx/eslint/plugin",
       "options": {
