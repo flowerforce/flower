@@ -59,7 +59,7 @@ const InitState = ({ state }: any) => {
   return '...'
 }
 
-describe.only('Test Flower component', () => {
+describe('Test Flower component', () => {
   it('Test flow success', async () => {
     render(
       <FlowerProvider>
@@ -100,7 +100,7 @@ describe.only('Test Flower component', () => {
         <Flower
           name="app-test"
           initialState={{
-            startId: 'step3',
+            startId: 'step1',
             current: 'step3',
             history: ['step1', 'step4', 'step3']
           }}
