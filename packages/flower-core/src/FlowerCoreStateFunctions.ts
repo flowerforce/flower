@@ -8,6 +8,7 @@ import lastIndexOf from 'lodash/lastIndexOf'
 import { CoreUtils } from './CoreUtils'
 import { ReducersFunctions } from './interfaces/ReducerInterface'
 import { FlowerStateUtils } from './FlowerCoreStateUtils'
+import { devtoolState } from './index'
 
 const {
   generateNodes,
@@ -268,11 +269,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
 
     /* istanbul ignore next */
     // eslint-disable-next-line no-underscore-dangle
-    if (
-      global.window &&
-      _get(global.window, '__FLOWER_DEVTOOLS__') &&
-      history
-    ) {
+    if (devtoolState && _get(devtoolState, '__FLOWER_DEVTOOLS__') && history) {
       FlowerCoreReducers.forceAddHistory(state, {
         type: 'forceAddHistory',
         payload: {

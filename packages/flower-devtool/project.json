@@ -1,8 +1,8 @@
 {
-  "name": "flower-react",
+  "name": "flower-devtool",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/flower-react/src",
+  "sourceRoot": "packages/flower-devtool/src",
   "projectType": "library",
-  "tags": ["react"],
+  "tags": ["devtool"],
   "targets": {}
 }

@@ -1,7 +1,10 @@
 name: Status check
 
 on:
-  - pull_request
+  pull_request:
+  push:
+    branches:
+      - release # The release workflow will wait for this status check
 
 jobs:
   checks:

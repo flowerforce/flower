@@ -6,3 +6,5 @@ export { CoreUtils } from './CoreUtils'
 export { MatchRules } from './RulesMatcher'
 
 export * from './interfaces'
+const devtoolState = {}
+export { devtoolState }
