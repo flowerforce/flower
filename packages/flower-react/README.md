@@ -103,8 +103,18 @@ export const Page = () => {
   )
 }
 ```
-
 Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-9wsjv7)
+
+
+> In addition you can pass the prop ***initialState*** to the `<Flower>` component 
+
+This prop allows you to configure the following fields:
+
+ 1) `startId`: string
+ 2) `current`: string
+ 3) `history`: string[]
+
+
 
 ### Navigate with routes
 
