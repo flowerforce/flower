@@ -14,6 +14,8 @@ export const FlowerCoreStateSelectors: ISelectors = {
   getDataByFlow: (flower) => _get(flower, ['data']) ?? {},
   getDataFromState: (id) => (data) => (id === '*' ? data : _get(data, id)),
   makeSelectNodeFormTouched: (form) => form && form.touched,
+  makeSelectNodeFormFieldTouched: (id) => (form) =>
+    form && form.touches && form.touches[id],
   makeSelectCurrentNodeId: (flower, startNodeId) =>
     _get(flower, ['current']) || startNodeId,
   makeSelectCurrentNodeDisabled: (nodes, current) =>

@@ -33,6 +33,8 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
   ) => void
   /** Use this function to replace a value in the flow's data. */
   replaceData: (value: any) => void
+  /**Use this function to reset errors form and touched state */
+  reset: (nodeId?: string) => void
 }
 
 type useFlowerActions = {

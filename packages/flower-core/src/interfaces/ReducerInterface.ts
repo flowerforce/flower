@@ -31,6 +31,8 @@ export type ActionsTypes =
   | 'replaceData'
   | 'unsetData'
   | 'setFormIsValidating'
+  | 'resetForm'
+  | 'formFieldTouch'
   | 'node'
   | 'prevToNode'
   | 'next'
@@ -213,6 +215,23 @@ export type ReducersFunctions<
    * @param state
    * @param action
    *
+   * Set touch form single field
+   *
+   * @returns state
+   */
+  formFieldTouch: ReducerFunctionSign<
+    T,
+    {
+      name: string
+      currentNode: string
+      id: string
+      touched?: boolean
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
    * Removes errors from a form node in a flow.
    *
    * @returns state
@@ -369,5 +388,14 @@ export type ReducersFunctions<
   reset: ReducerFunctionSign<
     T,
     { name?: string; flowName?: string; initialData?: Record<string, any> }
+    /**
+     * @param state
+     * @param action
+     *
+     * Reset form.
+     *
+     * @returns state
+     */
   >
+  resetForm: ReducerFunctionSign<T, { id: string; flowName: string }>
 }

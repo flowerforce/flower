@@ -86,6 +86,13 @@ export interface ISelectors {
     isValidating?: boolean
   }
   /**
+   * @param form
+   * @returns
+   */
+  makeSelectNodeFormFieldTouched<T extends Record<string, any>>(
+    id: string
+  ): (form: Form<T> | undefined) => boolean | undefined
+  /**
    * @param flower
    * @returns
    */

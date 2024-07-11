@@ -15,7 +15,8 @@ const {
   hasNode,
   makeObjectRules,
   generateRulesName,
-  findValidRule
+  findValidRule,
+  getPath
 } = CoreUtils
 
 /**
@@ -231,6 +232,13 @@ export const FlowerCoreReducers: ReducersFunctions = {
     ])
     _unset(state, [payload.name, 'form', payload.currentNode, 'isValidating'])
   },
+  formFieldTouch: (state, { payload }) => {
+    _set(
+      state,
+      [payload.name, 'form', payload.currentNode, 'touches', payload.id],
+      payload.touched
+    )
+  },
   addData: (state, { payload }) => {
     const prevData = _get(state, [payload.flowName, 'data'])
     _set(state, [payload.flowName, 'data'], { ...prevData, ...payload.value })
@@ -254,6 +262,20 @@ export const FlowerCoreReducers: ReducersFunctions = {
       [payload.name, 'form', payload.currentNode, 'isValidating'],
       payload.isValidating
     )
+  },
+  resetForm: (state, { payload }) => {
+    const touchedFields = _get(
+      state,
+      [payload.flowName, 'form', payload.id, 'touches'],
+      {}
+    )
+
+    Object.keys(touchedFields).forEach((key) => {
+      const { flowNameFromPath = payload.flowName, path } = getPath(key)
+      _unset(state, [flowNameFromPath, 'data', ...path])
+    })
+
+    _unset(state, [payload.flowName, 'form', payload.id])
   },
   node: (state, { payload }) => {
     const { name, history } = payload
