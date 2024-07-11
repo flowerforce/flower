@@ -156,6 +156,7 @@ program
     'src'
   )
   .option('-w, --watch', 'Watch for files changes')
+  .option('-k, --secretKey <type>', 'Set custom secret key', nanoid())
   .action(commandExecution)
 
 program.parse()
