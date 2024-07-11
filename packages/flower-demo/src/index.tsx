@@ -14,6 +14,6 @@ root.render(
 )
 
 Devtool({
-  remote: 'L2ak8Aw13e2C9Lc0WgQ7e',
+  sessionId: 'L2ak8Aw13e2C9Lc0WgQ7e',
   sourceMap: require('./.flower.source-map.json')
 })
