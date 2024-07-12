@@ -6,22 +6,21 @@ import React, {
   useState,
   useMemo,
   useEffect,
-  useRef
+  useRef,
 } from 'react'
 import {
   getDataFromState,
   makeSelectFieldError,
+  makeSelectNodeFieldTouched,
   makeSelectNodeFormTouched
 } from '../selectors'
 import { context } from '../context'
 import FlowerRule from './FlowerRule'
 import { store, useDispatch, useSelector } from '../provider'
 import debounce from 'lodash/debounce'
-import get from 'lodash/get'
 import {
   MatchRules,
   CoreUtils,
-  Selectors,
   FlowerStateUtils
 } from '@flowerforce/flower-core'
 import { FlowerFieldProps } from './types/FlowerField'
@@ -49,7 +48,7 @@ function Wrapper({
   ...props
 }: any) {
   const dispatch = useDispatch()
-  const [touched, setTouched] = useState<boolean | undefined>()
+
   const [customErrors, setCustomErrors] = useState(
     asyncValidate && [asyncInitialError]
   )
@@ -61,13 +60,30 @@ function Wrapper({
     () => CoreUtils.getPath(id),
     [id]
   )
+
   const value = useSelector(getDataFromState(flowNameFromPath, path))
   const errors = useSelector(
     makeSelectFieldError(flowName, id, validate),
     CoreUtils.allEqual
   )
+  const touched = useSelector(
+    makeSelectNodeFieldTouched(flowName, currentNode, id)
+  )
   const refValue = useRef<Record<string, any>>()
   const one = useRef<boolean>()
+
+
+  const setTouched = useCallback((touched: boolean) => {
+    dispatch({
+      type: 'flower/formFieldTouch',
+      payload: {
+        name: flowName,
+        id,
+        currentNode,
+        touched
+      }
+    })  
+  }, [dispatch, flowName, currentNode, id])
 
   const validateFn = useCallback(
     async (value: any) => {
@@ -120,6 +136,7 @@ function Wrapper({
     }
   }, [value, onUpdate])
 
+
   const onChange = useCallback(
     (val: any) => {
       dispatch({
@@ -152,7 +169,7 @@ function Wrapper({
         errors: allErrors
       }
     })
-  }, [id, flowName, allErrors, currentNode])
+  }, [id, flowName, allErrors, currentNode, touched])
 
   useEffect(() => {
     dispatch({

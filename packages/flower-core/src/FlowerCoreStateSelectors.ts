@@ -3,6 +3,7 @@ import { ISelectors } from './interfaces/SelectorsInterface'
 import { CoreUtils } from './CoreUtils'
 import { MatchRules } from './RulesMatcher'
 import { unflatten } from 'flat'
+import { createFormData } from './FlowerCoreStateUtils'
 
 export const FlowerCoreStateSelectors: ISelectors = {
   selectGlobal: (state) => state && state.flower,
@@ -14,6 +15,8 @@ export const FlowerCoreStateSelectors: ISelectors = {
   getDataByFlow: (flower) => _get(flower, ['data']) ?? {},
   getDataFromState: (id) => (data) => (id === '*' ? data : _get(data, id)),
   makeSelectNodeFormTouched: (form) => form && form.touched,
+  makeSelectNodeFormFieldTouched: (id) => (form) =>
+    form && form.touches && form.touches[id],
   makeSelectCurrentNodeId: (flower, startNodeId) =>
     _get(flower, ['current']) || startNodeId,
   makeSelectCurrentNodeDisabled: (nodes, current) =>
@@ -34,20 +37,15 @@ export const FlowerCoreStateSelectors: ISelectors = {
       nodes[prevFlowerNode] && nodes[prevFlowerNode].retain && prevFlowerNode
     )
   },
-  makeSelectNodeErrors: (form) => {
-    return {
-      touched: form?.touched || false,
-      errors: form?.errors,
-      isValidating: form?.isValidating,
-      isValid:
-        form && form.errors
-          ? Object.values(form.errors).flat().length === 0
-          : true
-    }
-  },
+  makeSelectNodeErrors: createFormData,
 
-  makeSelectFieldError: (name, id, validate) => (data) => {
-    if (!validate || !data) return []
+  makeSelectFieldError: (name, id, validate) => (data, form) => {
+    const customErrors = Object.entries((form && form.customErrors) || {})
+      .filter(([k]) => k === id)
+      .map(([, v]) => v)
+      .flat()
+
+    if (!validate || !data) return [] as string[]
 
     const errors = validate.filter((rule) => {
       if (!rule) return true
@@ -64,7 +62,7 @@ export const FlowerCoreStateSelectors: ISelectors = {
 
     const result = errors.map((r) => (r && r.message) || 'error')
 
-    return result.length === 0 ? [] : result
+    return [...customErrors, ...(result.length === 0 ? [] : result)]
   },
 
   selectorRulesDisabled: (id, rules, keys, flowName, value) => (data, form) => {

@@ -45,4 +45,6 @@ export type Form<T> = {
   touched?: boolean
   isValidating?: boolean
   errors?: { [K in keyof T]: Array<string> }
+  customErrors?: { [K in keyof T]: Array<string> }
+  touches?: { [K in keyof T]: boolean }
 }
