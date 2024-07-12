@@ -82,9 +82,17 @@ export interface ISelectors {
   ): {
     touched: boolean
     errors: any
+    customErrors: any
     isValid: boolean
     isValidating?: boolean
   }
+  /**
+   * @param form
+   * @returns
+   */
+  makeSelectNodeFormFieldTouched<T extends Record<string, any>>(
+    id: string
+  ): (form: Form<T> | undefined) => boolean | undefined
   /**
    * @param flower
    * @returns
@@ -114,7 +122,7 @@ export interface ISelectors {
     name: string,
     id: string,
     validate: { rules?: RulesObject<any>; message?: string }[] | null
-  ): (data?: T) => Array<string>
+  ): (data: T | undefined, form: Form<T>) => Array<string>
   /**
    * @param id
    * @param rules
@@ -129,13 +137,5 @@ export interface ISelectors {
     keys: string[] | null,
     flowName: string,
     value: any
-  ): (
-    data: T | undefined,
-    form: {
-      touched: boolean
-      errors: any
-      isValid: boolean
-      isValidating?: boolean
-    }
-  ) => boolean
+  ): (data: T | undefined, form: Form<T>) => boolean
 }

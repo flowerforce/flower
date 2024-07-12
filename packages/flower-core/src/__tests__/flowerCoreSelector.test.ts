@@ -232,7 +232,7 @@ describe('FlowerCoreSelectors', () => {
         id,
         validate
       )
-      const result = selectFieldError({} as Flower<any>)
+      const result = selectFieldError({} as Flower<any>, {})
 
       expect(result).toEqual([])
     })
@@ -247,7 +247,7 @@ describe('FlowerCoreSelectors', () => {
         id,
         validate
       )
-      const result = selectFieldError({} as Flower<any>)
+      const result = selectFieldError({} as Flower<any>, {})
 
       expect(result).toEqual([])
     })

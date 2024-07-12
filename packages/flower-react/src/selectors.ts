@@ -5,6 +5,7 @@ import {
   RulesObject,
   FunctionRule
 } from '@flowerforce/flower-core'
+import _get from 'lodash/get'
 
 const { getAllData: mapData } = FlowerStateUtils
 
@@ -61,6 +62,16 @@ const makeSelectNodeErrors = (name: string, currentNodeId: string) =>
     Selectors.makeSelectNodeErrors
   )
 
+const makeSelectNodeFieldTouched = (
+  name: string,
+  currentNodeId: string,
+  fieldId: string
+) =>
+  createSelector(
+    selectFlowerFormNode(name, currentNodeId),
+    Selectors.makeSelectNodeFormFieldTouched(fieldId)
+  )
+
 const makeSelectNodeFormTouched = (name: string, currentNodeId: string) =>
   createSelector(
     selectFlowerFormNode(name, currentNodeId),
@@ -69,8 +80,21 @@ const makeSelectNodeFormTouched = (name: string, currentNodeId: string) =>
 
 const getAllData = createSelector(selectGlobal, mapData)
 
+const selectFlowerFormCurrentNode = (name: string) =>
+  createSelector(
+    selectFlower(name),
+    makeSelectCurrentNodeId(name),
+    (data, current) => {
+      return _get(data, ['form', current])
+    }
+  )
+
 const makeSelectFieldError = (name: string, id: string, validate: any) =>
-  createSelector(getAllData, Selectors.makeSelectFieldError(name, id, validate))
+  createSelector(
+    getAllData,
+    selectFlowerFormCurrentNode(name),
+    Selectors.makeSelectFieldError(name, id, validate)
+  )
 
 export const selectorRulesDisabled = (
   id: string,
@@ -96,6 +120,7 @@ export {
   getDataByFlow,
   getDataFromState,
   makeSelectNodeErrors,
+  makeSelectNodeFieldTouched,
   makeSelectFieldError,
   makeSelectNodeFormTouched,
   makeSelectPrevNodeRetain

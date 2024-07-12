@@ -12,6 +12,9 @@ import { useEffect } from 'react'
 import './styles.css'
 
 export function Example9() {
+  const { reset, setCustomErrors, customErrors } = useFlowerForm({
+    flowName: 'example9'
+  })
   return (
     <Flower name="example9">
       {/**
@@ -31,6 +34,13 @@ export function Example9() {
        */}
       <FlowerNode id="step1" to={{ step2: null }} retain>
         <div className="page step2">
+          <button onClick={() => reset()}>reset form</button>
+          <button onClick={() => setCustomErrors('password', ['errr'])}>
+            set custom errors
+          </button>
+          <button onClick={() => setCustomErrors('password', [])}>
+            remove custom errors
+          </button>
           <span>2</span>
           <div className="field">
             <label htmlFor="username">Username *</label>
@@ -81,7 +91,9 @@ export function Example9() {
                     onChange={(e) => onChange(e.target.value)}
                   />
 
-                  {errors && <div className="error">{errors.join(', ')}</div>}
+                  {errors && errors.length > 0 && (
+                    <div className="error">{errors.join(', ')}</div>
+                  )}
                 </div>
               )}
             </FlowerField>
@@ -99,7 +111,7 @@ export function Example9() {
               id="password"
               validate={[
                 {
-                  rules: { $and: [{ password: { $exists: true } }] },
+                  rules: { $and: [{ $self: { $exists: true } }] },
                   message: 'Field is required'
                 }
               ]}

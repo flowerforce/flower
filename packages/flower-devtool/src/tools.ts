@@ -50,7 +50,6 @@ type DeltoolsProps = {
   port?: number
   host?: string
   auto?: boolean
-  remote?: string
   omitStateKeys?: string[]
   sourceMap?: Record<string, any> | string
   mainFlow?: any
@@ -61,7 +60,6 @@ export default function Devtool({
   port = 8770,
   host = 'localhost',
   auto = false,
-  remote = '',
   omitStateKeys = [],
   sourceMap,
   mainFlow,
@@ -73,18 +71,19 @@ export default function Devtool({
     set(devtoolState, ['__FLOWER_DEVTOOLS__AUTO'], true)
   }
 
-  const uri = remote
-    ? `https://web.flower.stackhouse.dev/#/remote/${remote}`
+  const sessionId = customSessionId || makeid(20)
+
+  const uri = sessionId
+    ? `https://web.flower.stackhouse.dev/#/remote/${sessionId}`
     : `open vscode ${port}`
 
-  const pathWs = remote
-    ? `wss://remote.flower.stackhouse.dev/${remote}`
+  const pathWs = sessionId
+    ? `wss://remote.flower.stackhouse.dev/${sessionId}`
     : `ws://${host}:${port}`
 
   const ws = new WebSocket(pathWs)
   let intervalSM: any | null = null
   let enableScreenshot = false
-  const sessionId = customSessionId || makeid(10)
 
   let getState = () => ({ flower: {} })
 

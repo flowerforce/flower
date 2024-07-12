@@ -834,7 +834,7 @@ Devtool({
 
 ```jsx
 Devtool({
-  remote: 'passKey',
+  sessionId: 'RANDOM SESSION ID',
   sourceMap: require('./.flower.sourcemap.json')
 })
 ```
