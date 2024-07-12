@@ -122,16 +122,7 @@ export interface ISelectors {
     name: string,
     id: string,
     validate: { rules?: RulesObject<any>; message?: string }[] | null
-  ): (
-    data: T,
-    form: {
-      touched: boolean
-      errors: any
-      customErrors: any
-      isValid: boolean
-      isValidating?: boolean
-    }
-  ) => Array<string>
+  ): (data: T | undefined, form: Form<T>) => Array<string>
   /**
    * @param id
    * @param rules
@@ -146,14 +137,5 @@ export interface ISelectors {
     keys: string[] | null,
     flowName: string,
     value: any
-  ): (
-    data: T | undefined,
-    form: {
-      touched: boolean
-      errors: any
-      customErrors: any
-      isValid: boolean
-      isValidating?: boolean
-    }
-  ) => boolean
+  ): (data: T | undefined, form: Form<T>) => boolean
 }

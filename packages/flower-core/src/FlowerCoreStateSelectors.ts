@@ -3,6 +3,7 @@ import { ISelectors } from './interfaces/SelectorsInterface'
 import { CoreUtils } from './CoreUtils'
 import { MatchRules } from './RulesMatcher'
 import { unflatten } from 'flat'
+import { createFormData } from './FlowerCoreStateUtils'
 
 export const FlowerCoreStateSelectors: ISelectors = {
   selectGlobal: (state) => state && state.flower,
@@ -36,20 +37,7 @@ export const FlowerCoreStateSelectors: ISelectors = {
       nodes[prevFlowerNode] && nodes[prevFlowerNode].retain && prevFlowerNode
     )
   },
-  makeSelectNodeErrors: (form) => {
-    // DUPLICATO
-
-    const validationErrors = form && form.errors
-    const customErrors = form && form.customErrors
-    const allErrors = { ...(validationErrors || {}), ...(customErrors || {}) }
-    return {
-      touched: form?.touched || false,
-      errors: form?.errors,
-      customErrors: form?.customErrors,
-      isValidating: form?.isValidating,
-      isValid: allErrors ? Object.values(allErrors).flat().length === 0 : true
-    }
-  },
+  makeSelectNodeErrors: createFormData,
 
   makeSelectFieldError: (name, id, validate) => (data, form) => {
     const customErrors = Object.entries((form && form.customErrors) || {})
@@ -57,7 +45,7 @@ export const FlowerCoreStateSelectors: ISelectors = {
       .map(([, v]) => v)
       .flat()
 
-    if (!validate || !data) return []
+    if (!validate || !data) return [] as string[]
 
     const errors = validate.filter((rule) => {
       if (!rule) return true

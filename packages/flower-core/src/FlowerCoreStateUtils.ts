@@ -30,17 +30,20 @@ export const FlowerStateUtils: CoreStateUtils = {
       currentNodeId
     )(state)
 
-    // DUPLICATO
-    const validationErrors = form && form.errors
-    const customErrors = form && form.customErrors
-    const allErrors = { ...(validationErrors || {}), ...(customErrors || {}) }
+    return createFormData(form)
+  }
+}
 
-    return {
-      touched: form?.touched || false,
-      errors: form?.errors,
-      customErrors: form?.customErrors,
-      isValidating: form?.isValidating,
-      isValid: allErrors ? Object.values(allErrors).flat().length === 0 : true
-    }
+export const createFormData = (form: Record<string, any>) => {
+  const validationErrors = form && form.errors
+  const customErrors = form && form.customErrors
+  const allErrors = { ...(validationErrors || {}), ...(customErrors || {}) }
+
+  return {
+    touched: form?.touched || false,
+    errors: form?.errors,
+    customErrors: form?.customErrors,
+    isValidating: form?.isValidating,
+    isValid: allErrors ? Object.values(allErrors).flat().length === 0 : true
   }
 }
