@@ -215,6 +215,13 @@ export const FlowerCoreReducers: ReducersFunctions = {
       }
     }
   },
+  formAddCustomErrors: (state, { payload }) => {
+    _set(
+      state,
+      [payload.name, 'form', payload.currentNode, 'customErrors', payload.id],
+      payload.errors
+    )
+  },
   formAddErrors: (state, { payload }) => {
     _set(
       state,

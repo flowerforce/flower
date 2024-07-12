@@ -12,7 +12,9 @@ import { useEffect } from 'react'
 import './styles.css'
 
 export function Example9() {
-  const { reset } = useFlowerForm({ flowName: 'example9' })
+  const { reset, setCustomErrors, customErrors } = useFlowerForm({
+    flowName: 'example9'
+  })
   return (
     <Flower name="example9">
       {/**
@@ -33,6 +35,12 @@ export function Example9() {
       <FlowerNode id="step1" to={{ step2: null }} retain>
         <div className="page step2">
           <button onClick={() => reset()}>reset form</button>
+          <button onClick={() => setCustomErrors('password', ['errr'])}>
+            set custom errors
+          </button>
+          <button onClick={() => setCustomErrors('password', [])}>
+            remove custom errors
+          </button>
           <span>2</span>
           <div className="field">
             <label htmlFor="username">Username *</label>

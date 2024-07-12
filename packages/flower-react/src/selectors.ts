@@ -5,6 +5,7 @@ import {
   RulesObject,
   FunctionRule
 } from '@flowerforce/flower-core'
+import _get from 'lodash/get'
 
 const { getAllData: mapData } = FlowerStateUtils
 
@@ -79,8 +80,21 @@ const makeSelectNodeFormTouched = (name: string, currentNodeId: string) =>
 
 const getAllData = createSelector(selectGlobal, mapData)
 
+const selectFlowerFormCurrentNode = (name: string) =>
+  createSelector(
+    selectFlower(name),
+    makeSelectCurrentNodeId(name),
+    (data, current) => {
+      return _get(data, ['form', current])
+    }
+  )
+
 const makeSelectFieldError = (name: string, id: string, validate: any) =>
-  createSelector(getAllData, Selectors.makeSelectFieldError(name, id, validate))
+  createSelector(
+    getAllData,
+    selectFlowerFormCurrentNode(name),
+    Selectors.makeSelectFieldError(name, id, validate)
+  )
 
 export const selectorRulesDisabled = (
   id: string,

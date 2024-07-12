@@ -13,6 +13,8 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
   touched: boolean
   /** An object containing all the form errors */
   errors: Record<string, any>
+  /** An object containing all the form custom errors */
+  customErrors: Record<string, any>
   /** This value is set to true when all the validation rules are satisfied and the form is valid*/
   isValid: boolean
   /** This value is set to true during asynchronous validation.*/
@@ -35,6 +37,8 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
   replaceData: (value: any) => void
   /**Use this function to reset errors form and touched state */
   reset: (nodeId?: string) => void
+  /**this function to set a custom error on a specific field */
+  setCustomErrors: (field: string, errors: string[], nodeId?: string) => void
 }
 
 type useFlowerActions = {

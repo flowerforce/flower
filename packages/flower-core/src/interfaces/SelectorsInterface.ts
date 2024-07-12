@@ -82,6 +82,7 @@ export interface ISelectors {
   ): {
     touched: boolean
     errors: any
+    customErrors: any
     isValid: boolean
     isValidating?: boolean
   }
@@ -121,7 +122,16 @@ export interface ISelectors {
     name: string,
     id: string,
     validate: { rules?: RulesObject<any>; message?: string }[] | null
-  ): (data?: T) => Array<string>
+  ): (
+    data: T,
+    form: {
+      touched: boolean
+      errors: any
+      customErrors: any
+      isValid: boolean
+      isValidating?: boolean
+    }
+  ) => Array<string>
   /**
    * @param id
    * @param rules
@@ -141,6 +151,7 @@ export interface ISelectors {
     form: {
       touched: boolean
       errors: any
+      customErrors: any
       isValid: boolean
       isValidating?: boolean
     }

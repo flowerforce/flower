@@ -202,6 +202,23 @@ export type ReducersFunctions<
    *
    * @returns state
    */
+  formAddCustomErrors: ReducerFunctionSign<
+    T,
+    {
+      name: string
+      currentNode: string
+      id: string
+      errors: string[]
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Adds errors to a form node in a flow.
+   *
+   * @returns state
+   */
   formAddErrors: ReducerFunctionSign<
     T,
     {

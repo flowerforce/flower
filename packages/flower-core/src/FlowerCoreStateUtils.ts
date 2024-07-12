@@ -29,14 +29,18 @@ export const FlowerStateUtils: CoreStateUtils = {
       name,
       currentNodeId
     )(state)
+
+    // DUPLICATO
+    const validationErrors = form && form.errors
+    const customErrors = form && form.customErrors
+    const allErrors = { ...(validationErrors || {}), ...(customErrors || {}) }
+
     return {
       touched: form?.touched || false,
       errors: form?.errors,
+      customErrors: form?.customErrors,
       isValidating: form?.isValidating,
-      isValid:
-        form && form.errors
-          ? Object.values(form.errors).flat().length === 0
-          : true
+      isValid: allErrors ? Object.values(allErrors).flat().length === 0 : true
     }
   }
 }

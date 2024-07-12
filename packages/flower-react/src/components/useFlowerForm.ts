@@ -36,7 +36,7 @@ const useFlowerForm: UseFlowerForm = ({
   const store = useStore()
   const flowName = customFlowName || name || flowNameDefault || ''
   const currentNode = useSelector(makeSelectCurrentNodeId(flowName))
-  const { errors, isValid, touched, isValidating } = useSelector(
+  const { errors, customErrors, isValid, touched, isValidating } = useSelector(
     makeSelectNodeErrors(flowName, currentNode)
   )
 
@@ -96,16 +96,33 @@ const useFlowerForm: UseFlowerForm = ({
     [flowName, currentNode, dispatch]
   )
 
+  const setCustomErrors = useCallback(
+    (field: string, errors: string[], nodeId?: string) => {
+      dispatch({
+        type: 'flower/formAddCustomErrors',
+        payload: {
+          name: flowName,
+          id: field,
+          currentNode: nodeId || currentNode,
+          errors
+        }
+      })
+    },
+    [flowName, currentNode, dispatch]
+  )
+
   return {
     touched,
     errors,
+    customErrors,
     isValid,
     isValidating,
     getData,
     setData,
     unsetData,
     replaceData,
-    reset
+    reset,
+    setCustomErrors
   }
 }
 
