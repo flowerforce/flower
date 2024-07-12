@@ -19,9 +19,11 @@ import { UseFlowerForm } from './types/FlowerHooks'
  *
  * - replaceData
  *
+ * - unTouched
+ *
  * @param {string} flowName - first optional parameter
  *
- * @param {string} name - optional parameter, if flowName exist, name is not used
+ * @param {string} name - alias optional parameter, if flowName exist, name is not used
  *
  */
 const useFlowerForm: UseFlowerForm = ({
@@ -34,7 +36,7 @@ const useFlowerForm: UseFlowerForm = ({
   const store = useStore()
   const flowName = customFlowName || name || flowNameDefault || ''
   const currentNode = useSelector(makeSelectCurrentNodeId(flowName))
-  const { errors, isValid, touched, isValidating } = useSelector(
+  const { errors, customErrors, isValid, touched, isValidating } = useSelector(
     makeSelectNodeErrors(flowName, currentNode)
   )
 
@@ -87,15 +89,40 @@ const useFlowerForm: UseFlowerForm = ({
     [flowName, dispatch]
   )
 
+  const reset = useCallback(
+    (nodeId?: string) => {
+      dispatch(actions.resetForm({ flowName, id: nodeId || currentNode }))
+    },
+    [flowName, currentNode, dispatch]
+  )
+
+  const setCustomErrors = useCallback(
+    (field: string, errors: string[], nodeId?: string) => {
+      dispatch({
+        type: 'flower/formAddCustomErrors',
+        payload: {
+          name: flowName,
+          id: field,
+          currentNode: nodeId || currentNode,
+          errors
+        }
+      })
+    },
+    [flowName, currentNode, dispatch]
+  )
+
   return {
     touched,
     errors,
+    customErrors,
     isValid,
     isValidating,
     getData,
     setData,
     unsetData,
-    replaceData
+    replaceData,
+    reset,
+    setCustomErrors
   }
 }
 
