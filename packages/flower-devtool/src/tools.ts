@@ -71,7 +71,7 @@ export default function Devtool({
     set(devtoolState, ['__FLOWER_DEVTOOLS__AUTO'], true)
   }
 
-  const sessionId = customSessionId || makeid(20)
+  const sessionId = sourceMap && (customSessionId || makeid(20))
 
   const uri = sessionId
     ? `https://web.flower.stackhouse.dev/#/remote/${sessionId}`
