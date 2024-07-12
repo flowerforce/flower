@@ -2,7 +2,6 @@
 import React, {
   useCallback,
   useContext,
-  useLayoutEffect,
   useState,
   useMemo,
   useEffect,
@@ -71,7 +70,15 @@ function Wrapper({
   )
   const refValue = useRef<Record<string, any>>()
   const one = useRef<boolean>()
+  const touchedForm = useSelector(
+    makeSelectNodeFormTouched(flowName, currentNode)
+  )
 
+  const allErrors = useMemo(
+    () => [...errors, ...(customErrors || []).filter(Boolean)],
+    [errors, customErrors]
+  )
+  const isTouched = touched || touchedForm
 
   const setTouched = useCallback((touched: boolean) => {
     dispatch({
@@ -103,40 +110,6 @@ function Wrapper({
     validateFn
   ])
 
-  useEffect(() => {
-    if (asyncValidate) {
-      if (refValue.current === value) return
-      refValue.current = value
-
-      const hasValue = !MatchRules.utils.isEmpty(value)
-
-      if (!hasValue) {
-        setCustomErrors([asyncInitialError])
-        setIsValidating(false)
-        return
-      }
-
-      setTouched(true)
-      debouncedValidation(value)
-    }
-  }, [asyncValidate, asyncInitialError, value, debouncedValidation])
-
-  const touchedForm = useSelector(
-    makeSelectNodeFormTouched(flowName, currentNode)
-  )
-
-  const allErrors = useMemo(
-    () => [...errors, ...(customErrors || []).filter(Boolean)],
-    [errors, customErrors]
-  )
-
-  useEffect(() => {
-    if (onUpdate) {
-      onUpdate(value)
-    }
-  }, [value, onUpdate])
-
-
   const onChange = useCallback(
     (val: any) => {
       dispatch({
@@ -158,8 +131,38 @@ function Wrapper({
     },
     [onBlur]
   )
+  
+  useEffect(() => {
+    if (asyncValidate) {
+      if (refValue.current === value) return
+      refValue.current = value
 
-  useLayoutEffect(() => {
+      const hasValue = !MatchRules.utils.isEmpty(value)
+
+      if (!hasValue) {
+        setCustomErrors([asyncInitialError])
+        setIsValidating(false)
+        return
+      }
+
+      setTouched(true)
+      debouncedValidation(value)
+    }
+  }, [asyncValidate, asyncInitialError, value, debouncedValidation])
+
+  useEffect(() => {
+    if (onUpdate) {
+      onUpdate(value)
+    }
+  }, [value, onUpdate])
+
+  useEffect(()=>{
+    if(value){
+      setTouched(true)
+    }
+  },[value, setTouched])
+
+  useEffect(() => {
     dispatch({
       type: 'flower/formAddErrors',
       payload: {
@@ -182,7 +185,7 @@ function Wrapper({
     })
   }, [flowName, currentNode, isValidating])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // destroy
     return () => {
       if (destroyValue) {
@@ -203,13 +206,15 @@ function Wrapper({
   }, [destroyValue])
 
   useEffect(() => {
+    if(!isTouched){
+      one.current = false
+    }
     if (defaultValue && !one.current) {
       one.current = true
       onChange(defaultValue)
     }
-  }, [defaultValue, onChange])
+  }, [defaultValue, isTouched, onChange])
 
-  const isTouched = touched || touchedForm
 
   const newProps = useMemo(
     () => ({
