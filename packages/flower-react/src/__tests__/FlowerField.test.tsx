@@ -35,13 +35,7 @@ const Text = ({
   id?: string
 }) => <h1 data-testid={id || 'h1'}>{text || value || children}</h1>
 
-const Input = ({
-  onChange,
-  value = '',
-  name,
-  onBlur,
-  ...props
-}: Record<string, any>) => {
+const Input = ({ onChange, value = '', name, onBlur }: Record<string, any>) => {
   return (
     <input
       data-testid={name || 'input'}
@@ -93,6 +87,24 @@ const FormReset = forwardRef(({ children, flowName }: any, ref) => {
   }, [reset])
 
   return children
+})
+
+const FormErrors = forwardRef(({ children, flowName }: any, ref) => {
+  const { setCustomErrors, customErrors } = useFlowerForm({ flowName })
+  console.log(JSON.stringify(customErrors))
+
+  useImperativeHandle(ref, () => {
+    return {
+      setCustomErrors
+    }
+  }, [setCustomErrors])
+
+  return (
+    <>
+      <div data-testid="errors">{JSON.stringify(customErrors)}</div>
+      {children}
+    </>
+  )
 })
 
 describe('Test FlowerField component', () => {
@@ -748,5 +760,35 @@ describe('Test FlowerField component', () => {
     )
 
     expect(screen.getByTestId('text')).toHaveTextContent('ciao')
+  })
+
+  it('Test set custom errors', async () => {
+    const ref = React.createRef()
+    const onErrorsSpy = jest.fn()
+    render(
+      <FlowerProvider>
+        <FormErrors ref={ref} flowName="app-test" />
+        <Flower name="app-test">
+          <FlowerNode id="form">
+            <FlowerField id="name">
+              <Input />
+            </FlowerField>
+            <button
+              data-testid="btn-set-errors"
+              onClick={() => {
+                onErrorsSpy(ref.current.setCustomErrors('name', ['error-name']))
+              }}
+            >
+              reset
+            </button>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+    fireEvent.click(screen.getByTestId('btn-set-errors'))
+    expect(onErrorsSpy).toHaveBeenCalledTimes(1)
+    expect(screen.getByTestId('errors')).toHaveTextContent(
+      '{"name":["error-name"]}'
+    )
   })
 })
