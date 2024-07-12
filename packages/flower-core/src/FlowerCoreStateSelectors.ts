@@ -33,9 +33,9 @@ export const FlowerCoreStateSelectors: ISelectors = {
     if (!prevFlowerNode) return
     if (nodes[prevFlowerNode] && nodes[prevFlowerNode].disabled) return
     // eslint-disable-next-line consistent-return
-    return (
-      nodes[prevFlowerNode] && nodes[prevFlowerNode].retain && prevFlowerNode
-    )
+    return nodes[prevFlowerNode] && nodes[prevFlowerNode].retain
+      ? prevFlowerNode
+      : undefined
   },
   makeSelectNodeErrors: createFormData,
 

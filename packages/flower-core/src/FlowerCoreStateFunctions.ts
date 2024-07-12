@@ -237,6 +237,13 @@ export const FlowerCoreReducers: ReducersFunctions = {
       'errors',
       payload.id
     ])
+    _unset(state, [
+      payload.name,
+      'form',
+      payload.currentNode,
+      'customErrors',
+      payload.id
+    ])
     _unset(state, [payload.name, 'form', payload.currentNode, 'isValidating'])
   },
   formFieldTouch: (state, { payload }) => {
@@ -282,7 +289,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
       _unset(state, [flowNameFromPath, 'data', ...path])
     })
 
-    _unset(state, [payload.flowName, 'form', payload.id])
+    _unset(state, [payload.flowName, 'form', payload.id, 'touches'])
   },
   node: (state, { payload }) => {
     const { name, history } = payload

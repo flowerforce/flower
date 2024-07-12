@@ -203,17 +203,13 @@ function Wrapper({
         }
       })
     }
-  }, [destroyValue])
+  }, [destroyValue, id, flowNameFromPath, path, currentNode])
 
   useEffect(() => {
-    if(!isTouched){
-      one.current = false
-    }
-    if (defaultValue && !one.current) {
-      one.current = true
+    if (defaultValue && !isTouched) {
       onChange(defaultValue)
     }
-  }, [defaultValue, isTouched, onChange])
+  }, [defaultValue, isTouched, onChange, currentNode])
 
 
   const newProps = useMemo(
