@@ -36,14 +36,14 @@ export const FlowerStateUtils: CoreStateUtils = {
 
 export const createFormData = (form: Record<string, any>) => {
   const validationErrors = form && form.errors
-  const customErrors = form && form.customErrors
-  const allErrors = { ...(validationErrors || {}), ...(customErrors || {}) }
+
+  const allErrors = Object.values(validationErrors || {})
 
   return {
     touched: form?.touched || false,
     errors: form?.errors,
     customErrors: form?.customErrors,
     isValidating: form?.isValidating,
-    isValid: allErrors ? Object.values(allErrors).flat().length === 0 : true
+    isValid: allErrors.flat().length === 0
   }
 }

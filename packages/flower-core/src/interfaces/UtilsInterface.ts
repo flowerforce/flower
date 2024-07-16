@@ -51,6 +51,7 @@ export interface CoreStateUtils {
   ): (state: T) => {
     touched: boolean
     errors: any
+    customErrors: any
     isValid: boolean
     isValidating?: boolean
   }
