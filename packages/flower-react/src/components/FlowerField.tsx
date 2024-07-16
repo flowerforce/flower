@@ -10,6 +10,7 @@ import React, {
 import {
   getDataFromState,
   makeSelectFieldError,
+  makeSelectNodeFieldDirty,
   makeSelectNodeFieldTouched,
   makeSelectNodeFormTouched
 } from '../selectors'
@@ -20,10 +21,11 @@ import debounce from 'lodash/debounce'
 import {
   MatchRules,
   CoreUtils,
-  FlowerStateUtils
+  FlowerStateUtils,
+  RulesOperators
 } from '@flowerforce/flower-core'
 import { FlowerFieldProps } from './types/FlowerField'
-
+import isEqual from 'lodash/isEqual'
 function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
   return typeof x === 'string'
 }
@@ -48,7 +50,7 @@ function Wrapper({
 }: any) {
   const dispatch = useDispatch()
 
-  const [customErrors, setCustomErrors] = useState(
+  const [customAsyncErrors, setCustomAsyncErrors] = useState(
     asyncValidate && [asyncInitialError]
   )
   const [isValidating, setIsValidating] = useState<boolean | undefined>(
@@ -65,20 +67,21 @@ function Wrapper({
     makeSelectFieldError(flowName, id, validate),
     CoreUtils.allEqual
   )
+  const dirty = useSelector(
+    makeSelectNodeFieldDirty(flowName, currentNode, id)
+  )
   const touched = useSelector(
     makeSelectNodeFieldTouched(flowName, currentNode, id)
   )
   const refValue = useRef<Record<string, any>>()
-  const one = useRef<boolean>()
   const touchedForm = useSelector(
     makeSelectNodeFormTouched(flowName, currentNode)
   )
 
   const allErrors = useMemo(
-    () => [...errors, ...(customErrors || []).filter(Boolean)],
-    [errors, customErrors]
+    () => [...errors, ...(customAsyncErrors || []).filter(Boolean)],
+    [errors, customAsyncErrors]
   )
-  const isTouched = touched || touchedForm
 
   const setTouched = useCallback((touched: boolean) => {
     dispatch({
@@ -95,13 +98,13 @@ function Wrapper({
   const validateFn = useCallback(
     async (value: any) => {
       if (asyncWaitingError) {
-        setCustomErrors([asyncWaitingError])
+        setCustomAsyncErrors([asyncWaitingError])
       }
       setIsValidating(true)
       const state = FlowerStateUtils.getAllData(store)
       const res = await asyncValidate(value, state, errors)
       setIsValidating(false)
-      setCustomErrors(res)
+      setCustomAsyncErrors(res)
     },
     [asyncWaitingError, errors]
   )
@@ -116,12 +119,13 @@ function Wrapper({
         type: `flower/addDataByPath`,
         payload: {
           flowName: flowNameFromPath,
-          id: path,
-          value: val
+          id,
+          value: val,
+          dirty: defaultValue ? !isEqual(val, defaultValue) : true
         }
       })
     },
-    [flowNameFromPath, path, onBlur, dispatch]
+    [flowNameFromPath, id, onBlur, dispatch]
   )
 
   const onBlurInternal = useCallback(
@@ -129,7 +133,7 @@ function Wrapper({
       setTouched(true)
       onBlur && onBlur(e)
     },
-    [onBlur]
+    [onBlur, setTouched]
   )
   
   useEffect(() => {
@@ -140,7 +144,7 @@ function Wrapper({
       const hasValue = !MatchRules.utils.isEmpty(value)
 
       if (!hasValue) {
-        setCustomErrors([asyncInitialError])
+        setCustomAsyncErrors([asyncInitialError])
         setIsValidating(false)
         return
       }
@@ -148,7 +152,7 @@ function Wrapper({
       setTouched(true)
       debouncedValidation(value)
     }
-  }, [asyncValidate, asyncInitialError, value, debouncedValidation])
+  }, [asyncValidate, asyncInitialError, value, debouncedValidation, setTouched])
 
   useEffect(() => {
     if (onUpdate) {
@@ -156,11 +160,6 @@ function Wrapper({
     }
   }, [value, onUpdate])
 
-  useEffect(()=>{
-    if(value){
-      setTouched(true)
-    }
-  },[value, setTouched])
 
   useEffect(() => {
     dispatch({
@@ -205,11 +204,12 @@ function Wrapper({
     }
   }, [destroyValue, id, flowNameFromPath, path, currentNode])
 
+  
   useEffect(() => {
-    if (defaultValue && !isTouched) {
+    if (defaultValue && !dirty && !isEqual(value, defaultValue)) {
       onChange(defaultValue)
     }
-  }, [defaultValue, isTouched, onChange, currentNode])
+  }, [defaultValue, value, dirty, onChange])
 
 
   const newProps = useMemo(
@@ -217,24 +217,28 @@ function Wrapper({
       ...props,
       id,
       value,
-      errors: isTouched && allErrors,
-      hasError: isTouched && !!allErrors.length,
+      errors: allErrors,
+      hasError: !!allErrors.length,
       onChange,
       onBlur: onBlurInternal,
-      isTouched,
+      touched,
+      dirty,
       hidden,
-      isValidating
+      isValidating,
+      touchedForm
     }),
     [
       props,
       id,
       value,
       allErrors,
-      isTouched,
+      touched,
+      dirty,
       onChange,
       onBlurInternal,
       hidden,
-      isValidating
+      isValidating,
+      touchedForm
     ]
   )
 

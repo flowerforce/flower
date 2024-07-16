@@ -32,7 +32,15 @@ export function Example9() {
       {/**
        * step 1
        */}
-      <FlowerNode id="step1" to={{ step2: null }} retain>
+      <FlowerNode
+        id="step1"
+        to={{
+          step2: {
+            rules: { '$form.isValid': { $eq: true } }
+          }
+        }}
+        retain
+      >
         <div className="page step2">
           <button onClick={() => reset()}>reset form</button>
           <button onClick={() => setCustomErrors('password', ['errr'])}>
@@ -45,6 +53,10 @@ export function Example9() {
             set password
           </button>
           <span>2</span>
+
+          <FlowerField id="age">
+            <input />
+          </FlowerField>
           <div className="field">
             <label htmlFor="username">Username *</label>
             <FlowerField
@@ -83,7 +95,16 @@ export function Example9() {
                 }
               ]}
             >
-              {({ onChange, value = '', errors, onBlur, hidden }) => (
+              {({
+                onChange,
+                value = '',
+                errors,
+                onBlur,
+                hidden,
+                dirty,
+                touched,
+                touchedForm
+              }) => (
                 <div className="input-container">
                   <input
                     id="username"
@@ -95,19 +116,13 @@ export function Example9() {
                     onChange={(e) => onChange(e.target.value)}
                   />
 
-                  {errors && errors.length > 0 && (
+                  {dirty && errors && errors.length > 0 && (
                     <div className="error">{errors.join(', ')}</div>
                   )}
+                  {JSON.stringify({ dirty, touched, errors, touchedForm })}
                 </div>
               )}
             </FlowerField>
-            <FlowerRule
-              rules={(data: any) => {
-                return !data.$form.isValid
-              }}
-            >
-              Ciao Andrea
-            </FlowerRule>
           </div>
           <div className="field">
             <label htmlFor="password">Password *</label>
@@ -120,7 +135,16 @@ export function Example9() {
                 }
               ]}
             >
-              {({ onChange, value = '', errors, onBlur, hidden }) => (
+              {({
+                onChange,
+                value = '',
+                errors,
+                onBlur,
+                hidden,
+                dirty,
+                touched,
+                touchedForm
+              }) => (
                 <>
                   <input
                     id="password"
@@ -132,7 +156,10 @@ export function Example9() {
                     onChange={(e) => onChange(e.target.value)}
                   />
 
-                  {errors && <div className="error">{errors.join(', ')}</div>}
+                  {dirty && errors && (
+                    <div className="error">{errors.join(', ')}</div>
+                  )}
+                  {JSON.stringify({ dirty, touched, errors, touchedForm })}
                 </>
               )}
             </FlowerField>
@@ -147,9 +174,7 @@ export function Example9() {
               alwaysDisplay
             >
               {({ onClick, hidden }) => (
-                <button disabled={hidden} onClick={onClick}>
-                  Submit &#8594;
-                </button>
+                <button onClick={onClick}>Submit &#8594;</button>
               )}
             </FlowerNavigate>
           </div>

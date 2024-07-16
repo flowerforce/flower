@@ -94,6 +94,13 @@ export interface ISelectors {
     id: string
   ): (form: Form<T> | undefined) => boolean | undefined
   /**
+   * @param form
+   * @returns
+   */
+  makeSelectNodeFormFieldDirty<T extends Record<string, any>>(
+    id: string
+  ): (form: Form<T> | undefined) => boolean | undefined
+  /**
    * @param flower
    * @returns
    */

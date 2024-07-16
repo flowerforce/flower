@@ -253,13 +253,32 @@ export const FlowerCoreReducers: ReducersFunctions = {
       payload.touched
     )
   },
+  formFieldDirty: (state, { payload }) => {
+    _set(
+      state,
+      [payload.name, 'form', payload.currentNode, 'dirty', payload.id],
+      payload.dirty
+    )
+  },
   addData: (state, { payload }) => {
     const prevData = _get(state, [payload.flowName, 'data'])
     _set(state, [payload.flowName, 'data'], { ...prevData, ...payload.value })
   },
   addDataByPath: (state, { payload }) => {
+    const { path: newpath } = getPath(payload.id)
+    const currentNode = FlowerStateUtils.makeSelectCurrentNodeId(
+      payload.flowName
+    )(state)
+
     if (payload.id && payload.id.length) {
-      _set(state, [payload.flowName, 'data', ...payload.id], payload.value)
+      _set(state, [payload.flowName, 'data', ...newpath], payload.value)
+      if (payload?.dirty) {
+        _set(
+          state,
+          [payload.flowName, 'form', currentNode, 'dirty', payload.id],
+          payload.dirty
+        )
+      }
     }
   },
   // TODO usato al momento solo il devtool
@@ -280,7 +299,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
   resetForm: (state, { payload }) => {
     const touchedFields = _get(
       state,
-      [payload.flowName, 'form', payload.id, 'touches'],
+      [payload.flowName, 'form', payload.id, 'errors'],
       {}
     )
 
@@ -290,6 +309,8 @@ export const FlowerCoreReducers: ReducersFunctions = {
     })
 
     _unset(state, [payload.flowName, 'form', payload.id, 'touches'])
+    _unset(state, [payload.flowName, 'form', payload.id, 'dirty'])
+    _unset(state, [payload.flowName, 'form', payload.id, 'touched'])
   },
   node: (state, { payload }) => {
     const { name, history } = payload

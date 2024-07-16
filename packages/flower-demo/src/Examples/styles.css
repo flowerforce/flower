@@ -130,6 +130,9 @@ button.error {
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+  position: fixed;
+  top: 50%;
+  width: 50%;
 }
 
 @keyframes rotation {

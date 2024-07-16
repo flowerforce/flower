@@ -72,6 +72,16 @@ const makeSelectNodeFieldTouched = (
     Selectors.makeSelectNodeFormFieldTouched(fieldId)
   )
 
+const makeSelectNodeFieldDirty = (
+  name: string,
+  currentNodeId: string,
+  fieldId: string
+) =>
+  createSelector(
+    selectFlowerFormNode(name, currentNodeId),
+    Selectors.makeSelectNodeFormFieldDirty(fieldId)
+  )
+
 const makeSelectNodeFormTouched = (name: string, currentNodeId: string) =>
   createSelector(
     selectFlowerFormNode(name, currentNodeId),
@@ -121,6 +131,7 @@ export {
   getDataFromState,
   makeSelectNodeErrors,
   makeSelectNodeFieldTouched,
+  makeSelectNodeFieldDirty,
   makeSelectFieldError,
   makeSelectNodeFormTouched,
   makeSelectPrevNodeRetain
