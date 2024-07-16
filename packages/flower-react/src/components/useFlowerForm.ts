@@ -55,15 +55,15 @@ const useFlowerForm: UseFlowerForm = ({
   )
 
   const setData = useCallback(
-    (val: any, path?: string) => {
-      if (path) {
-        const { flowNameFromPath = flowName, path: newpath } =
-          CoreUtils.getPath(path)
+    (val: any, id?: string) => {
+      if (id) {
+        const { flowNameFromPath = flowName } = CoreUtils.getPath(id)
         dispatch(
           actions.addDataByPath({
             flowName: flowNameFromPath,
-            id: Array.isArray(newpath) ? newpath : [newpath],
-            value: val
+            id,
+            value: val,
+            dirty: true
           })
         )
         return

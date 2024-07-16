@@ -37,7 +37,11 @@ export type FlowerFieldProps<
         /** The function executed to test all the validation rules*/
         onBlur: () => void
         /** This parameter will notify you whether the form field has been touched */
-        isTouched: boolean
+        touchedForm: boolean
+        /** This parameter will notify you whether the form field has been touched */
+        touched: boolean
+        /** This parameter will notify you whether the form field has been touched */
+        dirty: boolean
         /** true when some of the display rules are not satisfied, and you have passed true to the "alwaysDisplay" FlowerField's prop*/
         hidden: boolean
         /** true when you have an async validation in progress */
