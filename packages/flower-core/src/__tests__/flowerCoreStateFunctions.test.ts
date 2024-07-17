@@ -456,7 +456,7 @@ describe('FlowerCoreReducers', () => {
     it('should add data to the specified path in the state', () => {
       const payload = {
         flowName: 'first',
-        id: ['nested', 'path', 'to', 'data'],
+        id: 'nested.path.to.data',
         value: 'new data'
       }
       const action = {

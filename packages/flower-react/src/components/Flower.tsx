@@ -265,13 +265,26 @@ const FlowerClient = ({
     [flowName, initialData, current]
   )
 
+  const prevContextValues = useMemo(
+    () => ({
+      flowName,
+      initialData,
+      currentNode: prevFlowerNodeId
+    }),
+    [flowName, initialData, prevFlowerNodeId]
+  )
+
   return isInitialized ? (
-    <Provider value={contextValues}>
-      {prevFlowerNodeId !== current &&
-        typeof prevFlowerNodeId === 'string' &&
-        nodeById[prevFlowerNodeId]}
-      {!isDisabled && nodeById[current]}
-    </Provider>
+    <>
+      {prevFlowerNodeId !== current && typeof prevFlowerNodeId === 'string' && (
+        <Provider value={prevContextValues}>
+          {nodeById[prevFlowerNodeId]}
+        </Provider>
+      )}
+      <Provider value={contextValues}>
+        {!isDisabled && nodeById[current]}
+      </Provider>
+    </>
   ) : null
 }
 

@@ -91,7 +91,6 @@ const FormReset = forwardRef(({ children, flowName }: any, ref) => {
 
 const FormErrors = forwardRef(({ children, flowName }: any, ref) => {
   const { setCustomErrors, customErrors } = useFlowerForm({ flowName })
-  console.log(JSON.stringify(customErrors))
 
   useImperativeHandle(ref, () => {
     return {

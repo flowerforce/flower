@@ -17,6 +17,8 @@ export const FlowerCoreStateSelectors: ISelectors = {
   makeSelectNodeFormTouched: (form) => form && form.touched,
   makeSelectNodeFormFieldTouched: (id) => (form) =>
     form && form.touches && form.touches[id],
+  makeSelectNodeFormFieldDirty: (id) => (form) =>
+    form && form.dirty && form.dirty[id],
   makeSelectCurrentNodeId: (flower, startNodeId) =>
     _get(flower, ['current']) || startNodeId,
   makeSelectCurrentNodeDisabled: (nodes, current) =>
@@ -33,9 +35,9 @@ export const FlowerCoreStateSelectors: ISelectors = {
     if (!prevFlowerNode) return
     if (nodes[prevFlowerNode] && nodes[prevFlowerNode].disabled) return
     // eslint-disable-next-line consistent-return
-    return (
-      nodes[prevFlowerNode] && nodes[prevFlowerNode].retain && prevFlowerNode
-    )
+    return nodes[prevFlowerNode] && nodes[prevFlowerNode].retain
+      ? prevFlowerNode
+      : undefined
   },
   makeSelectNodeErrors: createFormData,
 

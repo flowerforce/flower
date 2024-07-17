@@ -63,7 +63,7 @@ export interface ISelectors {
     nodes: Flower<T>['nodes'],
     history: Flower<T>['history'],
     current: Flower<T>['current']
-  ): boolean | string | undefined
+  ): string | undefined
   /**
    * @param nodes
    * @param current
@@ -91,6 +91,13 @@ export interface ISelectors {
    * @returns
    */
   makeSelectNodeFormFieldTouched<T extends Record<string, any>>(
+    id: string
+  ): (form: Form<T> | undefined) => boolean | undefined
+  /**
+   * @param form
+   * @returns
+   */
+  makeSelectNodeFormFieldDirty<T extends Record<string, any>>(
     id: string
   ): (form: Form<T> | undefined) => boolean | undefined
   /**
