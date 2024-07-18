@@ -74,7 +74,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
         typeof payload === 'string' ? payload : payload.flowName,
         'form',
         typeof payload === 'string' ? payload : payload.currentNode,
-        'touched'
+        'isSubmitted'
       ],
       true
     )
@@ -253,13 +253,6 @@ export const FlowerCoreReducers: ReducersFunctions = {
       payload.touched
     )
   },
-  formFieldDirty: (state, { payload }) => {
-    _set(
-      state,
-      [payload.name, 'form', payload.currentNode, 'dirty', payload.id],
-      payload.dirty
-    )
-  },
   addData: (state, { payload }) => {
     const prevData = _get(state, [payload.flowName, 'data'])
     _set(state, [payload.flowName, 'data'], { ...prevData, ...payload.value })
@@ -272,12 +265,13 @@ export const FlowerCoreReducers: ReducersFunctions = {
 
     if (payload.id && payload.id.length) {
       _set(state, [payload.flowName, 'data', ...newpath], payload.value)
-      if (payload?.dirty) {
+      if (payload && payload.dirty) {
         _set(
           state,
           [payload.flowName, 'form', currentNode, 'dirty', payload.id],
           payload.dirty
         )
+        _set(state, [payload.flowName, 'form', currentNode, 'isDirty'], true)
       }
     }
   },

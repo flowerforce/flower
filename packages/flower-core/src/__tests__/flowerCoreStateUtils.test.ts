@@ -97,7 +97,8 @@ describe('FlowerStateUtils', () => {
         'currentNodeId'
       )(state)
       expect(result).toEqual({
-        touched: false,
+        isSubmitted: false,
+        isDirty: false,
         errors: undefined,
         isValidating: undefined,
         isValid: true

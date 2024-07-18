@@ -11,15 +11,18 @@ import { UseFlowerForm } from './types/FlowerHooks'
  *
  * It exposes details regarding the form's state and a set of methods for reading and writing within it:
  *
- * - getData
- *
- * - setData
- *
- * - unSetData
- *
- * - replaceData
- *
- * - unTouched
+ * - isSubmitted,
+ * - isDirty,
+ * - errors,
+ * - customErrors,
+ * - isValid,
+ * - isValidating,
+ * - getData,
+ * - setData,
+ * - unsetData,
+ * - replaceData,
+ * - reset,
+ * - setCustomErrors
  *
  * @param {string} flowName - first optional parameter
  *
@@ -36,9 +39,8 @@ const useFlowerForm: UseFlowerForm = ({
   const store = useStore()
   const flowName = customFlowName || name || flowNameDefault || ''
   const currentNode = useSelector(makeSelectCurrentNodeId(flowName))
-  const { errors, customErrors, isValid, touched, isValidating } = useSelector(
-    makeSelectNodeErrors(flowName, currentNode)
-  )
+  const { errors, customErrors, isValid, isSubmitted, isDirty, isValidating } =
+    useSelector(makeSelectNodeErrors(flowName, currentNode))
 
   const getData = useCallback(
     (path?: string) => {
@@ -120,7 +122,8 @@ const useFlowerForm: UseFlowerForm = ({
   )
 
   return {
-    touched,
+    isSubmitted,
+    isDirty,
     errors,
     customErrors,
     isValid,

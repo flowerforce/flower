@@ -103,7 +103,7 @@ export function Example9() {
                 hidden,
                 dirty,
                 touched,
-                touchedForm
+                isSubmitted
               }) => (
                 <div className="input-container">
                   <input
@@ -119,7 +119,7 @@ export function Example9() {
                   {dirty && errors && errors.length > 0 && (
                     <div className="error">{errors.join(', ')}</div>
                   )}
-                  {JSON.stringify({ dirty, touched, errors, touchedForm })}
+                  {JSON.stringify({ dirty, touched, errors, isSubmitted })}
                 </div>
               )}
             </FlowerField>
@@ -143,7 +143,7 @@ export function Example9() {
                 hidden,
                 dirty,
                 touched,
-                touchedForm
+                isSubmitted
               }) => (
                 <>
                   <input
@@ -159,7 +159,7 @@ export function Example9() {
                   {dirty && errors && (
                     <div className="error">{errors.join(', ')}</div>
                   )}
-                  {JSON.stringify({ dirty, touched, errors, touchedForm })}
+                  {JSON.stringify({ dirty, touched, errors, isSubmitted })}
                 </>
               )}
             </FlowerField>

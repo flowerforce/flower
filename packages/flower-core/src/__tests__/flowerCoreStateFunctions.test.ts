@@ -19,7 +19,7 @@ const state: Flower<Record<string, any>> = {
   data: {},
   form: {
     Start: {
-      touched: true
+      isSubmitted: true
     }
   }
 }
@@ -45,7 +45,7 @@ const mock = {
     data: {},
     form: {
       Start: {
-        touched: true
+        isSubmitted: true
       }
     }
   }
@@ -73,7 +73,7 @@ describe('FlowerCoreReducers', () => {
           data: {},
           form: {
             Start: {
-              touched: true
+              isSubmitted: true
             }
           }
         }
@@ -133,7 +133,7 @@ describe('FlowerCoreReducers', () => {
         action
       )
 
-      expect(newState?.flower?.form?.Start.touched).toEqual(true)
+      expect(newState?.flower?.form?.Start.isSubmitted).toEqual(true)
     })
 
     it('should not edit state if the specified node does not exist', () => {
