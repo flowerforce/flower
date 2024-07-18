@@ -303,6 +303,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
     })
 
     _unset(state, [payload.flowName, 'form', payload.id, 'touches'])
+    _unset(state, [payload.flowName, 'form', payload.id, 'dirty'])
     _unset(state, [payload.flowName, 'form', payload.id, 'isDirty'])
     _unset(state, [payload.flowName, 'form', payload.id, 'isSubmitted'])
   },
