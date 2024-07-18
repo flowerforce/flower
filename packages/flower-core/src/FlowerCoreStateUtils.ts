@@ -40,7 +40,8 @@ export const createFormData = (form: Record<string, any>) => {
   const allErrors = Object.values(validationErrors || {})
 
   return {
-    touched: form?.touched || false,
+    isSubmitted: form?.isSubmitted || false,
+    isDirty: form?.isDirty || false,
     errors: form?.errors,
     customErrors: form?.customErrors,
     isValidating: form?.isValidating,
