@@ -54,23 +54,31 @@ const useFlowerForm: UseFlowerForm = ({
     [store, flowName]
   )
 
+  const setDataField = useCallback(
+    (id: string, val: any) => {
+      const { flowNameFromPath = flowName } = CoreUtils.getPath(id)
+      dispatch(
+        actions.addDataByPath({
+          flowName: flowNameFromPath,
+          id,
+          value: val,
+          dirty: true
+        })
+      )
+      return
+    },
+    [flowName, dispatch]
+  )
+
   const setData = useCallback(
     (val: any, id?: string) => {
       if (id) {
-        const { flowNameFromPath = flowName } = CoreUtils.getPath(id)
-        dispatch(
-          actions.addDataByPath({
-            flowName: flowNameFromPath,
-            id,
-            value: val,
-            dirty: true
-          })
-        )
+        setDataField(id, val)
         return
       }
       dispatch(actions.addData({ flowName, value: val }))
     },
-    [flowName, dispatch]
+    [flowName, setDataField, dispatch]
   )
 
   const unsetData = useCallback(
@@ -119,6 +127,7 @@ const useFlowerForm: UseFlowerForm = ({
     isValidating,
     getData,
     setData,
+    setDataField,
     unsetData,
     replaceData,
     reset,
