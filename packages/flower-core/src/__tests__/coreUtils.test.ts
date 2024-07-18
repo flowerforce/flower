@@ -317,10 +317,10 @@ describe('CoreUtils object', () => {
         },
         form: {
           step1: {
-            touched: true
+            isSubmitted: true
           },
           step2: {
-            touched: true
+            isSubmitted: true
           }
         }
       }
@@ -398,10 +398,10 @@ describe('CoreUtils object', () => {
         },
         form: {
           step1: {
-            touched: true
+            isSubmitted: true
           },
           step2: {
-            touched: true
+            isSubmitted: true
           }
         }
       }

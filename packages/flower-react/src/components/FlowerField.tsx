@@ -12,7 +12,7 @@ import {
   makeSelectFieldError,
   makeSelectNodeFieldDirty,
   makeSelectNodeFieldTouched,
-  makeSelectNodeFormTouched
+  makeSelectNodeFormSubmitted
 } from '../selectors'
 import { context } from '../context'
 import FlowerRule from './FlowerRule'
@@ -21,8 +21,7 @@ import debounce from 'lodash/debounce'
 import {
   MatchRules,
   CoreUtils,
-  FlowerStateUtils,
-  RulesOperators
+  FlowerStateUtils
 } from '@flowerforce/flower-core'
 import { FlowerFieldProps } from './types/FlowerField'
 import isEqual from 'lodash/isEqual'
@@ -74,8 +73,9 @@ function Wrapper({
     makeSelectNodeFieldTouched(flowName, currentNode, id)
   )
   const refValue = useRef<Record<string, any>>()
-  const touchedForm = useSelector(
-    makeSelectNodeFormTouched(flowName, currentNode)
+  
+  const isSubmitted = useSelector(
+    makeSelectNodeFormSubmitted(flowName, currentNode)
   )
 
   const allErrors = useMemo(
@@ -225,7 +225,7 @@ function Wrapper({
       dirty,
       hidden,
       isValidating,
-      touchedForm
+      isSubmitted
     }),
     [
       props,
@@ -238,7 +238,7 @@ function Wrapper({
       onBlurInternal,
       hidden,
       isValidating,
-      touchedForm
+      isSubmitted
     ]
   )
 

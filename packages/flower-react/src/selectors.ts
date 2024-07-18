@@ -82,10 +82,10 @@ const makeSelectNodeFieldDirty = (
     Selectors.makeSelectNodeFormFieldDirty(fieldId)
   )
 
-const makeSelectNodeFormTouched = (name: string, currentNodeId: string) =>
+const makeSelectNodeFormSubmitted = (name: string, currentNodeId: string) =>
   createSelector(
     selectFlowerFormNode(name, currentNodeId),
-    Selectors.makeSelectNodeFormTouched
+    Selectors.makeSelectNodeFormSubmitted
   )
 
 const getAllData = createSelector(selectGlobal, mapData)
@@ -133,6 +133,6 @@ export {
   makeSelectNodeFieldTouched,
   makeSelectNodeFieldDirty,
   makeSelectFieldError,
-  makeSelectNodeFormTouched,
+  makeSelectNodeFormSubmitted,
   makeSelectPrevNodeRetain
 }

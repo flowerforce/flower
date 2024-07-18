@@ -11,15 +11,18 @@ import { UseFlowerForm } from './types/FlowerHooks'
  *
  * It exposes details regarding the form's state and a set of methods for reading and writing within it:
  *
- * - getData
- *
- * - setData
- *
- * - unSetData
- *
- * - replaceData
- *
- * - unTouched
+ * - isSubmitted,
+ * - isDirty,
+ * - errors,
+ * - customErrors,
+ * - isValid,
+ * - isValidating,
+ * - getData,
+ * - setData,
+ * - unsetData,
+ * - replaceData,
+ * - reset,
+ * - setCustomErrors
  *
  * @param {string} flowName - first optional parameter
  *
@@ -36,9 +39,8 @@ const useFlowerForm: UseFlowerForm = ({
   const store = useStore()
   const flowName = customFlowName || name || flowNameDefault || ''
   const currentNode = useSelector(makeSelectCurrentNodeId(flowName))
-  const { errors, customErrors, isValid, touched, isValidating } = useSelector(
-    makeSelectNodeErrors(flowName, currentNode)
-  )
+  const { errors, customErrors, isValid, isSubmitted, isDirty, isValidating } =
+    useSelector(makeSelectNodeErrors(flowName, currentNode))
 
   const getData = useCallback(
     (path?: string) => {
@@ -54,23 +56,31 @@ const useFlowerForm: UseFlowerForm = ({
     [store, flowName]
   )
 
+  const setDataField = useCallback(
+    (id: string, val: any) => {
+      const { flowNameFromPath = flowName } = CoreUtils.getPath(id)
+      dispatch(
+        actions.addDataByPath({
+          flowName: flowNameFromPath,
+          id,
+          value: val,
+          dirty: true
+        })
+      )
+      return
+    },
+    [flowName, dispatch]
+  )
+
   const setData = useCallback(
     (val: any, id?: string) => {
       if (id) {
-        const { flowNameFromPath = flowName } = CoreUtils.getPath(id)
-        dispatch(
-          actions.addDataByPath({
-            flowName: flowNameFromPath,
-            id,
-            value: val,
-            dirty: true
-          })
-        )
+        setDataField(id, val)
         return
       }
       dispatch(actions.addData({ flowName, value: val }))
     },
-    [flowName, dispatch]
+    [flowName, setDataField, dispatch]
   )
 
   const unsetData = useCallback(
@@ -112,13 +122,15 @@ const useFlowerForm: UseFlowerForm = ({
   )
 
   return {
-    touched,
+    isSubmitted,
+    isDirty,
     errors,
     customErrors,
     isValid,
     isValidating,
     getData,
     setData,
+    setDataField,
     unsetData,
     replaceData,
     reset,

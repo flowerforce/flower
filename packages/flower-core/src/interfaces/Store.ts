@@ -42,7 +42,8 @@ export interface INode {
 }
 
 export type Form<T> = {
-  touched?: boolean
+  isSubmitted?: boolean
+  isDirty?: boolean
   isValidating?: boolean
   errors?: { [K in keyof T]: Array<string> }
   customErrors?: { [K in keyof T]: Array<string> }

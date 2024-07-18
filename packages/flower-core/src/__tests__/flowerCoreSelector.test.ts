@@ -26,7 +26,7 @@ const state: { flower: { [x: string]: Flower<Record<string, any>> } } = {
       },
       form: {
         Start: {
-          touched: true,
+          isSubmitted: true,
           errors: {},
           isValidating: false
         }
@@ -120,12 +120,14 @@ describe('FlowerCoreSelectors', () => {
     })
   })
 
-  describe('makeSelectNodeFormTouched', () => {
+  describe('makeSelectNodeFormSubmitted', () => {
     it('should return the touched node', () => {
-      const touched = FlowerCoreStateSelectors.makeSelectNodeFormTouched(
+      const touched = FlowerCoreStateSelectors.makeSelectNodeFormSubmitted(
         state.flower[TEST_FLOW_NAME].form.Start
       )
-      expect(touched).toEqual(state.flower[TEST_FLOW_NAME].form.Start.touched)
+      expect(touched).toEqual(
+        state.flower[TEST_FLOW_NAME].form.Start.isSubmitted
+      )
     })
   })
 
@@ -209,7 +211,8 @@ describe('FlowerCoreSelectors', () => {
     describe('makeSelectNodeErrors', () => {
       it('should return default values if form is not provided', () => {
         const defaultErrors = {
-          touched: false,
+          isSubmitted: false,
+          isDirty: false,
           errors: undefined,
           isValidating: undefined,
           isValid: true

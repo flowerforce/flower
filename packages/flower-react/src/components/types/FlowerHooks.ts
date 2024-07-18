@@ -9,8 +9,10 @@ import {
 export type UseFlowerProps = { [x in 'name' | 'flowName']?: string }
 
 export type UseFlowerForm = (options?: UseFlowerProps) => {
-  /**  This value is set to true when the form has been touched at least once. */
-  touched: boolean
+  /**  This value is set to true when the form has been submitted at least once or a next invoked. */
+  isSubmitted: boolean
+  /**  This value is set to true when at least once field is dirted. */
+  isDirty: boolean
   /** An object containing all the form errors */
   errors: Record<string, any>
   /** An object containing all the form custom errors */
@@ -27,6 +29,13 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
     value: any,
     /** Specify the target path to set the value*/
     path?: string
+  ) => void
+  /** Use this function to set value in the flow's field data. */
+  setDataField: (
+    /** Specify the target path to set the value*/
+    path: string,
+    /** The value that you want to set */
+    value: any
   ) => void
   /** Use this function to unset values in the flow's data. */
   unsetData: (

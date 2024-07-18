@@ -33,7 +33,6 @@ export type ActionsTypes =
   | 'setFormIsValidating'
   | 'resetForm'
   | 'formFieldTouch'
-  | 'formFieldDirty'
   | 'node'
   | 'prevToNode'
   | 'next'
@@ -227,23 +226,6 @@ export type ReducersFunctions<
       currentNode: string
       id: string
       errors: { [x: string]: string[] } | string[]
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Set touch form single field
-   *
-   * @returns state
-   */
-  formFieldDirty: ReducerFunctionSign<
-    T,
-    {
-      name: string
-      currentNode: string
-      id: string
-      dirty?: boolean
     }
   >
   /**

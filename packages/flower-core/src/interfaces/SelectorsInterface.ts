@@ -80,7 +80,8 @@ export interface ISelectors {
   makeSelectNodeErrors<T extends Record<string, any>>(
     form: Form<T> | undefined
   ): {
-    touched: boolean
+    isSubmitted: boolean
+    isDirty: boolean
     errors: any
     customErrors: any
     isValid: boolean
@@ -116,7 +117,7 @@ export interface ISelectors {
    * @param form
    * @returns
    */
-  makeSelectNodeFormTouched<T extends Record<string, any>>(
+  makeSelectNodeFormSubmitted<T extends Record<string, any>>(
     form: Form<T>
   ): boolean | undefined
   /**

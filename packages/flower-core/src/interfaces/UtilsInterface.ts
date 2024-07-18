@@ -49,7 +49,8 @@ export interface CoreStateUtils {
     name: string,
     currentNodeId: string
   ): (state: T) => {
-    touched: boolean
+    isSubmitted: boolean
+    isDirty: boolean
     errors: any
     customErrors: any
     isValid: boolean
