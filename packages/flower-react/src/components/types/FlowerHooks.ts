@@ -30,6 +30,13 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
     /** Specify the target path to set the value*/
     path?: string
   ) => void
+  /** Use this function to set value in the flow's field data. */
+  setDataField: (
+    /** Specify the target path to set the value*/
+    path: string,
+    /** The value that you want to set */
+    value: any
+  ) => void
   /** Use this function to unset values in the flow's data. */
   unsetData: (
     /** Specify the target path to the value tha you want to unset*/
