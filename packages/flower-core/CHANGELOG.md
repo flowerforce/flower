@@ -1,3 +1,27 @@
+## 3.2.0 (2024-07-23)
+
+
+### 🚀 Features
+
+- remove remote key in devtool ([f89abdc](https://github.com/flowerforce/flower/commit/f89abdc))
+
+- Added the function to reset a form at a specific step or current step ([b17780f](https://github.com/flowerforce/flower/commit/b17780f))
+
+- **devtool:** add sourcemap preview ([7882290](https://github.com/flowerforce/flower/commit/7882290))
+
+- **Form:** add submitted status in form node ([fd2d69f](https://github.com/flowerforce/flower/commit/fd2d69f))
+
+
+### 🩹 Fixes
+
+- remove global.window object ([81a10c5](https://github.com/flowerforce/flower/commit/81a10c5))
+
+- restore documentation comments into d.ts ([d5677d9](https://github.com/flowerforce/flower/commit/d5677d9))
+
+- reset form dirty and submitted ([2118442](https://github.com/flowerforce/flower/commit/2118442))
+
+- reset form dirty ([#55](https://github.com/flowerforce/flower/pull/55))
+
 ## 3.1.1 (2024-06-11)
 
 

@@ -1,3 +1,34 @@
+## 3.2.0 (2024-07-23)
+
+
+### 🚀 Features
+
+- expose start node id from hook useFlower ([77223f7](https://github.com/flowerforce/flower/commit/77223f7))
+
+- remove remote key in devtool ([f89abdc](https://github.com/flowerforce/flower/commit/f89abdc))
+
+- Added the function to reset a form at a specific step or current step ([b17780f](https://github.com/flowerforce/flower/commit/b17780f))
+
+- added custom errors ([c09a23a](https://github.com/flowerforce/flower/commit/c09a23a))
+
+- **devtool:** add sourcemap preview ([7882290](https://github.com/flowerforce/flower/commit/7882290))
+
+- **Form:** add submitted status in form node ([fd2d69f](https://github.com/flowerforce/flower/commit/fd2d69f))
+
+- **Form:** add setDataField to chag ([935d8a5](https://github.com/flowerforce/flower/commit/935d8a5))
+
+
+### 🩹 Fixes
+
+- remove global.window object ([81a10c5](https://github.com/flowerforce/flower/commit/81a10c5))
+
+- restore documentation comments into d.ts ([d5677d9](https://github.com/flowerforce/flower/commit/d5677d9))
+
+
+### 🧱 Updated Dependencies
+
+- Updated flower-core to 3.2.0
+
 ## 3.1.1 (2024-06-11)
 
 
