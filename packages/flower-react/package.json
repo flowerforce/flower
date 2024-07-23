@@ -20,7 +20,7 @@
   "scripts": {
     "tsc:noemit": "tsc -p tsconfig.lib.json --noEmit"
   },
-  "license": "ISC",
+  "license": "MIT",
   "peerDependencies": {
     "react": ">=18"
   },

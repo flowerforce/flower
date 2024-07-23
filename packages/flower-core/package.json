@@ -20,7 +20,7 @@
     "README.md",
     "CHANGELOG.md"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "peerDependencies": {
     "lodash": ">=4"
   },
