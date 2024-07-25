@@ -1,3 +1,10 @@
+## 3.3.1 (2024-07-25)
+
+
+### 🩹 Fixes
+
+- add route name devtool web ([63b5512](https://github.com/flowerforce/flower/commit/63b5512))
+
 ## 3.3.0 (2024-07-23)
 
 
