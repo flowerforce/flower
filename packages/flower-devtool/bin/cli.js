@@ -67,6 +67,7 @@ const execute = ({ pattern, secretKey, dir }) =>
                       ...metadata,
                       previewUrl,
                       rules: el.data.rules,
+                      name: el.data.name,
                       source: el.source,
                       target: el.target,
                       flowName: parsed.name
