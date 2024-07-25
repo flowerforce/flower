@@ -173,7 +173,7 @@ export default function Devtool({
             sessionId
           })
         )
-      }, 500)
+      }, 1000)
     }
 
     Emitter.on('flower-devtool-from-client', async (msg: any) => {
