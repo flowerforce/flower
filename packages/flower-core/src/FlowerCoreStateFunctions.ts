@@ -8,7 +8,7 @@ import lastIndexOf from 'lodash/lastIndexOf'
 import { CoreUtils } from './CoreUtils'
 import { ReducersFunctions } from './interfaces/ReducerInterface'
 import { FlowerStateUtils } from './FlowerCoreStateUtils'
-import { devtoolState } from './index'
+import { devtoolState } from './devtoolState'
 
 const {
   generateNodes,

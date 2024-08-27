@@ -270,7 +270,7 @@ const FlowerField = ({
   destroyValue,
   flowName,
   onUpdate
-}: FlowerFieldProps<any>) => {
+}: FlowerFieldProps) => {
   const { flowName: flowNameContext, currentNode } = useContext(context)
 
   const name = flowName || flowNameContext
