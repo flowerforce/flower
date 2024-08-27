@@ -21,6 +21,8 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
   isValid: boolean
   /** This value is set to true during asynchronous validation.*/
   isValidating: boolean | undefined
+  /** Use this function to read status from the flow's form. */
+  getFormStatus: (path?: string) => any
   /** Use this function to read values from the flow's data. */
   getData: (path?: string) => any
   /** Use this function to set values in the flow's data. */
