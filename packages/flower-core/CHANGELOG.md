@@ -1,3 +1,10 @@
+## 3.2.1 (2024-08-27)
+
+
+### 🩹 Fixes
+
+- rulesOperators example fixed ([f1def97](https://github.com/flowerforce/flower/commit/f1def97))
+
 ## 3.2.0 (2024-07-23)
 
 
