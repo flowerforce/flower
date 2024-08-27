@@ -12,7 +12,7 @@ export type FlowerValueProps = {
   value?: any
   /** An object containing the display rules of that component. When the conditions are not satisfied, the children is hidden.
    *
-   * Example: rules={{ $and: [{ name: { $exist: true } }] }}
+   * Example: rules={{ $and: [{ name: { $exists: true } }] }}
    */
   rules?: RulesObject<any> | FunctionRule
   /** The FlowerValue's children  */

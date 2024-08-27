@@ -1,23 +1,5 @@
 import { RulesByNodeId, RulesModes } from './CoreInterface'
 
-export enum RulesOperators {
-  $exist = '$exist',
-  $eq = '$eq',
-  $ne = '$ne',
-  $gt = '$gt',
-  $gte = '$gte',
-  $lt = '$lt',
-  $lte = '$lte',
-  $strGt = '$strGt',
-  $strGte = '$strGte',
-  $strLt = '$strLt',
-  $strLte = '$strLte',
-  $in = '$in',
-  $nin = '$nin',
-  $all = '$all',
-  $regex = '$regex'
-}
-
 export interface StoreRoot<T extends Record<string, any>> {
   flower: { [x: string]: Flower<T> }
 }

@@ -1,3 +1,5 @@
+import { RulesOperators } from '../rules-matcher/interface'
+
 // Functions Parameters Types
 export type Rules<T> = { rules: Rules<T> | string | null | undefined | T }
 
@@ -31,24 +33,6 @@ export type Node = {
 export enum RulesModes {
   $and = '$and',
   $or = '$or'
-}
-
-enum RulesOperators {
-  $exist = '$exist',
-  $eq = '$eq',
-  $ne = '$ne',
-  $gt = '$gt',
-  $gte = '$gte',
-  $lt = '$lt',
-  $lte = '$lte',
-  $strGt = '$strGt',
-  $strGte = '$strGte',
-  $strLt = '$strLt',
-  $strLte = '$strLte',
-  $in = '$in',
-  $nin = '$nin',
-  $all = '$all',
-  $regex = '$regex'
 }
 
 type RulesValuesType<T> = { '$form.isValid': boolean } & T
