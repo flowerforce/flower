@@ -88,9 +88,9 @@ const useFlowerForm: UseFlowerForm = ({
   )
 
   const setData = useCallback(
-    (val: any, id?: string, dirty?: boolean) => {
+    (val: any, id?: string) => {
       if (id) {
-        setDataField(id, val, dirty)
+        setDataField(id, val)
         return
       }
       dispatch(actions.addData({ flowName, value: val }))
