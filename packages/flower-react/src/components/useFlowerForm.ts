@@ -23,6 +23,7 @@ import { UseFlowerForm } from './types/FlowerHooks'
  * - replaceData,
  * - reset,
  * - setCustomErrors
+ * - getFormStatus
  *
  * @param {string} flowName - first optional parameter
  *
@@ -56,15 +57,29 @@ const useFlowerForm: UseFlowerForm = ({
     [store, flowName]
   )
 
+  const getFormStatus = useCallback(
+    (path?: string) => {
+      const { flowNameFromPath = flowName, path: newpath } =
+        CoreUtils.getPath(path)
+      return get(store.getState(), [
+        'flower',
+        flowNameFromPath,
+        'form',
+        ...newpath
+      ])
+    },
+    [store, flowName]
+  )
+
   const setDataField = useCallback(
-    (id: string, val: any) => {
+    (id: string, val: any, dirty = true) => {
       const { flowNameFromPath = flowName } = CoreUtils.getPath(id)
       dispatch(
         actions.addDataByPath({
           flowName: flowNameFromPath,
           id,
           value: val,
-          dirty: true
+          dirty
         })
       )
       return
@@ -134,7 +149,8 @@ const useFlowerForm: UseFlowerForm = ({
     unsetData,
     replaceData,
     reset,
-    setCustomErrors
+    setCustomErrors,
+    getFormStatus
   }
 }
 

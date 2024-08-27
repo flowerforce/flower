@@ -21,6 +21,8 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
   isValid: boolean
   /** This value is set to true during asynchronous validation.*/
   isValidating: boolean | undefined
+  /** Use this function to read status from the flow's form. */
+  getFormStatus: (path?: string) => any
   /** Use this function to read values from the flow's data. */
   getData: (path?: string) => any
   /** Use this function to set values in the flow's data. */
@@ -28,14 +30,16 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
     /** The value that you want to set */
     value: any,
     /** Specify the target path to set the value*/
-    path?: string
+    id?: string
   ) => void
   /** Use this function to set value in the flow's field data. */
   setDataField: (
     /** Specify the target path to set the value*/
-    path: string,
+    id: string,
     /** The value that you want to set */
-    value: any
+    value: any,
+    /** Specify default value for dirty status*/
+    dirty?: boolean
   ) => void
   /** Use this function to unset values in the flow's data. */
   unsetData: (

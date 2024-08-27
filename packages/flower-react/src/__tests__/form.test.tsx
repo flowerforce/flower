@@ -81,6 +81,11 @@ const Form = ({ flowName }: any) => {
   return null //errors && errors.join(',')
 }
 
+const FormStatus = ({ flowName, path }: any) => {
+  const { getFormStatus } = useFlowerForm({ flowName })
+  return JSON.stringify(getFormStatus(path), null, 2)
+}
+
 describe('Test Form', () => {
   it('Test form missing id', async () => {
     userEvent.setup()
@@ -1172,5 +1177,115 @@ describe('Test Form', () => {
     //await delay(200)
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
+
+  it('Test form getFormStatus', async () => {
+    render(
+      <FlowerProvider>
+        <Flower name="app-test">
+          <FlowerNode id="start" to={{ form: null }}>
+            <InitState state={{ amount: 1 }} />
+            <FlowerField
+              id="name"
+              validate={[
+                {
+                  rules: {
+                    $self: { $exists: true }
+                  }
+                }
+              ]}
+            >
+              <Input />
+            </FlowerField>
+          </FlowerNode>
+          <FlowerNode id="form">
+            <code data-testid="log">
+              <FormStatus flowName="app-test" />
+            </code>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    expect(JSON.parse(screen.getByTestId('log').innerHTML)).toEqual({
+      start: {
+        isSubmitted: true,
+        errors: {
+          name: ['error']
+        }
+      }
+    })
+  })
+
+  it('Test form getFormStatus by path', async () => {
+    render(
+      <FlowerProvider>
+        <Flower name="app-test">
+          <FlowerNode id="start" to={{ form: null }}>
+            <InitState state={{ amount: 1 }} />
+            <FlowerField
+              id="name"
+              validate={[
+                {
+                  rules: {
+                    $self: { $exists: true }
+                  }
+                }
+              ]}
+            >
+              <Input />
+            </FlowerField>
+          </FlowerNode>
+          <FlowerNode id="form">
+            <div data-testid="log">
+              <FormStatus flowName="app-test" path="start" />
+            </div>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    expect(JSON.parse(screen.getByTestId('log').innerHTML)).toEqual({
+      isSubmitted: true,
+      errors: {
+        name: ['error']
+      }
+    })
+  })
+
+  it('Test form getFormStatus by path', async () => {
+    render(
+      <FlowerProvider>
+        <Flower name="app-test">
+          <FlowerNode id="start" to={{ form: null }}>
+            <InitState state={{ amount: 1 }} />
+            <FlowerField
+              id="name"
+              validate={[
+                {
+                  rules: {
+                    $self: { $exists: true }
+                  }
+                }
+              ]}
+            >
+              <Input />
+            </FlowerField>
+          </FlowerNode>
+          <FlowerNode id="form">
+            <div data-testid="log">
+              <FormStatus flowName="app-test2" path="^app-test.start" />
+            </div>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    expect(JSON.parse(screen.getByTestId('log').innerHTML)).toEqual({
+      isSubmitted: true,
+      errors: {
+        name: ['error']
+      }
+    })
   })
 })
