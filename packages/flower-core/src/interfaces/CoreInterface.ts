@@ -1,4 +1,20 @@
-import { RulesOperators } from '../rules-matcher/interface'
+export enum RulesOperators {
+  $exists = '$exists',
+  $eq = '$eq',
+  $ne = '$ne',
+  $gt = '$gt',
+  $gte = '$gte',
+  $lt = '$lt',
+  $lte = '$lte',
+  $strGt = '$strGt',
+  $strGte = '$strGte',
+  $strLt = '$strLt',
+  $strLte = '$strLte',
+  $in = '$in',
+  $nin = '$nin',
+  $all = '$all',
+  $regex = '$regex'
+}
 
 // Functions Parameters Types
 export type Rules<T> = { rules: Rules<T> | string | null | undefined | T }
@@ -35,7 +51,7 @@ export enum RulesModes {
   $or = '$or'
 }
 
-type RulesValuesType<T> = { '$form.isValid': boolean } & T
+type RulesValuesType<T> = { '$form.isValid'?: boolean } & T
 
 type RulesOperatorsInArray<T> = Partial<{
   [KEY in keyof T]: Partial<{

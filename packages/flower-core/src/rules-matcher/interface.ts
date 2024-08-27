@@ -181,24 +181,6 @@ export interface RulesMatcherUtils {
   ) => string[] | null
 }
 
-export enum RulesOperators {
-  $exists = '$exists',
-  $eq = '$eq',
-  $ne = '$ne',
-  $gt = '$gt',
-  $gte = '$gte',
-  $lt = '$lt',
-  $lte = '$lte',
-  $strGt = '$strGt',
-  $strGte = '$strGte',
-  $strLt = '$strLt',
-  $strLte = '$strLte',
-  $in = '$in',
-  $nin = '$nin',
-  $all = '$all',
-  $regex = '$regex'
-}
-
 export type OperatorsFunction = (
   a: any,
   b: any,
