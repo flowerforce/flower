@@ -12,7 +12,7 @@ export type FlowerRuleProps = {
   value?: any
   /** An object or function containing the display rules of that component. When the conditions are not satisfied, the children is hidden.
    *
-   * Example: rules={{ $and: [{ name: { $exist: true } }] }}
+   * Example: rules={{ $and: [{ name: { $exists: true } }] }}
    * Example: rules={(state) => state... === true}
    * if missing it is always visible
    */

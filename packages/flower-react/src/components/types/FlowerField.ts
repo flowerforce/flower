@@ -99,7 +99,7 @@ export type FlowerFieldProps<
   asyncWaitingError?: string
   /** An object containing the display rules of that component. When the conditions are not satisfied, the children is hidden.
    *
-   * Example: rules={{ $and: [{ name: { $exist: true } }] }}
+   * Example: rules={{ $and: [{ name: { $exists: true } }] }}
    */
   rules?: RulesObject<T> | FunctionRule
   /** The name of the flow from which read the data

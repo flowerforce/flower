@@ -181,7 +181,7 @@ export interface RulesMatcherUtils {
   ) => string[] | null
 }
 
-export enum OperatorsKeys {
+export enum RulesOperators {
   $exists = '$exists',
   $eq = '$eq',
   $ne = '$ne',
