@@ -1,3 +1,15 @@
+## 3.3.2 (2024-08-28)
+
+
+### 🩹 Fixes
+
+- resolves RulesObject type and circular dependency ([894eced](https://github.com/flowerforce/flower/commit/894eced))
+
+
+### 🧱 Updated Dependencies
+
+- Updated flower-core to 3.2.2
+
 ## 3.3.1 (2024-08-27)
 
 
