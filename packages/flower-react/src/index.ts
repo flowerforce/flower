@@ -34,7 +34,8 @@ export type {
   RoutePrev,
   RouteNode,
   Route,
-  FlowerNavigateProps
+  FlowerNavigateProps,
+  FlowerNavigateActionsProps
 } from './components/types/FlowerNavigate'
 export type { FlowerNodeProps } from './components/types/FlowerNode'
 export type { FlowerProviderProps } from './components/types/FlowerProvider'

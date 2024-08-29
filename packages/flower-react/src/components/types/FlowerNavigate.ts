@@ -49,6 +49,33 @@ export type RoutePrev =
       flowName?: string
     }
 
+export type FlowerNavigateActionsProps =
+  | {
+      action: 'next'
+      node?: never
+      route?: Route
+    }
+  | {
+      action: 'back'
+      node?: RoutePrev
+      route?: never
+    }
+  | {
+      action: 'reset'
+      node?: RouteReset
+      route?: never
+    }
+  | {
+      action: 'jump'
+      node?: RouteNode
+      route?: never
+    }
+  | {
+      action: 'restart'
+      node?: RouteRestart
+      route?: never
+    }
+
 export type FlowerNavigateProps = {
   /** The name of the flow from which read the data
    *
@@ -69,30 +96,4 @@ export type FlowerNavigateProps = {
    * The FlowerValue returns the boolean variable "hidden" to notify you if the conditions are satisfied or not
    */
   alwaysDisplay?: boolean
-} & (
-  | {
-      action?: 'next'
-      node?: undefined
-      route?: Route
-    }
-  | {
-      action?: 'back'
-      node?: RoutePrev
-      route?: undefined
-    }
-  | {
-      action?: 'reset'
-      node?: RouteReset
-      route?: undefined
-    }
-  | {
-      action?: 'jump'
-      node?: RouteNode
-      route?: undefined
-    }
-  | {
-      action?: 'restart'
-      node?: RouteRestart
-      route?: undefined
-    }
-)
+} & FlowerNavigateActionsProps
