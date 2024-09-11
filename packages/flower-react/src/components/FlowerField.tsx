@@ -115,6 +115,9 @@ function Wrapper({
 
   const onChange = useCallback(
     (val: any) => {
+      if (asyncValidate && asyncWaitingError) {
+        setCustomAsyncErrors([asyncWaitingError])
+      }
       dispatch({
         type: `flower/addDataByPath`,
         payload: {
@@ -125,7 +128,7 @@ function Wrapper({
         }
       })
     },
-    [flowNameFromPath, id, onBlur, dispatch]
+    [flowNameFromPath, id, onBlur, dispatch, setCustomAsyncErrors, asyncValidate]
   )
 
   const onBlurInternal = useCallback(
