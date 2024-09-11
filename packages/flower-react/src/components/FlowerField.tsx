@@ -128,7 +128,7 @@ function Wrapper({
         }
       })
     },
-    [flowNameFromPath, id, onBlur, dispatch, setCustomAsyncErrors, asyncValidate]
+    [flowNameFromPath, id, onBlur, dispatch, setCustomAsyncErrors, asyncValidate, asyncWaitingError]
   )
 
   const onBlurInternal = useCallback(
