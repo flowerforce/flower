@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/devtool",
-  "version": "3.3.3-beta.0",
+  "version": "3.3.3-beta.2",
   "description": "Devtool",
   "bin": {
     "flower": "./bin/cli.js"
