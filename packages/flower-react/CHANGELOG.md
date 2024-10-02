@@ -1,3 +1,15 @@
+## 3.4.0 (2024-09-16)
+
+
+### 🚀 Features
+
+- expose FlowerNavigateActions type ([07fb861](https://github.com/flowerforce/flower/commit/07fb861))
+
+
+### 🩹 Fixes
+
+- async validate on change value ([#62](https://github.com/flowerforce/flower/pull/62))
+
 ## 3.3.2 (2024-08-28)
 
 
