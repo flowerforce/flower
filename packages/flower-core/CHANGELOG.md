@@ -1,3 +1,10 @@
+## 3.2.3 (2024-10-02)
+
+
+### 🩹 Fixes
+
+- remove wrong deps in FlowerField onChange ([#63](https://github.com/flowerforce/flower/pull/63))
+
 ## 3.2.2 (2024-08-28)
 
 

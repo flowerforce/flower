@@ -1,3 +1,15 @@
+## 3.4.1 (2024-10-02)
+
+
+### 🩹 Fixes
+
+- remove wrong deps in FlowerField onChange ([#63](https://github.com/flowerforce/flower/pull/63))
+
+
+### 🧱 Updated Dependencies
+
+- Updated flower-core to 3.2.3
+
 ## 3.4.0 (2024-09-16)
 
 
