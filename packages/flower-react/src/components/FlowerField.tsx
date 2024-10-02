@@ -41,7 +41,7 @@ function Wrapper({
   asyncInitialError,
   asyncWaitingError,
   destroyValue,
-  onBlur = (val: any) => null,
+  onBlur,
   hidden,
   onUpdate,
   defaultValue,
@@ -128,7 +128,7 @@ function Wrapper({
         }
       })
     },
-    [flowNameFromPath, id, onBlur, dispatch, setCustomAsyncErrors, asyncValidate, asyncWaitingError]
+    [flowNameFromPath, id, dispatch, setCustomAsyncErrors, asyncValidate, asyncWaitingError]
   )
 
   const onBlurInternal = useCallback(
