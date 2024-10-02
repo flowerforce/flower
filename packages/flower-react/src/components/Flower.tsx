@@ -274,15 +274,13 @@ const FlowerClient = ({
     [flowName, initialData, prevFlowerNodeId]
   )
 
+  const currentNodeId = prevFlowerNodeId || current
+
   return isInitialized ? (
     <>
-      {prevFlowerNodeId !== current && typeof prevFlowerNodeId === 'string' && (
-        <Provider value={prevContextValues}>
-          {nodeById[prevFlowerNodeId]}
-        </Provider>
-      )}
+      <Provider value={prevContextValues}>{nodeById[currentNodeId]}</Provider>
       <Provider value={contextValues}>
-        {!isDisabled && nodeById[current]}
+        {!isDisabled && current !== currentNodeId && nodeById[current]}
       </Provider>
     </>
   ) : null
