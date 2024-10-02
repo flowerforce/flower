@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react'
 import { context } from '../context'
 import { makeSelectCurrentNodeId, makeSelectStartNodeId } from '../selectors'
-import { useDispatch, useSelector } from '../provider'
+import { useDispatch, useSelector, useStore } from '../provider'
 import { UseFlower } from './types/FlowerHooks'
 import { Emitter, devtoolState } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
@@ -88,8 +88,9 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const dispatch = useDispatch()
 
   const { flowName: flowNameDefault, initialData } = useContext(context)
+  const store = useStore()
 
-  const flowName = customFlowName || name || flowNameDefault
+  const flowName = (customFlowName || name || flowNameDefault) as string
   const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''))
   const startId = useSelector(makeSelectStartNodeId(flowName ?? ''))
 
@@ -177,9 +178,21 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
     [dispatch, emitNavigateEvent, flowName]
   )
 
+  const getCurrentNodeId = useCallback(
+    (customFlowName?: string) => {
+      return _get(store.getState(), [
+        'flower',
+        customFlowName || flowName,
+        'current'
+      ])
+    },
+    [store, flowName]
+  )
+
   return {
     flowName,
     nodeId,
+    getCurrentNodeId,
     startId,
     next,
     jump,
