@@ -66,7 +66,7 @@ type useFlowerActions = {
   /**Use this function to reset the flow data and history */
   restart: (payload?: RouteRestart) => void
   /**Get current node by flowName or current flow */
-  getCurrentNodeId: (flowName?: string) => void
+  getCurrentNodeId: (flowName?: string) => string
 }
 
 export type UseFlower = (options?: UseFlowerProps) => useFlowerActions & {
