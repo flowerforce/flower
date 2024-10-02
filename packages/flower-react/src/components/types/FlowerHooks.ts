@@ -65,6 +65,8 @@ type useFlowerActions = {
   jump: (payload: RouteNode) => void
   /**Use this function to reset the flow data and history */
   restart: (payload?: RouteRestart) => void
+  /**Get current node by flowName or current flow */
+  getCurrentNodeId: (flowName?: string) => void
 }
 
 export type UseFlower = (options?: UseFlowerProps) => useFlowerActions & {
