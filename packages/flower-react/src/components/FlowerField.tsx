@@ -11,6 +11,7 @@ import {
   getDataFromState,
   makeSelectFieldError,
   makeSelectNodeFieldDirty,
+  makeSelectNodeFieldFocused,
   makeSelectNodeFieldTouched,
   makeSelectNodeFormSubmitted
 } from '../selectors'
@@ -42,6 +43,7 @@ function Wrapper({
   asyncWaitingError,
   destroyValue,
   onBlur,
+  onFocus,
   hidden,
   onUpdate,
   defaultValue,
@@ -72,6 +74,10 @@ function Wrapper({
   const touched = useSelector(
     makeSelectNodeFieldTouched(flowName, currentNode, id)
   )
+  const focused = useSelector(
+    makeSelectNodeFieldFocused(flowName, currentNode, id)
+  )
+
   const refValue = useRef<Record<string, any>>()
   
   const isSubmitted = useSelector(
@@ -91,6 +97,18 @@ function Wrapper({
         id,
         currentNode,
         touched
+      }
+    })  
+  }, [dispatch, flowName, currentNode, id])
+
+  const setFocus = useCallback((focused: boolean) => {
+    dispatch({
+      type: 'flower/formFieldFocus',
+      payload: {
+        name: flowName,
+        id,
+        currentNode,
+        focused
       }
     })  
   }, [dispatch, flowName, currentNode, id])
@@ -134,9 +152,18 @@ function Wrapper({
   const onBlurInternal = useCallback(
     (e: Event) => {
       setTouched(true)
+      setFocus(false)
       onBlur && onBlur(e)
     },
-    [onBlur, setTouched]
+    [onBlur, setTouched, setFocus]
+  )
+
+  const onFocusInternal = useCallback(
+    (e: Event) => {
+      setFocus(true)
+      onFocus && onFocus(e)
+    },
+    [onFocus, setFocus]
   )
   
   useEffect(() => {
@@ -224,11 +251,13 @@ function Wrapper({
       hasError: !!allErrors.length,
       onChange,
       onBlur: onBlurInternal,
+      onFocus: onFocusInternal,
+      hasFocus: !!focused,
       touched,
       dirty,
       hidden,
       isValidating,
-      isSubmitted
+      isSubmitted,
     }),
     [
       props,
@@ -239,9 +268,11 @@ function Wrapper({
       dirty,
       onChange,
       onBlurInternal,
+      onFocusInternal,
       hidden,
       isValidating,
-      isSubmitted
+      isSubmitted,
+      focused
     ]
   )
 

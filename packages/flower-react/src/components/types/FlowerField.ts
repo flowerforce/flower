@@ -34,10 +34,14 @@ export type FlowerFieldProps<
          * onChange("John") will write "John" at the key 'name' of the loginForm object in the flow's data.
          */
         onChange: (props: any) => void
-        /** The function executed to test all the validation rules*/
+        /** The function executed on blur input*/
         onBlur: () => void
+        /** The function executed on focus input*/
+        onFocus: () => void
         /** This value is set to true when the form has been submitted at least once or a next invoked */
         isSubmitted: boolean
+        /** This parameter will notify you whether the form field has been focues */
+        hasFocus: string | undefined
         /** This parameter will notify you whether the form field has been touched */
         touched: boolean
         /** This parameter will notify you if the form field is filled in at least once */
@@ -123,4 +127,9 @@ export type FlowerFieldProps<
    * The onBlur function will test all the validation rules
    */
   onBlur?: (e: any) => void
+  /** The function executed at the "onFocus" event, for example for Input components
+   *
+   * The onFocus function will test all the validation rules
+   */
+  onFocus?: (e: any) => void
 }

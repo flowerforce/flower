@@ -72,6 +72,16 @@ const makeSelectNodeFieldTouched = (
     Selectors.makeSelectNodeFormFieldTouched(fieldId)
   )
 
+const makeSelectNodeFieldFocused = (
+  name: string,
+  currentNodeId: string,
+  fieldId: string
+) =>
+  createSelector(
+    selectFlowerFormNode(name, currentNodeId),
+    Selectors.makeSelectNodeFormFieldFocused(fieldId)
+  )
+
 const makeSelectNodeFieldDirty = (
   name: string,
   currentNodeId: string,
@@ -131,6 +141,7 @@ export {
   getDataFromState,
   makeSelectNodeErrors,
   makeSelectNodeFieldTouched,
+  makeSelectNodeFieldFocused,
   makeSelectNodeFieldDirty,
   makeSelectFieldError,
   makeSelectNodeFormSubmitted,

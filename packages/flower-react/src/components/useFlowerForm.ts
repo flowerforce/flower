@@ -40,8 +40,15 @@ const useFlowerForm: UseFlowerForm = ({
   const store = useStore()
   const flowName = customFlowName || name || flowNameDefault || ''
   const currentNode = useSelector(makeSelectCurrentNodeId(flowName))
-  const { errors, customErrors, isValid, isSubmitted, isDirty, isValidating } =
-    useSelector(makeSelectNodeErrors(flowName, currentNode))
+  const {
+    errors,
+    customErrors,
+    isValid,
+    isSubmitted,
+    isDirty,
+    hasFocus,
+    isValidating
+  } = useSelector(makeSelectNodeErrors(flowName, currentNode))
 
   const getData = useCallback(
     (path?: string) => {
@@ -139,6 +146,7 @@ const useFlowerForm: UseFlowerForm = ({
   return {
     isSubmitted,
     isDirty,
+    hasFocus,
     errors,
     customErrors,
     isValid,

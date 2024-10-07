@@ -253,6 +253,17 @@ export const FlowerCoreReducers: ReducersFunctions = {
       payload.touched
     )
   },
+  formFieldFocus: (state, { payload }) => {
+    if (!payload.focused) {
+      _unset(state, [payload.name, 'form', payload.currentNode, 'hasFocus'])
+      return
+    }
+    _set(
+      state,
+      [payload.name, 'form', payload.currentNode, 'hasFocus'],
+      payload.id
+    )
+  },
   addData: (state, { payload }) => {
     const prevData = _get(state, [payload.flowName, 'data'])
     _set(state, [payload.flowName, 'data'], { ...prevData, ...payload.value })

@@ -82,6 +82,7 @@ export interface ISelectors {
   ): {
     isSubmitted: boolean
     isDirty: boolean
+    hasFocus: string
     errors: any
     customErrors: any
     isValid: boolean
@@ -94,6 +95,13 @@ export interface ISelectors {
   makeSelectNodeFormFieldTouched<T extends Record<string, any>>(
     id: string
   ): (form: Form<T> | undefined) => boolean | undefined
+  /**
+   * @param form
+   * @returns
+   */
+  makeSelectNodeFormFieldFocused<T extends Record<string, any>>(
+    id: string
+  ): (form: Form<T> | undefined) => string | undefined
   /**
    * @param form
    * @returns

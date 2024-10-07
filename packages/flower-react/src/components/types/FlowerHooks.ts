@@ -13,6 +13,8 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
   isSubmitted: boolean
   /**  This value is set to true when at least once field is dirted. */
   isDirty: boolean
+  /**  This value is the id of the focused element. */
+  hasFocus: string | undefined
   /** An object containing all the form errors */
   errors: Record<string, any>
   /** An object containing all the form custom errors */
