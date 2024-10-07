@@ -17,6 +17,9 @@ export const FlowerCoreStateSelectors: ISelectors = {
   makeSelectNodeFormSubmitted: (form) => form && form.isSubmitted,
   makeSelectNodeFormFieldTouched: (id) => (form) =>
     form && form.touches && form.touches[id],
+  makeSelectNodeFormFieldFocused: (id) => (form) => {
+    return form && form.hasFocus === id ? id : undefined
+  },
   makeSelectNodeFormFieldDirty: (id) => (form) =>
     form && form.dirty && form.dirty[id],
   makeSelectCurrentNodeId: (flower, startNodeId) =>

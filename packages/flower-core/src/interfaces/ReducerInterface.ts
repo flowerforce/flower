@@ -33,6 +33,7 @@ export type ActionsTypes =
   | 'setFormIsValidating'
   | 'resetForm'
   | 'formFieldTouch'
+  | 'formFieldFocus'
   | 'node'
   | 'prevToNode'
   | 'next'
@@ -243,6 +244,23 @@ export type ReducersFunctions<
       currentNode: string
       id: string
       touched?: boolean
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Set touch form single field
+   *
+   * @returns state
+   */
+  formFieldFocus: ReducerFunctionSign<
+    T,
+    {
+      name: string
+      currentNode: string
+      id: string
+      focused?: boolean
     }
   >
   /**

@@ -12,9 +12,10 @@ import { useEffect } from 'react'
 import './styles.css'
 
 export function Example9() {
-  const { reset, setCustomErrors, setData } = useFlowerForm({
+  const { reset, setCustomErrors, setData, hasFocus } = useFlowerForm({
     flowName: 'example9'
   })
+  console.log('🚀 ~ Example9 ~ hasFocus:', hasFocus)
   return (
     <Flower name="example9">
       {/**
@@ -54,9 +55,6 @@ export function Example9() {
           </button>
           <span>2</span>
 
-          <FlowerField id="age">
-            <input />
-          </FlowerField>
           <div className="field">
             <label htmlFor="username">Username *</label>
             <FlowerField
@@ -100,6 +98,7 @@ export function Example9() {
                 value = '',
                 errors,
                 onBlur,
+                onFocus,
                 hidden,
                 dirty,
                 touched,
@@ -112,6 +111,7 @@ export function Example9() {
                     value={value}
                     placeholder="Username"
                     onBlur={onBlur}
+                    onFocus={onFocus}
                     disabled={hidden}
                     onChange={(e) => onChange(e.target.value)}
                   />
@@ -140,18 +140,22 @@ export function Example9() {
                 value = '',
                 errors,
                 onBlur,
+                onFocus,
                 hidden,
                 dirty,
                 touched,
-                isSubmitted
+                isSubmitted,
+                focused
               }) => (
                 <>
+                  {focused ? 'si' : 'no'}
                   <input
                     id="password"
                     type="password"
                     value={value}
                     placeholder="Password"
                     onBlur={onBlur}
+                    onFocus={onFocus}
                     disabled={hidden}
                     onChange={(e) => onChange(e.target.value)}
                   />
