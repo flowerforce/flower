@@ -82,7 +82,7 @@ export interface ISelectors {
   ): {
     isSubmitted: boolean
     isDirty: boolean
-    hasFocus: string
+    hasFocus: string | undefined
     errors: any
     customErrors: any
     isValid: boolean

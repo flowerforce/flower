@@ -42,7 +42,7 @@ export const createFormData = (form: Record<string, any>) => {
   return {
     isSubmitted: form?.isSubmitted || false,
     isDirty: form?.isDirty || false,
-    hasFocus: form?.hasFocus || undefined,
+    hasFocus: form?.hasFocus,
     errors: form?.errors,
     customErrors: form?.customErrors,
     isValidating: form?.isValidating,
