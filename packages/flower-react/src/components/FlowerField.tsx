@@ -252,7 +252,7 @@ function Wrapper({
       onChange,
       onBlur: onBlurInternal,
       onFocus: onFocusInternal,
-      hasFocus: !!focused,
+      focused: !!focused,
       touched,
       dirty,
       hidden,

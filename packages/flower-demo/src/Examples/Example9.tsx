@@ -145,10 +145,10 @@ export function Example9() {
                 dirty,
                 touched,
                 isSubmitted,
-                hasFocus
+                focused
               }) => (
                 <>
-                  {hasFocus ? 'si' : 'no'}
+                  {focused ? 'si' : 'no'}
                   <input
                     id="password"
                     type="password"

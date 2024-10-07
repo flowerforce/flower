@@ -41,7 +41,7 @@ export type FlowerFieldProps<
         /** This value is set to true when the form has been submitted at least once or a next invoked */
         isSubmitted: boolean
         /** This parameter will notify you whether the form field has been focues */
-        hasFocus: string | undefined
+        focused: boolean | undefined
         /** This parameter will notify you whether the form field has been touched */
         touched: boolean
         /** This parameter will notify you if the form field is filled in at least once */
