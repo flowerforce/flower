@@ -1,3 +1,10 @@
+## 3.4.0 (2024-10-08)
+
+
+### 🚀 Features
+
+- added "hasFocus" in useFlower and "focused" on FlowerField ([#66](https://github.com/flowerforce/flower/pull/66))
+
 ## 3.3.3 (2024-10-02)
 
 

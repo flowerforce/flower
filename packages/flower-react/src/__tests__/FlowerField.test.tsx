@@ -790,4 +790,79 @@ describe('Test FlowerField component', () => {
       '{"name":["error-name"]}'
     )
   })
+
+  it('Test hidden field', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <FlowerProvider>
+        <Flower name="app-test">
+          <FlowerNode id="start" to={{ form: null }}>
+            <InitState state={{ amount: 1 }} />
+          </FlowerNode>
+          <FlowerNode
+            id="form"
+            to={{
+              success: {
+                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+              },
+              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+            }}
+          >
+            <FlowerField
+              id="name"
+              alwaysDisplay
+              rules={{
+                name: { $eq: 'wrong' }
+              }}
+              asyncValidate={(val) => {
+                if (val?.indexOf('@') > -1) return
+                return [
+                  {
+                    message: 'is not email'
+                  }
+                ]
+              }}
+              validate={[
+                {
+                  message: 'is equal',
+                  rules: { $and: [{ name: { $eq: '@andrea' } }] }
+                }
+              ]}
+            >
+              <Input />
+            </FlowerField>
+            <FlowerField
+              id="metadata.age"
+              validate={[
+                {
+                  message: 'is gt 18',
+                  rules: { $and: [{ $self: { $gt: 18 } }] }
+                }
+              ]}
+            >
+              <Input name="age" />
+            </FlowerField>
+            <ButtonNext />
+          </FlowerNode>
+          <FlowerNode id="success">
+            <Text text="success" />
+          </FlowerNode>
+          <FlowerNode id="error">
+            <Form />
+            <Text text="error" />
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    await user.type(screen.getByTestId('input'), 'an')
+
+    await user.type(screen.getByTestId('age'), '19')
+    expect(screen.getByTestId('age').getAttribute('value')).toBe('19')
+
+    fireEvent.click(screen.getByTestId('btn-next'))
+
+    expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
 })
