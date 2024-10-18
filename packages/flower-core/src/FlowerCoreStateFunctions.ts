@@ -292,6 +292,23 @@ export const FlowerCoreReducers: ReducersFunctions = {
     _set(state, [payload.flowName, 'data'], payload.value)
   },
   unsetData: (state, { payload }) => {
+    const currentNode = FlowerStateUtils.makeSelectCurrentNodeId(
+      payload.flowName
+    )(state)
+    _unset(state, [
+      payload.flowName,
+      'form',
+      currentNode,
+      'dirty',
+      ...payload.id
+    ])
+    _unset(state, [
+      payload.flowName,
+      'form',
+      currentNode,
+      'touches',
+      ...payload.id
+    ])
     _unset(state, [payload.flowName, 'data', ...payload.id])
   },
   setFormIsValidating: (state, { payload }) => {
