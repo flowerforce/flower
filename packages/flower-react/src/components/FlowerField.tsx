@@ -52,7 +52,7 @@ function Wrapper({
   const dispatch = useDispatch()
 
   const [customAsyncErrors, setCustomAsyncErrors] = useState(
-    asyncValidate && [asyncInitialError]
+    !hidden && asyncValidate && [asyncInitialError]
   )
   const [isValidating, setIsValidating] = useState<boolean | undefined>(
     undefined
@@ -65,7 +65,7 @@ function Wrapper({
 
   const value = useSelector(getDataFromState(flowNameFromPath, path))
   const errors = useSelector(
-    makeSelectFieldError(flowName, id, validate),
+    makeSelectFieldError(flowName, id, hidden ? [] :validate),
     CoreUtils.allEqual
   )
   const dirty = useSelector(
@@ -167,6 +167,7 @@ function Wrapper({
   )
   
   useEffect(() => {
+    if(hidden) return
     if (asyncValidate) {
       if (refValue.current === value) return
       refValue.current = value
@@ -182,7 +183,7 @@ function Wrapper({
       setTouched(true)
       debouncedValidation(value)
     }
-  }, [asyncValidate, asyncInitialError, value, debouncedValidation, setTouched])
+  }, [asyncValidate, asyncInitialError, value, debouncedValidation, setTouched, hidden])
 
   useEffect(() => {
     if (onUpdate) {
