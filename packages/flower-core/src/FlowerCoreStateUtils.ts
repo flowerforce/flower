@@ -41,7 +41,7 @@ export const createFormData = (form: Record<string, any>) => {
 
   return {
     isSubmitted: form?.isSubmitted || false,
-    isDirty: form?.isDirty || false,
+    isDirty: Object.values(form?.dirty || {}).some(Boolean) || false,
     hasFocus: form?.hasFocus,
     errors: form?.errors,
     customErrors: form?.customErrors,

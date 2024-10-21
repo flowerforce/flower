@@ -217,6 +217,35 @@ function Wrapper({
     })
   }, [flowName, currentNode, isValidating])
 
+  const resetField = useCallback(()=>{
+      dispatch({
+        type: 'flower/formFieldTouch',
+        payload: {
+          name: flowName,
+          id,
+          currentNode,
+          touched: false
+        }
+      })  
+      dispatch({
+        type: 'flower/formFieldDirty',
+        payload: {
+          name: flowName,
+          id,
+          currentNode,
+          dirty: false
+        }
+      })  
+      dispatch({
+        type: 'flower/formRemoveErrors',
+        payload: {
+          name: flowName,
+          id,
+          currentNode
+        }
+      })
+  },[currentNode, id, flowName])
+
   useEffect(() => {
     // destroy
     return () => {
@@ -226,17 +255,9 @@ function Wrapper({
           payload: { flowName: flowNameFromPath, id: path }
         })
       }
-      dispatch({
-        type: 'flower/formRemoveErrors',
-        payload: {
-          name: flowName,
-          id,
-          currentNode
-        }
-      })
+      resetField()
     }
-  }, [destroyValue, id, flowNameFromPath, path, currentNode])
-
+  }, [destroyValue, id, flowNameFromPath, path, resetField])
 
   useEffect(() => {
     if(hidden){
@@ -245,17 +266,10 @@ function Wrapper({
             type: `flower/unsetData`,
             payload: { flowName: flowNameFromPath, id: path }
           })
+          resetField()
         }
-        dispatch({
-          type: 'flower/formRemoveErrors',
-          payload: {
-            name: flowName,
-            id,
-            currentNode
-          }
-        })
       }
-  }, [destroyOnHide, hidden, id, flowNameFromPath, path, currentNode])
+  }, [destroyOnHide, hidden, flowNameFromPath, path, resetField])
 
   useEffect(() => {
     if (defaultValue && !dirty && !isEqual(value, defaultValue)) {
