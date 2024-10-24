@@ -50,24 +50,32 @@ export const FlowerCoreStateSelectors: ISelectors = {
   makeSelectNodeErrors: createFormData,
 
   makeSelectFieldError: (name, id, validate) => (data, globalState, form) => {
-    const _data = { ...data, ...globalState }
+    const newState = { ...data, ...globalState }
     const customErrors = Object.entries((form && form.customErrors) || {})
       .filter(([k]) => k === id)
       .map(([, v]) => v)
       .flat()
 
-    if (!validate || !_data) return [] as string[]
+    if (!validate || !newState) return [] as string[]
 
     const errors = validate.filter((rule) => {
       if (!rule) return true
       if (!rule.rules) return true
 
-      const transformSelf = CoreUtils.mapKeysDeepLodash(rule.rules, (v, key) =>
-        key === '$self' ? id : key
+      const transformSelf = CoreUtils.mapKeysDeepLodash(
+        rule.rules,
+        (v, key) => {
+          return key.indexOf('$self') > -1 ? key.replace('$self', id) : key
+        }
       )
-      const [hasError] = MatchRules.rulesMatcher(transformSelf, _data, false, {
-        prefix: name
-      })
+      const [hasError] = MatchRules.rulesMatcher(
+        transformSelf,
+        newState,
+        false,
+        {
+          prefix: name
+        }
+      )
       return hasError
     })
 
