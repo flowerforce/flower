@@ -1,16 +1,37 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import App from './App'
-import { FlowerProvider } from '@flowerforce/flower-react'
 import { Devtool } from '@flowerforce/devtool'
+import { Example12 } from './Examples/Example12'
+import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { Provider } from 'react-redux'
+import { FlowerProvider, reducerFlower } from '@flowerforce/flower-react'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) => {
+      state.value += 1
+    }
+  }
+})
+
+const store = configureStore({
+  reducer: {
+    counter: counterSlice.reducer,
+    flower: reducerFlower.flower
+  }
+})
+
 root.render(
-  <FlowerProvider enableReduxDevtool>
-    <App />
-  </FlowerProvider>
+  <Provider store={store}>
+    <FlowerProvider store={store}>
+      <Example12 />
+    </FlowerProvider>
+  </Provider>
 )
 
 Devtool({

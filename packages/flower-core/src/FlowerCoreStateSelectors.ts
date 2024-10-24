@@ -6,14 +6,19 @@ import { unflatten } from 'flat'
 import { createFormData } from './FlowerCoreStateUtils'
 
 export const FlowerCoreStateSelectors: ISelectors = {
-  selectGlobal: (state) => state && state.flower,
-  selectFlower: (name) => (state) => _get(state, [name]),
+  selectGlobal: (state) => state,
+  selectFlower: (name) => (state) => _get(state.flower, [name]),
   selectFlowerFormNode: (id) => (state) => _get(state, ['form', id]),
   selectFlowerHistory: (flower) => _get(flower, ['history'], []),
   makeSelectNodesIds: (flower) => _get(flower, ['nodes']),
   makeSelectStartNodeId: (flower) => _get(flower, ['startId']),
   getDataByFlow: (flower) => _get(flower, ['data']) ?? {},
-  getDataFromState: (id) => (data) => (id === '*' ? data : _get(data, id)),
+  getDataFromState:
+    (id) =>
+    (rootData = {}, flowerData) => {
+      const data = Object.assign({}, rootData, flowerData || {})
+      return id === '*' ? data : _get(data, id)
+    },
   makeSelectNodeFormSubmitted: (form) => form && form.isSubmitted,
   makeSelectNodeFormFieldTouched: (id) => (form) =>
     form && form.touches && form.touches[id],
@@ -44,13 +49,14 @@ export const FlowerCoreStateSelectors: ISelectors = {
   },
   makeSelectNodeErrors: createFormData,
 
-  makeSelectFieldError: (name, id, validate) => (data, form) => {
+  makeSelectFieldError: (name, id, validate) => (data, globalState, form) => {
+    const _data = { ...data, ...globalState }
     const customErrors = Object.entries((form && form.customErrors) || {})
       .filter(([k]) => k === id)
       .map(([, v]) => v)
       .flat()
 
-    if (!validate || !data) return [] as string[]
+    if (!validate || !_data) return [] as string[]
 
     const errors = validate.filter((rule) => {
       if (!rule) return true
@@ -59,7 +65,7 @@ export const FlowerCoreStateSelectors: ISelectors = {
       const transformSelf = CoreUtils.mapKeysDeepLodash(rule.rules, (v, key) =>
         key === '$self' ? id : key
       )
-      const [hasError] = MatchRules.rulesMatcher(transformSelf, data, false, {
+      const [hasError] = MatchRules.rulesMatcher(transformSelf, _data, false, {
         prefix: name
       })
       return hasError
@@ -70,32 +76,33 @@ export const FlowerCoreStateSelectors: ISelectors = {
     return [...customErrors, ...(result.length === 0 ? [] : result)]
   },
 
-  selectorRulesDisabled: (id, rules, keys, flowName, value) => (data, form) => {
-    const newState = { ...data, ...value, $form: form }
-    const state = Object.assign(
-      newState,
-      id ? { $self: _get(newState, [flowName, ...id.split('.')]) } : {}
-    )
+  selectorRulesDisabled:
+    (id, rules, keys, flowName, value) => (data, globalState, form) => {
+      const newState = { ...data, ...globalState, ...value, $form: form }
+      const state = Object.assign(
+        newState,
+        id ? { $self: _get(newState, [flowName, ...id.split('.')]) } : {}
+      )
 
-    if (!rules) return false
-    if (typeof rules === 'function') {
-      return !rules(state)
+      if (!rules) return false
+      if (typeof rules === 'function') {
+        return !rules(state)
+      }
+
+      if (!keys) return false
+
+      const res = keys.reduce((acc, inc) => {
+        const k = inc
+        return Object.assign(acc, { [k]: _get(state, k) })
+      }, {})
+
+      const [disabled] = MatchRules.rulesMatcher(
+        rules,
+        { ...unflatten(res) },
+        false,
+        { prefix: flowName }
+      )
+
+      return disabled
     }
-
-    if (!keys) return false
-
-    const res = keys.reduce((acc, inc) => {
-      const k = inc
-      return Object.assign(acc, { [k]: _get(state, k) })
-    }, {})
-
-    const [disabled] = MatchRules.rulesMatcher(
-      rules,
-      { ...unflatten(res) },
-      false,
-      { prefix: flowName }
-    )
-
-    return disabled
-  }
 }
