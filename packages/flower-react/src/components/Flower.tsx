@@ -14,7 +14,8 @@ import { Emitter, devtoolState } from '@flowerforce/flower-core'
 import { Provider } from '../context'
 import _get from 'lodash/get'
 import { convertElements } from '../utils'
-import { actions } from '../reducer'
+import { actions as flowerActions } from '../reducer/flowerReducer'
+import { actions as formActions } from '../reducer/formReducer'
 import {
   makeSelectStartNodeId,
   selectFlowerHistory,
@@ -78,7 +79,7 @@ const FlowerClient = ({
     if (nodes.length > 0 && one.current === false) {
       one.current = true
       dispatch(
-        actions.initNodes({
+        flowerActions.initNodes({
           name: flowName,
           // @ts-expect-error FIX ME
           nodes,
@@ -112,15 +113,17 @@ const FlowerClient = ({
       }
 
       if (msg.action === 'SELECTED_NODE' && msg.name === flowName) {
-        dispatch(actions.setCurrentNode({ name: msg.name, node: msg.id }))
+        dispatch(flowerActions.setCurrentNode({ name: msg.name, node: msg.id }))
       }
 
       if (msg.action === 'REPLACE_DATA' && msg.name === flowName) {
-        dispatch(actions.replaceData({ flowName: msg.name, value: msg.data }))
+        dispatch(
+          formActions.replaceData({ flowName: msg.name, value: msg.data })
+        )
       }
 
       if (msg.action === 'ADD_DATA' && msg.name === flowName) {
-        dispatch(actions.addData({ flowName: msg.name, value: msg.data }))
+        dispatch(formActions.addData({ flowName: msg.name, value: msg.data }))
       }
     }
 
@@ -142,7 +145,7 @@ const FlowerClient = ({
       // unmount function
       if (destroyOnUnmount && one.current === true) {
         one.current = false
-        dispatch(actions.destroy({ name: flowName }))
+        dispatch(flowerActions.destroy({ name: flowName }))
       }
     },
     [dispatch, flowName, destroyOnUnmount]

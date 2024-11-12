@@ -52,7 +52,7 @@ export type ActionsTypes =
 //   }> | CaseReducerWithPrepare<State, PayloadAction<any, string, any, any>>;
 // }
 
-export type ReducersFunctions<
+export type CoreReducersFunctions<
   T extends Record<string, any> = Record<string, Flower<Record<string, any>>>
 > = {
   /**
@@ -75,18 +75,6 @@ export type ReducersFunctions<
   historyPrevToNode: ReducerFunctionSign<
     T,
     { name: string; node: string } | string
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Sets the "touched" state of a form node in a flow.
-   *
-   * @returns state
-   */
-  setFormTouched: ReducerFunctionSign<
-    T,
-    { flowName: string; currentNode: string } | string
   >
   /**
    * @param state
@@ -195,6 +183,115 @@ export type ReducersFunctions<
    * @returns state
    */
   setCurrentNode: ReducerFunctionSign<T, { name: string; node: string }>
+  /**
+   * @param state
+   * @param action
+   *
+   * Handles node transitions in a flow, updating history and form states accordingly.
+   *
+   * @returns state
+   */
+  node: ReducerFunctionSign<
+    T,
+    {
+      name: string
+      flowName?: string
+      nodeId?: string
+      node?: string
+      history: string[]
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Navigates to a specific node in the history of a flow.
+   *
+   * @returns state
+   */
+  prevToNode: ReducerFunctionSign<
+    T,
+    { name?: string; flowName?: string; node: string }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Moves to the next node in a flow based on validation rules and current state.
+   *
+   * @returns state
+   */
+  next: ReducerFunctionSign<
+    T,
+    { name?: string; flowName?: string; data: T; route?: string }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Moves to the previous node in a flow.
+   *
+   * @returns state
+   */
+  prev: ReducerFunctionSign<T, { name?: string; flowName?: string }>
+  /**
+   * @param state
+   * @param action
+   *
+   * Return back to the first node and resets history.
+   *
+   * @returns state
+   */
+  restart: ReducerFunctionSign<T, { name?: string; flowName?: string }>
+  /**
+   * @param state
+   * @param action
+   *
+   * Returns back to the first node, resets history and clean all previous data from flow.
+   *
+   * @returns state
+   */
+  reset: ReducerFunctionSign<
+    T,
+    { name?: string; flowName?: string; initialData?: Record<string, any> }
+    /**
+     * @param state
+     * @param action
+     *
+     * Reset form.
+     *
+     * @returns state
+     */
+  >
+}
+
+export type FormReducersFunctions<
+  T extends Record<string, any> = Record<string, Flower<Record<string, any>>>
+> = {
+  /**
+   * @param state
+   * @param action
+   *
+   * Sets the "touched" state of a form node in a flow.
+   *
+   * @returns state
+   */
+  setFormTouched: ReducerFunctionSign<
+    T,
+    { flowName: string; currentNode: string } | string
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Initializes a flow from a specific node.
+   *
+   * @returns state
+   */
+  initializeFromNode: ReducerFunctionSign<
+    T,
+    { node: string; name?: string; flowName?: string }
+  >
   /**
    * @param state
    * @param action
@@ -374,81 +471,9 @@ export type ReducersFunctions<
    * @param state
    * @param action
    *
-   * Handles node transitions in a flow, updating history and form states accordingly.
+   * Reset form.
    *
    * @returns state
    */
-  node: ReducerFunctionSign<
-    T,
-    {
-      name: string
-      flowName?: string
-      nodeId?: string
-      node?: string
-      history: string[]
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Navigates to a specific node in the history of a flow.
-   *
-   * @returns state
-   */
-  prevToNode: ReducerFunctionSign<
-    T,
-    { name?: string; flowName?: string; node: string }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Moves to the next node in a flow based on validation rules and current state.
-   *
-   * @returns state
-   */
-  next: ReducerFunctionSign<
-    T,
-    { name?: string; flowName?: string; data: T; route?: string }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Moves to the previous node in a flow.
-   *
-   * @returns state
-   */
-  prev: ReducerFunctionSign<T, { name?: string; flowName?: string }>
-  /**
-   * @param state
-   * @param action
-   *
-   * Return back to the first node and resets history.
-   *
-   * @returns state
-   */
-  restart: ReducerFunctionSign<T, { name?: string; flowName?: string }>
-  /**
-   * @param state
-   * @param action
-   *
-   * Returns back to the first node, resets history and clean all previous data from flow.
-   *
-   * @returns state
-   */
-  reset: ReducerFunctionSign<
-    T,
-    { name?: string; flowName?: string; initialData?: Record<string, any> }
-    /**
-     * @param state
-     * @param action
-     *
-     * Reset form.
-     *
-     * @returns state
-     */
-  >
   resetForm: ReducerFunctionSign<T, { id: string; flowName: string }>
 }

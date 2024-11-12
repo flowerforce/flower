@@ -6,7 +6,10 @@ import _slice from 'lodash/slice'
 import _cloneDeep from 'lodash/cloneDeep'
 import lastIndexOf from 'lodash/lastIndexOf'
 import { CoreUtils } from './CoreUtils'
-import { ReducersFunctions } from './interfaces/ReducerInterface'
+import {
+  FormReducersFunctions,
+  CoreReducersFunctions
+} from './interfaces/ReducerInterface'
 import { FlowerStateUtils } from './FlowerCoreStateUtils'
 import { devtoolState } from './devtoolState'
 
@@ -22,7 +25,7 @@ const {
 /**
  * These functions are Redux reducers used in a Flux architecture for managing state transitions and updates in a Flower application.
  */
-export const FlowerCoreReducers: ReducersFunctions = {
+export const FlowerCoreBaseReducers: CoreReducersFunctions = {
   historyAdd: (state, { payload }) => {
     if (hasNode(state, payload.name, payload.node)) {
       state[payload.name].history.push(payload.node)
@@ -30,7 +33,6 @@ export const FlowerCoreReducers: ReducersFunctions = {
     }
     return state
   },
-
   historyPrevToNode: (state, { payload }) => {
     const history = _get(
       state[typeof payload === 'string' ? payload : payload.name],
@@ -55,29 +57,6 @@ export const FlowerCoreReducers: ReducersFunctions = {
         typeof payload === 'string' ? payload : payload.node
       )
     }
-    return state
-  },
-
-  setFormTouched: (state, { payload }) => {
-    if (
-      !_get(state, [
-        typeof payload === 'string' ? payload : payload.flowName,
-        'nodes',
-        typeof payload === 'string' ? payload : payload.currentNode
-      ])
-    ) {
-      return state
-    }
-    _set(
-      state,
-      [
-        typeof payload === 'string' ? payload : payload.flowName,
-        'form',
-        typeof payload === 'string' ? payload : payload.currentNode,
-        'isSubmitted'
-      ],
-      true
-    )
     return state
   },
   // TODO check internal logic and use case
@@ -215,6 +194,168 @@ export const FlowerCoreReducers: ReducersFunctions = {
       }
     }
   },
+  node: (state, { payload }) => {
+    const { name, history } = payload
+    const node = payload.nodeId || payload.node || ''
+    const flowName = name || payload.flowName || ''
+    const startNode = _get(state, [payload.name, 'startId'])
+    const currentNodeId = _get(state, [payload.name, 'current'], startNode)
+
+    FlowerCoreFormReducers.setFormTouched(state, {
+      type: 'setFormTouched',
+      payload: { flowName, currentNode: currentNodeId }
+    })
+
+    /* istanbul ignore next */
+    // eslint-disable-next-line no-underscore-dangle
+    if (devtoolState && _get(devtoolState, '__FLOWER_DEVTOOLS__') && history) {
+      FlowerCoreReducers.forceAddHistory(state, {
+        type: 'forceAddHistory',
+        payload: {
+          name,
+          flowName,
+          history
+        }
+      })
+    }
+
+    FlowerCoreReducers.historyAdd(state, {
+      type: 'historyAdd',
+      payload: { name: name || flowName || '', node }
+    })
+  },
+  prevToNode: (state, { payload }) => {
+    const { node, name, flowName } = payload
+    FlowerCoreReducers.historyPrevToNode(state, {
+      type: 'historyPrevToNode',
+      payload: { name: name || flowName || '', node }
+    })
+  },
+  next: (state, { payload }) => {
+    const { name, data = {}, route, formData } = payload
+
+    const flowName = name || payload.flowName || ''
+
+    const currentNodeId =
+      FlowerStateUtils.makeSelectCurrentNodeId(flowName)(state)
+    const currentNextRules =
+      FlowerStateUtils.makeSelectCurrentNextRules(flowName)(state)
+
+    const form = FlowerStateUtils.makeSelectNodeErrors(
+      flowName,
+      currentNodeId
+    )(formData)
+
+    const clonedData = _cloneDeep(FlowerStateUtils.getAllData(formData))
+
+    const stateWithNodeData = {
+      $in: data,
+      $form: form,
+      ...clonedData
+    }
+
+
+    // TODO -> move into hook useFlower inside next
+    FlowerCoreFormReducers.setFormTouched(state, {
+      type: 'setFormTouched',
+      payload: { flowName, currentNode: currentNodeId }
+    })
+
+    if (!currentNextRules) {
+      return
+    }
+
+    if (route) {
+      const rulesByName = generateRulesName(currentNextRules)
+
+      if (!rulesByName[route]) {
+        return
+      }
+
+      FlowerCoreReducers.historyAdd(state, {
+        type: 'historyAdd',
+        payload: { name: flowName, node: rulesByName[route] }
+      })
+
+      return
+    }
+
+    const validRule = findValidRule(
+      currentNextRules,
+      stateWithNodeData,
+      flowName
+    )
+
+    const nextNumberNode = _get(validRule, 'nodeId')
+
+    if (!nextNumberNode) {
+      return
+    }
+
+    FlowerCoreReducers.historyAdd(state, {
+      type: 'historyAdd',
+      payload: { name: flowName, node: nextNumberNode }
+    })
+  },
+  prev: (state, { payload }) => {
+    const { name, flowName } = payload
+
+    FlowerCoreReducers.historyPop(state, {
+      type: 'historyPop',
+      payload: { name: name || flowName || '' }
+    })
+  },
+  restart: (state, { payload }) => {
+    const { name, flowName } = payload
+    FlowerCoreReducers.restoreHistory(state, {
+      type: 'restoreHistory',
+      payload: { name: name || flowName || '' }
+    })
+  },
+  reset: (state, { payload }) => {
+    const { name, flowName, initialData } = payload
+    FlowerCoreReducers.restoreHistory(state, {
+      type: 'restoreHistory',
+      payload: { name: name || flowName || '' }
+    })
+    _set(state, [name || flowName || '', 'form'], {})
+    _set(state, [name || flowName || '', 'data'], initialData)
+  }
+}
+
+export const FlowerCoreFormReducers: FormReducersFunctions = {
+  setFormTouched: (state, { payload }) => {
+    if (
+      !_get(state, [
+        typeof payload === 'string' ? payload : payload.flowName,
+        'nodes',
+        typeof payload === 'string' ? payload : payload.currentNode
+      ])
+    ) {
+      return state
+    }
+    _set(
+      state,
+      [
+        typeof payload === 'string' ? payload : payload.flowName,
+        'form',
+        typeof payload === 'string' ? payload : payload.currentNode,
+        'isSubmitted'
+      ],
+      true
+    )
+    return state
+  },
+  /* istanbul ignore next */
+  initializeFromNode: (state, { payload }) => {
+    const { name, flowName, node } = payload
+    if (hasNode(state, name || flowName || '', node)) {
+      _set(state, [name || flowName || '', 'startId'], node)
+      _set(state, [name || flowName || '', 'current'], node)
+      _set(state, [name || flowName || '', 'history'], [node])
+    }
+    return state
+  },
   formAddCustomErrors: (state, { payload }) => {
     _set(
       state,
@@ -322,130 +463,8 @@ export const FlowerCoreReducers: ReducersFunctions = {
     _unset(state, [payload.flowName, 'form', payload.id, 'touches'])
     _unset(state, [payload.flowName, 'form', payload.id, 'dirty'])
     _unset(state, [payload.flowName, 'form', payload.id, 'isSubmitted'])
-  },
-  node: (state, { payload }) => {
-    const { name, history } = payload
-    const node = payload.nodeId || payload.node || ''
-    const flowName = name || payload.flowName || ''
-    const startNode = _get(state, [payload.name, 'startId'])
-    const currentNodeId = _get(state, [payload.name, 'current'], startNode)
-
-    FlowerCoreReducers.setFormTouched(state, {
-      type: 'setFormTouched',
-      payload: { flowName, currentNode: currentNodeId }
-    })
-
-    /* istanbul ignore next */
-    // eslint-disable-next-line no-underscore-dangle
-    if (devtoolState && _get(devtoolState, '__FLOWER_DEVTOOLS__') && history) {
-      FlowerCoreReducers.forceAddHistory(state, {
-        type: 'forceAddHistory',
-        payload: {
-          name,
-          flowName,
-          history
-        }
-      })
-    }
-
-    FlowerCoreReducers.historyAdd(state, {
-      type: 'historyAdd',
-      payload: { name: name || flowName || '', node }
-    })
-  },
-  prevToNode: (state, { payload }) => {
-    const { node, name, flowName } = payload
-    FlowerCoreReducers.historyPrevToNode(state, {
-      type: 'historyPrevToNode',
-      payload: { name: name || flowName || '', node }
-    })
-  },
-  next: (state, { payload }) => {
-    const { name, data = {}, route } = payload
-
-    const flowName = name || payload.flowName || ''
-
-    const currentNodeId =
-      FlowerStateUtils.makeSelectCurrentNodeId(flowName)(state)
-    const currentNextRules =
-      FlowerStateUtils.makeSelectCurrentNextRules(flowName)(state)
-
-    const form = FlowerStateUtils.makeSelectNodeErrors(
-      flowName,
-      currentNodeId
-    )(state)
-
-    const clonedData = _cloneDeep(FlowerStateUtils.getAllData(state))
-
-    const stateWithNodeData = {
-      $in: data,
-      $form: form,
-      ...clonedData
-    }
-
-    FlowerCoreReducers.setFormTouched(state, {
-      type: 'setFormTouched',
-      payload: { flowName, currentNode: currentNodeId }
-    })
-
-    if (!currentNextRules) {
-      return
-    }
-
-    if (route) {
-      const rulesByName = generateRulesName(currentNextRules)
-
-      if (!rulesByName[route]) {
-        return
-      }
-
-      FlowerCoreReducers.historyAdd(state, {
-        type: 'historyAdd',
-        payload: { name: flowName, node: rulesByName[route] }
-      })
-
-      return
-    }
-
-    const validRule = findValidRule(
-      currentNextRules,
-      stateWithNodeData,
-      flowName
-    )
-
-    const nextNumberNode = _get(validRule, 'nodeId')
-
-    if (!nextNumberNode) {
-      return
-    }
-
-    FlowerCoreReducers.historyAdd(state, {
-      type: 'historyAdd',
-      payload: { name: flowName, node: nextNumberNode }
-    })
-  },
-  prev: (state, { payload }) => {
-    const { name, flowName } = payload
-
-    FlowerCoreReducers.historyPop(state, {
-      type: 'historyPop',
-      payload: { name: name || flowName || '' }
-    })
-  },
-  restart: (state, { payload }) => {
-    const { name, flowName } = payload
-    FlowerCoreReducers.restoreHistory(state, {
-      type: 'restoreHistory',
-      payload: { name: name || flowName || '' }
-    })
-  },
-  reset: (state, { payload }) => {
-    const { name, flowName, initialData } = payload
-    FlowerCoreReducers.restoreHistory(state, {
-      type: 'restoreHistory',
-      payload: { name: name || flowName || '' }
-    })
-    _set(state, [name || flowName || '', 'form'], {})
-    _set(state, [name || flowName || '', 'data'], initialData)
   }
 }
+
+export const FlowerCoreReducers: FormReducersFunctions & CoreReducersFunctions =
+  { ...FlowerCoreBaseReducers, ...FlowerCoreFormReducers }

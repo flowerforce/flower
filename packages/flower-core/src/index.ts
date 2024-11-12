@@ -1,5 +1,9 @@
 export { Emitter } from './Emitter'
-export { FlowerCoreReducers } from './FlowerCoreStateFunctions'
+export {
+  FlowerCoreReducers,
+  FlowerCoreBaseReducers,
+  FlowerCoreFormReducers
+} from './FlowerCoreStateFunctions'
 export { FlowerStateUtils } from './FlowerCoreStateUtils'
 export { FlowerCoreStateSelectors as Selectors } from './FlowerCoreStateSelectors'
 export { CoreUtils } from './CoreUtils'

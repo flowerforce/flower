@@ -1,27 +1,20 @@
 import _get from 'lodash/get'
-import { ISelectors } from './interfaces/SelectorsInterface'
+import {
+  IFlowerSelectors,
+  IFormSelectors
+} from './interfaces/SelectorsInterface'
 import { CoreUtils } from './CoreUtils'
 import { MatchRules } from './RulesMatcher'
 import { unflatten } from 'flat'
 import { createFormData } from './FlowerCoreStateUtils'
 
-export const FlowerCoreStateSelectors: ISelectors = {
+export const FlowerCoreStateBaseSelectors: IFlowerSelectors = {
   selectGlobal: (state) => state && state.flower,
   selectFlower: (name) => (state) => _get(state, [name]),
   selectFlowerFormNode: (id) => (state) => _get(state, ['form', id]),
   selectFlowerHistory: (flower) => _get(flower, ['history'], []),
   makeSelectNodesIds: (flower) => _get(flower, ['nodes']),
   makeSelectStartNodeId: (flower) => _get(flower, ['startId']),
-  getDataByFlow: (flower) => _get(flower, ['data']) ?? {},
-  getDataFromState: (id) => (data) => (id === '*' ? data : _get(data, id)),
-  makeSelectNodeFormSubmitted: (form) => form && form.isSubmitted,
-  makeSelectNodeFormFieldTouched: (id) => (form) =>
-    form && form.touches && form.touches[id],
-  makeSelectNodeFormFieldFocused: (id) => (form) => {
-    return form && form.hasFocus === id ? id : undefined
-  },
-  makeSelectNodeFormFieldDirty: (id) => (form) =>
-    form && form.dirty && form.dirty[id],
   makeSelectCurrentNodeId: (flower, startNodeId) =>
     _get(flower, ['current']) || startNodeId,
   makeSelectCurrentNodeDisabled: (nodes, current) =>
@@ -41,7 +34,21 @@ export const FlowerCoreStateSelectors: ISelectors = {
     return nodes[prevFlowerNode] && nodes[prevFlowerNode].retain
       ? prevFlowerNode
       : undefined
+  }
+}
+
+export const FlowerCoreStateFormSelectors: IFormSelectors = {
+  selectGlobalForm: (state) => state && state.form,
+  getDataByFlow: (flower) => _get(flower, ['data']) ?? {},
+  getDataFromState: (id) => (data) => (id === '*' ? data : _get(data, id)),
+  makeSelectNodeFormSubmitted: (form) => form && form.isSubmitted,
+  makeSelectNodeFormFieldTouched: (id) => (form) =>
+    form && form.touches && form.touches[id],
+  makeSelectNodeFormFieldFocused: (id) => (form) => {
+    return form && form.hasFocus === id ? id : undefined
   },
+  makeSelectNodeFormFieldDirty: (id) => (form) =>
+    form && form.dirty && form.dirty[id],
   makeSelectNodeErrors: createFormData,
 
   makeSelectFieldError: (name, id, validate) => (data, form) => {
@@ -98,4 +105,9 @@ export const FlowerCoreStateSelectors: ISelectors = {
 
     return disabled
   }
+}
+
+export const FlowerCoreStateSelectors: IFlowerSelectors & IFormSelectors = {
+  ...FlowerCoreStateBaseSelectors,
+  ...FlowerCoreStateFormSelectors
 }

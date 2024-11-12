@@ -1,7 +1,7 @@
 import { RulesObject } from './CoreInterface'
 import { Flower, Form, INode } from './Store'
 
-export interface ISelectors {
+export interface IFlowerSelectors {
   /**
    * @param state
    * @returns
@@ -73,6 +73,16 @@ export interface ISelectors {
     nodes: { [x: string]: Partial<INode> },
     current: Flower<T>['current']
   ): boolean
+}
+
+export interface IFormSelectors {
+  /**
+   * @param state
+   * @returns
+   */
+  selectGlobalForm<T extends Record<string, any>>(state: {
+    form: { [x: string]: Flower<T> }
+  }): { [x: string]: Flower<T> }
   /**
    * @param form
    * @returns

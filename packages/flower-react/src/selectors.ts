@@ -9,13 +9,16 @@ import _get from 'lodash/get'
 
 const { getAllData: mapData } = FlowerStateUtils
 
-const { selectGlobal } = Selectors
+const { selectGlobal, selectGlobalForm } = Selectors
 
 const selectFlower = (name: string) =>
   createSelector(selectGlobal, Selectors.selectFlower(name))
 
+const selectFlowerForm = (name: string) =>
+  createSelector(selectGlobalForm, Selectors.selectFlower(name))
+
 const selectFlowerFormNode = (name: string, id: string) =>
-  createSelector(selectFlower(name), Selectors.selectFlowerFormNode(id))
+  createSelector(selectFlowerForm(name), Selectors.selectFlowerFormNode(id))
 
 const selectFlowerHistory = (name: string) =>
   createSelector(selectFlower(name), Selectors.selectFlowerHistory)
@@ -50,7 +53,7 @@ const makeSelectCurrentNodeDisabled = (name: string) =>
 
 // dati nel flow selezionato
 const getDataByFlow = (name: string) =>
-  createSelector(selectFlower(name), Selectors.getDataByFlow)
+  createSelector(selectFlowerForm(name), Selectors.getDataByFlow)
 
 // selettore per recuperare i dati di un flow specifico e id specifico
 const getDataFromState = (name: string, id: string | string[]) =>
@@ -98,7 +101,7 @@ const makeSelectNodeFormSubmitted = (name: string, currentNodeId: string) =>
     Selectors.makeSelectNodeFormSubmitted
   )
 
-const getAllData = createSelector(selectGlobal, mapData)
+const getAllData = createSelector(selectGlobalForm, mapData)
 
 const selectFlowerFormCurrentNode = (name: string) =>
   createSelector(

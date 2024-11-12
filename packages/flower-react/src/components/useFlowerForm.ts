@@ -3,7 +3,7 @@ import { CoreUtils } from '@flowerforce/flower-core'
 import get from 'lodash/get'
 import { context } from '../context'
 import { makeSelectCurrentNodeId, makeSelectNodeErrors } from '../selectors'
-import { actions } from '../reducer'
+import { actions } from '../reducer/formReducer'
 import { useDispatch, useSelector, useStore } from '../provider'
 import { UseFlowerForm } from './types/FlowerHooks'
 
@@ -130,15 +130,14 @@ const useFlowerForm: UseFlowerForm = ({
 
   const setCustomErrors = useCallback(
     (field: string, errors: string[], nodeId?: string) => {
-      dispatch({
-        type: 'flower/formAddCustomErrors',
-        payload: {
+      dispatch(
+        actions.formAddCustomErrors({
           name: flowName,
           id: field,
           currentNode: nodeId || currentNode,
           errors
-        }
-      })
+        })
+      )
     },
     [flowName, currentNode, dispatch]
   )

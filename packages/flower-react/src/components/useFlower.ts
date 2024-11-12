@@ -118,15 +118,14 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
       const params =
         typeof param === 'string' ? { route: param } : { data: param }
       const { type, payload } = makeActionPayloadOnNext(flowName, params)
-
       dispatch({
         type: `flower/${type}`,
-        payload
+        payload: { ...payload, formData: store.getState().form } //TODO-> delete form
       })
 
       emitNavigateEvent({ type, payload })
     },
-    [dispatch, emitNavigateEvent, flowName]
+    [dispatch, emitNavigateEvent, flowName, store]
   )
 
   const back = useCallback(

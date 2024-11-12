@@ -26,6 +26,7 @@ import {
 } from '@flowerforce/flower-core'
 import { FlowerFieldProps } from './types/FlowerField'
 import isEqual from 'lodash/isEqual'
+import { actions } from '../reducer/formReducer'
 function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
   return typeof x === 'string'
 }
@@ -80,7 +81,7 @@ function Wrapper({
   )
 
   const refValue = useRef<Record<string, any>>()
-  
+
   const isSubmitted = useSelector(
     makeSelectNodeFormSubmitted(flowName, currentNode)
   )
@@ -91,27 +92,21 @@ function Wrapper({
   )
 
   const setTouched = useCallback((touched: boolean) => {
-    dispatch({
-      type: 'flower/formFieldTouch',
-      payload: {
-        name: flowName,
-        id,
-        currentNode,
-        touched
-      }
-    })  
+    dispatch(actions.formFieldTouch({
+      name: flowName,
+      id,
+      currentNode,
+      touched
+    }))
   }, [dispatch, flowName, currentNode, id])
 
   const setFocus = useCallback((focused: boolean) => {
-    dispatch({
-      type: 'flower/formFieldFocus',
-      payload: {
-        name: flowName,
-        id,
-        currentNode,
-        focused
-      }
-    })  
+    dispatch(actions.formFieldFocus({
+      name: flowName,
+      id,
+      currentNode,
+      focused
+    }))
   }, [dispatch, flowName, currentNode, id])
 
   const validateFn = useCallback(
@@ -137,15 +132,12 @@ function Wrapper({
       if (asyncValidate && asyncWaitingError) {
         setCustomAsyncErrors([asyncWaitingError])
       }
-      dispatch({
-        type: `flower/addDataByPath`,
-        payload: {
-          flowName: flowNameFromPath,
-          id,
-          value: val,
-          dirty: defaultValue ? !isEqual(val, defaultValue) : true
-        }
-      })
+      dispatch(actions.addDataByPath({
+        flowName: flowNameFromPath,
+        id,
+        value: val,
+        dirty: defaultValue ? !isEqual(val, defaultValue) : true
+      }))
     },
     [flowNameFromPath, id, dispatch, setCustomAsyncErrors, asyncValidate, asyncWaitingError]
   )
@@ -166,9 +158,9 @@ function Wrapper({
     },
     [onFocus, setFocus]
   )
-  
+
   useEffect(() => {
-    if(hidden) return
+    if (hidden) return
     if (asyncValidate) {
 
       if (refValue.current === value) return
@@ -195,80 +187,66 @@ function Wrapper({
 
 
   useEffect(() => {
-    dispatch({
-      type: 'flower/formAddErrors',
-      payload: {
-        name: flowName,
-        id,
-        currentNode,
-        errors: allErrors
-      }
-    })
+    dispatch(actions.formAddErrors({
+      name: flowName,
+      id,
+      currentNode,
+      errors: allErrors
+    }))
   }, [id, flowName, allErrors, currentNode, touched])
 
   useEffect(() => {
-    dispatch({
-      type: 'flower/setFormIsValidating',
-      payload: {
-        name: flowName,
-        currentNode,
-        isValidating
-      }
-    })
+    dispatch(actions.setFormIsValidating({
+      name: flowName,
+      currentNode,
+      isValidating
+    }
+    ))
   }, [flowName, currentNode, isValidating])
 
-  const resetField = useCallback(()=>{
-      dispatch({
-        type: 'flower/formFieldTouch',
-        payload: {
-          name: flowName,
-          id,
-          currentNode,
-          touched: false
-        }
-      })  
-      dispatch({
-        type: 'flower/formFieldDirty',
-        payload: {
-          name: flowName,
-          id,
-          currentNode,
-          dirty: false
-        }
-      })  
-      dispatch({
-        type: 'flower/formRemoveErrors',
-        payload: {
-          name: flowName,
-          id,
-          currentNode
-        }
-      })
-  },[currentNode, id, flowName])
+  const resetField = useCallback(() => {
+    dispatch(actions.formFieldTouch({
+      name: flowName,
+      id,
+      currentNode,
+      touched: false
+    }
+    ))
+    dispatch(actions.formFieldDirty({
+      name: flowName,
+      id,
+      currentNode,
+      dirty: false
+    }
+    ))
+    dispatch(actions.formRemoveErrors({
+      name: flowName,
+      id,
+      currentNode
+    }
+    ))
+  }, [currentNode, id, flowName])
 
   useEffect(() => {
     // destroy
     return () => {
       if (destroyValue) {
-        dispatch({
-          type: `flower/unsetData`,
-          payload: { flowName: flowNameFromPath, id: path }
-        })
+        dispatch(actions.unsetData({
+          flowName: flowNameFromPath, id: path
+        }
+        ))
       }
       resetField()
     }
   }, [destroyValue, id, flowNameFromPath, path, resetField])
 
   useEffect(() => {
-    if(hidden){
-        if (destroyOnHide) {
-          dispatch({
-            type: `flower/unsetData`,
-            payload: { flowName: flowNameFromPath, id: path }
-          })
-          resetField()
-        }
+    if (hidden) {
+      if (destroyOnHide) {
+        dispatch(actions.unsetData({ flowName: flowNameFromPath, id: path }))
+        resetField()
       }
+    }
   }, [destroyOnHide, hidden, flowNameFromPath, path, resetField])
 
   useEffect(() => {
