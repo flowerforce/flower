@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { MatchRules } from '@flowerforce/flower-core'
 import { useSelector } from '../provider'
 import { selectorRulesDisabled } from '../selectors'
-import { context } from '../context'
+import { context } from '../context/flowcontext'
 import { FlowerRuleProps } from './types/FlowerRule'
 
 const FlowerRule = ({

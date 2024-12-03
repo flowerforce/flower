@@ -1,10 +1,10 @@
-import React, { createContext } from 'react'
+import { createContext } from 'react'
 
 export type FlowerContext = {
   flowName?: string | undefined
   currentNode?: string | undefined
   autostart?: boolean | undefined
-  initialData?: Record<string, any>
+  initialData?: Record<string, unknown>
 }
 
 const _context = createContext<FlowerContext>({})

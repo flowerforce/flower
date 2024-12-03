@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useMemo } from 'react';
 import { CoreUtils } from '@flowerforce/flower-core';
 import { useSelector } from '../provider';
 import { getDataFromState } from '../selectors';
-import { context } from '../context';
+import { context } from '../context/flowcontext';
 import FlowerRule from './FlowerRule';
 import { FlowerValueProps } from './types/FlowerValue';
 

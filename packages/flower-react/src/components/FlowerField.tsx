@@ -15,7 +15,7 @@ import {
   makeSelectNodeFieldTouched,
   makeSelectNodeFormSubmitted
 } from '../selectors'
-import { context } from '../context'
+import { context } from '../context/flowcontext'
 import FlowerRule from './FlowerRule'
 import { store, useDispatch, useSelector } from '../provider'
 import debounce from 'lodash/debounce'

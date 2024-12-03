@@ -11,7 +11,7 @@ import React, {
 } from 'react'
 import _keyBy from 'lodash/keyBy'
 import { Emitter, devtoolState } from '@flowerforce/flower-core'
-import { Provider } from '../context'
+import { Provider } from '../context/flowcontext'
 import _get from 'lodash/get'
 import { convertElements } from '../utils'
 import { actions as flowerActions } from '../reducer/flowerReducer'
@@ -35,7 +35,6 @@ type FlowerClientProps = PropsWithChildren & {
   name: string
   destroyOnUnmount?: boolean
   startId?: string | null
-  initialData?: any
   initialState?: FlowerInitalState
 }
 
@@ -47,7 +46,6 @@ const FlowerClient = ({
   name,
   destroyOnUnmount = true,
   startId = null,
-  initialData = {},
   initialState = {}
 }: FlowerClientProps) => {
   const flowName = name
@@ -85,20 +83,11 @@ const FlowerClient = ({
           nodes,
           startId: startId ?? '',
           persist: destroyOnUnmount === false,
-          initialData,
           initialState
         })
       )
     }
-  }, [
-    dispatch,
-    flowName,
-    nodes,
-    startId,
-    initialData,
-    destroyOnUnmount,
-    initialState
-  ])
+  }, [dispatch, flowName, nodes, startId, destroyOnUnmount, initialState])
 
   useEffect(() => {
     /* istanbul ignore next */
@@ -264,19 +253,17 @@ const FlowerClient = ({
   const contextValues = useMemo(
     () => ({
       flowName,
-      initialData,
       currentNode: current
     }),
-    [flowName, initialData, current]
+    [flowName, current]
   )
 
   const prevContextValues = useMemo(
     () => ({
       flowName,
-      initialData,
       currentNode: currentNodeId
     }),
-    [flowName, initialData, currentNodeId]
+    [flowName, currentNodeId]
   )
 
   return isInitialized ? (
@@ -289,6 +276,4 @@ const FlowerClient = ({
   ) : null
 }
 
-const component = memo(FlowerClient)
-
-export default component
+export default memo(FlowerClient)

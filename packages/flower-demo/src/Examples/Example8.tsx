@@ -9,7 +9,7 @@ import './styles.css'
 
 export function Example8() {
   return (
-    <Flower name="example8" initialData={{ enableMessage: false }}>
+    <Flower name="example8">
       {/**
        * step 1
        */}

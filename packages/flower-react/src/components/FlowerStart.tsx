@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from '../provider'
-import { context } from '../context'
+import { context } from '../context/flowcontext'
 import { makeSelectStartNodeId } from '../selectors'
 
 function FlowerStart() {

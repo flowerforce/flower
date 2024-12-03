@@ -638,7 +638,7 @@ describe('Test Form', () => {
 
     render(
       <FlowerProvider>
-        <Flower name="app-test" initialData={{ sourceName: 'andrea' }}>
+        <Flower name="app-test">
           <FlowerNode
             id="form"
             to={{
