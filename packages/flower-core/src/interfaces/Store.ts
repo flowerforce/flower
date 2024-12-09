@@ -2,6 +2,7 @@ import { RulesByNodeId, RulesModes } from './CoreInterface'
 
 export interface StoreRoot<T extends Record<string, any>> {
   flower: { [x: string]: Flower<T> }
+  [x: string]: any
 }
 
 export interface Flower<T extends Record<string, any>> {

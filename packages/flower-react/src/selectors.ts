@@ -11,6 +11,10 @@ const { getAllData: mapData } = FlowerStateUtils
 
 const { selectGlobal } = Selectors
 
+const selectGlobalFlower = (state: any) => {
+  return state.flower
+}
+
 const selectFlower = (name: string) =>
   createSelector(selectGlobal, Selectors.selectFlower(name))
 
@@ -49,12 +53,20 @@ const makeSelectCurrentNodeDisabled = (name: string) =>
   )
 
 // dati nel flow selezionato
+const getDataByRoot = (name: string) =>
+  createSelector(selectGlobal, (state) => _get(state, name))
+
 const getDataByFlow = (name: string) =>
   createSelector(selectFlower(name), Selectors.getDataByFlow)
 
 // selettore per recuperare i dati di un flow specifico e id specifico
-const getDataFromState = (name: string, id: string | string[]) =>
-  createSelector(getDataByFlow(name), Selectors.getDataFromState(id))
+const getDataFromState = (name: string, id: string | string[]) => {
+  return createSelector(
+    getDataByRoot(name),
+    getDataByFlow(name),
+    Selectors.getDataFromState(id)
+  )
+}
 
 const makeSelectNodeErrors = (name: string, currentNodeId: string) =>
   createSelector(
@@ -98,7 +110,7 @@ const makeSelectNodeFormSubmitted = (name: string, currentNodeId: string) =>
     Selectors.makeSelectNodeFormSubmitted
   )
 
-const getAllData = createSelector(selectGlobal, mapData)
+const getAllData = createSelector(selectGlobalFlower, mapData)
 
 const selectFlowerFormCurrentNode = (name: string) =>
   createSelector(
@@ -112,6 +124,7 @@ const selectFlowerFormCurrentNode = (name: string) =>
 const makeSelectFieldError = (name: string, id: string, validate: any) =>
   createSelector(
     getAllData,
+    selectGlobal,
     selectFlowerFormCurrentNode(name),
     Selectors.makeSelectFieldError(name, id, validate)
   )
@@ -126,6 +139,7 @@ export const selectorRulesDisabled = (
 ) =>
   createSelector(
     getAllData,
+    selectGlobal,
     makeSelectNodeErrors(flowName, currentNode),
     Selectors.selectorRulesDisabled(id, rules, keys, flowName, value)
   )
