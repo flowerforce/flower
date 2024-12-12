@@ -1,41 +1,9 @@
-import _get from 'lodash/get'
-import {
-  IFlowerSelectors,
-  IFormSelectors
-} from './interfaces/SelectorsInterface'
-import { CoreUtils } from './CoreUtils'
-import { MatchRules } from './RulesMatcher'
+import { CoreUtils } from '../../utils/FlowerCoreUtils'
+import { MatchRules } from '../../RulesMatcher'
 import { unflatten } from 'flat'
-import { createFormData } from './FlowerCoreStateUtils'
-
-export const FlowerCoreStateBaseSelectors: IFlowerSelectors = {
-  selectGlobal: (state) => state && state.flower,
-  selectFlower: (name) => (state) => _get(state, [name]),
-  selectFlowerFormNode: (id) => (state) => _get(state, ['form', id]),
-  selectFlowerHistory: (flower) => _get(flower, ['history'], []),
-  makeSelectNodesIds: (flower) => _get(flower, ['nodes']),
-  makeSelectStartNodeId: (flower) => _get(flower, ['startId']),
-  makeSelectCurrentNodeId: (flower, startNodeId) =>
-    _get(flower, ['current']) || startNodeId,
-  makeSelectCurrentNodeDisabled: (nodes, current) =>
-    !!_get(nodes, [current, 'disabled']),
-  makeSelectPrevNodeRetain: (nodes, history, current) => {
-    if (!nodes) return
-    const prevFlowerNode = [...history].reverse().find((el) => {
-      const { nodeType, retain } = nodes[el]
-      return nodeType === 'FlowerNode' || retain
-    })
-    // eslint-disable-next-line consistent-return
-    if (nodes[current].nodeType === 'FlowerNode' || nodes[current].retain)
-      return
-    if (!prevFlowerNode) return
-    if (nodes[prevFlowerNode] && nodes[prevFlowerNode].disabled) return
-    // eslint-disable-next-line consistent-return
-    return nodes[prevFlowerNode] && nodes[prevFlowerNode].retain
-      ? prevFlowerNode
-      : undefined
-  }
-}
+import { createFormData } from '../../utils/FlowerCoreStateUtils'
+import { IFormSelectors } from '../../interfaces'
+import _get from 'lodash/get'
 
 export const FlowerCoreStateFormSelectors: IFormSelectors = {
   selectGlobalForm: (state) => state && state.form,
@@ -105,9 +73,4 @@ export const FlowerCoreStateFormSelectors: IFormSelectors = {
 
     return disabled
   }
-}
-
-export const FlowerCoreStateSelectors: IFlowerSelectors & IFormSelectors = {
-  ...FlowerCoreStateBaseSelectors,
-  ...FlowerCoreStateFormSelectors
 }

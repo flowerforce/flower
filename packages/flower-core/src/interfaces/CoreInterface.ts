@@ -150,7 +150,7 @@ export type GenerateRulesName = (nextRules: RulesWithName[]) => {
   [X: string]: string
 }
 
-export interface CoreUtilitiesFunctions {
+export interface FlowUtilitiesFunctions {
   /**
    *
    * Generates rule names from a set of rules.
@@ -220,21 +220,6 @@ export interface CoreUtilitiesFunctions {
    */
   generateNodesForFlowerJson: GenerateNodesForFlowerJson
   /**
-   * Removes specified characters from the beginning of a string (default char -> '^').
-   * @param name
-   * @param char
-   *
-   * @returns
-   */
-  cleanPath: CleanPath
-  /**
-   * Creates a valid path from idValue
-   * @param idValue
-   *
-   * @returns
-   */
-  getPath: GetPath
-  /**
    * Checks if two arrays are equal in length and have the same elements.
    * @param arr
    * @param arr2
@@ -252,3 +237,24 @@ export interface CoreUtilitiesFunctions {
    */
   findValidRule: FindValidRule
 }
+export interface FormUtilitiesFunctions {
+  /**
+   * Removes specified characters from the beginning of a string (default char -> '^').
+   * @param name
+   * @param char
+   *
+   * @returns
+   */
+  cleanPath: CleanPath
+  /**
+   * Creates a valid path from idValue
+   * @param idValue
+   *
+   * @returns
+   */
+  getPath: GetPath
+}
+
+export interface CoreUtilitiesFunctions
+  extends FormUtilitiesFunctions,
+    FlowUtilitiesFunctions {}

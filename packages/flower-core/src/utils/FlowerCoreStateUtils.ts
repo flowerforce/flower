@@ -1,5 +1,5 @@
 import _get from 'lodash/get'
-import { CoreStateUtils } from './interfaces/UtilsInterface'
+import { CoreStateUtils } from '../interfaces/UtilsInterface'
 
 export const FlowerStateUtils: CoreStateUtils = {
   getAllData: (state) =>

@@ -8,15 +8,10 @@ import isEmpty from 'lodash/isEmpty'
 import isPlainObject from 'lodash/isPlainObject'
 import mapKeys from 'lodash/mapKeys'
 import mapValues from 'lodash/mapValues'
-import trimStart from 'lodash/trimStart'
-import { MatchRules } from './RulesMatcher'
-import {
-  CoreUtilitiesFunctions,
-  GetRulesExists
-} from './interfaces/CoreInterface'
+import { MatchRules } from '../RulesMatcher'
+import { FlowUtilitiesFunctions, GetRulesExists } from '../interfaces'
 
 // TODO align this set of functions to selectors and reducers functions
-
 export const flattenRules = (ob: Record<string, any>) => {
   const result: Record<string, any> = {}
 
@@ -41,36 +36,11 @@ export const flattenRules = (ob: Record<string, any>) => {
   return result
 }
 
-// export const searchEmptyKeyRecursively = <T extends object>(
-//   _key: "$and" | "$or",
-//   obj: T
-// ) => {
-//   if (
-//     isEmpty(obj) ||
-//     typeof obj !== "object" ||
-//     Object.keys(obj).length === 0
-//   ) {
-//     return true;
-//   }
-
-//   if (Object.keys(obj).includes(_key)) {
-//     if (obj[_key] && obj[_key].length === 0) return true;
-//     return Object.keys(obj).map((key) =>
-//       searchEmptyKeyRecursively(_key, obj[key])
-//     );
-//   }
-//   return Object.keys(obj)
-//     .map((key) => searchEmptyKeyRecursively(_key, obj[key]))
-//     .every((v) => v === true);
-// };
-
 const getRulesExists: GetRulesExists = (rules) => {
-  return Object.keys(rules).length ? CoreUtils.mapEdge(rules) : undefined
+  return Object.keys(rules).length ? FlowUtils.mapEdge(rules) : undefined
 }
-/**
- * Defines a collection of utility functions for processing rules, nodes and graph-like structures
- */
-export const CoreUtils: CoreUtilitiesFunctions = {
+
+export const FlowUtils: FlowUtilitiesFunctions = {
   generateRulesName: (nextRules) => {
     const a = nextRules.reduce((acc, inc) => {
       const n =
@@ -103,7 +73,7 @@ export const CoreUtils: CoreUtilitiesFunctions = {
     }
 
     if (Array.isArray(obj)) {
-      return obj.map((item) => CoreUtils.mapKeysDeepLodash(item, cb, true))
+      return obj.map((item) => FlowUtils.mapKeysDeepLodash(item, cb, true))
     }
 
     if (!isPlainObject(obj)) {
@@ -113,7 +83,7 @@ export const CoreUtils: CoreUtilitiesFunctions = {
     const result = mapKeys(obj, cb)
 
     return mapValues(result, (value) =>
-      CoreUtils.mapKeysDeepLodash(value, cb, true)
+      FlowUtils.mapKeysDeepLodash(value, cb, true)
     )
   },
 
@@ -143,8 +113,8 @@ export const CoreUtils: CoreUtilitiesFunctions = {
 
   mapEdge: (nextNode) => {
     const res = nextNode.sort((a, b) => {
-      const x = CoreUtils.isEmptyRules(a.rules)
-      const y = CoreUtils.isEmptyRules(b.rules)
+      const x = FlowUtils.isEmptyRules(a.rules)
+      const y = FlowUtils.isEmptyRules(b.rules)
       return Number(x) - Number(y)
     })
     return res
@@ -160,7 +130,7 @@ export const CoreUtils: CoreUtilitiesFunctions = {
     nodes
       .filter((e) => !!get(e, 'props.id'))
       .map((e) => {
-        const rules = CoreUtils.makeRules(e.props.to ?? {})
+        const rules = FlowUtils.makeRules(e.props.to ?? {})
         const nextRules = getRulesExists(rules)
         const children = e.props.data?.children
         return {
@@ -174,34 +144,6 @@ export const CoreUtils: CoreUtilitiesFunctions = {
         }
       }),
 
-  cleanPath: (name: string, char = '^') => trimStart(name, char),
-
-  getPath: (idValue?: string) => {
-    if (!idValue) {
-      return {
-        path: []
-      }
-    }
-
-    if (idValue === '*') {
-      return {
-        path: '*'
-      }
-    }
-
-    if (idValue.indexOf('^') === 0) {
-      const [flowNameFromPath, ...rest] =
-        CoreUtils.cleanPath(idValue).split('.')
-      return {
-        flowNameFromPath,
-        path: rest
-      }
-    }
-
-    return {
-      path: idValue.split('.')
-    }
-  },
   allEqual: (arr, arr2) =>
     arr.length === arr2.length && arr.every((v) => arr2.includes(v)),
 

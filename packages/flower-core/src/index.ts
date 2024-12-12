@@ -1,12 +1,10 @@
 export { Emitter } from './Emitter'
-export {
-  FlowerCoreReducers,
-  FlowerCoreBaseReducers,
-  FlowerCoreFormReducers
-} from './FlowerCoreStateFunctions'
-export { FlowerStateUtils } from './FlowerCoreStateUtils'
-export { FlowerCoreStateSelectors as Selectors } from './FlowerCoreStateSelectors'
-export { CoreUtils } from './CoreUtils'
+export { FlowerCoreReducers } from './core/state-functions'
+export { FlowerCoreBaseReducers } from './core/state-functions/FlowerCoreStateFunctions'
+export { FlowerCoreFormReducers } from './core/state-functions/FlowerFormStateFunctions'
+export { FlowerStateUtils } from './utils/FlowerCoreStateUtils'
+export { FlowerCoreStateSelectors as Selectors } from './core/state-selectors'
+export { CoreUtils } from './utils/FlowerCoreUtils'
 export { MatchRules } from './RulesMatcher'
 export { devtoolState } from './devtoolState'
 export * from './interfaces'
