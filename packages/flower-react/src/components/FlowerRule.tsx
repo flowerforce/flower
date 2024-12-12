@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { MatchRules } from '@flowerforce/flower-core'
 import { useSelector } from '../provider'
 import { selectorRulesDisabled } from '../selectors'
-import { context } from '../context/flowcontext'
+import { context } from '../context/formcontext'
 import { FlowerRuleProps } from './types/FlowerRule'
 
 const FlowerRule = ({
@@ -10,25 +10,18 @@ const FlowerRule = ({
   rules,
   value,
   alwaysDisplay,
-  flowName,
+  formName,
   id,
   onUpdate
 }: FlowerRuleProps) => {
-  const { flowName: flowNameContext, currentNode } = useContext(context)
+  const { formName: flowNameContext } = useContext(context)
 
-  const name = flowName || flowNameContext
+  const name = formName || flowNameContext
 
   const keys = MatchRules.utils.getKeys(rules, { prefix: name })
 
   const hidden = useSelector(
-    selectorRulesDisabled(
-      id ?? '',
-      rules,
-      keys ?? [],
-      name ?? '',
-      value,
-      currentNode ?? ''
-    )
+    selectorRulesDisabled(id ?? '', rules, keys ?? [], name ?? '', value)
   )
 
   useEffect(() => {

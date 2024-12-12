@@ -1,10 +1,11 @@
 import { useCallback, useContext } from 'react'
-import { context } from '../context'
+import { context } from '../context/flowcontext'
 import { makeSelectCurrentNodeId, makeSelectStartNodeId } from '../selectors'
 import { useDispatch, useSelector, useStore } from '../provider'
 import { UseFlower } from './types/FlowerHooks'
 import { Emitter, devtoolState } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
+import { actions } from '../reducer/formReducer'
 
 type NavigateFunctionParams = string | Record<string, any>
 
@@ -122,6 +123,9 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
         type: `flower/${type}`,
         payload: { ...payload, formData: store.getState().form } //TODO-> delete form
       })
+
+      // ! IMPORTANT -> this action must be decouple from here
+      dispatch(actions.setFormTouched({ formName: flowName }))
 
       emitNavigateEvent({ type, payload })
     },

@@ -110,7 +110,7 @@ export type FlowerFieldProps<
    *
    * - note: the default value is the name of the flow where the component is used
    */
-  flowName?: string
+  formName?: string
   /** Initial value field */
   defaultValue?: unknown
   /** Remove value from data on destroy element */

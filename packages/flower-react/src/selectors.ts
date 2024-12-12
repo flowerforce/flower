@@ -14,11 +14,12 @@ const { selectGlobal, selectGlobalForm } = Selectors
 const selectFlower = (name: string) =>
   createSelector(selectGlobal, Selectors.selectFlower(name))
 
-const selectFlowerForm = (name: string) =>
-  createSelector(selectGlobalForm, Selectors.selectFlower(name))
+const selectFlowerForm = selectGlobalForm
 
-const selectFlowerFormNode = (name: string, id: string) =>
-  createSelector(selectFlowerForm(name), Selectors.selectFlowerFormNode(id))
+const selectFlowerFormNode = (name: string) =>
+  createSelector(selectFlowerForm, (form) => {
+    return form[name]
+  })
 
 const selectFlowerHistory = (name: string) =>
   createSelector(selectFlower(name), Selectors.selectFlowerHistory)
@@ -52,17 +53,15 @@ const makeSelectCurrentNodeDisabled = (name: string) =>
   )
 
 // dati nel flow selezionato
-const getDataByFlow = (name: string) =>
-  createSelector(selectFlowerForm(name), Selectors.getDataByFlow)
+const makeSelectFormData = (name: string) =>
+  createSelector(selectFlowerFormNode(name), (form) => _get(form, 'data') ?? {})
 
 // selettore per recuperare i dati di un flow specifico e id specifico
 const getDataFromState = (name: string, id: string | string[]) =>
-  createSelector(getDataByFlow(name), Selectors.getDataFromState(id))
-
-const makeSelectNodeErrors = (name: string, currentNodeId: string) =>
-  createSelector(
-    selectFlowerFormNode(name, currentNodeId),
-    Selectors.makeSelectNodeErrors
+  createSelector(makeSelectFormData(name), Selectors.getDataFromState(id))
+const makeSelectNodeErrors = (name: string) =>
+  createSelector(selectFlowerFormNode(name), (form) =>
+    Selectors.makeSelectNodeErrors(form)
   )
 
 const makeSelectNodeFieldTouched = (
@@ -71,7 +70,7 @@ const makeSelectNodeFieldTouched = (
   fieldId: string
 ) =>
   createSelector(
-    selectFlowerFormNode(name, currentNodeId),
+    selectFlowerFormNode(name),
     Selectors.makeSelectNodeFormFieldTouched(fieldId)
   )
 
@@ -81,7 +80,7 @@ const makeSelectNodeFieldFocused = (
   fieldId: string
 ) =>
   createSelector(
-    selectFlowerFormNode(name, currentNodeId),
+    selectFlowerFormNode(name),
     Selectors.makeSelectNodeFormFieldFocused(fieldId)
   )
 
@@ -91,13 +90,13 @@ const makeSelectNodeFieldDirty = (
   fieldId: string
 ) =>
   createSelector(
-    selectFlowerFormNode(name, currentNodeId),
+    selectFlowerFormNode(name),
     Selectors.makeSelectNodeFormFieldDirty(fieldId)
   )
 
 const makeSelectNodeFormSubmitted = (name: string, currentNodeId: string) =>
   createSelector(
-    selectFlowerFormNode(name, currentNodeId),
+    selectFlowerFormNode(name),
     Selectors.makeSelectNodeFormSubmitted
   )
 
@@ -124,12 +123,11 @@ export const selectorRulesDisabled = (
   rules: RulesObject<any> | FunctionRule,
   keys: string[],
   flowName: string,
-  value: any,
-  currentNode: string
+  value: any
 ) =>
   createSelector(
     getAllData,
-    makeSelectNodeErrors(flowName, currentNode),
+    makeSelectNodeErrors(flowName),
     Selectors.selectorRulesDisabled(id, rules, keys, flowName, value)
   )
 
@@ -140,7 +138,7 @@ export {
   makeSelectStartNodeId,
   makeSelectCurrentNodeDisabled,
   getAllData,
-  getDataByFlow,
+  makeSelectFormData,
   getDataFromState,
   makeSelectNodeErrors,
   makeSelectNodeFieldTouched,

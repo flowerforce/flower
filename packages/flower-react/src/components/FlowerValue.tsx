@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useMemo } from 'react';
 import { CoreUtils } from '@flowerforce/flower-core';
 import { useSelector } from '../provider';
 import { getDataFromState } from '../selectors';
-import { context } from '../context/flowcontext';
+import { context } from '../context/formcontext';
 import FlowerRule from './FlowerRule';
 import { FlowerValueProps } from './types/FlowerValue';
 
@@ -11,17 +11,17 @@ import { FlowerValueProps } from './types/FlowerValue';
 function Wrapper({
   Component,
   id,
-  flowName,
+  formName,
   spreadValue,
   hidden,
   onUpdate,
   ...props
 }: any) {
-  const { flowNameFromPath = flowName, path } = useMemo(
+  const { flowNameFromPath = formName, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
   );
-  const value = useSelector(getDataFromState(flowNameFromPath, path));
+  const value = useSelector(getDataFromState(formName, path));
   const values =
     spreadValue && typeof value === 'object' && !Array.isArray(value)
       ? value
@@ -37,7 +37,7 @@ function Wrapper({
     <Component
       id={id}
       {...props}
-      flowName={flowName}
+      formName={formName}
       hidden={hidden}
       {...values}
     />
@@ -51,7 +51,7 @@ const RenderRules = ({
   value,
   Component,
   spreadValue,
-  flowName,
+  formName,
   onUpdate,
   ...props
 }: any) => {
@@ -60,7 +60,7 @@ const RenderRules = ({
       alwaysDisplay={alwaysDisplay}
       rules={rules}
       value={value}
-      flowName={flowName}
+      formName={formName}
       id={id}
     >
       {({ hidden }) => (
@@ -70,7 +70,7 @@ const RenderRules = ({
           id={id}
           Component={Component}
           spreadValue={spreadValue}
-          flowName={flowName}
+          formName={formName}
           onUpdate={onUpdate}
         />
       )}
@@ -85,12 +85,12 @@ const FlowerValue = ({
   value,
   children,
   spreadValue,
-  flowName,
+  formId,
   onUpdate,
 }: FlowerValueProps) => {
-  const { flowName: flowNameContext } = useContext(context);
+  const { formName: formNameCtx, initialData } = useContext(context);
 
-  const name = flowName || flowNameContext;
+  const name = formId || formNameCtx; // TODO: must read from formContext
   if (typeof children === 'function') {
     return (
       <RenderRules
@@ -119,7 +119,7 @@ const FlowerValue = ({
         rules={rules}
         value={value}
         spreadValue={spreadValue}
-        flowName={name}
+        formName={name}
         Component={Component}
         {...props}
         onUpdate={onUpdate}

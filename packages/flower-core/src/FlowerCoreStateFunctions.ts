@@ -64,7 +64,7 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
   forceAddHistory: (state, { payload }) => {
     const { name, flowName, history } = payload
 
-    const key = name || flowName || '' || ''
+    const key = name || flowName || ''
     const resultHistory = history.slice(1, -1)
 
     state[key].history.push(...resultHistory)
@@ -177,8 +177,7 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
       current,
       history,
       nodes: generateNodes(payload.nodes),
-      nextRules: makeObjectRules(payload.nodes),
-      data: payload.initialData
+      nextRules: makeObjectRules(payload.nodes)
     })
   },
   // TODO usato solo da flower su vscode
@@ -198,13 +197,6 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     const { name, history } = payload
     const node = payload.nodeId || payload.node || ''
     const flowName = name || payload.flowName || ''
-    const startNode = _get(state, [payload.name, 'startId'])
-    const currentNodeId = _get(state, [payload.name, 'current'], startNode)
-
-    FlowerCoreFormReducers.setFormTouched(state, {
-      type: 'setFormTouched',
-      payload: { flowName, currentNode: currentNodeId }
-    })
 
     /* istanbul ignore next */
     // eslint-disable-next-line no-underscore-dangle
@@ -232,9 +224,9 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     })
   },
   next: (state, { payload }) => {
-    const { name, data = {}, route, formData } = payload
+    const { name, route, flowName: flow, formData = {} } = payload
 
-    const flowName = name || payload.flowName || ''
+    const flowName = name || flow || ''
 
     const currentNodeId =
       FlowerStateUtils.makeSelectCurrentNodeId(flowName)(state)
@@ -249,17 +241,9 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     const clonedData = _cloneDeep(FlowerStateUtils.getAllData(formData))
 
     const stateWithNodeData = {
-      $in: data,
       $form: form,
       ...clonedData
     }
-
-
-    // TODO -> move into hook useFlower inside next
-    FlowerCoreFormReducers.setFormTouched(state, {
-      type: 'setFormTouched',
-      payload: { flowName, currentNode: currentNodeId }
-    })
 
     if (!currentNextRules) {
       return
@@ -313,156 +297,100 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     })
   },
   reset: (state, { payload }) => {
-    const { name, flowName, initialData } = payload
+    const { name, flowName } = payload
     FlowerCoreReducers.restoreHistory(state, {
       type: 'restoreHistory',
       payload: { name: name || flowName || '' }
     })
     _set(state, [name || flowName || '', 'form'], {})
-    _set(state, [name || flowName || '', 'data'], initialData)
   }
 }
 
+/**
+ * formName => FlowerForm
+ * initialData => FlowerForm
+ * fieldName => FlowerField
+ * fieldValue => FlowerField
+ * errors => FlowerField
+ * customErrors => FlowerField
+ * fieldTouched => FlowerField
+ * fieldDirty => FlowerField
+ * fieldHasFocus => FlowerField
+ */
 export const FlowerCoreFormReducers: FormReducersFunctions = {
   setFormTouched: (state, { payload }) => {
     if (
-      !_get(state, [
-        typeof payload === 'string' ? payload : payload.flowName,
-        'nodes',
-        typeof payload === 'string' ? payload : payload.currentNode
-      ])
+      !_get(state, typeof payload === 'string' ? payload : payload.formName)
     ) {
       return state
     }
-    _set(
-      state,
-      [
-        typeof payload === 'string' ? payload : payload.flowName,
-        'form',
-        typeof payload === 'string' ? payload : payload.currentNode,
-        'isSubmitted'
-      ],
-      true
-    )
-    return state
-  },
-  /* istanbul ignore next */
-  initializeFromNode: (state, { payload }) => {
-    const { name, flowName, node } = payload
-    if (hasNode(state, name || flowName || '', node)) {
-      _set(state, [name || flowName || '', 'startId'], node)
-      _set(state, [name || flowName || '', 'current'], node)
-      _set(state, [name || flowName || '', 'history'], [node])
-    }
+    _set(state, typeof payload === 'string' ? payload : payload.formName, true)
     return state
   },
   formAddCustomErrors: (state, { payload }) => {
-    _set(
-      state,
-      [payload.name, 'form', payload.currentNode, 'customErrors', payload.id],
-      payload.errors
-    )
+    _set(state, [payload.formName, 'customErrors', payload.id], payload.errors)
   },
   formAddErrors: (state, { payload }) => {
-    _set(
-      state,
-      [payload.name, 'form', payload.currentNode, 'errors', payload.id],
-      payload.errors
-    )
+    _set(state, [payload.formName, 'errors', payload.id], payload.errors)
   },
   formRemoveErrors: (state, { payload }) => {
-    _unset(state, [
-      payload.name,
-      'form',
-      payload.currentNode,
-      'errors',
-      payload.id
-    ])
-    _unset(state, [
-      payload.name,
-      'form',
-      payload.currentNode,
-      'customErrors',
-      payload.id
-    ])
-    _unset(state, [payload.name, 'form', payload.currentNode, 'isValidating'])
+    _unset(state, [payload.formName, 'errors', payload.id])
+    _unset(state, [payload.formName, 'customErrors', payload.id])
+    _unset(state, [payload.formName, 'isValidating'])
   },
   formFieldTouch: (state, { payload }) => {
-    _set(
-      state,
-      [payload.name, 'form', payload.currentNode, 'touches', payload.id],
-      payload.touched
-    )
+    _set(state, [payload.formName, 'touches', payload.id], payload.touched)
   },
   formFieldDirty: (state, { payload }) => {
-    _set(
-      state,
-      [payload.name, 'form', payload.currentNode, 'dirty', payload.id],
-      payload.dirty
-    )
+    _set(state, [payload.formName, 'dirty', payload.id], payload.dirty)
   },
   formFieldFocus: (state, { payload }) => {
     if (!payload.focused) {
-      _unset(state, [payload.name, 'form', payload.currentNode, 'hasFocus'])
+      _unset(state, [payload.formName, 'hasFocus'])
       return
     }
-    _set(
-      state,
-      [payload.name, 'form', payload.currentNode, 'hasFocus'],
-      payload.id
-    )
+    _set(state, [payload.formName, 'hasFocus'], payload.id)
   },
   addData: (state, { payload }) => {
-    const prevData = _get(state, [payload.flowName, 'data'])
-    _set(state, [payload.flowName, 'data'], { ...prevData, ...payload.value })
+    const prevData = _get(state, [payload.formName, 'data'])
+    _set(state, [payload.formName, 'data'], { ...prevData, ...payload.value })
   },
   addDataByPath: (state, { payload }) => {
     const { path: newpath } = getPath(payload.id)
-    const currentNode = FlowerStateUtils.makeSelectCurrentNodeId(
-      payload.flowName
-    )(state)
 
     if (payload.id && payload.id.length) {
-      _set(state, [payload.flowName, 'data', ...newpath], payload.value)
+      _set(state, [payload.formName, 'data', ...newpath], payload.value)
       if (payload && payload.dirty) {
-        _set(
-          state,
-          [payload.flowName, 'form', currentNode, 'dirty', payload.id],
-          payload.dirty
-        )
+        _set(state, [payload.formName, 'dirty', payload.id], payload.dirty)
       }
     }
   },
   // TODO usato al momento solo il devtool
   replaceData: /* istanbul ignore next */ (state, { payload }) => {
     /* istanbul ignore next */
-    _set(state, [payload.flowName, 'data'], payload.value)
+    _set(state, [payload.formName, 'data'], payload.value)
   },
   unsetData: (state, { payload }) => {
-    _unset(state, [payload.flowName, 'data', ...payload.id])
+    _unset(state, [payload.formName, 'data', ...payload.id])
   },
   setFormIsValidating: (state, { payload }) => {
-    _set(
-      state,
-      [payload.name, 'form', payload.currentNode, 'isValidating'],
-      payload.isValidating
-    )
+    _set(state, [payload.formName, 'isValidating'], payload.isValidating)
   },
   resetForm: (state, { payload }) => {
     const touchedFields = _get(
       state,
-      [payload.flowName, 'form', payload.id, 'errors'],
+      [payload.formName, payload.id, 'errors'],
       {}
     )
 
     Object.keys(touchedFields).forEach((key) => {
-      const { flowNameFromPath = payload.flowName, path } = getPath(key)
+      const { flowNameFromPath = payload.formName, path } = getPath(key)
       _unset(state, [flowNameFromPath, 'data', ...path])
     })
 
-    _unset(state, [payload.flowName, 'form', payload.id, 'touches'])
-    _unset(state, [payload.flowName, 'form', payload.id, 'dirty'])
-    _unset(state, [payload.flowName, 'form', payload.id, 'isSubmitted'])
+    _unset(state, [payload.formName, payload.id, 'touches'])
+    _unset(state, [payload.formName, payload.id, 'dirty'])
+    _unset(state, [payload.formName, payload.id, 'isSubmitted'])
   }
 }
 

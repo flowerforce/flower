@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react'
 import { CoreUtils } from '@flowerforce/flower-core'
 import get from 'lodash/get'
-import { context } from '../context'
+import { context } from '../context/formcontext'
 import { makeSelectCurrentNodeId, makeSelectNodeErrors } from '../selectors'
 import { actions } from '../reducer/formReducer'
 import { useDispatch, useSelector, useStore } from '../provider'
@@ -34,11 +34,11 @@ const useFlowerForm: UseFlowerForm = ({
   flowName: customFlowName,
   name
 } = {}) => {
-  const { flowName: flowNameDefault } = useContext(context)
+  const { formName: formNameDefault } = useContext(context) // TODO: WIP, needs to be refactored
 
   const dispatch = useDispatch()
   const store = useStore()
-  const flowName = customFlowName || name || flowNameDefault || ''
+  const flowName = customFlowName || name || formNameDefault || ''
   const currentNode = useSelector(makeSelectCurrentNodeId(flowName))
   const {
     errors,
@@ -48,7 +48,7 @@ const useFlowerForm: UseFlowerForm = ({
     isDirty,
     hasFocus,
     isValidating
-  } = useSelector(makeSelectNodeErrors(flowName, currentNode))
+  } = useSelector(makeSelectNodeErrors(flowName))
 
   const getData = useCallback(
     (path?: string) => {
@@ -80,10 +80,9 @@ const useFlowerForm: UseFlowerForm = ({
 
   const setDataField = useCallback(
     (id: string, val: any, dirty = true) => {
-      const { flowNameFromPath = flowName } = CoreUtils.getPath(id)
       dispatch(
         actions.addDataByPath({
-          flowName: flowNameFromPath,
+          formName: currentNode,
           id,
           value: val,
           dirty
@@ -91,7 +90,7 @@ const useFlowerForm: UseFlowerForm = ({
       )
       return
     },
-    [flowName, dispatch]
+    [currentNode, dispatch]
   )
 
   const setData = useCallback(
@@ -100,46 +99,47 @@ const useFlowerForm: UseFlowerForm = ({
         setDataField(id, val)
         return
       }
-      dispatch(actions.addData({ flowName, value: val }))
+      dispatch(actions.addData({ formName: currentNode, value: val }))
     },
-    [flowName, setDataField, dispatch]
+    [currentNode, setDataField, dispatch]
   )
 
   const unsetData = useCallback(
     (path: string) => {
-      const { flowNameFromPath = flowName, path: newpath } =
-        CoreUtils.getPath(path)
-      dispatch(actions.unsetData({ flowName: flowNameFromPath, id: newpath }))
+      const { path: newpath } = CoreUtils.getPath(path)
+      dispatch(actions.unsetData({ formName: currentNode, id: newpath })) // What is this id parameter?
     },
-    [flowName, dispatch]
+    [currentNode, dispatch]
   )
 
   const replaceData = useCallback(
     (val: any) => {
-      dispatch(actions.replaceData({ flowName, value: val }))
+      dispatch(actions.replaceData({ formName: currentNode, value: val }))
     },
-    [flowName, dispatch]
+    [currentNode, dispatch]
   )
 
   const reset = useCallback(
     (nodeId?: string) => {
-      dispatch(actions.resetForm({ flowName, id: nodeId || currentNode }))
+      dispatch(
+        actions.resetForm({ formName: currentNode, id: nodeId || currentNode }) // What is this id parameter?
+      )
     },
-    [flowName, currentNode, dispatch]
+    [currentNode, dispatch]
   )
 
   const setCustomErrors = useCallback(
+    // Is `nodeId` needed?
     (field: string, errors: string[], nodeId?: string) => {
       dispatch(
         actions.formAddCustomErrors({
-          name: flowName,
+          formName: currentNode,
           id: field,
-          currentNode: nodeId || currentNode,
           errors
         })
       )
     },
-    [flowName, currentNode, dispatch]
+    [currentNode, dispatch]
   )
 
   return {

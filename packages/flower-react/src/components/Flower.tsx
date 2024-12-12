@@ -105,15 +105,15 @@ const FlowerClient = ({
         dispatch(flowerActions.setCurrentNode({ name: msg.name, node: msg.id }))
       }
 
-      if (msg.action === 'REPLACE_DATA' && msg.name === flowName) {
-        dispatch(
-          formActions.replaceData({ flowName: msg.name, value: msg.data })
-        )
-      }
+      // if (msg.action === 'REPLACE_DATA' && msg.name === flowName) {
+      //   dispatch(
+      //     formActions.replaceData({ flowName: msg.name, value: msg.data })
+      //   )
+      // }
 
-      if (msg.action === 'ADD_DATA' && msg.name === flowName) {
-        dispatch(formActions.addData({ flowName: msg.name, value: msg.data }))
-      }
+      // if (msg.action === 'ADD_DATA' && msg.name === flowName) {
+      //   dispatch(formActions.addData({ flowName: msg.name, value: msg.data }))
+      // }
     }
 
     /* istanbul ignore next */

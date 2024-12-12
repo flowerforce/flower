@@ -15,7 +15,7 @@ import {
   makeSelectNodeFieldTouched,
   makeSelectNodeFormSubmitted
 } from '../selectors'
-import { context } from '../context/flowcontext'
+import { context } from '../context/formcontext'
 import FlowerRule from './FlowerRule'
 import { store, useDispatch, useSelector } from '../provider'
 import debounce from 'lodash/debounce'
@@ -35,8 +35,7 @@ function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
 function Wrapper({
   Component,
   id,
-  flowName,
-  currentNode,
+  formName,
   validate,
   asyncDebounce = 0,
   asyncValidate,
@@ -60,30 +59,33 @@ function Wrapper({
     undefined
   )
 
-  const { flowNameFromPath = flowName, path } = useMemo(
+  const { flowNameFromPath = formName, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
   )
 
-  const value = useSelector(getDataFromState(flowNameFromPath, path))
+  const value = useSelector(getDataFromState(formName, path))
+  console.log('🚀 ~ path:', path)
+  console.log('🚀 ~ formName:', formName)
+  console.log('🚀 ~ value:', value)
   const errors = useSelector(
-    makeSelectFieldError(flowName, id, validate),
+    makeSelectFieldError(formName, id, validate),
     CoreUtils.allEqual
   )
   const dirty = useSelector(
-    makeSelectNodeFieldDirty(flowName, currentNode, id)
+    makeSelectNodeFieldDirty(formName, formName, id)
   )
   const touched = useSelector(
-    makeSelectNodeFieldTouched(flowName, currentNode, id)
+    makeSelectNodeFieldTouched(formName, formName, id)
   )
   const focused = useSelector(
-    makeSelectNodeFieldFocused(flowName, currentNode, id)
+    makeSelectNodeFieldFocused(formName, formName, id)
   )
 
   const refValue = useRef<Record<string, any>>()
 
   const isSubmitted = useSelector(
-    makeSelectNodeFormSubmitted(flowName, currentNode)
+    makeSelectNodeFormSubmitted(formName, formName)
   )
 
   const allErrors = useMemo(
@@ -93,21 +95,19 @@ function Wrapper({
 
   const setTouched = useCallback((touched: boolean) => {
     dispatch(actions.formFieldTouch({
-      name: flowName,
+      formName: formName,
       id,
-      currentNode,
       touched
     }))
-  }, [dispatch, flowName, currentNode, id])
+  }, [dispatch, formName, id])
 
   const setFocus = useCallback((focused: boolean) => {
     dispatch(actions.formFieldFocus({
-      name: flowName,
+      formName: formName,
       id,
-      currentNode,
       focused
     }))
-  }, [dispatch, flowName, currentNode, id])
+  }, [dispatch, formName, id])
 
   const validateFn = useCallback(
     async (value: any) => {
@@ -133,13 +133,13 @@ function Wrapper({
         setCustomAsyncErrors([asyncWaitingError])
       }
       dispatch(actions.addDataByPath({
-        flowName: flowNameFromPath,
+        formName: formName,
         id,
         value: val,
         dirty: defaultValue ? !isEqual(val, defaultValue) : true
       }))
     },
-    [flowNameFromPath, id, dispatch, setCustomAsyncErrors, asyncValidate, asyncWaitingError]
+    [id,formName, dispatch, setCustomAsyncErrors, asyncValidate, asyncWaitingError]
   )
 
   const onBlurInternal = useCallback(
@@ -188,66 +188,61 @@ function Wrapper({
 
   useEffect(() => {
     dispatch(actions.formAddErrors({
-      name: flowName,
+      formName,
       id,
-      currentNode,
       errors: allErrors
     }))
-  }, [id, flowName, allErrors, currentNode, touched])
+  }, [id, allErrors, formName, touched])
 
   useEffect(() => {
     dispatch(actions.setFormIsValidating({
-      name: flowName,
-      currentNode,
+      formName,
       isValidating
     }
     ))
-  }, [flowName, currentNode, isValidating])
+  }, [formName, isValidating])
 
   const resetField = useCallback(() => {
     dispatch(actions.formFieldTouch({
-      name: flowName,
+      formName,
       id,
-      currentNode,
       touched: false
     }
     ))
     dispatch(actions.formFieldDirty({
-      name: flowName,
+      formName,
       id,
-      currentNode,
       dirty: false
     }
     ))
     dispatch(actions.formRemoveErrors({
-      name: flowName,
+      formName,
       id,
-      currentNode
     }
     ))
-  }, [currentNode, id, flowName])
+  }, [formName, id])
 
   useEffect(() => {
     // destroy
     return () => {
       if (destroyValue) {
         dispatch(actions.unsetData({
-          flowName: flowNameFromPath, id: path
+          formName, id: path
         }
         ))
       }
       resetField()
     }
-  }, [destroyValue, id, flowNameFromPath, path, resetField])
+  }, [destroyValue, id, path, resetField])
 
   useEffect(() => {
     if (hidden) {
       if (destroyOnHide) {
-        dispatch(actions.unsetData({ flowName: flowNameFromPath, id: path }))
+        dispatch(actions.unsetData({ formName: formName, id: path }))
         resetField()
       }
     }
-  }, [destroyOnHide, hidden, flowNameFromPath, path, resetField])
+  }, [destroyOnHide, hidden, formName, path, resetField])
 
   useEffect(() => {
     if (defaultValue && !dirty && !isEqual(value, defaultValue)) {
@@ -317,12 +312,12 @@ const FlowerField = ({
   defaultValue,
   destroyOnHide,
   destroyValue,
-  flowName,
+  formName,
   onUpdate
 }: FlowerFieldProps) => {
-  const { flowName: flowNameContext, currentNode } = useContext(context)
+  const { formName: formNameCtx, initialData } = useContext(context)
 
-  const name = flowName || flowNameContext
+  const name = formName || formNameCtx
 
   if (typeof children === 'function') {
     return (
@@ -330,7 +325,7 @@ const FlowerField = ({
         alwaysDisplay={alwaysDisplay}
         rules={rules}
         value={value}
-        flowName={name}
+        formName={name}
         id={id}
       >
         {({ hidden }) => (
@@ -338,8 +333,7 @@ const FlowerField = ({
             hidden={hidden}
             id={id}
             Component={children}
-            flowName={name}
-            currentNode={currentNode}
+            formName={name}
             validate={validate}
             asyncValidate={asyncValidate}
             asyncDebounce={asyncDebounce}
@@ -367,7 +361,7 @@ const FlowerField = ({
         alwaysDisplay={alwaysDisplay}
         rules={rules}
         value={value}
-        flowName={name}
+        formName={name}
       >
         {({ hidden }) => (
           <Wrapper
@@ -375,8 +369,7 @@ const FlowerField = ({
             hidden={hidden}
             id={id}
             Component={Component}
-            flowName={name}
-            currentNode={currentNode}
+            formName={name}
             validate={validate}
             asyncValidate={asyncValidate}
             asyncDebounce={asyncDebounce}

@@ -81,8 +81,8 @@ export interface IFormSelectors {
    * @returns
    */
   selectGlobalForm<T extends Record<string, any>>(state: {
-    form: { [x: string]: Flower<T> }
-  }): { [x: string]: Flower<T> }
+    form: { [x: string]: Form<T> }
+  }): { [x: string]: Form<T> }
   /**
    * @param form
    * @returns
