@@ -83,8 +83,8 @@ export const FlowerCoreFormReducers: FormReducersFunctions = {
     )
 
     Object.keys(touchedFields).forEach((key) => {
-      const { flowNameFromPath = payload.formName, path } = getPath(key)
-      _unset(state, [flowNameFromPath, 'data', ...path])
+      const { formName = payload.formName, path } = getPath(key)
+      _unset(state, [formName, 'data', ...path])
     })
 
     _unset(state, [payload.formName, payload.id, 'touches'])

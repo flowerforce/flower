@@ -17,10 +17,9 @@ export const FormUtils: FormUtilitiesFunctions = {
     }
 
     if (idValue.indexOf('^') === 0) {
-      const [flowNameFromPath, ...rest] =
-        FormUtils.cleanPath(idValue).split('.')
+      const [formName, ...rest] = FormUtils.cleanPath(idValue).split('.')
       return {
-        flowNameFromPath,
+        formName,
         path: rest
       }
     }

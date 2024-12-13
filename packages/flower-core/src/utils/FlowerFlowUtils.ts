@@ -42,7 +42,7 @@ const getRulesExists: GetRulesExists = (rules) => {
 
 export const FlowUtils: FlowUtilitiesFunctions = {
   generateRulesName: (nextRules) => {
-    const a = nextRules.reduce((acc, inc) => {
+    return nextRules.reduce((acc, inc) => {
       const n =
         typeof inc.rules === 'string'
           ? inc.rules || '__ERROR_NAME__'
@@ -52,7 +52,6 @@ export const FlowUtils: FlowUtilitiesFunctions = {
         [n]: inc.nodeId
       }
     }, {})
-    return a
   },
 
   mapKeysDeepLodash: (obj, cb, isRecursive) => {

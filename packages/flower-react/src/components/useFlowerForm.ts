@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react'
-import { CoreUtils } from '@flowerforce/flower-core'
+import { CoreUtils, REDUCER_NAME } from '@flowerforce/flower-core'
 import get from 'lodash/get'
 import { context } from '../context/formcontext'
 import { makeSelectCurrentNodeId, makeSelectNodeErrors } from '../selectors'
@@ -52,11 +52,11 @@ const useFlowerForm: UseFlowerForm = ({
 
   const getData = useCallback(
     (path?: string) => {
-      const { flowNameFromPath = flowName, path: newpath } =
+      const { formName: formNameFromPath = flowName, path: newpath } =
         CoreUtils.getPath(path)
       return get(store.getState(), [
-        'flower',
-        flowNameFromPath,
+        REDUCER_NAME.FLOWER_FLOW,
+        formNameFromPath,
         'data',
         ...newpath
       ])
@@ -66,12 +66,12 @@ const useFlowerForm: UseFlowerForm = ({
 
   const getFormStatus = useCallback(
     (path?: string) => {
-      const { flowNameFromPath = flowName, path: newpath } =
+      const { formName: formNameFromPath = flowName, path: newpath } =
         CoreUtils.getPath(path)
       return get(store.getState(), [
-        'flower',
-        flowNameFromPath,
-        'form',
+        REDUCER_NAME.FLOWER_FLOW,
+        formNameFromPath,
+        REDUCER_NAME.FLOWER_DATA,
         ...newpath
       ])
     },

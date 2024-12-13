@@ -9,6 +9,7 @@ import {
 import { Action, configureStore } from '@reduxjs/toolkit'
 import { reducerFlower } from './reducer'
 import { FlowerProviderProps } from './components/types/FlowerProvider'
+import { REDUCER_NAME } from '@flowerforce/flower-core'
 
 //TODO check reduxContext type due to remove all any types
 
@@ -23,7 +24,7 @@ export const useStore = createStoreHook(reduxContext)
 export const store = ({ enableDevtool }: { enableDevtool?: boolean }) =>
   configureStore({
     reducer: reducerFlower,
-    devTools: enableDevtool ? { name: 'flower' } : false
+    devTools: enableDevtool ? { name: REDUCER_NAME.FLOWER_FLOW } : false
   })
 
 class FlowerProvider extends PureComponent<

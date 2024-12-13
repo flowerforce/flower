@@ -86,7 +86,7 @@ export type CleanPath = (name: string, char?: string) => string
 
 export type GetPath = (idValue?: string) => {
   path: string | string[]
-  flowNameFromPath?: string
+  formName?: string
 }
 
 export type AllEqual = (...args: Array<number | string | boolean>[]) => boolean

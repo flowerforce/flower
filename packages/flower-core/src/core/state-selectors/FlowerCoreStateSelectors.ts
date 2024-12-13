@@ -1,10 +1,12 @@
 import _get from 'lodash/get'
 import { IFlowerSelectors } from '../../interfaces/SelectorsInterface'
+import { REDUCER_NAME } from '../../constants'
 
 export const FlowerCoreStateBaseSelectors: IFlowerSelectors = {
-  selectGlobal: (state) => state && state.flower,
+  selectGlobal: (state) => state && state[REDUCER_NAME.FLOWER_FLOW],
   selectFlower: (name) => (state) => _get(state, [name]),
-  selectFlowerFormNode: (id) => (state) => _get(state, ['form', id]),
+  selectFlowerFormNode: (id) => (state) =>
+    _get(state, [REDUCER_NAME.FLOWER_FLOW, id]),
   selectFlowerHistory: (flower) => _get(flower, ['history'], []),
   makeSelectNodesIds: (flower) => _get(flower, ['nodes']),
   makeSelectStartNodeId: (flower) => _get(flower, ['startId']),

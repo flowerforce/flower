@@ -3,7 +3,8 @@ import {
   Selectors,
   FlowerStateUtils,
   RulesObject,
-  FunctionRule
+  FunctionRule,
+  REDUCER_NAME
 } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
 
@@ -107,7 +108,7 @@ const selectFlowerFormCurrentNode = (name: string) =>
     selectFlower(name),
     makeSelectCurrentNodeId(name),
     (data, current) => {
-      return _get(data, ['form', current])
+      return _get(data, [REDUCER_NAME.FLOWER_FLOW, current])
     }
   )
 

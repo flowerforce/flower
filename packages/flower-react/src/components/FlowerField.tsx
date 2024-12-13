@@ -59,15 +59,12 @@ function Wrapper({
     undefined
   )
 
-  const { flowNameFromPath = formName, path } = useMemo(
+  const { formName: formNameFromPath = formName, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
   )
 
   const value = useSelector(getDataFromState(formName, path))
-  console.log('🚀 ~ path:', path)
-  console.log('🚀 ~ formName:', formName)
-  console.log('🚀 ~ value:', value)
   const errors = useSelector(
     makeSelectFieldError(formName, id, validate),
     CoreUtils.allEqual

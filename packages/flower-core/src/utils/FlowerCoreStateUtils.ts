@@ -1,5 +1,6 @@
 import _get from 'lodash/get'
 import { CoreStateUtils } from '../interfaces/UtilsInterface'
+import { REDUCER_NAME } from '../constants'
 
 export const FlowerStateUtils: CoreStateUtils = {
   getAllData: (state) =>
@@ -10,7 +11,7 @@ export const FlowerStateUtils: CoreStateUtils = {
     ),
 
   selectFlowerFormNode: (name, id) => (state) =>
-    _get(state, [name, 'form', id]),
+    _get(state, [name, REDUCER_NAME.FLOWER_DATA, id]),
 
   makeSelectCurrentNextRules: (name) => (state) => {
     const nextRules = _get(state, [name, 'nextRules'])

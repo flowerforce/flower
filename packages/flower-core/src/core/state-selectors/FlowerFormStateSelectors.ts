@@ -4,9 +4,10 @@ import { unflatten } from 'flat'
 import { createFormData } from '../../utils/FlowerCoreStateUtils'
 import { IFormSelectors } from '../../interfaces'
 import _get from 'lodash/get'
+import { REDUCER_NAME } from '../../constants'
 
 export const FlowerCoreStateFormSelectors: IFormSelectors = {
-  selectGlobalForm: (state) => state && state.form,
+  selectGlobalForm: (state) => state && state[REDUCER_NAME.FLOWER_DATA],
   getDataByFlow: (flower) => _get(flower, 'data') ?? {},
   getDataFromState: (id) => (data) => (id === '*' ? data : _get(data, id)),
   makeSelectNodeFormSubmitted: (form) => form && form.isSubmitted,

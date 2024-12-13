@@ -8,6 +8,7 @@ import { CoreUtils } from '../../utils/FlowerCoreUtils'
 import { CoreReducersFunctions } from '../../interfaces/ReducerInterface'
 import { FlowerStateUtils } from '../../utils/FlowerCoreStateUtils'
 import { devtoolState } from '../../devtoolState'
+import { REDUCER_NAME } from '../../constants'
 
 const {
   generateNodes,
@@ -297,6 +298,6 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
       type: 'restoreHistory',
       payload: { name: name || flowName || '' }
     })
-    _set(state, [name || flowName || '', 'form'], {})
+    _set(state, [name || flowName || '', REDUCER_NAME.FLOWER_DATA], {})
   }
 }

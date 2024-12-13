@@ -17,7 +17,7 @@ function Wrapper({
   onUpdate,
   ...props
 }: any) {
-  const { flowNameFromPath = formName, path } = useMemo(
+  const { formName: formNameFromPath = formName, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
   );

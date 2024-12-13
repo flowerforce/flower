@@ -1,6 +1,5 @@
 import { FunctionRule, RulesObject } from './interfaces'
 import RulesMatcherUtils from './rules-matcher/utils'
-import utils from './rules-matcher/utils'
 
 const rulesMatcher = (
   rules?: Record<string, any> | Record<string, any>[] | FunctionRule,
@@ -31,5 +30,5 @@ const rulesMatcher = (
 
 export const MatchRules = {
   rulesMatcher,
-  utils
+  utils: RulesMatcherUtils
 }

@@ -1,3 +1,4 @@
+import { REDUCER_NAME } from '../constants'
 import { RulesObject } from './CoreInterface'
 import { Flower, Form, INode } from './Store'
 
@@ -7,7 +8,7 @@ export interface IFlowerSelectors {
    * @returns
    */
   selectGlobal<T extends Record<string, any>>(state: {
-    flower: { [x: string]: Flower<T> }
+    [REDUCER_NAME.FLOWER_FLOW]: { [x: string]: Flower<T> }
   }): { [x: string]: Flower<T> }
   /**
    * @param name
@@ -81,7 +82,7 @@ export interface IFormSelectors {
    * @returns
    */
   selectGlobalForm<T extends Record<string, any>>(state: {
-    form: { [x: string]: Form<T> }
+    [REDUCER_NAME.FLOWER_DATA]: { [x: string]: Form<T> }
   }): { [x: string]: Form<T> }
   /**
    * @param form

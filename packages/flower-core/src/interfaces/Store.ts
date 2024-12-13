@@ -1,7 +1,9 @@
-import { RulesByNodeId, RulesModes } from './CoreInterface'
+import { REDUCER_NAME } from '../constants'
+import { RulesByNodeId } from './CoreInterface'
 
+// TODO: Check whether to add `REDUCER_NAME.FLOWER_FORM` as well
 export interface StoreRoot<T extends Record<string, any>> {
-  flower: { [x: string]: Flower<T> }
+  [REDUCER_NAME.FLOWER_FLOW]: Record<REDUCER_NAME, Flower<T>>
 }
 
 export interface Flower<T extends Record<string, any>> {

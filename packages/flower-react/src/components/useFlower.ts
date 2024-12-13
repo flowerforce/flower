@@ -3,7 +3,7 @@ import { context } from '../context/flowcontext'
 import { makeSelectCurrentNodeId, makeSelectStartNodeId } from '../selectors'
 import { useDispatch, useSelector, useStore } from '../provider'
 import { UseFlower } from './types/FlowerHooks'
-import { Emitter, devtoolState } from '@flowerforce/flower-core'
+import { Emitter, REDUCER_NAME, devtoolState } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
 import { actions } from '../reducer/formReducer'
 
@@ -120,7 +120,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
         typeof param === 'string' ? { route: param } : { data: param }
       const { type, payload } = makeActionPayloadOnNext(flowName, params)
       dispatch({
-        type: `flower/${type}`,
+        type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,
         payload: { ...payload, formData: store.getState().form } //TODO-> delete form
       })
 
@@ -135,7 +135,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const back = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnPrev(flowName, param)
-      dispatch({ type: `flower/${type}`, payload })
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
 
       emitNavigateEvent({ type, payload })
     },
@@ -145,7 +145,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const restart = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnRestart(flowName, param)
-      dispatch({ type: `flower/${type}`, payload })
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
 
       emitNavigateEvent({ type, payload })
     },
@@ -164,7 +164,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
             }
       )
 
-      dispatch({ type: `flower/${type}`, payload })
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
 
       emitNavigateEvent({ type, payload })
     },
@@ -174,7 +174,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const jump = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnNode(flowName, param)
-      dispatch({ type: `flower/${type}`, payload })
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
 
       emitNavigateEvent({ type, payload })
     },
@@ -184,7 +184,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const getCurrentNodeId = useCallback(
     (customFlowName?: string) => {
       return _get(store.getState(), [
-        'flower',
+        REDUCER_NAME.FLOWER_FLOW,
         customFlowName || flowName,
         'current'
       ])
