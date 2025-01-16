@@ -56,9 +56,13 @@ export const FlowerCoreStateSelectors: ISelectors = {
       if (!rule) return true
       if (!rule.rules) return true
 
-      const transformSelf = CoreUtils.mapKeysDeepLodash(rule.rules, (v, key) =>
-        key === '$self' ? id : key
+      const transformSelf = CoreUtils.mapKeysDeepLodash(
+        rule.rules,
+        (v, key) => {
+          return key.indexOf('$self') > -1 ? key.replace('$self', id) : key
+        }
       )
+
       const [hasError] = MatchRules.rulesMatcher(transformSelf, data, false, {
         prefix: name
       })
