@@ -11,7 +11,7 @@ export const FlowerStateUtils: CoreStateUtils = {
     ),
 
   selectFlowerFormNode: (name, id) => (state) =>
-    _get(state, [name, REDUCER_NAME.FLOWER_DATA, id]),
+    _get(state, name) || _get(state, [name, REDUCER_NAME.FLOWER_DATA, id]),
 
   makeSelectCurrentNextRules: (name) => (state) => {
     const nextRules = _get(state, [name, 'nextRules'])

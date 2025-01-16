@@ -124,7 +124,7 @@ export const FlowUtils: FlowUtilitiesFunctions = {
       (acc2, [k, v]) => [...acc2, { nodeId: k, rules: v }],
       []
     ),
-
+  // TODO: This function is strictly related to React nodes, could make sense to move it in the flower-react folder
   generateNodesForFlowerJson: (nodes) =>
     nodes
       .filter((e) => !!get(e, 'props.id'))

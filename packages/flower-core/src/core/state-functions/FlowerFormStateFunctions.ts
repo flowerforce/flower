@@ -75,20 +75,20 @@ export const FlowerCoreFormReducers: FormReducersFunctions = {
   setFormIsValidating: (state, { payload }) => {
     _set(state, [payload.formName, 'isValidating'], payload.isValidating)
   },
-  resetForm: (state, { payload }) => {
-    const touchedFields = _get(
-      state,
-      [payload.formName, payload.id, 'errors'],
-      {}
-    )
+  resetForm: (state, { payload: { formName, initialData } }) => {
+    const touchedFields = _get(state, [formName, 'errors'], {})
 
     Object.keys(touchedFields).forEach((key) => {
-      const { formName = payload.formName, path } = getPath(key)
-      _unset(state, [formName, 'data', ...path])
+      const { path } = getPath(key)
+      const initialDataByPath = _get(initialData, [...path], undefined)
+      _set(state, [formName, 'data', ...path], initialDataByPath)
     })
 
-    _unset(state, [payload.formName, payload.id, 'touches'])
-    _unset(state, [payload.formName, payload.id, 'dirty'])
-    _unset(state, [payload.formName, payload.id, 'isSubmitted'])
+    _unset(state, [formName, 'touches'])
+    _unset(state, [formName, 'dirty'])
+    _unset(state, [formName, 'isSubmitted'])
+  },
+  initForm: (state, { payload: { formName, initialData } }) => {
+    _set(state, [formName, 'data'], initialData)
   }
 }

@@ -220,7 +220,7 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     })
   },
   next: (state, { payload }) => {
-    const { name, route, flowName: flow, formData = {} } = payload
+    const { name, route, flowName: flow, data = {} } = payload
 
     const flowName = name || flow || ''
 
@@ -232,9 +232,9 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     const form = FlowerStateUtils.makeSelectNodeErrors(
       flowName,
       currentNodeId
-    )(formData)
+    )(data)
 
-    const clonedData = _cloneDeep(FlowerStateUtils.getAllData(formData))
+    const clonedData = _cloneDeep(FlowerStateUtils.getAllData(data))
 
     const stateWithNodeData = {
       $form: form,

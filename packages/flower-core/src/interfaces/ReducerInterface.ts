@@ -230,7 +230,7 @@ export type CoreReducersFunctions<
       name?: string
       flowName?: string
       route?: string
-      formData?: Record<string, T>
+      data?: Record<string, T>
     }
   >
   /**
@@ -452,5 +452,20 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  resetForm: ReducerFunctionSign<T, { id: string; formName: string }>
+  resetForm: FormReducerFunctionSign<
+    T,
+    { formName: string; initialData?: Record<string, any> }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Reset form.
+   *
+   * @returns state
+   */
+  initForm: FormReducerFunctionSign<
+    T,
+    { formName: string; initialData: Record<string, any> }
+  >
 }
