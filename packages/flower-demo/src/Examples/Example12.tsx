@@ -9,7 +9,7 @@ import {
   FlowerValue,
   FlowerForm
 } from '@flowerforce/flower-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './styles.css'
 
 /**
@@ -37,6 +37,14 @@ const Input = ({ onChange, value = '', name, label }: any) => {
         onChange={(evt) => onChange(evt.target.value)}
       />
     </>
+  )
+}
+
+const Buttongeneric = ({ action, title, disabled }: any) => {
+  return (
+    <button data-testid={`btn-${title}`} onClick={action} disabled={disabled}>
+      {title}
+    </button>
   )
 }
 
@@ -68,26 +76,17 @@ const InitState = ({ state, path, flowName }: any) => {
   return '...'
 }
 
-export function Example11() {
-  const { getFormStatus } = useFlowerForm('example11')
-  const status = getFormStatus('step1')
-  const dirties = status?.dirty ? Object.keys(status?.dirty) : []
-  const touches = status?.touches ? Object.keys(status?.touches) : []
+export function Example12() {
+  const { isValid, getData, reset, unsetData, setData } =
+    useFlowerForm('form-test')
 
-  return (
-    <Flower name="app-test">
-      <FlowerNode
-        id="node-test"
-        to={{
-          success: {
-            rules: {
-              $and: [{ '$form.isValid': { $eq: true } }]
-            }
-          },
-          error: {
-            rules: { $and: [{ '^form-test.name': { $exists: false } }] }
-          }
-        }}
+  const [step, setStep] = useState('step1')
+
+  return step === 'step1' ? (
+    <>
+      <FlowerForm
+        name="form-test"
+        initialState={{ name: 'andrea', surname: 'rossi' }}
       >
         <FlowerField
           id="name"
@@ -111,21 +110,28 @@ export function Example11() {
           ]}
         >
           <Input label="surname" />
+          <Buttongeneric
+            title="UNSET SURNAME"
+            action={() => unsetData('surname')}
+          />
+          <Buttongeneric
+            title="REPLACE SURNAME"
+            action={() => setData('Rossi', 'surname')}
+          />
         </FlowerField>
-        <ButtonNext />
-      </FlowerNode>
-      <FlowerNode id="success">
-        <FlowerValue id="name">
-          <Text />
-          <ButtonBack />
-        </FlowerValue>
-      </FlowerNode>
-      <FlowerNode id="error">
-        <Form />
-        <Text text="error" />
-        <ButtonBack />
-      </FlowerNode>
-    </Flower>
+      </FlowerForm>
+      <Buttongeneric
+        title="NEXT"
+        action={() => setStep('step2')}
+        disabled={!isValid}
+      />
+      <Buttongeneric title="RESET" action={reset} />
+    </>
+  ) : (
+    <>
+      <div>{JSON.stringify(getData())}</div>
+      <Buttongeneric title="BACK" action={() => setStep('step1')} />
+    </>
   )
 }
 

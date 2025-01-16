@@ -12,10 +12,8 @@ import { useEffect } from 'react'
 import './styles.css'
 
 export function Example9() {
-  const { reset, setCustomErrors, setData, hasFocus } = useFlowerForm({
-    flowName: 'example9'
-  })
-  console.log('🚀 ~ Example9 ~ hasFocus:', hasFocus)
+  const { reset, setCustomErrors, setData, hasFocus } =
+    useFlowerForm('example9')
   return (
     <Flower name="example9">
       {/**
