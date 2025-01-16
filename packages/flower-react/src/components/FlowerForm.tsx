@@ -1,6 +1,7 @@
 import React, { memo, useEffect, useRef, PropsWithChildren } from 'react'
 import { FormProvider } from '../context/formcontext'
 import { useDispatch } from '../provider'
+import { actions } from '../reducer/formReducer'
 
 type FlowerClientProps = PropsWithChildren & {
   name: string
@@ -32,6 +33,17 @@ const FlowerFormClient = ({
     },
     [dispatch, formName, destroyOnUnmount]
   )
+  useEffect(() => {
+    if (initialState && one.current === false) {
+      one.current = true
+      dispatch(
+        actions.initForm({
+          formName,
+          initialData: initialState
+        })
+      )
+    }
+  }, [dispatch, destroyOnUnmount, initialState, formName])
 
   return (
     <FormProvider value={{ formName, initialData: initialState }}>

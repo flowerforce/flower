@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react'
 import { CoreUtils, REDUCER_NAME } from '@flowerforce/flower-core'
 import get from 'lodash/get'
-import { context } from '../context/formcontext'
+import { FormContext } from '../context/formcontext'
 import { makeSelectCurrentNodeId, makeSelectNodeErrors } from '../selectors'
 import { actions } from '../reducer/formReducer'
 import { useDispatch, useSelector, useStore } from '../provider'
@@ -25,21 +25,16 @@ import { UseFlowerForm } from './types/FlowerHooks'
  * - setCustomErrors
  * - getFormStatus
  *
- * @param {string} flowName - first optional parameter
- *
- * @param {string} name - alias optional parameter, if flowName exist, name is not used
+ * @param {string} customFormName - Pass this prop if useFlowerForm its used outside FlowerForm Context to choose which form you need
  *
  */
-const useFlowerForm: UseFlowerForm = ({
-  flowName: customFlowName,
-  name
-} = {}) => {
-  const { formName: formNameDefault } = useContext(context) // TODO: WIP, needs to be refactored
+const useFlowerForm: UseFlowerForm = (customFormName) => {
+  const { formName: formNameDefault, initialData } = useContext(FormContext) // TODO: WIP, needs to be refactored
 
   const dispatch = useDispatch()
   const store = useStore()
-  const flowName = customFlowName || name || formNameDefault || ''
-  const currentNode = useSelector(makeSelectCurrentNodeId(flowName))
+  const formName = (formNameDefault || customFormName) as string
+  const currentNode = useSelector(makeSelectCurrentNodeId(formName))
   const {
     errors,
     customErrors,
@@ -48,41 +43,31 @@ const useFlowerForm: UseFlowerForm = ({
     isDirty,
     hasFocus,
     isValidating
-  } = useSelector(makeSelectNodeErrors(flowName))
+  } = useSelector(makeSelectNodeErrors(formName))
 
   const getData = useCallback(
     (path?: string) => {
-      const { formName: formNameFromPath = flowName, path: newpath } =
+      const { formName: formNameFromPath = formName, path: newpath } =
         CoreUtils.getPath(path)
       return get(store.getState(), [
-        REDUCER_NAME.FLOWER_FLOW,
+        REDUCER_NAME.FLOWER_DATA,
         formNameFromPath,
         'data',
         ...newpath
       ])
     },
-    [store, flowName]
+    [store, formName]
   )
 
-  const getFormStatus = useCallback(
-    (path?: string) => {
-      const { formName: formNameFromPath = flowName, path: newpath } =
-        CoreUtils.getPath(path)
-      return get(store.getState(), [
-        REDUCER_NAME.FLOWER_FLOW,
-        formNameFromPath,
-        REDUCER_NAME.FLOWER_DATA,
-        ...newpath
-      ])
-    },
-    [store, flowName]
-  )
+  const getFormStatus = useCallback(() => {
+    return get(store.getState(), [REDUCER_NAME.FLOWER_DATA, formName])
+  }, [store, formName])
 
   const setDataField = useCallback(
     (id: string, val: any, dirty = true) => {
       dispatch(
         actions.addDataByPath({
-          formName: currentNode,
+          formName,
           id,
           value: val,
           dirty
@@ -90,7 +75,7 @@ const useFlowerForm: UseFlowerForm = ({
       )
       return
     },
-    [currentNode, dispatch]
+    [dispatch, formName]
   )
 
   const setData = useCallback(
@@ -99,38 +84,37 @@ const useFlowerForm: UseFlowerForm = ({
         setDataField(id, val)
         return
       }
-      dispatch(actions.addData({ formName: currentNode, value: val }))
+      dispatch(actions.addData({ formName, value: val }))
     },
-    [currentNode, setDataField, dispatch]
+    [dispatch, formName, setDataField]
   )
 
   const unsetData = useCallback(
     (path: string) => {
       const { path: newpath } = CoreUtils.getPath(path)
-      dispatch(actions.unsetData({ formName: currentNode, id: newpath })) // What is this id parameter?
+      dispatch(actions.unsetData({ formName, id: newpath })) // What is this id parameter?
     },
-    [currentNode, dispatch]
+    [dispatch, formName]
   )
 
   const replaceData = useCallback(
     (val: any) => {
-      dispatch(actions.replaceData({ formName: currentNode, value: val }))
+      dispatch(actions.replaceData({ formName, value: val }))
     },
-    [currentNode, dispatch]
+    [dispatch, formName]
   )
 
-  const reset = useCallback(
-    (nodeId?: string) => {
-      dispatch(
-        actions.resetForm({ formName: currentNode, id: nodeId || currentNode }) // What is this id parameter?
-      )
-    },
-    [currentNode, dispatch]
-  )
+  const reset = useCallback(() => {
+    dispatch(
+      actions.resetForm({
+        formName,
+        initialData
+      })
+    )
+  }, [dispatch, formName, initialData])
 
   const setCustomErrors = useCallback(
-    // Is `nodeId` needed?
-    (field: string, errors: string[], nodeId?: string) => {
+    (field: string, errors: string[]) => {
       dispatch(
         actions.formAddCustomErrors({
           formName: currentNode,

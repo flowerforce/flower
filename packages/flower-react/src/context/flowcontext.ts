@@ -9,6 +9,6 @@ export type FlowerContext = {
 
 const _context = createContext<FlowerContext>({})
 
-export const context = _context
-export const Provider = _context.Provider
-export const Consumer = _context.Consumer
+export const FlowContext = _context
+export const FlowProvider = _context.Provider
+export const FlowConsumer = _context.Consumer

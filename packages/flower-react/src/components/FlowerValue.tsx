@@ -3,9 +3,11 @@ import React, { useContext, useEffect, useMemo } from 'react';
 import { CoreUtils } from '@flowerforce/flower-core';
 import { useSelector } from '../provider';
 import { getDataFromState } from '../selectors';
-import { context } from '../context/formcontext';
+import { FormContext } from '../context/formcontext';
 import FlowerRule from './FlowerRule';
 import { FlowerValueProps } from './types/FlowerValue';
+
+import { FlowContext } from '../context/flowcontext';
 
 //TODO make types for wrapper function
 function Wrapper({
@@ -88,9 +90,12 @@ const FlowerValue = ({
   formId,
   onUpdate,
 }: FlowerValueProps) => {
-  const { formName: formNameCtx, initialData } = useContext(context);
+  const { formName: formNameCtx, initialData } = useContext(FormContext);
 
-  const name = formId || formNameCtx; // TODO: must read from formContext
+  // capire come importarlo
+  const { flowName } = useContext(FlowContext)
+
+  const name = formId || formNameCtx || flowName;
   if (typeof children === 'function') {
     return (
       <RenderRules

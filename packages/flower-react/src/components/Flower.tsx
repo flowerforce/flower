@@ -11,11 +11,10 @@ import React, {
 } from 'react'
 import _keyBy from 'lodash/keyBy'
 import { Emitter, devtoolState } from '@flowerforce/flower-core'
-import { Provider } from '../context/flowcontext'
+import { FlowProvider } from '../context/flowcontext'
 import _get from 'lodash/get'
 import { convertElements } from '../utils'
 import { actions as flowerActions } from '../reducer/flowerReducer'
-import { actions as formActions } from '../reducer/formReducer'
 import {
   makeSelectStartNodeId,
   selectFlowerHistory,
@@ -268,10 +267,12 @@ const FlowerClient = ({
 
   return isInitialized ? (
     <>
-      <Provider value={prevContextValues}>{nodeById[currentNodeId]}</Provider>
-      <Provider value={contextValues}>
+      <FlowProvider value={prevContextValues}>
+        {nodeById[currentNodeId]}
+      </FlowProvider>
+      <FlowProvider value={contextValues}>
         {!isDisabled && current !== currentNodeId && nodeById[current]}
-      </Provider>
+      </FlowProvider>
     </>
   ) : null
 }

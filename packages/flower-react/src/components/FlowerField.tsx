@@ -15,7 +15,7 @@ import {
   makeSelectNodeFieldTouched,
   makeSelectNodeFormSubmitted
 } from '../selectors'
-import { context } from '../context/formcontext'
+import { FormContext } from '../context/formcontext'
 import FlowerRule from './FlowerRule'
 import { store, useDispatch, useSelector } from '../provider'
 import debounce from 'lodash/debounce'
@@ -27,6 +27,7 @@ import {
 import { FlowerFieldProps } from './types/FlowerField'
 import isEqual from 'lodash/isEqual'
 import { actions } from '../reducer/formReducer'
+import { FlowContext } from '../context/flowcontext'
 function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
   return typeof x === 'string'
 }
@@ -312,9 +313,11 @@ const FlowerField = ({
   formName,
   onUpdate
 }: FlowerFieldProps) => {
-  const { formName: formNameCtx, initialData } = useContext(context)
+  const { formName: formNameCtx, initialData } = useContext(FormContext)
+  const { flowName } = useContext(FlowContext)
 
-  const name = formName || formNameCtx
+
+  const name = formName || formNameCtx || flowName
 
   if (typeof children === 'function') {
     return (

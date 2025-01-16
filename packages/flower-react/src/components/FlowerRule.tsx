@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { MatchRules } from '@flowerforce/flower-core'
 import { useSelector } from '../provider'
 import { selectorRulesDisabled } from '../selectors'
-import { context } from '../context/formcontext'
+import { FormContext } from '../context/formcontext'
 import { FlowerRuleProps } from './types/FlowerRule'
 
 const FlowerRule = ({
@@ -14,7 +14,7 @@ const FlowerRule = ({
   id,
   onUpdate
 }: FlowerRuleProps) => {
-  const { formName: flowNameContext } = useContext(context)
+  const { formName: flowNameContext } = useContext(FormContext)
 
   const name = formName || flowNameContext
 

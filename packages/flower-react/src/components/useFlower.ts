@@ -1,11 +1,10 @@
 import { useCallback, useContext } from 'react'
-import { context } from '../context/flowcontext'
+import { FlowContext } from '../context/flowcontext'
 import { makeSelectCurrentNodeId, makeSelectStartNodeId } from '../selectors'
 import { useDispatch, useSelector, useStore } from '../provider'
 import { UseFlower } from './types/FlowerHooks'
 import { Emitter, REDUCER_NAME, devtoolState } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
-import { actions } from '../reducer/formReducer'
 
 type NavigateFunctionParams = string | Record<string, any>
 
@@ -88,7 +87,7 @@ const makeActionPayloadOnRestart = makeActionPayload(
 const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const dispatch = useDispatch()
 
-  const { flowName: flowNameDefault, initialData } = useContext(context)
+  const { flowName: flowNameDefault, initialData } = useContext(FlowContext)
   const store = useStore()
 
   const flowName = (customFlowName || name || flowNameDefault) as string
@@ -121,11 +120,12 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
       const { type, payload } = makeActionPayloadOnNext(flowName, params)
       dispatch({
         type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,
-        payload: { ...payload, formData: store.getState().form } //TODO-> delete form
+        payload: {
+          ...payload,
+          // cambiare nome
+          data: store.getState()[REDUCER_NAME.FLOWER_DATA]
+        }
       })
-
-      // ! IMPORTANT -> this action must be decouple from here
-      dispatch(actions.setFormTouched({ formName: flowName }))
 
       emitNavigateEvent({ type, payload })
     },

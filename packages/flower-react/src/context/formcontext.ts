@@ -7,6 +7,6 @@ export type FormContext = {
 
 const _context = createContext<FormContext>({})
 
-export const context = _context
+export const FormContext = _context
 export const FormProvider = _context.Provider
 export const FormConsumer = _context.Consumer
