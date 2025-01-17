@@ -6,16 +6,18 @@ export interface ISelectors {
    * @param state
    * @returns
    */
-  selectGlobal<T extends Record<string, any>>(state: {
-    flower: { [x: string]: Flower<T> }
-  }): { [x: string]: Flower<T> }
+  selectGlobal<T extends Record<string, any>>(
+    state: {
+      flower: { [x: string]: Flower<T> }
+    } & { [x: string]: any }
+  ): { [x: string]: Flower<T> }
   /**
    * @param name
    * @returns
    */
   selectFlower<T extends Record<string, any>>(
     name: string
-  ): (state: { [x: string]: Flower<T> }) => Flower<T>
+  ): (state: { [x: string]: Flower<T> | T }) => Flower<T>
   /**
    * @param id
    * @returns
@@ -120,7 +122,7 @@ export interface ISelectors {
    */
   getDataFromState<T extends Record<string, any>>(
     id: string | string[]
-  ): (data: T) => Partial<T>
+  ): (rootData: Record<string, any>, data?: T) => any
   /**
    * @param form
    * @returns
@@ -138,7 +140,11 @@ export interface ISelectors {
     name: string,
     id: string,
     validate: { rules?: RulesObject<any>; message?: string }[] | null
-  ): (data: T | undefined, form: Form<T>) => Array<string>
+  ): (
+    data: T | undefined,
+    globalState: T | undefined,
+    form: Form<T>
+  ) => Array<string>
   /**
    * @param id
    * @param rules
@@ -153,5 +159,5 @@ export interface ISelectors {
     keys: string[] | null,
     flowName: string,
     value: any
-  ): (data: T | undefined, form: Form<T>) => boolean
+  ): (data: T | undefined, globalState: T | undefined, form: Form<T>) => boolean
 }

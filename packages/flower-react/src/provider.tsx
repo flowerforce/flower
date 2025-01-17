@@ -6,7 +6,7 @@ import {
   createStoreHook,
   ReactReduxContextValue
 } from 'react-redux'
-import { Action, configureStore } from '@reduxjs/toolkit'
+import { Action, configureStore, Store } from '@reduxjs/toolkit'
 import { reducerFlower } from './reducer'
 import { FlowerProviderProps } from './components/types/FlowerProvider'
 
@@ -27,13 +27,17 @@ export const store = ({ enableDevtool }: { enableDevtool?: boolean }) =>
   })
 
 class FlowerProvider extends PureComponent<
-  PropsWithChildren<{ enableReduxDevtool?: boolean }>,
+  PropsWithChildren<{ enableReduxDevtool?: boolean; store?: Store }>,
   FlowerProviderProps
 > {
   private store: FlowerProviderProps
-  constructor(props: PropsWithChildren<{ enableReduxDevtool?: boolean }>) {
+  constructor(
+    props: PropsWithChildren<{ enableReduxDevtool?: boolean; store?: Store }>
+  ) {
     super(props)
-    this.store = store({ enableDevtool: props.enableReduxDevtool })
+
+    this.store =
+      props.store || store({ enableDevtool: props.enableReduxDevtool })
   }
 
   render() {
