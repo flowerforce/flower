@@ -11,9 +11,9 @@ type ReducerFunctionSign<T extends object, R> = (
   action: ActionWithPayload<R>
 ) => Record<string, Flower<T>> | void
 type FormReducerFunctionSign<T extends object, R = object> = (
-  state: Record<string, Flower<T>>,
+  state: Record<string, T>,
   action: ActionWithPayload<{ formName: string } & R>
-) => Record<string, Flower<T>> | void
+) => Record<string, T> | void
 
 export type ActionsTypes =
   | 'historyAdd'
@@ -277,7 +277,7 @@ export type CoreReducersFunctions<
 // from `flowName` to `formName`
 // from `currentNode` to `formNode`? Or it's better to handle it directly under `flowName`?
 export type FormReducersFunctions<
-  T extends Record<string, any> = Record<string, Flower<Record<string, any>>>
+  T extends Record<string, any> = Record<string, Record<string, any>>
 > = {
   /**
    * @param state
