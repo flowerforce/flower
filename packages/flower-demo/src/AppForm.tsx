@@ -14,8 +14,14 @@ import { Example10 } from './Examples/Example10' // Simple example form
 import { Example11 } from './Examples/Example11' // Form async error and hidden
 import { Example12 } from './Examples/Example12' // Simple use of FlowerForm only
 import { Example13 } from './Examples/Example13' // Simple use of FlowerForm only
+import { Example14 } from './Examples/Example14' // Simple use of FlowerForm only
+import { FormProvider } from '@flowerforce/flower-form'
 
 function AppLogin() {
-  return <Example13 />
+  return (
+    <FormProvider>
+      <Example14 />
+    </FormProvider>
+  )
 }
 export default AppLogin

@@ -1,31 +1,38 @@
 import {
   FlowerField,
   useFlowerForm,
+  FlowerValue,
   FlowerForm
-} from '@flowerforce/flower-react'
-import { useCallback, useState } from 'react'
+} from '@flowerforce/flower-form'
+import { useCallback, useEffect, useState } from 'react'
 import './styles.css'
+import mockData from '../mocks/Example14.json'
 
 const Text = ({ text, value }: any) => <h1 data-testid="h1">{text || value}</h1>
-const Input = ({ onChange, value = '', name, label }: any) => {
+
+const Input = ({
+  onChange,
+  value = '',
+  name,
+  label,
+  hasError,
+  dirty,
+  errors,
+  ...rest
+}: any) => {
+  console.log('🚀 ~ rest:', rest)
   return (
     <>
       <Text text={label} />
       <input
+        style={hasError && dirty ? { border: '1px solid red' } : {}}
         data-testid={name || 'input'}
         name={name}
         value={value}
         onChange={(evt) => onChange(evt.target.value)}
       />
+      {hasError && dirty && <div style={{ color: 'red' }}>{errors[0]}</div>}
     </>
-  )
-}
-
-const Buttongeneric = ({ action, title, disabled }: any) => {
-  return (
-    <button data-testid={`btn-${title}`} onClick={action} disabled={disabled}>
-      {title}
-    </button>
   )
 }
 
@@ -51,8 +58,16 @@ const FormSetDataButton = ({ path, title, aishdiuah }: any) => {
 }
 
 const ShowData = () => {
-  const { getData } = useFlowerForm('form-test')
+  const { getData } = useFlowerForm('example14')
   return <code>{JSON.stringify(getData(), null, 4)}</code>
+}
+
+const Buttongeneric = ({ action, title, disabled }: any) => {
+  return (
+    <button data-testid={`btn-${title}`} onClick={action} disabled={disabled}>
+      {title}
+    </button>
+  )
 }
 
 const NavigationButton = ({ setStep }: any) => {
@@ -61,19 +76,16 @@ const NavigationButton = ({ setStep }: any) => {
   return <Buttongeneric title="NEXT" action={action} disabled={!isValid} />
 }
 
-export function Example13() {
+export function Example14() {
   const [step, setStep] = useState('step1')
 
   return step === 'step1' ? (
-    <FlowerForm
-      name="form-test"
-      initialState={{ name: 'andrea', surname: 'rossi' }}
-    >
+    <FlowerForm name="example14">
       <FlowerField
         id="name"
         validate={[
           {
-            message: 'is equal',
+            message: 'name must be "andrea"',
             rules: { $and: [{ name: { $eq: 'andrea' } }] }
           }
         ]}
@@ -84,7 +96,7 @@ export function Example13() {
         id="surname"
         validate={[
           {
-            message: 'is equal',
+            message: 'surname must be "rossi"',
             rules: { $and: [{ surname: { $eq: 'rossi' } }] }
           }
         ]}
@@ -96,6 +108,31 @@ export function Example13() {
           path="surname"
           aishdiuah={'Rossi'}
         />
+      </FlowerField>
+      <FlowerField
+        id="age"
+        validate={[
+          {
+            message: 'You have to be 18+',
+            rules: { $and: [{ age: { $gte: 18 } }] }
+          }
+        ]}
+      >
+        <Input label="age" />
+      </FlowerField>
+      <FlowerField
+        id="address"
+        validate={[
+          {
+            message:
+              'address must start with "via ", "Via " or "Viale " and contains at least 3 chars after that',
+            rules: {
+              $and: [{ address: { $regex: /^(via |Via |Viale )[a-zA-Z]{3,}/ } }]
+            }
+          }
+        ]}
+      >
+        <Input label="address" />
       </FlowerField>
       <NavigationButton setStep={setStep} />
       <FormResetButton title={'RESET'} />

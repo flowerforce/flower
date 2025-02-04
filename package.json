@@ -16,6 +16,7 @@
     "tsc:noemit": "nx run-many -t tsc:noemit",
     "build:devtool": "nx build flower-devtool",
     "build:core": "nx build flower-core",
+    "build:form": "nx build flower-form",
     "build:react": "nx build flower-react",
     "start:demo": "nx serve flower-demo",
     "build:demo": "nx build flower-demo",

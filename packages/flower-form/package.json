@@ -1,0 +1,54 @@
+{
+  "name": "@flowerforce/flower-form",
+  "version": "1.0.0",
+  "description": "FlowerJS utils for Form handling.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flowerforce/flower.git"
+  },
+  "homepage": "https://www.flowerjs.it",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "!dist/package.json",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "tsc:noemit": "tsc -p tsconfig.lib.json --noEmit"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/lodash": "^4.17.1",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@flowerforce/flower-core": "3.3.0",
+    "@reduxjs/toolkit": "^2.2.4",
+    "lodash": "^4.17.21",
+    "react-redux": "^9.1.2",
+    "reselect": "^5.1.0"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "module": "./dist/index.esm.js",
+      "import": "./dist/index.cjs.mjs",
+      "default": "./dist/index.cjs.js"
+    }
+  },
+  "module": "./dist/index.esm.js",
+  "main": "./dist/index.cjs.js",
+  "types": "./dist/src/index.d.ts"
+}

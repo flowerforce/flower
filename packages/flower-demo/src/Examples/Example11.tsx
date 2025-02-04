@@ -75,7 +75,7 @@ export function Example11() {
   const touches = status?.touches ? Object.keys(status?.touches) : []
 
   return (
-    <Flower name="app-test">
+    <Flower name="example11">
       <FlowerNode
         id="node-test"
         to={{
@@ -115,10 +115,13 @@ export function Example11() {
         <ButtonNext />
       </FlowerNode>
       <FlowerNode id="success">
-        <FlowerValue id="name">
-          <Text />
-          <ButtonBack />
-        </FlowerValue>
+        <div style={{ background: 'green' }}>
+          <Text text="SUCCESS" />
+          <FlowerValue id="name">
+            <Text />
+            <ButtonBack />
+          </FlowerValue>
+        </div>
       </FlowerNode>
       <FlowerNode id="error">
         <Form />
