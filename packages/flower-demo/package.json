@@ -19,6 +19,7 @@
   "dependencies": {
     "@flowerforce/flower-react": "3.5.0",
     "@flowerforce/flower-form": "1.0.0",
+    "@flowerforce/flower-react-store": "1.0.0",
     "@flowerforce/devtool": "^3.4.0",
     "@reduxjs/toolkit": "^2.2.4",
     "antd": "^5.17.2",

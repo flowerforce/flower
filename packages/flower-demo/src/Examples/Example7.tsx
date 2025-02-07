@@ -1,10 +1,6 @@
-import {
-  Flower,
-  FlowerRule,
-  FlowerNode,
-  FlowerField,
-  FlowerNavigate
-} from '@flowerforce/flower-react'
+import { Flower, FlowerNode, FlowerNavigate } from '@flowerforce/flower-react'
+import { FlowerField, FlowerRule } from '@flowerforce/flower-form'
+
 import './styles.css'
 
 export function Example7() {

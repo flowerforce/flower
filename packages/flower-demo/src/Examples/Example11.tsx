@@ -1,14 +1,17 @@
 import {
   FlowerNavigate,
   FlowerNode,
-  FlowerField,
   FlowerAction,
   useFlower,
-  useFlowerForm,
-  Flower,
-  FlowerValue,
-  FlowerForm
+  Flower
 } from '@flowerforce/flower-react'
+import {
+  FlowerForm,
+  FlowerField,
+  FlowerValue,
+  useFlowerForm
+} from '@flowerforce/flower-form'
+
 import { useEffect } from 'react'
 import './styles.css'
 
@@ -69,11 +72,6 @@ const InitState = ({ state, path, flowName }: any) => {
 }
 
 export function Example11() {
-  const { getFormStatus } = useFlowerForm('example11')
-  const status = getFormStatus('step1')
-  const dirties = status?.dirty ? Object.keys(status?.dirty) : []
-  const touches = status?.touches ? Object.keys(status?.touches) : []
-
   return (
     <Flower name="example11">
       <FlowerNode

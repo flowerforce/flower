@@ -17,6 +17,8 @@
     "build:devtool": "nx build flower-devtool",
     "build:core": "nx build flower-core",
     "build:form": "nx build flower-form",
+    "build:react-store": "nx build flower-react-store",
+    "build:react-context": "nx build flower-react-context",
     "build:react": "nx build flower-react",
     "start:demo": "nx serve flower-demo",
     "build:demo": "nx build flower-demo",

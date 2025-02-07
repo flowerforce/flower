@@ -20,7 +20,6 @@ const Input = ({
   errors,
   ...rest
 }: any) => {
-  console.log('🚀 ~ rest:', rest)
   return (
     <>
       <Text text={label} />
@@ -80,7 +79,7 @@ export function Example14() {
   const [step, setStep] = useState('step1')
 
   return step === 'step1' ? (
-    <FlowerForm name="example14">
+    <FlowerForm name="form-14">
       <FlowerField
         id="name"
         validate={[
