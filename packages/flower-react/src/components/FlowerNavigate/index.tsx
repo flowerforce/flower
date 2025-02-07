@@ -2,7 +2,8 @@
 import React from 'react';
 import { useFlowerNavigate } from './useFlowerNavigate';
 import WrapperComponent from './WrapperComponent'
-import FlowerRule from '../FlowerRule';
+import { FlowerRule } from '@flowerforce/flower-form'
+
 import { FlowerNavigateProps } from '../types/FlowerNavigate';
 
 //TODO type RenderRules props

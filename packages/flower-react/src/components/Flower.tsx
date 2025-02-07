@@ -11,7 +11,7 @@ import React, {
 } from 'react'
 import _keyBy from 'lodash/keyBy'
 import { Emitter, devtoolState } from '@flowerforce/flower-core'
-import { FlowProvider } from '../context/flowcontext'
+import { FlowerReactProvider } from '@flowerforce/flower-react-context'
 import _get from 'lodash/get'
 import { convertElements } from '../utils'
 import { actions as flowerActions } from '../reducer/flowerReducer'
@@ -22,7 +22,11 @@ import {
   makeSelectCurrentNodeDisabled,
   makeSelectPrevNodeRetain
 } from '../selectors'
-import { useDispatch, useSelector, useStore } from '../provider'
+import {
+  useDispatch,
+  useSelector,
+  useStore
+} from '@flowerforce/flower-react-store'
 
 type FlowerInitalState = {
   startId?: string
@@ -251,7 +255,7 @@ const FlowerClient = ({
 
   const contextValues = useMemo(
     () => ({
-      flowName,
+      name: flowName,
       currentNode: current
     }),
     [flowName, current]
@@ -259,7 +263,7 @@ const FlowerClient = ({
 
   const prevContextValues = useMemo(
     () => ({
-      flowName,
+      name: flowName,
       currentNode: currentNodeId
     }),
     [flowName, currentNodeId]
@@ -267,12 +271,12 @@ const FlowerClient = ({
 
   return isInitialized ? (
     <>
-      <FlowProvider value={prevContextValues}>
+      <FlowerReactProvider value={prevContextValues}>
         {nodeById[currentNodeId]}
-      </FlowProvider>
-      <FlowProvider value={contextValues}>
+      </FlowerReactProvider>
+      <FlowerReactProvider value={contextValues}>
         {!isDisabled && current !== currentNodeId && nodeById[current]}
-      </FlowProvider>
+      </FlowerReactProvider>
     </>
   ) : null
 }

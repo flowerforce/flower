@@ -1,7 +1,11 @@
 import { useCallback, useContext } from 'react'
-import { FlowContext } from '../context/flowcontext'
 import { makeSelectCurrentNodeId, makeSelectStartNodeId } from '../selectors'
-import { useDispatch, useSelector, useStore } from '../provider'
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
+import {
+  useDispatch,
+  useSelector,
+  useStore
+} from '@flowerforce/flower-react-store'
 import { UseFlower } from './types/FlowerHooks'
 import { Emitter, REDUCER_NAME, devtoolState } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
@@ -87,7 +91,7 @@ const makeActionPayloadOnRestart = makeActionPayload(
 const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const dispatch = useDispatch()
 
-  const { flowName: flowNameDefault, initialData } = useContext(FlowContext)
+  const { name: flowNameDefault, initialData } = useContext(FlowerReactContext)
   const store = useStore()
 
   const flowName = (customFlowName || name || flowNameDefault) as string

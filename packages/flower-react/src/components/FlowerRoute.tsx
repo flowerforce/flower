@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react'
-import { useDispatch } from '../provider'
+import { useDispatch } from '@flowerforce/flower-react-store'
 import { FlowerRouteProps } from './types/FlowerRoute'
-import { FlowContext } from '../context/flowcontext'
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
 
 const FlowerRoute = ({
   autostart = true,
@@ -11,7 +11,7 @@ const FlowerRoute = ({
 }: FlowerRouteProps) => {
   const dispatch = useDispatch()
   const one = useRef(false)
-  const { flowName } = useContext(FlowContext)
+  const { name } = useContext(FlowerReactContext)
 
   useEffect(() => {
     onEnter?.()
@@ -23,9 +23,9 @@ const FlowerRoute = ({
   useEffect(() => {
     if (autostart && one.current === false) {
       one.current = true
-      dispatch({ type: 'flower/next', payload: { flowName } })
+      dispatch({ type: 'flower/next', payload: { flowName: name } })
     }
-  }, [dispatch, flowName, autostart])
+  }, [dispatch, name, autostart])
 
   return children
 }
