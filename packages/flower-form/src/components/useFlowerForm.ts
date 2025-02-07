@@ -1,10 +1,14 @@
 import { useCallback, useContext } from 'react'
 import { CoreUtils } from '@flowerforce/flower-core'
 import get from 'lodash/get'
-import { FormContext } from '../context/formcontext'
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import { makeSelectNodeErrors } from '../selectors'
-import { actions } from '../reducer/formReducer'
-import { useDispatch, useSelector, useStore } from '../provider'
+import {
+  flowerDataActions,
+  useDispatch,
+  useSelector,
+  useStore
+} from '@flowerforce/flower-react-store'
 import { UseFlowerForm } from './types/FlowerHooks'
 
 /**  This hook allows you to manage and retrieve information about Forms.
@@ -29,7 +33,7 @@ import { UseFlowerForm } from './types/FlowerHooks'
  *
  */
 const useFlowerForm: UseFlowerForm = (customFormName) => {
-  const { formName: formNameDefault, initialData } = useContext(FormContext) // TODO: WIP, needs to be refactored
+  const { name: formNameDefault, initialData } = useContext(FlowerReactContext) // TODO: WIP, needs to be refactored
 
   const dispatch = useDispatch()
   const store = useStore()
@@ -65,7 +69,7 @@ const useFlowerForm: UseFlowerForm = (customFormName) => {
   const setDataField = useCallback(
     (id: string, val: any, dirty = true) => {
       dispatch(
-        actions.addDataByPath({
+        flowerDataActions.addDataByPath({
           formName,
           id,
           value: val,
@@ -83,7 +87,7 @@ const useFlowerForm: UseFlowerForm = (customFormName) => {
         setDataField(id, val)
         return
       }
-      dispatch(actions.addData({ formName, value: val }))
+      dispatch(flowerDataActions.addData({ formName, value: val }))
     },
     [dispatch, formName, setDataField]
   )
@@ -91,23 +95,23 @@ const useFlowerForm: UseFlowerForm = (customFormName) => {
   const unsetData = useCallback(
     (path: string) => {
       const { path: newpath } = CoreUtils.getPath(path)
-      dispatch(actions.unsetData({ formName, id: newpath })) // What is this id parameter?
+      dispatch(flowerDataActions.unsetData({ formName, id: newpath })) // What is this id parameter?
     },
     [dispatch, formName]
   )
 
   const replaceData = useCallback(
     (val: any) => {
-      dispatch(actions.replaceData({ formName, value: val }))
+      dispatch(flowerDataActions.replaceData({ formName, value: val }))
     },
     [dispatch, formName]
   )
 
   const reset = useCallback(() => {
     dispatch(
-      actions.resetForm({
+      flowerDataActions.resetForm({
         formName,
-        initialData
+        initialData: initialData as Record<string, unknown>
       })
     )
   }, [dispatch, formName, initialData])
@@ -115,7 +119,7 @@ const useFlowerForm: UseFlowerForm = (customFormName) => {
   const setCustomErrors = useCallback(
     (field: string, errors: string[]) => {
       dispatch(
-        actions.formAddCustomErrors({
+        flowerDataActions.formAddCustomErrors({
           formName,
           id: field,
           errors

@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, { useContext, useEffect, useMemo } from 'react';
 import { CoreUtils } from '@flowerforce/flower-core';
-import { useSelector } from '../provider';
+import { useSelector } from '@flowerforce/flower-react-store';
 import { getDataFromState } from '../selectors';
-import { FormContext } from '../context/formcontext';
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import FlowerRule from './FlowerRule';
 import { FlowerValueProps } from './types/FlowerValue';
 
@@ -88,7 +88,7 @@ const FlowerValue = ({
   formId,
   onUpdate,
 }: FlowerValueProps) => {
-  const { formName: formNameCtx, initialData } = useContext(FormContext);
+  const { name: formNameCtx, initialData } = useContext(FlowerReactContext);
 
 
   const name = formId || formNameCtx;

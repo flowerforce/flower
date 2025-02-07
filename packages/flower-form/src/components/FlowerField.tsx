@@ -5,7 +5,7 @@ import React, {
   useState,
   useMemo,
   useEffect,
-  useRef,
+  useRef
 } from 'react'
 import {
   getDataFromState,
@@ -15,10 +15,16 @@ import {
   makeSelectNodeFieldTouched,
   makeSelectNodeFormSubmitted
 } from '../selectors'
-import { FormContext } from '../context/formcontext'
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import FlowerRule from './FlowerRule'
-import { store, useDispatch, useSelector } from '../provider'
+
 import debounce from 'lodash/debounce'
+import {
+  flowerDataActions,
+  useDispatch,
+  useSelector,
+  useStore
+} from '@flowerforce/flower-react-store'
 import {
   MatchRules,
   CoreUtils,
@@ -26,7 +32,7 @@ import {
 } from '@flowerforce/flower-core'
 import { FlowerFieldProps } from './types/FlowerField'
 import isEqual from 'lodash/isEqual'
-import { actions } from '../reducer/formReducer'
+
 function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
   return typeof x === 'string'
 }
@@ -69,9 +75,7 @@ function Wrapper({
     makeSelectFieldError(formName, id, validate),
     CoreUtils.allEqual
   )
-  const dirty = useSelector(
-    makeSelectNodeFieldDirty(formName, formName, id)
-  )
+  const dirty = useSelector(makeSelectNodeFieldDirty(formName, formName, id))
   const touched = useSelector(
     makeSelectNodeFieldTouched(formName, formName, id)
   )
@@ -85,26 +89,39 @@ function Wrapper({
     makeSelectNodeFormSubmitted(formName, formName)
   )
 
+  const store = useStore()
+
   const allErrors = useMemo(
-    () => hidden ? [] : [...errors, ...(customAsyncErrors || []).filter(Boolean)],
+    () =>
+      hidden ? [] : [...errors, ...(customAsyncErrors || []).filter(Boolean)],
     [errors, hidden, customAsyncErrors]
   )
 
-  const setTouched = useCallback((touched: boolean) => {
-    dispatch(actions.formFieldTouch({
-      formName: formName,
-      id,
-      touched
-    }))
-  }, [dispatch, formName, id])
+  const setTouched = useCallback(
+    (touched: boolean) => {
+      dispatch(
+        flowerDataActions.formFieldTouch({
+          formName: formName,
+          id,
+          touched
+        })
+      )
+    },
+    [dispatch, formName, id]
+  )
 
-  const setFocus = useCallback((focused: boolean) => {
-    dispatch(actions.formFieldFocus({
-      formName: formName,
-      id,
-      focused
-    }))
-  }, [dispatch, formName, id])
+  const setFocus = useCallback(
+    (focused: boolean) => {
+      dispatch(
+        flowerDataActions.formFieldFocus({
+          formName: formName,
+          id,
+          focused
+        })
+      )
+    },
+    [dispatch, formName, id]
+  )
 
   const validateFn = useCallback(
     async (value: any) => {
@@ -129,14 +146,23 @@ function Wrapper({
       if (asyncValidate && asyncWaitingError) {
         setCustomAsyncErrors([asyncWaitingError])
       }
-      dispatch(actions.addDataByPath({
-        formName: formName,
-        id,
-        value: val,
-        dirty: defaultValue ? !isEqual(val, defaultValue) : true
-      }))
+      dispatch(
+        flowerDataActions.addDataByPath({
+          formName: formName,
+          id,
+          value: val,
+          dirty: defaultValue ? !isEqual(val, defaultValue) : true
+        })
+      )
     },
-    [id,formName, dispatch, setCustomAsyncErrors, asyncValidate, asyncWaitingError]
+    [
+      id,
+      formName,
+      dispatch,
+      setCustomAsyncErrors,
+      asyncValidate,
+      asyncWaitingError
+    ]
   )
 
   const onBlurInternal = useCallback(
@@ -159,7 +185,6 @@ function Wrapper({
   useEffect(() => {
     if (hidden) return
     if (asyncValidate) {
-
       if (refValue.current === value) return
       refValue.current = value
 
@@ -174,7 +199,14 @@ function Wrapper({
       setTouched(true)
       debouncedValidation(value)
     }
-  }, [asyncValidate, asyncInitialError, value, debouncedValidation, setTouched, hidden])
+  }, [
+    asyncValidate,
+    asyncInitialError,
+    value,
+    debouncedValidation,
+    setTouched,
+    hidden
+  ])
 
   useEffect(() => {
     if (onUpdate) {
@@ -182,51 +214,58 @@ function Wrapper({
     }
   }, [value, onUpdate])
 
-
   useEffect(() => {
-    dispatch(actions.formAddErrors({
-      formName,
-      id,
-      errors: allErrors
-    }))
+    dispatch(
+      flowerDataActions.formAddErrors({
+        formName,
+        id,
+        errors: allErrors
+      })
+    )
   }, [id, allErrors, formName, touched])
 
   useEffect(() => {
-    dispatch(actions.setFormIsValidating({
-      formName,
-      isValidating
-    }
-    ))
+    dispatch(
+      flowerDataActions.setFormIsValidating({
+        formName,
+        isValidating
+      })
+    )
   }, [formName, isValidating])
 
   const resetField = useCallback(() => {
-    dispatch(actions.formFieldTouch({
-      formName,
-      id,
-      touched: false
-    }
-    ))
-    dispatch(actions.formFieldDirty({
-      formName,
-      id,
-      dirty: false
-    }
-    ))
-    dispatch(actions.formRemoveErrors({
-      formName,
-      id,
-    }
-    ))
+    dispatch(
+      flowerDataActions.formFieldTouch({
+        formName,
+        id,
+        touched: false
+      })
+    )
+    dispatch(
+      flowerDataActions.formFieldDirty({
+        formName,
+        id,
+        dirty: false
+      })
+    )
+    dispatch(
+      flowerDataActions.formRemoveErrors({
+        formName,
+        id
+      })
+    )
   }, [formName, id])
 
   useEffect(() => {
     // destroy
     return () => {
       if (destroyValue) {
-        dispatch(actions.unsetData({
-          formName, id: path
-        }
-        ))
+        dispatch(
+          flowerDataActions.unsetData({
+            formName,
+            id: path
+          })
+        )
       }
       resetField()
     }
@@ -235,7 +274,7 @@ function Wrapper({
   useEffect(() => {
     if (hidden) {
       if (destroyOnHide) {
-        dispatch(actions.unsetData({ formName: formName, id: path }))
+        dispatch(flowerDataActions.unsetData({ formName: formName, id: path }))
         resetField()
       }
     }
@@ -246,7 +285,6 @@ function Wrapper({
       onChange(defaultValue)
     }
   }, [defaultValue, value, dirty, onChange])
-
 
   const newProps = useMemo(
     () => ({
@@ -263,7 +301,7 @@ function Wrapper({
       dirty,
       hidden,
       isValidating,
-      isSubmitted,
+      isSubmitted
     }),
     [
       props,
@@ -312,8 +350,7 @@ const FlowerField = ({
   formName,
   onUpdate
 }: FlowerFieldProps) => {
-  const { formName: formNameCtx, initialData } = useContext(FormContext)
-
+  const { name: formNameCtx, initialData } = useContext(FlowerReactContext)
 
   const name = formName || formNameCtx
 

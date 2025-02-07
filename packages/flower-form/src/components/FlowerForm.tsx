@@ -1,7 +1,6 @@
 import React, { memo, useEffect, useRef, PropsWithChildren } from 'react'
-import { FormProvider } from '../context/formcontext'
-import { useDispatch } from '../provider'
-import { actions } from '../reducer/formReducer'
+import { flowerDataActions, useDispatch } from '@flowerforce/flower-react-store'
+import { FlowerReactProvider } from '@flowerforce/flower-react-context'
 
 type FlowerClientProps = PropsWithChildren & {
   name: string
@@ -37,7 +36,7 @@ const FlowerFormClient = ({
     if (initialState && one.current === false) {
       one.current = true
       dispatch(
-        actions.initForm({
+        flowerDataActions.initForm({
           formName,
           initialData: initialState
         })
@@ -46,9 +45,9 @@ const FlowerFormClient = ({
   }, [dispatch, destroyOnUnmount, initialState, formName])
 
   return (
-    <FormProvider value={{ formName, initialData: initialState }}>
+    <FlowerReactProvider value={{ name: formName, initialData: initialState }}>
       {children}
-    </FormProvider>
+    </FlowerReactProvider>
   )
 }
 
