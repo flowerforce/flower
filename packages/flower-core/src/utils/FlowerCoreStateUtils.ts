@@ -10,8 +10,7 @@ export const FlowerStateUtils: CoreStateUtils = {
       {}
     ),
 
-  selectFlowerFormNode: (name, id) => (state) =>
-    _get(state, name) || _get(state, [name, REDUCER_NAME.FLOWER_DATA, id]),
+  selectFlowerFormNode: (name) => (state) => _get(state, name),
 
   makeSelectCurrentNextRules: (name) => (state) => {
     const nextRules = _get(state, [name, 'nextRules'])
@@ -25,11 +24,8 @@ export const FlowerStateUtils: CoreStateUtils = {
     return _get(subState, ['current']) || startId
   },
 
-  makeSelectNodeErrors: (name, currentNodeId) => (state) => {
-    const form = FlowerStateUtils.selectFlowerFormNode(
-      name,
-      currentNodeId
-    )(state)
+  makeSelectNodeErrors: (name) => (state) => {
+    const form = FlowerStateUtils.selectFlowerFormNode(name)(state)
 
     return createFormData(form)
   }

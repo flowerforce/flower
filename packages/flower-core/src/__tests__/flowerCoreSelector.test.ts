@@ -1,36 +1,34 @@
-import { FlowerCoreStateSelectors } from '../FlowerCoreStateSelectors'
+import { FlowerCoreStateSelectors } from '../core/state-selectors'
 import { Flower } from '../interfaces/Store'
+import { REDUCER_NAME } from '../constants'
+import { FlowerCoreFormReducers } from '../core/state-functions/FlowerFormStateFunctions'
 
 //todo: double check if tests are ok
 
 const TEST_FLOW_NAME = 'test_flow'
 
-const state: { flower: { [x: string]: Flower<Record<string, any>> } } = {
-  flower: {
+const state = {
+  [REDUCER_NAME.FLOWER_FLOW]: {
     test_flow: {
       persist: false,
       startId: 'Start',
-      current: 'Node1',
-      history: ['start', 'Node1'],
+      current: 'Start',
+      history: ['Start'],
       nodes: {
-        Start: { nodeId: 'start', nodeType: 'FlowerRoute' },
+        Start: { nodeId: 'Start', nodeType: 'FlowerRoute' },
         Node1: { nodeId: 'Node1', nodeType: 'FlowerNode' },
         Node2: { nodeId: 'Node2', nodeType: 'FlowerNode', retain: true }
       },
       nextRules: {
         Start: [{ nodeId: 'Node1', rules: null }]
-      },
-      data: {
-        name: 'UserName',
-        test_getDataFromState: { value: 'test' }
-      },
-      form: {
-        Start: {
-          isSubmitted: true,
-          errors: {},
-          isValidating: false
-        }
       }
+    }
+  },
+  [REDUCER_NAME.FLOWER_DATA]: {
+    test_flow: {
+      errors: { name: ['is equal'], surname: ['is equal'] },
+      data: { name: 'andrea', surname: 'rossi' },
+      dirty: { name: true, surname: true }
     }
   }
 }
@@ -39,106 +37,95 @@ describe('FlowerCoreSelectors', () => {
   describe('SelectGlobal', () => {
     it('should return the flower object in state.flower', () => {
       const flower = FlowerCoreStateSelectors.selectGlobal(state)
-      expect(flower).toEqual(state.flower)
+      expect(flower).toEqual(state[REDUCER_NAME.FLOWER_FLOW])
     })
   })
 
   describe('selectFlower', () => {
     it('should return the flower object for the given name', () => {
       const flower = FlowerCoreStateSelectors.selectFlower(TEST_FLOW_NAME)(
-        state.flower
+        state[REDUCER_NAME.FLOWER_FLOW]
       )
-      expect(flower).toEqual(state.flower[TEST_FLOW_NAME])
-    })
-  })
-
-  describe('selectFlowerFormNode', () => {
-    it('should return the form object for the given node id', () => {
-      const nodeId = 'start'
-      const selectedForm = FlowerCoreStateSelectors.selectFlowerFormNode(
-        nodeId
-      )(state.flower[TEST_FLOW_NAME])
-      expect(selectedForm).toEqual(state.flower[TEST_FLOW_NAME].form[nodeId])
+      expect(flower).toEqual(state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME])
     })
   })
 
   describe('selectFlowerHistory', () => {
     it('should return the history array from the given flower object', () => {
       const history = FlowerCoreStateSelectors.selectFlowerHistory(
-        state.flower[TEST_FLOW_NAME]
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME]
       )
-      expect(history).toEqual(state.flower[TEST_FLOW_NAME].history)
+      expect(history).toEqual(
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME].history
+      )
     })
   })
 
   describe('makeSelectNodesIds', () => {
     it('should return the nodes object from the given flower object', () => {
       const nodes = FlowerCoreStateSelectors.makeSelectNodesIds(
-        state.flower[TEST_FLOW_NAME]
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME]
       )
-      expect(nodes).toEqual(state.flower[TEST_FLOW_NAME].nodes)
+      expect(nodes).toEqual(
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME].nodes
+      )
     })
   })
 
   describe('makeSelectStartNodeId', () => {
     it('should return the startNodeId from the given flower object', () => {
       const startNodeId = FlowerCoreStateSelectors.makeSelectStartNodeId(
-        state.flower[TEST_FLOW_NAME]
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME]
       )
-      expect(startNodeId).toEqual(state.flower[TEST_FLOW_NAME].startId)
+      expect(startNodeId).toEqual(
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME].startId
+      )
     })
   })
 
-  describe('getDataByFlow', () => {
-    it('should return the data object in the state.flower.data', () => {
-      const data = FlowerCoreStateSelectors.getDataByFlow(
-        state.flower[TEST_FLOW_NAME]
-      )
-      expect(data).toEqual(state.flower[TEST_FLOW_NAME].data)
-    })
-  })
+  // describe('getDataByFlow', () => {
+  //   it('should return the data object in the state.flower.data', () => {
+  //     const data = FlowerCoreStateSelectors.getDataByFlow(
+  //       state.flower[TEST_FLOW_NAME]
+  //     )
+  //     expect(data).toEqual(state.flower[TEST_FLOW_NAME].data)
+  //   })
+  // })
 
   describe('getDataFromState', () => {
     it('should return data object if id is "*"', () => {
       const id = '*'
 
       const result = FlowerCoreStateSelectors.getDataFromState(id)(
-        state.flower[TEST_FLOW_NAME].data
+        state[REDUCER_NAME.FLOWER_DATA][TEST_FLOW_NAME].data
       )
 
-      expect(result).toEqual(state.flower[TEST_FLOW_NAME].data)
+      expect(result).toEqual(
+        state[REDUCER_NAME.FLOWER_DATA][TEST_FLOW_NAME].data
+      )
     })
 
     it('should return the data at the specified id if id is not "*"', () => {
-      const id = ['test_getDataFromState', 'value']
+      const id = ['name']
 
       const result = FlowerCoreStateSelectors.getDataFromState(id)(
-        state.flower[TEST_FLOW_NAME].data
+        state[REDUCER_NAME.FLOWER_DATA][TEST_FLOW_NAME].data
       )
 
-      expect(result).toEqual('test')
-    })
-  })
-
-  describe('makeSelectNodeFormSubmitted', () => {
-    it('should return the touched node', () => {
-      const touched = FlowerCoreStateSelectors.makeSelectNodeFormSubmitted(
-        state.flower[TEST_FLOW_NAME].form.Start
-      )
-      expect(touched).toEqual(
-        state.flower[TEST_FLOW_NAME].form.Start.isSubmitted
-      )
+      expect(result).toEqual('andrea')
     })
   })
 
   describe('makeSelectCurrentNodeId', () => {
     it('should return the currentNodeId or startNodeId', () => {
       const current = FlowerCoreStateSelectors.makeSelectCurrentNodeId(
-        state.flower[TEST_FLOW_NAME],
-        state.flower[TEST_FLOW_NAME].startId
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME],
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME].startId
       )
 
-      expect(current).toEqual(state.flower[TEST_FLOW_NAME].current || 'start')
+      expect(current).toEqual(
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME].current || 'start'
+      )
     })
   })
 
@@ -192,8 +179,8 @@ describe('FlowerCoreSelectors', () => {
   describe('makeSelectPrevNodeRetain', () => {
     it("should return undefined if no previous node has 'retain' property", () => {
       const prevNode = FlowerCoreStateSelectors.makeSelectPrevNodeRetain(
-        state.flower[TEST_FLOW_NAME].nodes,
-        state.flower[TEST_FLOW_NAME].history,
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME].nodes,
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME].history,
         'Node1'
       )
       expect(prevNode).toBeUndefined()
@@ -201,8 +188,8 @@ describe('FlowerCoreSelectors', () => {
 
     it("should return undefined if the current node has 'retain' property", () => {
       const prevNode = FlowerCoreStateSelectors.makeSelectPrevNodeRetain(
-        state.flower[TEST_FLOW_NAME].nodes,
-        state.flower[TEST_FLOW_NAME].history,
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME].nodes,
+        state[REDUCER_NAME.FLOWER_FLOW][TEST_FLOW_NAME].history,
         'Node1'
       )
       expect(prevNode).toBeUndefined()

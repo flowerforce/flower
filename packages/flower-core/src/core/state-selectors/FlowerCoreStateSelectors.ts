@@ -5,8 +5,8 @@ import { REDUCER_NAME } from '../../constants'
 export const FlowerCoreStateBaseSelectors: IFlowerSelectors = {
   selectGlobal: (state) => state && state[REDUCER_NAME.FLOWER_FLOW],
   selectFlower: (name) => (state) => _get(state, [name]),
-  selectFlowerFormNode: (id) => (state) =>
-    _get(state, [REDUCER_NAME.FLOWER_FLOW, id]),
+  // selectFlowerFormNode: (id) => (state) =>
+  //   _get(state, [REDUCER_NAME.FLOWER_DATA, id]),
   selectFlowerHistory: (flower) => _get(flower, ['history'], []),
   makeSelectNodesIds: (flower) => _get(flower, ['nodes']),
   makeSelectStartNodeId: (flower) => _get(flower, ['startId']),

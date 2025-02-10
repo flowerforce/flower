@@ -17,13 +17,13 @@ export interface IFlowerSelectors {
   selectFlower<T extends Record<string, any>>(
     name: string
   ): (state: { [x: string]: Flower<T> }) => Flower<T>
-  /**
-   * @param id
-   * @returns
-   */
-  selectFlowerFormNode<T extends Record<string, any>>(
-    id: string
-  ): (state: Flower<T>) => Form<T>
+  // /**
+  //  * @param id
+  //  * @returns
+  //  */
+  // selectFlowerFormNode<T extends Record<string, any>>(
+  //   id: string
+  // ): (state: Flower<T>) => Form<T>
   /**
    * @param flower
    * @returns
@@ -120,11 +120,11 @@ export interface IFormSelectors {
   makeSelectNodeFormFieldDirty<T extends Record<string, any>>(
     id: string
   ): (form: Form<T> | undefined) => boolean | undefined
-  /**
-   * @param flower
-   * @returns
-   */
-  getDataByFlow<T extends Record<string, any>>(flower: Flower<T>): T
+  // /**
+  //  * @param flower
+  //  * @returns
+  //  */
+  // getDataByFlow<T extends Record<string, any>>(flower: Flower<T>): T
   /**
    * @param id
    * @returns

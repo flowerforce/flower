@@ -1,8 +1,5 @@
-import {
-  CoreUtils,
-  flattenRules
-  // searchEmptyKeyRecursively,
-} from '../CoreUtils'
+import { CoreUtils } from '../utils/FlowerCoreUtils'
+import { flattenRules } from '../utils/FlowerFlowUtils'
 
 describe('flattenRules function', () => {
   test('should flatten nested object into a single-level object', () => {
@@ -557,7 +554,7 @@ describe('CoreUtils object', () => {
 
     const absPath = CoreUtils.getPath('^path1.path2.path3.path4')
     expect(absPath).toEqual({
-      flowNameFromPath: 'path1',
+      formName: 'path1',
       path: ['path2', 'path3', 'path4']
     })
 

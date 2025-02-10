@@ -146,7 +146,8 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
   },
 
   destroy: (state, { payload }) => {
-    _set(state, [payload.name], {})
+    delete state[payload.name]
+    return state
   },
   initNodes: (state, { payload }) => {
     if (payload.persist && _get(state, [payload.name, 'persist'])) return
@@ -298,6 +299,5 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
       type: 'restoreHistory',
       payload: { name: name || flowName || '' }
     })
-    _set(state, [name || flowName || '', REDUCER_NAME.FLOWER_DATA], {})
   }
 }

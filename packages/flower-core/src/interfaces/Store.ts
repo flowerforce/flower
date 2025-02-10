@@ -14,8 +14,6 @@ export interface Flower<T extends Record<string, any>> {
   nodes: { [x: string]: INode }
   //TODO: REMOVE ANY
   nextRules: { [x: string]: RulesByNodeId<T>[] }
-  data: T
-  form: { [x: string]: Form<T> }
 }
 
 export interface INode {

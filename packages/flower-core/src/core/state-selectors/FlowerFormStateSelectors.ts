@@ -8,7 +8,7 @@ import { REDUCER_NAME } from '../../constants'
 
 export const FlowerCoreStateFormSelectors: IFormSelectors = {
   selectGlobalForm: (state) => state && state[REDUCER_NAME.FLOWER_DATA],
-  getDataByFlow: (flower) => _get(flower, 'data') ?? {},
+  // getDataByFlow: (flower) => _get(flower, 'data') ?? {},
   getDataFromState: (id) => (data) => (id === '*' ? data : _get(data, id)),
   makeSelectNodeFormSubmitted: (form) => form && form.isSubmitted,
   makeSelectNodeFormFieldTouched: (id) => (form) =>
