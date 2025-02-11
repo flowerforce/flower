@@ -15,12 +15,13 @@ import '@testing-library/jest-dom'
 
 import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
-import FlowerField from '../components/FlowerField'
-import FlowerValue from '../components/FlowerValue'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import useFlowerForm from '../components/useFlowerForm'
-
+import {
+  FlowerField,
+  useFlowerForm,
+  FlowerValue
+} from '@flowerforce/flower-form'
 const Text = ({ text, value, children, ...props }: any) => (
   <h1 data-testid="h1" {...props}>
     {text || value || children}
@@ -57,20 +58,10 @@ const InitState = ({ state }: any) => {
   const { setData, getData } = useFlowerForm()
   useEffect(() => {
     setData(state)
-    // console.log(getData())
     next()
   }, [next, setData, getData, state])
   return '...'
 }
-
-// const Form = ({ flowName }: any) => {
-//   const { errors, getData } = useFlowerForm({ flowName })
-//   useEffect(() => {
-//     // console.log("🚀 ~ Form ~ getData:", getData())
-//   }, [getData])
-
-//   return //errors && errors.join(',')
-// }
 
 describe('Test FlowerValue component', () => {
   it('Test value ok', async () => {
@@ -109,13 +100,11 @@ describe('Test FlowerValue component', () => {
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
           <FlowerNode id="form">
-            <div data-testid="log">
-              <FlowerValue>
-                {({ value }) => {
-                  return JSON.stringify(value)
-                }}
-              </FlowerValue>
-            </div>
+            <FlowerValue>
+              {({ value }) => {
+                return <div data-testid="log">{JSON.stringify(value)}</div>
+              }}
+            </FlowerValue>
           </FlowerNode>
         </Flower>
       </FlowerProvider>

@@ -17,7 +17,7 @@ import FlowerNavigate from '../components/FlowerNavigate'
 import Flower from '../components/Flower'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import useFlowerForm from '../components/useFlowerForm'
+import { useFlowerForm } from '@flowerforce/flower-form'
 
 const Text = ({
   text,
@@ -63,7 +63,7 @@ describe('Test Flower component', () => {
   it('Test flow success', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test" initialData={{}}>
+        <Flower name="app-test">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>

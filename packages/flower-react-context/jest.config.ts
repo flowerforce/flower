@@ -1,5 +1,5 @@
 export default {
-  displayName: 'flower-react-store',
+  displayName: 'flower-react-context',
   preset: '../../jest.preset.js',
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nx/react/plugins/jest',

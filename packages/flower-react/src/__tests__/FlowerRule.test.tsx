@@ -15,11 +15,14 @@ import '@testing-library/jest-dom'
 
 import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
-import FlowerField from '../components/FlowerField'
-import FlowerRule from '../components/FlowerRule'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import useFlowerForm from '../components/useFlowerForm'
+import {
+  FlowerField,
+  useFlowerForm,
+  FlowerRule
+} from '@flowerforce/flower-form'
+import { useStore } from '@flowerforce/flower-react-store'
 
 const Text = ({ text, value, children, id }: any) => (
   <h1 data-testid={id || 'h1'}>{text || value || children}</h1>
@@ -58,10 +61,12 @@ const InitState = ({ state }: any) => {
 }
 
 const Form = ({ flowName }: any) => {
-  const { getData } = useFlowerForm({ flowName })
+  const { getData } = useFlowerForm(flowName)
+  const store = useStore()
+
   useEffect(() => {
-    // console.log("🚀 ~ Form ~ getData:", getData())
-  }, [getData])
+    // console.log('🚀 ~ Form ~ getData:', getData(), store.getState())
+  }, [getData, store])
 
   return null //errors && errors.join(',')
 }
@@ -213,6 +218,7 @@ describe('Test FlowerRule component', () => {
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
           <FlowerNode id="form">
+            <Form />
             <FlowerField id="name">
               <Input />
             </FlowerField>

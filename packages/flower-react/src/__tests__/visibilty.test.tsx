@@ -17,8 +17,7 @@ import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import useFlowerForm from '../components/useFlowerForm'
-import FlowerRule from '../components/FlowerRule'
+import { useFlowerForm, FlowerRule } from '@flowerforce/flower-form'
 
 const Text = ({ text, value, children }: any) => (
   <h1 data-testid="h1">{text || value || children}</h1>

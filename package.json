@@ -42,6 +42,7 @@
   },
   "homepage": "https://www.flowerjs.it",
   "dependencies": {
+    "majestic": "^1.8.1",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
