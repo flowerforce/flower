@@ -19,10 +19,10 @@ const ACTION_TYPES = {
   restart: ['restart', 'restart'],
   reset: ['reset', 'initializeFromNode']
 }
-const PAYLAOAD_KEYS_NEEDED = {
+const PAYLOAD_KEYS_NEEDED = {
   back: ['node'],
   jump: ['node', 'history'],
-  next: ['node', 'route', 'data'],
+  next: ['node', 'route', 'data', 'dataIn'],
   restart: ['node'],
   reset: ['node', 'initialData']
 }
@@ -48,27 +48,27 @@ const makeActionPayload =
 
 const makeActionPayloadOnPrev = makeActionPayload(
   ACTION_TYPES.back,
-  PAYLAOAD_KEYS_NEEDED.back
+  PAYLOAD_KEYS_NEEDED.back
 )
 
 const makeActionPayloadOnReset = makeActionPayload(
   ACTION_TYPES.reset,
-  PAYLAOAD_KEYS_NEEDED.reset
+  PAYLOAD_KEYS_NEEDED.reset
 )
 
 const makeActionPayloadOnNode = makeActionPayload(
   ACTION_TYPES.jump,
-  PAYLAOAD_KEYS_NEEDED.jump
+  PAYLOAD_KEYS_NEEDED.jump
 )
 
 const makeActionPayloadOnNext = makeActionPayload(
   ACTION_TYPES.next,
-  PAYLAOAD_KEYS_NEEDED.next
+  PAYLOAD_KEYS_NEEDED.next
 )
 
 const makeActionPayloadOnRestart = makeActionPayload(
   ACTION_TYPES.restart,
-  PAYLAOAD_KEYS_NEEDED.restart
+  PAYLOAD_KEYS_NEEDED.restart
 )
 /** This hook allows you to read flow informations, such as the flowName and ID of the current node.
  *
@@ -120,7 +120,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const next = useCallback(
     (param?: NavigateFunctionParams) => {
       const params =
-        typeof param === 'string' ? { route: param } : { data: param }
+        typeof param === 'string' ? { route: param } : { dataIn: param }
       const { type, payload } = makeActionPayloadOnNext(flowName, params)
       dispatch({
         type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,

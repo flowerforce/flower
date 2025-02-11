@@ -221,7 +221,7 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     })
   },
   next: (state, { payload }) => {
-    const { name, route, flowName: flow, data = {} } = payload
+    const { name, route, flowName: flow, data = {}, dataIn = {} } = payload
 
     const flowName = name || flow || ''
 
@@ -238,7 +238,10 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     const clonedData = _cloneDeep(FlowerStateUtils.getAllData(data))
 
     const stateWithNodeData = {
+      $in: dataIn,
+      /** @deprecated use $data instead */
       $form: form,
+      $data: form,
       ...clonedData
     }
 

@@ -230,7 +230,9 @@ export type CoreReducersFunctions<
       name?: string
       flowName?: string
       route?: string
-      data?: Record<string, T>
+      data?: Record<string, any>
+      dataIn?: Record<string, any>
+      isStart?: boolean
     }
   >
   /**

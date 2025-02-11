@@ -205,7 +205,7 @@ const FlowerClient = ({
     if (!isInitialized) return
 
     if (isDisabled) {
-      dispatch({ type: 'flower/next', payload: { flowName, disabled: true } })
+      dispatch(flowerActions.next({ flowName }))
       // eslint-disable-next-line no-underscore-dangle, no-undef
       /* istanbul ignore next */
       if (

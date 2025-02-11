@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from '@flowerforce/flower-react-store'
 import { makeSelectStartNodeId } from '../selectors'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
+import { actions as flowerActions } from '../reducer/flowerReducer'
 
 function FlowerStart() {
   const dispatch = useDispatch()
@@ -12,10 +13,7 @@ function FlowerStart() {
   useEffect(() => {
     if (startNodeId === currentNode && autostart && one.current === false) {
       one.current = true
-      dispatch({
-        type: 'flower/next',
-        payload: { flowName: name, isStart: true }
-      })
+      dispatch(flowerActions.next({ flowName: name, isStart: true }))
 
       // if (global.window
       //   // eslint-disable-next-line no-underscore-dangle, no-undef

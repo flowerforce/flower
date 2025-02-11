@@ -52,6 +52,7 @@ const RenderRules = ({
   Component,
   spreadValue,
   formName,
+  flowName,
   onUpdate,
   ...props
 }: any) => {
@@ -60,7 +61,7 @@ const RenderRules = ({
       alwaysDisplay={alwaysDisplay}
       rules={rules}
       value={value}
-      formName={formName}
+      formName={formName || flowName}
       id={id}
     >
       {({ hidden }) => (
@@ -70,7 +71,7 @@ const RenderRules = ({
           id={id}
           Component={Component}
           spreadValue={spreadValue}
-          formName={formName}
+          formName={formName || flowName}
           onUpdate={onUpdate}
         />
       )}

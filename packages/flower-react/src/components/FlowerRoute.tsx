@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react'
 import { useDispatch } from '@flowerforce/flower-react-store'
 import { FlowerRouteProps } from './types/FlowerRoute'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
+import { actions as flowerActions } from '../reducer/flowerReducer'
 
 const FlowerRoute = ({
   autostart = true,
@@ -23,7 +24,7 @@ const FlowerRoute = ({
   useEffect(() => {
     if (autostart && one.current === false) {
       one.current = true
-      dispatch({ type: 'flower/next', payload: { flowName: name } })
+      dispatch(flowerActions.next({ flowName: name }))
     }
   }, [dispatch, name, autostart])
 
