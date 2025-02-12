@@ -23,6 +23,7 @@ import {
   makeSelectPrevNodeRetain
 } from '../selectors'
 import {
+  flowerDataActions,
   useDispatch,
   useSelector,
   useStore
@@ -34,14 +35,15 @@ type FlowerInitalState = {
   history?: string[]
 }
 
-type FlowerClientProps = PropsWithChildren & {
+type FlowerClientProps = PropsWithChildren<{
   name: string
   destroyOnUnmount?: boolean
   startId?: string | null
   initialState?: FlowerInitalState
-}
+  initialData?: Record<string, unknown>
+}>
 
-/**
+/*
  * FlowerClient
  */
 const FlowerClient = ({
@@ -49,7 +51,8 @@ const FlowerClient = ({
   name,
   destroyOnUnmount = true,
   startId = null,
-  initialState = {}
+  initialState = {},
+  initialData
 }: FlowerClientProps) => {
   const flowName = name
 
@@ -89,8 +92,24 @@ const FlowerClient = ({
           initialState
         })
       )
+      if (initialData) {
+        dispatch(
+          flowerDataActions.initForm({
+            formName: flowName,
+            initialData: initialData ?? {}
+          })
+        )
+      }
     }
-  }, [dispatch, flowName, nodes, startId, destroyOnUnmount, initialState])
+  }, [
+    dispatch,
+    flowName,
+    nodes,
+    startId,
+    destroyOnUnmount,
+    initialState,
+    initialData
+  ])
 
   useEffect(() => {
     /* istanbul ignore next */
