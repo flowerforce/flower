@@ -21,11 +21,26 @@ import useFlowerForm from '../components/useFlowerForm'
 import userEvent from '@testing-library/user-event'
 
 const Text = ({ text, value }: any) => <h1 data-testid="h1">{text || value}</h1>
-const Input = ({ onChange, value = '', name, onBlur }: Record<string, any>) => {
+const Content = ({ value, id }: any) => (
+  <span data-testid={`content-${id}`}>{value}</span>
+)
+
+const Error = () => <h1 data-testid="h1">Error</h1>
+
+const Success = () => <h1 data-testid="h1">Success</h1>
+
+const Input = ({
+  onChange,
+  value = '',
+  name,
+  onBlur,
+  type
+}: Record<string, any>) => {
   return (
     <input
-      data-testid={'input'}
+      data-testid={name || 'input'}
       name={name}
+      type={type}
       value={value}
       onBlur={(evt) => onBlur(evt)}
       onChange={(evt) => onChange(evt.target.value)}
@@ -47,6 +62,25 @@ const ButtonNext = ({
   }, [onClick, isValid])
   return (
     <button data-testid={'btn-next'} disabled={!isValid} onClick={_onClick}>
+      NEXT
+    </button>
+  )
+}
+
+const ButtonNextWithValidation = ({
+  id = '',
+  onClick
+}: {
+  id: string
+  onClick?: (...args: any) => void
+}) => {
+  const { isValid } = useFlowerForm(id)
+
+  const _onClick = useCallback(() => {
+    isValid ? onClick?.('success') : onClick?.('error')
+  }, [onClick, isValid])
+  return (
+    <button data-testid={'btn-next'} onClick={_onClick}>
       NEXT
     </button>
   )
@@ -79,11 +113,21 @@ describe('Test FlowerForm component', () => {
         <FormProvider>
           <FlowerForm name="form-test">
             {state ? (
-              <Text value="Success" />
+              <>
+                <FlowerValue id="name">
+                  <Content id="name" />
+                </FlowerValue>
+                <FlowerValue id="surname">
+                  <Content id="surname" />
+                </FlowerValue>
+              </>
             ) : (
               <>
                 <FlowerField id="name">
                   <Input name="name" />
+                </FlowerField>
+                <FlowerField id="surname">
+                  <Input name="surname" />
                 </FlowerField>
                 <ButtonNext id="form-test" onClick={setState} />
               </>
@@ -95,68 +139,115 @@ describe('Test FlowerForm component', () => {
 
     render(<Form />)
 
-    await user.type(screen.getByTestId('input'), '@andrea')
-    expect(screen.getByTestId('input').getAttribute('value')).toBe('@andrea')
-
+    await user.type(screen.getByTestId('name'), 'andrea')
+    await user.type(screen.getByTestId('surname'), 'rossi')
     fireEvent.click(screen.getByTestId('btn-next'))
-
-    expect(screen.getByTestId('h1')).toHaveTextContent('Success')
+    expect(screen.getByTestId('content-name')).toHaveTextContent('andrea')
+    expect(screen.getByTestId('content-surname')).toHaveTextContent('rossi')
   })
-  // it('Test flow with initial state and startId', async () => {
-  //   render(
-  //     <FlowerProvider>
-  //       <Flower name="app-test" initialState={{ startId: 'customStart' }}>
-  //         <FlowerNode id="start" to={{ form: null }}>
-  //           <div>Original Start</div>
-  //         </FlowerNode>
-  //         <FlowerNode id="customStart">
-  //           <div data-testid="customStart">Custom step start</div>
-  //         </FlowerNode>
-  //       </Flower>
-  //     </FlowerProvider>
-  //   )
+  it('FlowerForm user insert value with truthy rules', async () => {
+    const user = userEvent.setup()
 
-  //   expect(screen.getByTestId('customStart')).toHaveTextContent(
-  //     'Custom step start'
-  //   )
-  // })
-  // it('Test flow with initial state and history', async () => {
-  //   render(
-  //     <FlowerProvider>
-  //       <Flower
-  //         name="app-test"
-  //         initialState={{
-  //           startId: 'step1',
-  //           current: 'step3',
-  //           history: ['step1', 'step4', 'step3']
-  //         }}
-  //       >
-  //         <FlowerNode id="step1" to={{ step2: null }}>
-  //           <div data-testid="step1">Step 1</div>
-  //         </FlowerNode>
-  //         <FlowerNode id="step2" to={{ step3: null }}>
-  //           <div data-testid="step2">Step 2</div>
-  //         </FlowerNode>
-  //         <FlowerNode id="step3" to={{ step4: null }}>
-  //           <div data-testid="step3">Step 3</div>
-  //           <FlowerNavigate action="back">
-  //             <button data-testid="back-button3">Go back</button>
-  //           </FlowerNavigate>
-  //         </FlowerNode>
-  //         <FlowerNode id="step4">
-  //           <div data-testid="step4">Step 4</div>
-  //           <FlowerNavigate action="back">
-  //             <button data-testid="back-button4">Go back</button>
-  //           </FlowerNavigate>
-  //         </FlowerNode>
-  //       </Flower>
-  //     </FlowerProvider>
-  //   )
+    const Form = () => {
+      const [state, setState] = useState(false)
+      return (
+        <FormProvider>
+          <FlowerForm name="form-test">
+            {state ? (
+              <>
+                <FlowerValue id="name">
+                  <Content id="name" />
+                </FlowerValue>
+                <FlowerValue id="surname">
+                  <Content id="surname" />
+                </FlowerValue>
+              </>
+            ) : (
+              <>
+                <FlowerField
+                  id="name"
+                  validate={[
+                    {
+                      rules: { $and: [{ name: { $eq: 'andrea' } }] }
+                    }
+                  ]}
+                >
+                  <Input name="name" />
+                </FlowerField>
+                <FlowerField
+                  id="surname"
+                  validate={[
+                    {
+                      rules: { $and: [{ surname: { $eq: 'rossi' } }] }
+                    }
+                  ]}
+                >
+                  <Input name="surname" />
+                </FlowerField>
+                <ButtonNext id="form-test" onClick={setState} />
+              </>
+            )}
+          </FlowerForm>
+        </FormProvider>
+      )
+    }
 
-  //   expect(screen.getByTestId('step3')).toHaveTextContent('Step 3')
-  //   fireEvent.click(screen.getByTestId('back-button3'))
-  //   expect(screen.getByTestId('step4')).toHaveTextContent('Step 4')
-  //   fireEvent.click(screen.getByTestId('back-button4'))
-  //   expect(screen.getByTestId('step1')).toHaveTextContent('Step 1')
-  // })
+    render(<Form />)
+
+    await user.type(screen.getByTestId('name'), 'andrea')
+    await user.type(screen.getByTestId('surname'), 'rossi')
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(screen.getByTestId('content-name')).toHaveTextContent('andrea')
+    expect(screen.getByTestId('content-surname')).toHaveTextContent('rossi')
+  })
+  it('FlowerForm user insert value with falsy rules', async () => {
+    const user = userEvent.setup()
+
+    const Form = () => {
+      const [step, setStep] = useState('step-1')
+
+      if (step === 'step-1')
+        return (
+          <>
+            <FlowerField
+              id="name"
+              validate={[
+                {
+                  rules: { $and: [{ name: { $eq: 'not' } }] }
+                }
+              ]}
+            >
+              <Input name="name" />
+            </FlowerField>
+            <FlowerField
+              id="surname"
+              validate={[
+                {
+                  rules: { $and: [{ surname: { $eq: 'bianch' } }] }
+                }
+              ]}
+            >
+              <Input name="surname" />
+            </FlowerField>
+            <ButtonNextWithValidation id="form-test" onClick={setStep} />
+          </>
+        )
+
+      if (step === 'error') return <Error />
+      return <Success />
+    }
+
+    render(
+      <FormProvider>
+        <FlowerForm name="form-test">
+          <Form />
+        </FlowerForm>
+      </FormProvider>
+    )
+
+    await user.type(screen.getByTestId('name'), 'andrea')
+    await user.type(screen.getByTestId('surname'), 'rossi')
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(screen.getByTestId('h1')).toHaveTextContent('Error')
+  })
 })

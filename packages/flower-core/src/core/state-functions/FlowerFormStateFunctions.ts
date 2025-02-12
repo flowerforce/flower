@@ -51,7 +51,7 @@ export const FlowerCoreFormReducers: FormReducersFunctions = {
     _set(state, [payload.formName, 'hasFocus'], payload.id)
   },
   addData: (state, { payload }) => {
-    const prevData = _get(state, [payload.formName, 'data'])
+    const prevData = _get(state, [payload.formName, 'data'], {})
     _set(state, [payload.formName, 'data'], { ...prevData, ...payload.value })
   },
   addDataByPath: (state, { payload }) => {

@@ -1,12 +1,14 @@
-import {
-  FlowerField,
-  useFlowerForm,
-  FlowerValue,
-  FlowerForm
-} from '@flowerforce/flower-form'
-import { useCallback, useEffect, useState } from 'react'
-import './styles.css'
-import mockData from '../mocks/Example14.json'
+import React, { useCallback, useEffect, useState } from 'react'
+import FlowerField from '../../components/FlowerField'
+import FlowerForm from '../../components/FlowerForm'
+import useFlowerForm from '../../components/useFlowerForm'
+import FormProvider from '../../provider'
+
+const mockData = {
+  name: 'andrea',
+  surname: 'rossi',
+  age: 18
+}
 
 const Text = ({ text, value }: any) => <h1 data-testid="h1">{text || value}</h1>
 
@@ -35,30 +37,49 @@ const Input = ({
   )
 }
 
-const FormResetButton = ({ title }: any) => {
-  const { reset } = useFlowerForm()
-  const action = useCallback(reset, [reset])
-  return <Buttongeneric title={title} action={action} />
-}
-
 const FormUnsetDataButton = ({ path, title }: any) => {
   const { unsetData } = useFlowerForm()
   const action = useCallback(() => unsetData(path), [path, unsetData])
   return <Buttongeneric title={title} action={action} />
 }
 
-const FormSetDataButton = ({ path, title, aishdiuah }: any) => {
+const FormSetDataButton = ({ path, title, value }: any) => {
   const { setData } = useFlowerForm()
-  const action = useCallback(
-    () => setData(aishdiuah, path),
-    [aishdiuah, path, setData]
-  )
+  const action = useCallback(() => {
+    setData(value, path)
+  }, [path, value, setData])
+
+  return <Buttongeneric title={title} action={action} />
+}
+const FormSetDataFieldButton = ({ path, title, value }: any) => {
+  const { setDataField } = useFlowerForm()
+  const action = useCallback(() => {
+    setDataField(path, value)
+  }, [path, value, setDataField])
+
+  return <Buttongeneric title={title} action={action} />
+}
+const FormResetDataButton = ({ title }: any) => {
+  const { reset } = useFlowerForm()
+  return <Buttongeneric title={title} action={reset} />
+}
+
+const FormSetCustomErrorsButton = ({ path, title, value }: any) => {
+  const { setCustomErrors } = useFlowerForm()
+  const action = useCallback(() => {
+    setCustomErrors(path, value)
+  }, [path, value, setCustomErrors])
   return <Buttongeneric title={title} action={action} />
 }
 
 const ShowData = () => {
   const { getData } = useFlowerForm('form-14')
-  return <code>{JSON.stringify(getData(), null, 4)}</code>
+  return <code data-testid="get-data">{JSON.stringify(getData())}</code>
+}
+
+const ShowStatus = () => {
+  const { getFormStatus } = useFlowerForm('form-14')
+  return <code data-testid="get-status">{JSON.stringify(getFormStatus())}</code>
 }
 
 const Buttongeneric = ({ action, title, disabled }: any) => {
@@ -75,19 +96,23 @@ const NavigationButton = ({ setStep }: any) => {
   return <Buttongeneric title="NEXT" action={action} disabled={!isValid} />
 }
 
+const NextButton = ({ setStep }: any) => {
+  const action = useCallback(() => setStep('step2'), [setStep])
+  return <Buttongeneric title="FORCE-NEXT" action={action} />
+}
+
 const data = {
   name: 'andrea',
   surname: 'rossi',
-  age: 19
+  age: 19,
+  address: 'via roma'
 }
 
-const SetStateButton = ({ setStep }: any) => {
+const SetStateButton = () => {
   const { setData } = useFlowerForm()
-
   return <Buttongeneric title="setState" action={() => setData(data)} />
 }
-
-export function Example14() {
+const Example14 = () => {
   const [step, setStep] = useState('step1')
 
   return step === 'step1' ? (
@@ -103,22 +128,8 @@ export function Example14() {
       >
         <Input label="name" />
       </FlowerField>
-      <FlowerField
-        id="surname"
-        validate={[
-          {
-            message: 'surname must be "rossi"',
-            rules: { $and: [{ surname: { $eq: 'rossi' } }] }
-          }
-        ]}
-      >
-        <Input label="surname" />
-        <FormUnsetDataButton title={'UNSET SURNAME'} path={'surname'} />
-        <FormSetDataButton
-          title={'REPLACE SURNAME'}
-          path="surname"
-          aishdiuah={'Rossi'}
-        />
+      <FlowerField id="surname">
+        <Input label="surname" name="surname" />
       </FlowerField>
       <FlowerField
         id="age"
@@ -145,14 +156,34 @@ export function Example14() {
       >
         <Input label="address" />
       </FlowerField>
-      <NavigationButton setStep={setStep} />
-      <FormResetButton title={'RESET'} />
+      <NavigationButton setStep={setStep} enableAll />
+      <NextButton setStep={setStep} />
       <SetStateButton />
+      <FormUnsetDataButton title="UNSET" path="surname" />
+      <FormSetDataButton title="REPLACE" path="surname" value="Rossi" />
+      <FormSetDataFieldButton
+        title="SET-FIELD"
+        path="phone"
+        value="34121212312"
+      />
+      <FormResetDataButton title="RESET" />
+      <FormSetCustomErrorsButton
+        title="CUSTOM-ERRORS"
+        path="surname"
+        value={['not-rossi']}
+      />
     </FlowerForm>
   ) : (
     <>
       <ShowData />
+      <ShowStatus />
       <Buttongeneric title="BACK" action={() => setStep('step1')} />
     </>
   )
 }
+
+export const TestCmp = () => (
+  <FormProvider>
+    <Example14 />
+  </FormProvider>
+)
