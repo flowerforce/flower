@@ -2,11 +2,11 @@ import React, { memo, useEffect, useRef, PropsWithChildren } from 'react'
 import { flowerDataActions, useDispatch } from '@flowerforce/flower-react-store'
 import { FlowerReactProvider } from '@flowerforce/flower-react-context'
 
-type FlowerClientProps = PropsWithChildren & {
+type FlowerClientProps = PropsWithChildren<{
   name: string
   destroyOnUnmount?: boolean
   initialState?: Record<string, unknown>
-}
+}>
 
 /**
  * FlowerFormClient

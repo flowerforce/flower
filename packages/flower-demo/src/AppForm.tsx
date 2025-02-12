@@ -15,12 +15,14 @@ import { Example11 } from './Examples/Example11' // Form async error and hidden
 import { Example12 } from './Examples/Example12' // Simple use of FlowerForm only
 import { Example13 } from './Examples/Example13' // Simple use of FlowerForm only
 import { Example14 } from './Examples/Example14' // Simple use of FlowerForm only
+import { Example15 } from './Examples/Example15' // Simple use of FlowerForm only
+
 import { FormProvider } from '@flowerforce/flower-form'
 
 function AppLogin() {
   return (
     <FormProvider>
-      <Example14 />
+      <Example15 />
     </FormProvider>
   )
 }
