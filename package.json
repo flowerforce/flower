@@ -34,6 +34,7 @@
     "lint": "nx run-many -t lint",
     "lint:fix": "nx run-many -t lint --fix",
     "test": "nx run-many -t test --passWithNoTests",
+    "coverage": "nx run-many -t test --collectCoverage",
     "graph": "nx graph",
     "reset": "nx reset",
     "lint:check": "nx run-many -t lint --fix --quiet --exclude=flower-demo",
