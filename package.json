@@ -43,7 +43,9 @@
     "publish:prerelease": "nx release publish --tag prerelease",
     "prepare:release": "npm run build:packages && nx release --skip-publish",
     "publish:release": "nx release publish",
-    "generate": "nx build-sourcemap flower-demo"
+    "generate": "nx build-sourcemap flower-demo",
+    "mdlint": "npx markdownlint-cli2",
+    "mdlint:fix": "npm run mdlint -- --fix"
   },
   "private": true,
   "repository": {
@@ -87,6 +89,7 @@
     "jest": "^29.4.1",
     "jest-environment-jsdom": "^29.4.1",
     "jest-environment-node": "^29.4.1",
+    "markdownlint-cli2": "^0.15.0",
     "nx": "19.4.1",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.7",
