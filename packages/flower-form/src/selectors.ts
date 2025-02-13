@@ -3,10 +3,10 @@ import {
   RulesObject,
   FunctionRule,
   FlowerStateUtils,
-  FlowerCoreStateFormSelectors
+  FlowerCoreStateDataSelectors
 } from '@flowerforce/flower-core'
 
-const { selectGlobalForm } = FlowerCoreStateFormSelectors
+const { selectGlobalForm } = FlowerCoreStateDataSelectors
 
 const { getAllData: mapData } = FlowerStateUtils
 
@@ -25,11 +25,11 @@ const makeSelectFormData = (name: string) =>
 const getDataFromState = (name: string, id: string | string[]) =>
   createSelector(
     makeSelectFormData(name),
-    FlowerCoreStateFormSelectors.getDataFromState(id)
+    FlowerCoreStateDataSelectors.getDataFromState(id)
   )
 const makeSelectNodeErrors = (name: string) =>
   createSelector(selectFlowerFormNode(name), (data) =>
-    FlowerCoreStateFormSelectors.makeSelectNodeErrors(data)
+    FlowerCoreStateDataSelectors.makeSelectNodeErrors(data)
   )
 
 const makeSelectNodeFieldTouched = (
@@ -39,25 +39,25 @@ const makeSelectNodeFieldTouched = (
 ) =>
   createSelector(
     selectFlowerFormNode(name),
-    FlowerCoreStateFormSelectors.makeSelectNodeFormFieldTouched(fieldId)
+    FlowerCoreStateDataSelectors.makeSelectNodeFormFieldTouched(fieldId)
   )
 
 const makeSelectNodeFieldFocused = (name: string, fieldId: string) =>
   createSelector(
     selectFlowerFormNode(name),
-    FlowerCoreStateFormSelectors.makeSelectNodeFormFieldFocused(fieldId)
+    FlowerCoreStateDataSelectors.makeSelectNodeFormFieldFocused(fieldId)
   )
 
 const makeSelectNodeFieldDirty = (name: string, fieldId: string) =>
   createSelector(
     selectFlowerFormNode(name),
-    FlowerCoreStateFormSelectors.makeSelectNodeFormFieldDirty(fieldId)
+    FlowerCoreStateDataSelectors.makeSelectNodeFormFieldDirty(fieldId)
   )
 
 const makeSelectNodeFormSubmitted = (name: string) =>
   createSelector(
     selectFlowerFormNode(name),
-    FlowerCoreStateFormSelectors.makeSelectNodeFormSubmitted
+    FlowerCoreStateDataSelectors.makeSelectNodeFormSubmitted
   )
 
 const getAllData = createSelector(selectGlobalForm, mapData)
@@ -66,7 +66,7 @@ const makeSelectFieldError = (name: string, id: string, validate: any) =>
   createSelector(
     getAllData,
     selectFlowerFormNode(name),
-    FlowerCoreStateFormSelectors.makeSelectFieldError(name, id, validate)
+    FlowerCoreStateDataSelectors.makeSelectFieldError(name, id, validate)
   )
 
 export const selectorRulesDisabled = (
@@ -79,7 +79,7 @@ export const selectorRulesDisabled = (
   createSelector(
     getAllData,
     makeSelectNodeErrors(flowName),
-    FlowerCoreStateFormSelectors.selectorRulesDisabled(
+    FlowerCoreStateDataSelectors.selectorRulesDisabled(
       id,
       rules,
       keys,

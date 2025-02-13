@@ -1,7 +1,7 @@
 import { FlowerCoreStateSelectors } from '../core/state-selectors'
 import { Flower } from '../interfaces/Store'
 import { REDUCER_NAME } from '../constants'
-import { FlowerCoreFormReducers } from '../core/state-functions/FlowerFormStateFunctions'
+import { FlowerCoreDataReducers } from '../core/state-functions/FlowerFormStateFunctions'
 
 //todo: double check if tests are ok
 

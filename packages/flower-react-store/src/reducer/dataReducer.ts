@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { FlowerCoreFormReducers, REDUCER_NAME } from '@flowerforce/flower-core'
+import { FlowerCoreDataReducers, REDUCER_NAME } from '@flowerforce/flower-core'
 
 const dataReducer = createSlice({
   name: REDUCER_NAME.FLOWER_DATA,
   initialState: {} as Record<string, Record<string, any>>,
-  reducers: FlowerCoreFormReducers
+  reducers: FlowerCoreDataReducers
 })
 
 export const { actions } = dataReducer

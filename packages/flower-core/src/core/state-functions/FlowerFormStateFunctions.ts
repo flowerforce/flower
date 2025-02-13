@@ -16,7 +16,7 @@ const { getPath } = CoreUtils
  * fieldDirty => FlowerField
  * fieldHasFocus => FlowerField
  */
-export const FlowerCoreFormReducers: FormReducersFunctions = {
+export const FlowerCoreDataReducers: FormReducersFunctions = {
   setFormTouched: (state, { payload }) => {
     if (
       !_get(state, typeof payload === 'string' ? payload : payload.formName)

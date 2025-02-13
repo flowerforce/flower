@@ -1,5 +1,5 @@
 import { CoreUtils } from '../utils/FlowerCoreUtils'
-import { FlowerCoreFormReducers } from '../core/state-functions/FlowerFormStateFunctions'
+import { FlowerCoreDataReducers } from '../core/state-functions/FlowerFormStateFunctions'
 import { Flower } from '../interfaces/Store'
 import { REDUCER_NAME } from '../constants'
 import cloneDeep from 'lodash/cloneDeep'
@@ -44,8 +44,8 @@ describe('FlowerFormReducers', () => {
         }
       }
 
-      FlowerCoreFormReducers.formAddErrors(state, action1)
-      FlowerCoreFormReducers.formAddErrors(state, action2)
+      FlowerCoreDataReducers.formAddErrors(state, action1)
+      FlowerCoreDataReducers.formAddErrors(state, action2)
 
       expect(state).toEqual(expectedResult)
     })
@@ -60,7 +60,7 @@ describe('FlowerFormReducers', () => {
         payload,
         type: 'flowerAction'
       }
-      FlowerCoreFormReducers.formRemoveErrors(state, action)
+      FlowerCoreDataReducers.formRemoveErrors(state, action)
       const expectedResult = {
         form: {
           errors: {
@@ -82,7 +82,7 @@ describe('FlowerFormReducers', () => {
   //     }
   //     console.log('🚀 ~ it ~ newState:', state)
 
-  //     const newState = FlowerCoreFormReducers.setFormTouched(state, action)
+  //     const newState = FlowerCoreDataReducers.setFormTouched(state, action)
   //     console.log('🚀 ~ it ~ newState:', newState)
   //     expect(newState?.flower?.form?.Start.isSubmitted).toEqual(true)
   //   })
@@ -94,7 +94,7 @@ describe('FlowerFormReducers', () => {
   //       },
   //       type: 'flowerAction'
   //     }
-  //     const newState = FlowerCoreFormReducers.setFormTouched(
+  //     const newState = FlowerCoreDataReducers.setFormTouched(
   //       FlowerStateWrap({ ...cloneDeep(state) }) as any,
   //       action
   //     )
@@ -113,7 +113,7 @@ describe('FlowerFormReducers', () => {
         payload,
         type: 'flowerAction'
       }
-      FlowerCoreFormReducers.addDataByPath(state, action)
+      FlowerCoreDataReducers.addDataByPath(state, action)
 
       expect(
         _get(state, ['form', 'data', 'nested', 'path', 'to', 'data'])
@@ -140,7 +140,7 @@ describe('FlowerFormReducers', () => {
           data: payload.value
         }
       }
-      FlowerCoreFormReducers.replaceData(state, action)
+      FlowerCoreDataReducers.replaceData(state, action)
       expect(state).toEqual(expectedResult)
     })
   })
@@ -162,7 +162,7 @@ describe('FlowerFormReducers', () => {
           }
         }
       }
-      FlowerCoreFormReducers.unsetData(state, action)
+      FlowerCoreDataReducers.unsetData(state, action)
       expect(state).toEqual(expectedResult)
     })
   })
@@ -183,7 +183,7 @@ describe('FlowerFormReducers', () => {
           isValidating: true
         }
       }
-      FlowerCoreFormReducers.setFormIsValidating(state, action)
+      FlowerCoreDataReducers.setFormIsValidating(state, action)
       expect(state).toEqual(expectedResult)
     })
   })
@@ -204,7 +204,7 @@ describe('FlowerFormReducers', () => {
           data: {}
         }
       }
-      FlowerCoreFormReducers.resetForm(state, action)
+      FlowerCoreDataReducers.resetForm(state, action)
       expect(state).toEqual(expectedResult)
     })
   })
