@@ -23,7 +23,6 @@ const Form = ({ flowName }: any) => {
   const { getData } = useFlowerForm(flowName)
   useEffect(() => {
     getData()
-    // console.log("🚀 ~ Form ~ getData:", getData())
   }, [getData])
 
   return null //errors && errors.join(',')
@@ -73,7 +72,6 @@ const InitState = ({ state, path, flowName }: any) => {
   const { setData, getData } = useFlowerForm(flowName)
   useEffect(() => {
     setData(state, path)
-    // console.log(getData())
     next()
   }, [next, setData, getData, state, path])
   return '...'

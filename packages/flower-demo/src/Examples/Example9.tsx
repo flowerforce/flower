@@ -34,7 +34,7 @@ export function Example9() {
         id="step1"
         to={{
           step2: {
-            rules: { '$form.isValid': { $eq: true } }
+            rules: { '$data.isValid': { $eq: true } }
           }
         }}
         retain
@@ -171,7 +171,7 @@ export function Example9() {
             </FlowerNavigate>
             <FlowerNavigate
               action="next"
-              rules={{ $and: [{ '$form.isValid': { $eq: true } }] }}
+              rules={{ $and: [{ '$data.isValid': { $eq: true } }] }}
               alwaysDisplay
             >
               {({ onClick, hidden }) => (

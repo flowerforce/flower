@@ -51,7 +51,11 @@ export enum RulesModes {
   $or = '$or'
 }
 
-type RulesValuesType<T> = { '$form.isValid'?: boolean } & T
+type RulesValuesType<T> = {
+  '$data.isValid'?: boolean
+  /** @deprecated use $data.isValid instead */
+  '$form.isValid'?: boolean
+} & T
 
 type RulesOperatorsInArray<T> = Partial<{
   [KEY in keyof T]: Partial<{

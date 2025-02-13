@@ -101,7 +101,7 @@ export function Example10() {
             </FlowerNavigate>
             <FlowerNavigate
               action="next"
-              rules={{ $and: [{ '$form.isValid': { $eq: true } }] }}
+              rules={{ $and: [{ '$data.isValid': { $eq: true } }] }}
               alwaysDisplay
             >
               {({ onClick, hidden }) => (

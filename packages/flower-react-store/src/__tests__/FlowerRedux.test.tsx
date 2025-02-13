@@ -33,7 +33,6 @@ const CONSUMER_TEST_ID = 'redux-test'
 
 const ConsumerComponent = () => {
   const state = useSelector((state) => state)
-  console.log(JSON.stringify(state))
   return <div data-testid={CONSUMER_TEST_ID}>{JSON.stringify(state)}</div>
 }
 

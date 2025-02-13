@@ -119,9 +119,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField
@@ -191,9 +191,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField
@@ -267,9 +267,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id=".name">
@@ -310,9 +310,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name" onUpdate={onUpdateSpy}>
@@ -352,9 +352,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name" defaultValue={'@andrea'}>
@@ -431,9 +431,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name">
@@ -480,9 +480,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               }
-              // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              // error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } },
             }}
           >
             <FlowerField
@@ -522,9 +522,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               }
-              // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              // error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } },
             }}
           >
             <FlowerField
@@ -563,9 +563,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               }
-              // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              // error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } },
             }}
           >
             <FlowerField
@@ -612,9 +612,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               }
-              // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              // error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } },
             }}
           >
             <FlowerField
@@ -663,7 +663,7 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               }
             }}
           >
@@ -806,9 +806,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField

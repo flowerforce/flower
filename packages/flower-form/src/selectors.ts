@@ -5,7 +5,6 @@ import {
   FlowerStateUtils,
   FlowerCoreStateFormSelectors
 } from '@flowerforce/flower-core'
-import _get from 'lodash/get'
 
 const { selectGlobalForm } = FlowerCoreStateFormSelectors
 
@@ -14,13 +13,13 @@ const { getAllData: mapData } = FlowerStateUtils
 const selectFlowerForm = selectGlobalForm
 
 const selectFlowerFormNode = (name: string) =>
-  createSelector(selectFlowerForm, (form) => {
-    return form[name]
+  createSelector(selectFlowerForm, (data) => {
+    return data[name]
   })
 
 // dati nel flow selezionato
 const makeSelectFormData = (name: string) =>
-  createSelector(selectFlowerFormNode(name), (form) => _get(form, 'data') ?? {})
+  createSelector(selectFlowerFormNode(name), (data) => data?.data ?? {})
 
 // selettore per recuperare i dati di un flow specifico e id specifico
 const getDataFromState = (name: string, id: string | string[]) =>
@@ -29,8 +28,8 @@ const getDataFromState = (name: string, id: string | string[]) =>
     FlowerCoreStateFormSelectors.getDataFromState(id)
   )
 const makeSelectNodeErrors = (name: string) =>
-  createSelector(selectFlowerFormNode(name), (form) =>
-    FlowerCoreStateFormSelectors.makeSelectNodeErrors(form)
+  createSelector(selectFlowerFormNode(name), (data) =>
+    FlowerCoreStateFormSelectors.makeSelectNodeErrors(data)
   )
 
 const makeSelectNodeFieldTouched = (
@@ -43,27 +42,19 @@ const makeSelectNodeFieldTouched = (
     FlowerCoreStateFormSelectors.makeSelectNodeFormFieldTouched(fieldId)
   )
 
-const makeSelectNodeFieldFocused = (
-  name: string,
-  currentNodeId: string,
-  fieldId: string
-) =>
+const makeSelectNodeFieldFocused = (name: string, fieldId: string) =>
   createSelector(
     selectFlowerFormNode(name),
     FlowerCoreStateFormSelectors.makeSelectNodeFormFieldFocused(fieldId)
   )
 
-const makeSelectNodeFieldDirty = (
-  name: string,
-  currentNodeId: string,
-  fieldId: string
-) =>
+const makeSelectNodeFieldDirty = (name: string, fieldId: string) =>
   createSelector(
     selectFlowerFormNode(name),
     FlowerCoreStateFormSelectors.makeSelectNodeFormFieldDirty(fieldId)
   )
 
-const makeSelectNodeFormSubmitted = (name: string, currentNodeId: string) =>
+const makeSelectNodeFormSubmitted = (name: string) =>
   createSelector(
     selectFlowerFormNode(name),
     FlowerCoreStateFormSelectors.makeSelectNodeFormSubmitted

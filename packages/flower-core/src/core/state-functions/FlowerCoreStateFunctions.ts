@@ -230,7 +230,7 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     const currentNextRules =
       FlowerStateUtils.makeSelectCurrentNextRules(flowName)(state)
 
-    const form = FlowerStateUtils.makeSelectNodeErrors(
+    const $data = FlowerStateUtils.makeSelectNodeErrors(
       flowName,
       currentNodeId
     )(data)
@@ -240,8 +240,8 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     const stateWithNodeData = {
       $in: dataIn,
       /** @deprecated use $data instead */
-      $form: form,
-      $data: form,
+      $form: $data,
+      $data,
       ...clonedData
     }
 

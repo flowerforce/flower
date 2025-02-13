@@ -32,7 +32,6 @@ export const createCustomReducer = ({
       initialState: {},
       reducers: {
         init: (state) => {
-          console.log(state)
           return state
         }
       }

@@ -65,7 +65,7 @@ const Form = ({ flowName }: any) => {
   const store = useStore()
 
   useEffect(() => {
-    // console.log('🚀 ~ Form ~ getData:', getData(), store.getState())
+    console.log('🚀 ~ Form ~ getData:', getData(), store.getState())
   }, [getData, store])
 
   return null //errors && errors.join(',')
@@ -85,9 +85,9 @@ describe('Test FlowerRule component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name">
@@ -136,9 +136,9 @@ describe('Test FlowerRule component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name">
@@ -303,9 +303,9 @@ describe('Test FlowerRule component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name" onUpdate={onUpdateSpy}>

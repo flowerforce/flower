@@ -75,18 +75,18 @@ function Wrapper({
     makeSelectFieldError(formName, id, validate),
     CoreUtils.allEqual
   )
-  const dirty = useSelector(makeSelectNodeFieldDirty(formName, formName, id))
+  const dirty = useSelector(makeSelectNodeFieldDirty(formName, id))
   const touched = useSelector(
     makeSelectNodeFieldTouched(formName, formName, id)
   )
   const focused = useSelector(
-    makeSelectNodeFieldFocused(formName, formName, id)
+    makeSelectNodeFieldFocused(formName, id)
   )
 
   const refValue = useRef<Record<string, any>>()
 
   const isSubmitted = useSelector(
-    makeSelectNodeFormSubmitted(formName, formName)
+    makeSelectNodeFormSubmitted(formName)
   )
 
   const store = useStore()

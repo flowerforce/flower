@@ -1,12 +1,11 @@
 import _get from 'lodash/get'
 import { CoreStateUtils } from '../interfaces/UtilsInterface'
-import { REDUCER_NAME } from '../constants'
 
 export const FlowerStateUtils: CoreStateUtils = {
   getAllData: (state) =>
     state &&
     Object.entries(state ?? {}).reduce(
-      (acc, [k, v]) => ({ ...acc, [k]: v.data }),
+      (acc, [k, v]) => ({ ...acc, [k]: v?.data }),
       {}
     ),
 

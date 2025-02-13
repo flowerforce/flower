@@ -255,7 +255,7 @@ describe('FlowerNavigate test render <Flower />', () => {
             id="a"
             to={{
               b: (val) => {
-                return val.$form.isValid
+                return val.$data.isValid
               }
             }}
           >
@@ -378,7 +378,7 @@ describe('FlowerNavigate test render <Flower />', () => {
                 rules: {
                   $and: [
                     { amount: { $lte: 1497.99 } },
-                    { '$form.isValid': { $eq: true } }
+                    { '$data.isValid': { $eq: true } }
                   ]
                 }
               }

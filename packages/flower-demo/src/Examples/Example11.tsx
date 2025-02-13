@@ -23,13 +23,20 @@ const Form = ({ flowName }: any) => {
   const { getData } = useFlowerForm(flowName)
   useEffect(() => {
     getData()
-    // console.log("🚀 ~ Form ~ getData:", getData())
   }, [getData])
 
   return null //errors && errors.join(',')
 }
 const Text = ({ text, value }: any) => <h1 data-testid="h1">{text || value}</h1>
-const Input = ({ onChange, value = '', name, label }: any) => {
+const Input = ({
+  onChange,
+  value = '',
+  name,
+  label,
+  errors,
+  hasError,
+  dirty
+}: any) => {
   return (
     <>
       <Text text={label} />
@@ -39,6 +46,7 @@ const Input = ({ onChange, value = '', name, label }: any) => {
         value={value}
         onChange={(evt) => onChange(evt.target.value)}
       />
+      {hasError && dirty && <div style={{ color: 'red' }}>{errors[0]}</div>}
     </>
   )
 }
@@ -65,7 +73,6 @@ const InitState = ({ state, path, flowName }: any) => {
   const { setData, getData } = useFlowerForm(flowName)
   useEffect(() => {
     setData(state, path)
-    // console.log(getData())
     next()
   }, [next, setData, getData, state, path])
   return '...'
@@ -79,7 +86,7 @@ export function Example11() {
         to={{
           success: {
             rules: {
-              $and: [{ '$form.isValid': { $eq: true } }]
+              $and: [{ '$data.isValid': { $eq: true } }]
             }
           },
           error: {
@@ -91,7 +98,7 @@ export function Example11() {
           id="name"
           validate={[
             {
-              message: 'is equal',
+              message: 'name must be andrea',
               // rules: { $and: [{ name: { $eq: '$ref:sourceName' } }] }
               rules: { $and: [{ name: { $eq: 'andrea' } }] }
             }
@@ -103,7 +110,7 @@ export function Example11() {
           id="surname"
           validate={[
             {
-              message: 'is equal',
+              message: 'surname must be rossi',
               rules: { $and: [{ surname: { $eq: 'rossi' } }] }
             }
           ]}

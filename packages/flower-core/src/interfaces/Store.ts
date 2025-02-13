@@ -23,7 +23,7 @@ export interface INode {
   disabled?: boolean
 }
 
-export type Form<T> = {
+export type Form<T extends Record<string, unknown>> = {
   isSubmitted?: boolean
   isDirty?: boolean
   hasFocus?: string
@@ -32,4 +32,5 @@ export type Form<T> = {
   customErrors?: { [K in keyof T]: Array<string> }
   dirty?: { [K in keyof T]: boolean }
   touches?: { [K in keyof T]: boolean }
+  data?: T
 }
