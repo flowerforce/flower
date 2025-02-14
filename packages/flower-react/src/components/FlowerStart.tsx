@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from '../provider'
-import { context } from '../context'
+import { useDispatch, useSelector } from '@flowerforce/flower-react-store'
 import { makeSelectStartNodeId } from '../selectors'
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
+import { actions as flowerActions } from '../reducer/flowerReducer'
 
 function FlowerStart() {
   const dispatch = useDispatch()
   const one = useRef(false)
-  const { flowName, autostart = true, currentNode } = useContext(context)
-  const startNodeId = useSelector(makeSelectStartNodeId(flowName ?? ''))
+  const { name, autostart = true, currentNode } = useContext(FlowerReactContext)
+  const startNodeId = useSelector(makeSelectStartNodeId(name ?? ''))
 
   useEffect(() => {
     if (startNodeId === currentNode && autostart && one.current === false) {
       one.current = true
-      dispatch({ type: 'flower/next', payload: { flowName, isStart: true } })
+      dispatch(flowerActions.next({ flowName: name, isStart: true }))
 
       // if (global.window
       //   // eslint-disable-next-line no-underscore-dangle, no-undef
@@ -24,7 +25,7 @@ function FlowerStart() {
       //   });
       // }
     }
-  }, [dispatch, autostart, startNodeId, currentNode, flowName])
+  }, [dispatch, autostart, startNodeId, currentNode, name])
 
   return null
 }

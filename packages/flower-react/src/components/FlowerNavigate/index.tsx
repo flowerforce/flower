@@ -2,13 +2,15 @@
 import React from 'react';
 import { useFlowerNavigate } from './useFlowerNavigate';
 import WrapperComponent from './WrapperComponent'
-import FlowerRule from '../FlowerRule';
+import { FlowerRule } from '@flowerforce/flower-react-shared'
+
 import { FlowerNavigateProps } from '../types/FlowerNavigate';
 
 //TODO type RenderRules props
+// ! Probably in this scenario we must replace `FlowerRule` or refactor `FlowerNavigate`
 const RenderRules = ({ alwaysDisplay, rules, Component, flowName, onNavigate, ...props }: any) => {
   return (
-    <FlowerRule alwaysDisplay={alwaysDisplay} rules={rules} flowName={flowName}>
+    <FlowerRule alwaysDisplay={alwaysDisplay} rules={rules} formName={flowName}>
       {({ hidden }) => <WrapperComponent
         {...props}
         Component={Component}

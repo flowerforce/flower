@@ -8,7 +8,7 @@ import {
 
 export type UseFlowerProps = { [x in 'name' | 'flowName']?: string }
 
-export type UseFlowerForm = (options?: UseFlowerProps) => {
+export type UseFlowerForm = (customFormName?: string) => {
   /**  This value is set to true when the form has been submitted at least once or a next invoked. */
   isSubmitted: boolean
   /**  This value is set to true when at least once field is dirted. */
@@ -50,7 +50,10 @@ export type UseFlowerForm = (options?: UseFlowerProps) => {
   ) => void
   /** Use this function to replace a value in the flow's data. */
   replaceData: (value: any) => void
-  /**Use this function to reset errors form and touched state */
+  /**
+   * Reset form to its initial state if useFlowerForm its inside FlowerForm context, otherwise, it resets all form fields to undefined.
+   * Use this function to reset errors form and touched state
+   */
   reset: (nodeId?: string) => void
   /**this function to set a custom error on a specific field */
   setCustomErrors: (field: string, errors: string[], nodeId?: string) => void
