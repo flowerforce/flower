@@ -1,3 +1,4 @@
+import React from 'react'
 import { FunctionRule, RulesObject } from '@flowerforce/flower-core'
 
 export type FlowerRuleProps = {

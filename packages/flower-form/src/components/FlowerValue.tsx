@@ -2,9 +2,11 @@
 import React, { useContext, useEffect, useMemo } from 'react';
 import { CoreUtils } from '@flowerforce/flower-core';
 import { useSelector } from '@flowerforce/flower-react-store';
+import { FlowerRule } from '@flowerforce/flower-react-shared'
+
 import { getDataFromState } from '../selectors';
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
-import FlowerRule from './FlowerRule';
+
 import { FlowerValueProps } from './types/FlowerValue';
 
 //TODO make types for wrapper function

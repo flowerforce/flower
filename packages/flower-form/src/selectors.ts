@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect'
 import {
-  RulesObject,
-  FunctionRule,
   FlowerStateUtils,
   FlowerCoreStateDataSelectors
 } from '@flowerforce/flower-core'
@@ -67,25 +65,6 @@ const makeSelectFieldError = (name: string, id: string, validate: any) =>
     getAllData,
     selectFlowerFormNode(name),
     FlowerCoreStateDataSelectors.makeSelectFieldError(name, id, validate)
-  )
-
-export const selectorRulesDisabled = (
-  id: string,
-  rules: RulesObject<any> | FunctionRule,
-  keys: string[],
-  flowName: string,
-  value: any
-) =>
-  createSelector(
-    getAllData,
-    makeSelectNodeErrors(flowName),
-    FlowerCoreStateDataSelectors.selectorRulesDisabled(
-      id,
-      rules,
-      keys,
-      flowName,
-      value
-    )
   )
 
 export {

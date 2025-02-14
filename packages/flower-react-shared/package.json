@@ -1,5 +1,5 @@
 {
-  "name": "@flowerforce/flower-react-context",
+  "name": "@flowerforce/flower-react-shared",
   "version": "4.0.0",
   "description": "FlowerJS utils for Form handling.",
   "repository": {
@@ -23,10 +23,10 @@
   "license": "MIT",
   "peerDependencies": {
     "react": ">=18",
-    "react-redux": "^9.1.2",
-    "reselect": "^5.1.0",
-    "@reduxjs/toolkit": "^2.2.4"
-
+    "@reduxjs/toolkit": "^2.2.4",
+    "@flowerforce/flower-core": "*",
+    "@flowerforce/flower-react-store": "*",
+    "@flowerforce/flower-react-context": "*"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
@@ -37,10 +37,7 @@
     "@types/react-dom": "^18.3.0",
     "typescript": "^5.4.5"
   },
-  "dependencies": {
-    "@flowerforce/flower-core": "4.0.0",
-    "lodash": "^4.17.21"
-  },
+  "dependencies": {},
   "exports": {
     "./package.json": "./package.json",
     ".": {

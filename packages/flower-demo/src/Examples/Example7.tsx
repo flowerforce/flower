@@ -1,7 +1,8 @@
 import { Flower, FlowerNode, FlowerNavigate } from '@flowerforce/flower-react'
-import { FlowerField, FlowerRule } from '@flowerforce/flower-form'
+import { FlowerField } from '@flowerforce/flower-form'
 
 import './styles.css'
+import { FlowerRule } from '@flowerforce/flower-react-shared'
 
 export function Example7() {
   return (

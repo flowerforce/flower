@@ -16,7 +16,7 @@ import {
   makeSelectNodeFormSubmitted
 } from '../selectors'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
-import FlowerRule from './FlowerRule'
+
 
 import debounce from 'lodash/debounce'
 import {
@@ -32,6 +32,7 @@ import {
 } from '@flowerforce/flower-core'
 import { FlowerFieldProps } from './types/FlowerField'
 import isEqual from 'lodash/isEqual'
+import { FlowerRule } from '@flowerforce/flower-react-shared'
 
 function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
   return typeof x === 'string'

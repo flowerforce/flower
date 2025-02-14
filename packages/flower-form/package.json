@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/flower-form",
-  "version": "1.0.0",
+  "version": "4.0.0",
   "description": "FlowerJS utils for Form handling.",
   "repository": {
     "type": "git",
@@ -38,9 +38,10 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@flowerforce/flower-core": "3.3.0",
-    "@flowerforce/flower-react-store": "1.0.0",
-    "@flowerforce/flower-react-context": "1.0.0",
+    "@flowerforce/flower-core": "*",
+    "@flowerforce/flower-react-store": "*",
+    "@flowerforce/flower-react-context": "*",
+    "@flowerforce/flower-react-shared": "*",
     "lodash": "^4.17.21"
   },
   "exports": {

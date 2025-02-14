@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import { MatchRules } from '@flowerforce/flower-core'
 import { useSelector } from '@flowerforce/flower-react-store'
-import { selectorRulesDisabled } from '../selectors'
+import { selectorRulesDisabled } from './selectors'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
-import { FlowerRuleProps } from './types/FlowerRule'
+import type { FlowerRuleProps } from '../types/FlowerRule'
 
 const FlowerRule = ({
   children,
@@ -68,4 +68,4 @@ const FlowerRule = ({
 const component = React.memo(FlowerRule)
 component.displayName = 'FlowerRule'
 
-export default component
+export const Component = component

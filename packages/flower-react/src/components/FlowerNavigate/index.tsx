@@ -2,7 +2,7 @@
 import React from 'react';
 import { useFlowerNavigate } from './useFlowerNavigate';
 import WrapperComponent from './WrapperComponent'
-import { FlowerRule } from '@flowerforce/flower-form'
+import { FlowerRule } from '@flowerforce/flower-react-shared'
 
 import { FlowerNavigateProps } from '../types/FlowerNavigate';
 

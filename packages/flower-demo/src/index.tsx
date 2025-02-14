@@ -8,8 +8,8 @@ import { Devtool } from '@flowerforce/devtool'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
-root.render(<AppForm />)
-// root.render(<AppFlow />)
+// root.render(<AppForm />)
+root.render(<AppFlow />)
 
 Devtool({
   sessionId: 'L2ak8Aw13e2C9Lc0WgQ7e',
