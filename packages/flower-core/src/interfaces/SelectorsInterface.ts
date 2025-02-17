@@ -81,6 +81,13 @@ export interface IFormSelectors {
    * @param state
    * @returns
    */
+  selectGlobalReducerByName(
+    name: string
+  ): (state: Record<string, Record<string, unknown>>) => Record<string, unknown>
+  /**
+   * @param state
+   * @returns
+   */
   selectGlobalForm<T extends Record<string, any>>(state: {
     [REDUCER_NAME.FLOWER_DATA]: { [x: string]: Form<T> }
   }): { [x: string]: Form<T> }

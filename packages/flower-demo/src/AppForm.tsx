@@ -21,9 +21,15 @@ import { FormProvider } from '@flowerforce/flower-form'
 
 function AppLogin() {
   return (
-    <FormProvider>
-      <Example15 />
-    </FormProvider>
+    <div
+      className="Form"
+      style={{ display: 'flex', flexDirection: 'column', padding: '50px' }}
+    >
+      FORM
+      <FormProvider>
+        <Example14 />
+      </FormProvider>
+    </div>
   )
 }
 export default AppLogin

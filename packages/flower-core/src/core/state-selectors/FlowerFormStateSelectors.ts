@@ -7,7 +7,11 @@ import _get from 'lodash/get'
 import { REDUCER_NAME } from '../../constants'
 
 export const FlowerCoreStateDataSelectors: IFormSelectors = {
-  selectGlobalForm: (state) => state && state[REDUCER_NAME.FLOWER_DATA],
+  selectGlobalReducerByName: (name) => (state) =>
+    state[name] ?? state[REDUCER_NAME.FLOWER_DATA][name],
+  selectGlobalForm: (state) => {
+    return state && state[REDUCER_NAME.FLOWER_DATA]
+  },
   // getDataByFlow: (flower) => _get(flower, 'data') ?? {},
   getDataFromState: (id) => (data) => (id === '*' ? data : _get(data, id)),
   makeSelectNodeFormSubmitted: (form) => form && form.isSubmitted,

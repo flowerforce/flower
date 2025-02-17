@@ -126,8 +126,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
         type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,
         payload: {
           ...payload,
-          // cambiare nome
-          data: store.getState()[REDUCER_NAME.FLOWER_DATA]
+          data: store.getState()
         }
       })
 

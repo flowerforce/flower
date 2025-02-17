@@ -225,6 +225,8 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
 
     const flowName = name || flow || ''
 
+    const { FlowerData, FlowerFlow, ...external } = data
+
     const currentNodeId =
       FlowerStateUtils.makeSelectCurrentNodeId(flowName)(state)
     const currentNextRules =
@@ -233,16 +235,21 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
     const $data = FlowerStateUtils.makeSelectNodeErrors(
       flowName,
       currentNodeId
-    )(data)
+    )(FlowerData)
 
-    const clonedData = _cloneDeep(FlowerStateUtils.getAllData(data))
+    const internalClonedData = _cloneDeep(
+      FlowerStateUtils.getAllData(FlowerData)
+    )
+
+    const externalClonedData = _cloneDeep(FlowerStateUtils.getAllData(external))
 
     const stateWithNodeData = {
       $in: dataIn,
       /** @deprecated use $data instead */
       $form: $data,
       $data,
-      ...clonedData
+      ...externalClonedData,
+      ...internalClonedData
     }
 
     if (!currentNextRules) {

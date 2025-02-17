@@ -12,13 +12,15 @@ export interface FormProviderInterface {
   render(): JSX.Element
 }
 
-export type REDUCERS_TYPES = Partial<
-  Record<
-    REDUCER_NAME,
-    | Reducer<Record<string, Record<string, unknown>>>
-    | Reducer<Record<string, Flower<Record<string, unknown>>>>
-  >
->
+export type REDUCERS_TYPES =
+  | Partial<
+      Record<
+        REDUCER_NAME,
+        | Reducer<Record<string, Record<string, unknown>>>
+        | Reducer<Record<string, Flower<Record<string, unknown>>>>
+      >
+    >
+  | Record<string, Reducer<Record<string, unknown>>>
 
 export type ReduxProviderProps<T = REDUCERS_TYPES> = ReturnType<
   typeof configureStore<

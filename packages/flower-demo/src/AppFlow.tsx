@@ -19,9 +19,15 @@ import { FlowerProvider } from '@flowerforce/flower-react'
 
 function AppLogin() {
   return (
-    <FlowerProvider enableReduxDevtool>
-      <Example11 />
-    </FlowerProvider>
+    <div
+      className="Form"
+      style={{ display: 'flex', flexDirection: 'column', padding: '50px' }}
+    >
+      FLOW
+      <FlowerProvider enableReduxDevtool>
+        <Example11 />
+      </FlowerProvider>
+    </div>
   )
 }
 export default AppLogin

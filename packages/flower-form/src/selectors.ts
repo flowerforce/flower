@@ -4,7 +4,8 @@ import {
   FlowerCoreStateDataSelectors
 } from '@flowerforce/flower-core'
 
-const { selectGlobalForm } = FlowerCoreStateDataSelectors
+const { selectGlobalForm, selectGlobalReducerByName } =
+  FlowerCoreStateDataSelectors
 
 const { getAllData: mapData } = FlowerStateUtils
 
@@ -17,7 +18,11 @@ const selectFlowerFormNode = (name: string) =>
 
 // dati nel flow selezionato
 const makeSelectFormData = (name: string) =>
-  createSelector(selectFlowerFormNode(name), (data) => data?.data ?? {})
+  createSelector(
+    selectFlowerFormNode(name),
+    selectGlobalReducerByName(name),
+    (form, external) => form?.data ?? external ?? {}
+  )
 
 // selettore per recuperare i dati di un flow specifico e id specifico
 const getDataFromState = (name: string, id: string | string[]) =>
@@ -25,6 +30,7 @@ const getDataFromState = (name: string, id: string | string[]) =>
     makeSelectFormData(name),
     FlowerCoreStateDataSelectors.getDataFromState(id)
   )
+
 const makeSelectNodeErrors = (name: string) =>
   createSelector(selectFlowerFormNode(name), (data) =>
     FlowerCoreStateDataSelectors.makeSelectNodeErrors(data)

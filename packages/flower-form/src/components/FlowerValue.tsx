@@ -19,11 +19,11 @@ function Wrapper({
   onUpdate,
   ...props
 }: any) {
-  const { formName: formNameFromPath = formName, path } = useMemo(
+  const { formName: formNameFromPath, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
   );
-  const value = useSelector(getDataFromState(formName, path));
+  const value = useSelector(getDataFromState(formNameFromPath ?? formName, path));
   const values =
     spreadValue && typeof value === 'object' && !Array.isArray(value)
       ? value

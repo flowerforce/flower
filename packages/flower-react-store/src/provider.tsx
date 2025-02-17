@@ -6,7 +6,12 @@ import {
   createStoreHook,
   ReactReduxContextValue
 } from 'react-redux'
-import { Action, combineReducers, configureStore } from '@reduxjs/toolkit'
+import {
+  Action,
+  combineReducers,
+  configureStore,
+  ConfigureStoreOptions
+} from '@reduxjs/toolkit'
 import {
   ExternalProviderProps,
   REDUCERS_TYPES,
@@ -24,7 +29,10 @@ export const useDispatch = createDispatchHook(reduxContext)
 export const useSelector = createSelectorHook(reduxContext)
 export const useStore = createStoreHook(reduxContext)
 
-const store = (reducers?: REDUCERS_TYPES, config?: Record<string, unknown>) => {
+const store = (
+  reducers?: REDUCERS_TYPES,
+  config?: Omit<ConfigureStoreOptions, 'reducer'>
+) => {
   const reducer = combineReducers({
     ...reducerData,
     ...(reducers || {})
