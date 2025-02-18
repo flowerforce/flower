@@ -1,7 +1,7 @@
 {
-  "name": "flower-form",
+  "name": "flower-react-form",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/flower-form/src",
+  "sourceRoot": "packages/flower-react-form/src",
   "projectType": "library",
   "tags": ["form"],
   "targets": {}

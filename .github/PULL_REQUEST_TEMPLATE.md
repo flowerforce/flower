@@ -13,7 +13,7 @@
 ## Modified packages 
 - [ ] flower-core
 - [ ] flower-react
-- [ ] flower-form
+- [ ] flower-react-form
 - [ ] flower-demo
 - [ ] flower-devtool
 - [ ] flower-react-context
