@@ -17,7 +17,7 @@ import FlowerNavigate from '../components/FlowerNavigate'
 import Flower from '../components/Flower'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import { useFlowerForm } from '@flowerforce/flower-form'
+import { useFlowerForm } from '@flowerforce/flower-react-form'
 
 const Text = ({
   text,

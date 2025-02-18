@@ -3,7 +3,7 @@ import {
   useFlowerForm,
   FlowerValue,
   FlowerForm
-} from '@flowerforce/flower-form'
+} from '@flowerforce/flower-react-form'
 import { useCallback, useEffect, useState } from 'react'
 import './styles.css'
 import mockData from '../mocks/Example14.json'

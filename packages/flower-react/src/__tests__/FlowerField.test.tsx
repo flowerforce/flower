@@ -18,7 +18,7 @@ import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import { useFlowerForm, FlowerField } from '@flowerforce/flower-form'
+import { useFlowerForm, FlowerField } from '@flowerforce/flower-react-form'
 
 const delay = (ms: any) => new Promise((r) => setTimeout(r, ms))
 

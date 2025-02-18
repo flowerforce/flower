@@ -19,7 +19,7 @@ import FlowerNavigate from '../components/FlowerNavigate'
 import FlowerRoute from '../components/FlowerRoute'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import { useFlowerForm } from '@flowerforce/flower-form'
+import { useFlowerForm } from '@flowerforce/flower-react-form'
 
 const delay = (ms) => new Promise((r) => setTimeout(r, ms))
 

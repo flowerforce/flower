@@ -11,7 +11,7 @@ import {
   FlowerField,
   FlowerValue,
   useFlowerForm
-} from '@flowerforce/flower-form'
+} from '@flowerforce/flower-react-form'
 
 import { useCallback, useEffect } from 'react'
 import './styles.css'

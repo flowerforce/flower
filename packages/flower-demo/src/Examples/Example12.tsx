@@ -10,7 +10,7 @@ import {
   FlowerField,
   FlowerValue,
   useFlowerForm
-} from '@flowerforce/flower-form'
+} from '@flowerforce/flower-react-form'
 
 import { useEffect, useState } from 'react'
 import './styles.css'

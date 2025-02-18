@@ -21,7 +21,7 @@ import {
   FlowerField,
   useFlowerForm,
   FlowerValue
-} from '@flowerforce/flower-form'
+} from '@flowerforce/flower-react-form'
 const Text = ({ text, value, children, ...props }: any) => (
   <h1 data-testid="h1" {...props}>
     {text || value || children}

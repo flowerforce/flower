@@ -5,7 +5,7 @@ import {
   useFlower,
   Flower
 } from '@flowerforce/flower-react'
-import { FlowerField, useFlowerForm } from '@flowerforce/flower-form'
+import { FlowerField, useFlowerForm } from '@flowerforce/flower-react-form'
 
 import { useEffect } from 'react'
 import './styles.css'

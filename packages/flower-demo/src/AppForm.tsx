@@ -17,7 +17,7 @@ import { Example13 } from './Examples/Example13' // Simple use of FlowerForm onl
 import { Example14 } from './Examples/Example14' // Simple use of FlowerForm only
 import { Example15 } from './Examples/Example15' // Simple use of FlowerForm only
 
-import { FormProvider } from '@flowerforce/flower-form'
+import { FormProvider } from '@flowerforce/flower-react-form'
 
 function AppLogin() {
   return (

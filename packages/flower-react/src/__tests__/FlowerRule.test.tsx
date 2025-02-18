@@ -17,7 +17,7 @@ import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import { FlowerField, useFlowerForm } from '@flowerforce/flower-form'
+import { FlowerField, useFlowerForm } from '@flowerforce/flower-react-form'
 import { FlowerRule } from '@flowerforce/flower-react-shared'
 
 import { useStore } from '@flowerforce/flower-react-store'

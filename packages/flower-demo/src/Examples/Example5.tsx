@@ -1,5 +1,5 @@
 import { Flower, FlowerNavigate, FlowerNode } from '@flowerforce/flower-react'
-import { FlowerField, FlowerValue } from '@flowerforce/flower-form'
+import { FlowerField, FlowerValue } from '@flowerforce/flower-react-form'
 
 import './styles.css'
 
