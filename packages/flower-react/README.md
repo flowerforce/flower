@@ -608,7 +608,9 @@ Next to FlowerReact, we find FlowerForm, another library designed to manage data
 
 To modify the internal state of Flower, besides passing initialData as a prop, we can always modify and read the state through the components **FlowerField** and **FlowerValue**.
 
-N.B.: We must use FlowerField and FlowerValue component provided by `@flowerforce/flower-react-form`
+N.B.: We must use FlowerField component provided by `@flowerforce/flower-react-form`
+N.B.: We must use FlowerValue component provided by `@flowerforce/flower-react-shared`
+
 
 _FlowerField_ pass two props, onChange and value, to properly modify and read the value from the state of Flower.
 _FlowerValue_ pass value, to properly read the value from the state of Flower.
@@ -623,13 +625,15 @@ import {
   FlowerNavigate,
   FlowerNode,
   FlowerField,
-  FlowerValue
 } from '@flowerforce/flower-react'
+
 
 import {
   FlowerField,
-  FlowerValue
 } from '@flowerforce/flower-react-form'
+
+import { FlowerValue } from '@flowerforce/flower-react-shared'
+
 
 export const Page = () => {
   return (
@@ -674,7 +678,7 @@ Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-3-f
 N.B.: `@flowerforce/flower-react-form` provides its own provider `FormProvider` and an equivalent of `<Flower>` component  called `<FlowerForm>`
 In this case we don't need to use it as form components reads from <Flower> context and mantains consistency between flowname and formname
 
-For more info [flowerjs.it/flower-form](https://flowerjs.it/flower-form) /// we must generate pages in website for specific documentation
+For more info [flowerjs.it/flower-react-form](https://flowerjs.it/flower-react-form) /// we must generate pages in website for specific documentation
 
 ### Basic Usage
 

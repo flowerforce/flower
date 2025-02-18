@@ -1,9 +1,10 @@
 import {
   FlowerField,
   useFlowerForm,
-  FlowerValue,
   FlowerForm
 } from '@flowerforce/flower-react-form'
+import { FlowerValue } from '@flowerforce/flower-react-shared'
+
 import { useCallback, useEffect, useState } from 'react'
 import './styles.css'
 import mockData from '../mocks/Example14.json'

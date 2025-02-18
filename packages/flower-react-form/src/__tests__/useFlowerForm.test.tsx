@@ -15,7 +15,7 @@ import '@testing-library/jest-dom'
 import FormProvider from '../provider'
 import FlowerForm from '../components/FlowerForm'
 import FlowerField from '../components/FlowerField'
-import FlowerValue from '../components/FlowerValue'
+import { FlowerValue } from '@flowerforce/flower-react-shared'
 
 import useFlowerForm from '../components/useFlowerForm'
 import userEvent from '@testing-library/user-event'

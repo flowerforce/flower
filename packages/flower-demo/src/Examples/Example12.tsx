@@ -8,9 +8,9 @@ import {
 import {
   FlowerForm,
   FlowerField,
-  FlowerValue,
   useFlowerForm
 } from '@flowerforce/flower-react-form'
+import { FlowerValue } from '@flowerforce/flower-react-shared'
 
 import { useEffect, useState } from 'react'
 import './styles.css'

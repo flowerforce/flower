@@ -17,11 +17,9 @@ import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import {
-  FlowerField,
-  useFlowerForm,
-  FlowerValue
-} from '@flowerforce/flower-react-form'
+import { FlowerField, useFlowerForm } from '@flowerforce/flower-react-form'
+import { FlowerValue } from '@flowerforce/flower-react-shared'
+
 const Text = ({ text, value, children, ...props }: any) => (
   <h1 data-testid="h1" {...props}>
     {text || value || children}

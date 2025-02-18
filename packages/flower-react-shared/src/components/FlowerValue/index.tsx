@@ -1,13 +1,12 @@
 /* eslint-disable */
 import React, { useContext, useEffect, useMemo } from 'react';
 import { CoreUtils } from '@flowerforce/flower-core';
-import { useSelector } from '@flowerforce/flower-react-store';
-import { FlowerRule } from '@flowerforce/flower-react-shared'
-
-import { getDataFromState } from '../selectors';
+import { Selectors, useSelector } from '@flowerforce/flower-react-store';
+import { Component as FlowerRule } from '../FlowerRule';
+import type { FlowerValueProps } from '../types';
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 
-import { FlowerValueProps } from './types/FlowerValue';
+
 
 //TODO make types for wrapper function
 function Wrapper({
@@ -23,7 +22,7 @@ function Wrapper({
     () => CoreUtils.getPath(id),
     [id]
   );
-  const value = useSelector(getDataFromState(formNameFromPath ?? formName, path));
+  const value = useSelector(Selectors.getDataFromState(formNameFromPath ?? formName, path));
   const values =
     spreadValue && typeof value === 'object' && !Array.isArray(value)
       ? value
@@ -135,4 +134,4 @@ const FlowerValue = ({
 const component = React.memo(FlowerValue);
 component.displayName = 'FlowerValue';
 
-export default component;
+export const Component = component;
