@@ -5,7 +5,7 @@ import AppForm from './AppForm'
 export function MainApp() {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      {/* <AppFlow /> */}
+      <AppFlow />
       <AppForm />
       <AppFlowWithCustomReducers />
     </div>
