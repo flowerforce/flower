@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@flowerforce/flower-core": "*",
+    "@flowerforce/flower-react-context": "*",
     "@flowerforce/flower-react-store": "*",
     "@flowerforce/flower-react-shared": "*",
     "@reduxjs/toolkit": "^2.2.4",

@@ -40,8 +40,8 @@
   "dependencies": {
     "@flowerforce/flower-core": "*",
     "@flowerforce/flower-react-store": "*",
-    "@flowerforce/flower-react-context": "*",
     "@flowerforce/flower-react-shared": "*",
+    "@flowerforce/flower-react-context": "*",
     "lodash": "^4.17.21"
   },
   "exports": {
