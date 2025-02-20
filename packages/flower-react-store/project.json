@@ -1,0 +1,8 @@
+{
+  "name": "flower-react-store",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/flower-react-store/src",
+  "projectType": "library",
+  "tags": ["react-store"],
+  "targets": {}
+}

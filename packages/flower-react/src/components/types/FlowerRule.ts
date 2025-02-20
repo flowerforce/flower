@@ -21,7 +21,7 @@ export type FlowerRuleProps = {
    *
    * - note: the default value is the name of the flow where the component is used
    */
-  flowName?: string
+  formName?: string
   /** When set to true, the children is shown even if the rules are not satisfied
    *
    * The FlowerRule returns the boolean variable "hidden" to notify you if the conditions are satisfied or not

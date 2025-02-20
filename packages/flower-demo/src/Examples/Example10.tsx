@@ -1,12 +1,12 @@
 import {
   FlowerNavigate,
   FlowerNode,
-  FlowerField,
   FlowerAction,
   useFlower,
-  useFlowerForm,
   Flower
 } from '@flowerforce/flower-react'
+import { FlowerField, useFlowerForm } from '@flowerforce/flower-react-form'
+
 import { useEffect } from 'react'
 import './styles.css'
 
@@ -101,7 +101,7 @@ export function Example10() {
             </FlowerNavigate>
             <FlowerNavigate
               action="next"
-              rules={{ $and: [{ '$form.isValid': { $eq: true } }] }}
+              rules={{ $and: [{ '$data.isValid': { $eq: true } }] }}
               alwaysDisplay
             >
               {({ onClick, hidden }) => (

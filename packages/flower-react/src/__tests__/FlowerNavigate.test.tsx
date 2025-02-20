@@ -19,7 +19,7 @@ import FlowerNavigate from '../components/FlowerNavigate'
 import FlowerRoute from '../components/FlowerRoute'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import useFlowerForm from '../components/useFlowerForm'
+import { useFlowerForm } from '@flowerforce/flower-react-form'
 
 const delay = (ms) => new Promise((r) => setTimeout(r, ms))
 
@@ -53,7 +53,7 @@ const ButtonNodeObject = ({ value }: any) => {
 
 const ButtonNextDefault = () => {
   return (
-    <FlowerNavigate>
+    <FlowerNavigate action="next">
       <button data-testid="btn-next">NEXT</button>
     </FlowerNavigate>
   )
@@ -255,7 +255,7 @@ describe('FlowerNavigate test render <Flower />', () => {
             id="a"
             to={{
               b: (val) => {
-                return val.$form.isValid
+                return val.$data.isValid
               }
             }}
           >
@@ -378,7 +378,7 @@ describe('FlowerNavigate test render <Flower />', () => {
                 rules: {
                   $and: [
                     { amount: { $lte: 1497.99 } },
-                    { '$form.isValid': { $eq: true } }
+                    { '$data.isValid': { $eq: true } }
                   ]
                 }
               }

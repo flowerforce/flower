@@ -1,15 +1,12 @@
-import {
-  Flower,
-  FlowerRule,
-  FlowerNode,
-  FlowerField,
-  FlowerNavigate
-} from '@flowerforce/flower-react'
+import { Flower, FlowerNode, FlowerNavigate } from '@flowerforce/flower-react'
+import { FlowerField } from '@flowerforce/flower-react-form'
+
 import './styles.css'
+import { FlowerRule } from '@flowerforce/flower-react-shared'
 
 export function Example7() {
   return (
-    <Flower name="example7" initialData={{ enableNav: false }}>
+    <Flower name="example7">
       {/**
        * step 1
        */}

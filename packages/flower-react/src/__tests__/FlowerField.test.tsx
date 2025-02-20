@@ -16,10 +16,9 @@ import '@testing-library/jest-dom'
 
 import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
-import FlowerField from '../components/FlowerField'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
-import useFlowerForm from '../components/useFlowerForm'
+import { useFlowerForm, FlowerField } from '@flowerforce/flower-react-form'
 
 const delay = (ms: any) => new Promise((r) => setTimeout(r, ms))
 
@@ -68,7 +67,7 @@ const InitState = ({ state, path }: { state: any; path?: any }) => {
 }
 
 const Form = ({ flowName, path }: { flowName?: string; path?: string }) => {
-  const { getData } = useFlowerForm({ flowName })
+  const { getData } = useFlowerForm(flowName)
   useEffect(() => {
     getData(path)
     // console.log("🚀 ~ Form ~ getData:", getData())
@@ -78,7 +77,7 @@ const Form = ({ flowName, path }: { flowName?: string; path?: string }) => {
 }
 
 const FormReset = forwardRef(({ children, flowName }: any, ref) => {
-  const { reset } = useFlowerForm({ flowName })
+  const { reset } = useFlowerForm(flowName)
 
   useImperativeHandle(ref, () => {
     return {
@@ -90,7 +89,7 @@ const FormReset = forwardRef(({ children, flowName }: any, ref) => {
 })
 
 const FormErrors = forwardRef(({ children, flowName }: any, ref) => {
-  const { setCustomErrors, customErrors } = useFlowerForm({ flowName })
+  const { setCustomErrors, customErrors } = useFlowerForm(flowName)
 
   useImperativeHandle(ref, () => {
     return {
@@ -120,9 +119,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField
@@ -192,9 +191,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField
@@ -268,9 +267,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id=".name">
@@ -311,9 +310,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name" onUpdate={onUpdateSpy}>
@@ -353,9 +352,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name" defaultValue={'@andrea'}>
@@ -382,7 +381,7 @@ describe('Test FlowerField component', () => {
 
   it('Test resetForm', async () => {
     const user = userEvent.setup()
-    const ref = React.createRef()
+    const ref = React.createRef<Record<string, any>>()
     const onResetSpy = jest.fn()
     const onBlurSpy = jest.fn()
 
@@ -432,9 +431,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name">
@@ -481,9 +480,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               }
-              // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              // error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } },
             }}
           >
             <FlowerField
@@ -523,9 +522,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               }
-              // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              // error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } },
             }}
           >
             <FlowerField
@@ -564,9 +563,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               }
-              // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              // error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } },
             }}
           >
             <FlowerField
@@ -613,9 +612,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               }
-              // error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } },
+              // error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } },
             }}
           >
             <FlowerField
@@ -664,7 +663,7 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               }
             }}
           >
@@ -762,7 +761,7 @@ describe('Test FlowerField component', () => {
   })
 
   it('Test set custom errors', async () => {
-    const ref = React.createRef()
+    const ref = React.createRef<Record<string, any>>()
     const onErrorsSpy = jest.fn()
     render(
       <FlowerProvider>
@@ -775,7 +774,10 @@ describe('Test FlowerField component', () => {
             <button
               data-testid="btn-set-errors"
               onClick={() => {
-                onErrorsSpy(ref.current.setCustomErrors('name', ['error-name']))
+                onErrorsSpy(
+                  ref.current &&
+                    ref.current.setCustomErrors('name', ['error-name'])
+                )
               }}
             >
               reset
@@ -804,9 +806,9 @@ describe('Test FlowerField component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField

@@ -3,7 +3,7 @@ import './styles.css'
 
 export function Example4() {
   return (
-    <Flower name="example4" initialData={{ skipStep3: true }}>
+    <Flower name="example4">
       {/**
        * step 1
        */}

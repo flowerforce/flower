@@ -8,10 +8,10 @@ const FlowAction = ({ children, onEnter, onExit }: FlowerNodeDefaultProps) => {
       onExit?.()
     }
   }, [onEnter, onExit])
-  return children
+  return <>{children}</>
 }
 
 const component = React.memo(FlowAction)
 component.displayName = 'FlowerAction'
 
-export default component
+export default component as typeof FlowAction

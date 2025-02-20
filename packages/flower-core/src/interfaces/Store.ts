@@ -1,7 +1,9 @@
-import { RulesByNodeId, RulesModes } from './CoreInterface'
+import { REDUCER_NAME } from '../constants'
+import { RulesByNodeId } from './CoreInterface'
 
+// TODO: Check whether to add `REDUCER_NAME.FLOWER_FORM` as well
 export interface StoreRoot<T extends Record<string, any>> {
-  flower: { [x: string]: Flower<T> }
+  [REDUCER_NAME.FLOWER_FLOW]: Record<REDUCER_NAME, Flower<T>>
 }
 
 export interface Flower<T extends Record<string, any>> {
@@ -12,8 +14,6 @@ export interface Flower<T extends Record<string, any>> {
   nodes: { [x: string]: INode }
   //TODO: REMOVE ANY
   nextRules: { [x: string]: RulesByNodeId<T>[] }
-  data: T
-  form: { [x: string]: Form<T> }
 }
 
 export interface INode {
@@ -23,7 +23,7 @@ export interface INode {
   disabled?: boolean
 }
 
-export type Form<T> = {
+export type Form<T extends Record<string, unknown>> = {
   isSubmitted?: boolean
   isDirty?: boolean
   hasFocus?: string
@@ -32,4 +32,5 @@ export type Form<T> = {
   customErrors?: { [K in keyof T]: Array<string> }
   dirty?: { [K in keyof T]: boolean }
   touches?: { [K in keyof T]: boolean }
+  data?: T
 }
