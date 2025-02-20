@@ -43,9 +43,17 @@ const ViewResult = ({ value, ...rest }: any) => {
   return <span>{value ?? 'null'}</span>
 }
 
+const ViewState = () => {
+  const { getGlobalData } = useFlowerForm()
+  return <span>{JSON.stringify(getGlobalData())}</span>
+}
+
 export function ExternalReducers() {
   return (
-    <Flower name="externalReducers">
+    <Flower
+      name="externalReducers"
+      initialData={{ name: 'andrea', surname: 'rossi' }}
+    >
       <FlowerNode
         id="node-test"
         to={{
@@ -53,17 +61,14 @@ export function ExternalReducers() {
             rules: {
               $and: [
                 { '^customReducer.count': { $eq: 2 } },
-                { '^customReducer2.count2': { $eq: 4 } }
+                { '^customReducer2.count2': { $eq: 4 } },
+                { name: { $eq: 'andrea' } },
+                { surname: { $eq: 'rossi' } }
               ]
             }
           },
           error: {
-            rules: {
-              $or: [
-                { '^customReducer.count': { $ne: 2 } },
-                { '^customReducer2.count2': { $ne: 4 } }
-              ]
-            }
+            rules: null
           }
         }}
       >
@@ -80,6 +85,7 @@ export function ExternalReducers() {
       </FlowerNode>
       <FlowerNode id="success">
         <div>success</div>
+        <ViewState />
         <ButtonPrev />
       </FlowerNode>
       <FlowerNode id="error">
@@ -88,28 +94,4 @@ export function ExternalReducers() {
       </FlowerNode>
     </Flower>
   )
-}
-
-const ComponentAction = () => {
-  const { next } = useFlower()
-  const { getData } = useFlowerForm()
-
-  useEffect(() => {
-    // get form data
-    const formData = getData()
-
-    try {
-      // * do your staff here - api call etc **
-      // example setTimout to simulate delay api call
-      setTimeout(() => {
-        //  navigate to success step
-        next('onSuccess')
-      }, 500)
-    } catch (error) {
-      // navigate to error step
-      next('onError')
-    }
-  }, [next, getData])
-
-  return <span className="loader"></span>
 }

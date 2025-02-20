@@ -8,7 +8,6 @@ export {
   useSelector,
   useStore
 } from '@flowerforce/flower-react-store'
-export type { FlowerNodeDefaultProps } from './components/types/DefaultNode'
 export type { FlowerFieldProps } from './components/types/FlowerField'
 export type {
   UseFlowerForm,

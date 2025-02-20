@@ -1,5 +1,5 @@
-import { useCallback, useContext } from 'react'
-import { CoreUtils } from '@flowerforce/flower-core'
+import { useCallback, useContext, useMemo, useRef } from 'react'
+import { CoreUtils, REDUCER_NAME } from '@flowerforce/flower-core'
 import get from 'lodash/get'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import { makeSelectNodeErrors } from '../selectors'
@@ -37,6 +37,8 @@ const useFlowerForm: UseFlowerForm = (customFormName) => {
 
   const dispatch = useDispatch()
   const store = useStore()
+
+  const storeRef = useRef(store.getState())
   const formName = (formNameDefault || customFormName) as string
   const {
     errors,
@@ -48,23 +50,36 @@ const useFlowerForm: UseFlowerForm = (customFormName) => {
     isValidating
   } = useSelector(makeSelectNodeErrors(formName))
 
+  const getGlobalData = useCallback(() => {
+    const { FlowerFlow, FlowerData, ...rest } = storeRef.current
+    return {
+      ...FlowerData,
+      ...rest
+    }
+  }, [])
+
+  const getExternalReducersData = useCallback(() => {
+    const { FlowerFlow, FlowerData, ...rest } = storeRef.current
+    return rest
+  }, [])
+
   const getData = useCallback(
     (path?: string) => {
       const { formName: formNameFromPath = formName, path: newpath } =
         CoreUtils.getPath(path)
-      return get(store.getState(), [
-        'FlowerData',
+      return get(storeRef.current, [
+        REDUCER_NAME.FLOWER_DATA,
         formNameFromPath,
         'data',
         ...newpath
       ])
     },
-    [store, formName]
+    [formName]
   )
 
   const getFormStatus = useCallback(() => {
-    return get(store.getState(), ['FlowerData', formName])
-  }, [store, formName])
+    return get(storeRef.current, [REDUCER_NAME.FLOWER_DATA, formName])
+  }, [formName])
 
   const setDataField = useCallback(
     (id: string, val: any, dirty = true) => {
@@ -129,23 +144,48 @@ const useFlowerForm: UseFlowerForm = (customFormName) => {
     [dispatch, formName]
   )
 
-  return {
-    isSubmitted,
-    isDirty,
-    hasFocus,
-    errors,
-    customErrors,
-    isValid,
-    isValidating,
-    getData,
-    setData,
-    setDataField,
-    unsetData,
-    replaceData,
-    reset,
-    setCustomErrors,
-    getFormStatus
-  }
+  const result = useMemo(
+    () => ({
+      isSubmitted,
+      isDirty,
+      hasFocus,
+      errors,
+      customErrors,
+      isValid,
+      isValidating,
+      getGlobalData,
+      getExternalReducersData,
+      getData,
+      setData,
+      setDataField,
+      unsetData,
+      replaceData,
+      reset,
+      setCustomErrors,
+      getFormStatus
+    }),
+    [
+      customErrors,
+      errors,
+      getData,
+      getExternalReducersData,
+      getFormStatus,
+      getGlobalData,
+      hasFocus,
+      isDirty,
+      isSubmitted,
+      isValid,
+      isValidating,
+      replaceData,
+      reset,
+      setCustomErrors,
+      setData,
+      setDataField,
+      unsetData
+    ]
+  )
+
+  return result
 }
 
 export default useFlowerForm
