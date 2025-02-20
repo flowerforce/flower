@@ -28,10 +28,10 @@ const FlowerRoute = ({
     }
   }, [dispatch, name, autostart])
 
-  return children
+  return <>{children}</>
 }
 
 const component = React.memo(FlowerRoute)
 component.displayName = 'FlowerRoute'
 
-export default component
+export default component as typeof FlowerRoute

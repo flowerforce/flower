@@ -33,4 +33,4 @@ function FlowerStart() {
 const component = React.memo(FlowerStart)
 component.displayName = 'FlowerStart'
 
-export default component
+export default component as unknown as typeof FlowerStart

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 import { MatchRules } from '@flowerforce/flower-core'
 import { useSelector } from '@flowerforce/flower-react-store'
 import { selectorRulesDisabled } from './selectors'
@@ -41,20 +41,24 @@ const FlowerRule = ({
   }
 
   if (alwaysDisplay && hidden) {
-    return React.Children.map(children, (child, i) => {
-      if (React.isValidElement(child)) {
-        const { props, type } = child
-        const Component = type
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        return Component && <Component key={i} hidden {...props} />
-      }
-      return child
-    })
+    return (
+      <Fragment>
+        {React.Children.map(children, (child, i) => {
+          if (React.isValidElement(child)) {
+            const { props, type } = child
+            const Component = type
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            return Component && <Component key={i} hidden {...props} />
+          }
+          return child
+        })}
+      </Fragment>
+    )
   }
 
-  return hidden
-    ? undefined
-    : React.Children.map(children, (child, i) => {
+  return hidden ? undefined : (
+    <Fragment>
+      {React.Children.map(children, (child, i) => {
         if (React.isValidElement(child)) {
           const { props, type } = child
           const Component = type
@@ -62,10 +66,12 @@ const FlowerRule = ({
           return Component && <Component key={i} {...props} />
         }
         return child
-      })
+      })}
+    </Fragment>
+  )
 }
 
 const component = React.memo(FlowerRule)
 component.displayName = 'FlowerRule'
 
-export const Component = component
+export const Component = component as typeof FlowerRule

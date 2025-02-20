@@ -5,7 +5,8 @@ import React, {
   useState,
   useMemo,
   useEffect,
-  useRef
+  useRef,
+  Fragment
 } from 'react'
 import {
   getDataFromState,
@@ -16,7 +17,6 @@ import {
   makeSelectNodeFormSubmitted
 } from '../selectors'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
-
 
 import debounce from 'lodash/debounce'
 import {
@@ -80,15 +80,11 @@ function Wrapper({
   const touched = useSelector(
     makeSelectNodeFieldTouched(formName, formName, id)
   )
-  const focused = useSelector(
-    makeSelectNodeFieldFocused(formName, id)
-  )
+  const focused = useSelector(makeSelectNodeFieldFocused(formName, id))
 
   const refValue = useRef<Record<string, any>>()
 
-  const isSubmitted = useSelector(
-    makeSelectNodeFormSubmitted(formName)
-  )
+  const isSubmitted = useSelector(makeSelectNodeFormSubmitted(formName))
 
   const store = useStore()
 
@@ -325,8 +321,8 @@ function Wrapper({
     return Component(newProps)
   }
 
-  // TODO si arriva in questa condizione quando si passa un componente primitivo es. div
-  // in questo caso non posso props custom di flower
+  // TODO we do this if element is intrinsic es: div, input, etc
+  // in this scenario we could not pass customProps to intrinsic elements
   if (isIntrinsicElement(Component)) {
     return <Component id={id} {...props} />
   }
@@ -351,7 +347,7 @@ const FlowerField = ({
   formName,
   onUpdate
 }: FlowerFieldProps) => {
-  const { name: formNameCtx, initialData } = useContext(FlowerReactContext)
+  const { name: formNameCtx } = useContext(FlowerReactContext)
 
   const name = formName || formNameCtx
 
@@ -385,43 +381,47 @@ const FlowerField = ({
     )
   }
 
-  return React.Children.map(children, (child, i) => {
-    if (!React.isValidElement(child)) {
-      return child
-    }
-    const { type, props } = child
-    const Component = type
-    return (
-      <FlowerRule
-        key={i}
-        alwaysDisplay={alwaysDisplay}
-        rules={rules}
-        value={value}
-        formName={name}
-      >
-        {({ hidden }) => (
-          <Wrapper
-            {...props}
-            hidden={hidden}
-            id={id}
-            Component={Component}
+  return (
+    <Fragment>
+      {React.Children.map(children, (child, i) => {
+        if (!React.isValidElement(child)) {
+          return child
+        }
+        const { type, props } = child
+        const Component = type
+        return (
+          <FlowerRule
+            key={i}
+            alwaysDisplay={alwaysDisplay}
+            rules={rules}
+            value={value}
             formName={name}
-            validate={validate}
-            asyncValidate={asyncValidate}
-            asyncDebounce={asyncDebounce}
-            asyncInitialError={asyncInitialError}
-            asyncWaitingError={asyncWaitingError}
-            destroyValue={destroyValue}
-            onUpdate={onUpdate}
-            defaultValue={defaultValue}
-          />
-        )}
-      </FlowerRule>
-    )
-  })
+          >
+            {({ hidden }) => (
+              <Wrapper
+                {...props}
+                hidden={hidden}
+                id={id}
+                Component={Component}
+                formName={name}
+                validate={validate}
+                asyncValidate={asyncValidate}
+                asyncDebounce={asyncDebounce}
+                asyncInitialError={asyncInitialError}
+                asyncWaitingError={asyncWaitingError}
+                destroyValue={destroyValue}
+                onUpdate={onUpdate}
+                defaultValue={defaultValue}
+              />
+            )}
+          </FlowerRule>
+        )
+      })}
+    </Fragment>
+  )
 }
 
 const component = React.memo(FlowerField)
 component.displayName = 'FlowerField'
 
-export default component
+export default component as typeof FlowerField

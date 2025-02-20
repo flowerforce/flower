@@ -8,7 +8,7 @@ import {
 
 export type UseFlowerProps = { [x in 'name' | 'flowName']?: string }
 
-type useFlowerActions = {
+export type useFlowerActions = {
   /** Use this function to move to the next node inside the flow*/
   next: (payload?: Route) => void
   /**Use this function to move to the previous node inside the flow*/

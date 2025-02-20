@@ -8,10 +8,11 @@ const FlowerFlow = ({ children, onEnter, onExit }: FlowerFlowProps) => {
       onExit?.()
     }
   }, [onEnter, onExit])
-  return children
+  return <>{children}</>
 }
 
 const component = React.memo(FlowerFlow)
 component.displayName = 'FlowerFlow'
 
 export default component
+// export default component as typeof FlowerFlow

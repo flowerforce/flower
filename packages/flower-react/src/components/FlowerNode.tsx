@@ -9,10 +9,10 @@ const FlowerNode = ({ children, onEnter, onExit }: FlowerNodeProps) => {
     }
   }, [onEnter, onExit])
 
-  return children
+  return <>{children}</>
 }
 
 const component = memo(FlowerNode)
 component.displayName = 'FlowerNode'
 
-export default component
+export default component as typeof FlowerNode

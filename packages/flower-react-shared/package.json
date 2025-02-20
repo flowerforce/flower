@@ -25,8 +25,7 @@
     "react": ">=18",
     "@reduxjs/toolkit": "^2.2.4",
     "@flowerforce/flower-core": "*",
-    "@flowerforce/flower-react-store": "*",
-    "@flowerforce/flower-react-context": "*"
+    "@flowerforce/flower-react-store": "*"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
@@ -37,7 +36,10 @@
     "@types/react-dom": "^18.3.0",
     "typescript": "^5.4.5"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@flowerforce/flower-react-context": "*"
+
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

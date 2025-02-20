@@ -5,4 +5,4 @@ const FlowerComponent = ({ children }: FlowerComponentProps) => children
 
 const component = memo(FlowerComponent)
 
-export default component
+export default component as typeof FlowerComponent

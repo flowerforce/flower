@@ -22,6 +22,7 @@ export type { FlowerFlowProps } from './components/types/FlowerFlow'
 export type {
   UseFlower,
   UseFlowerProps,
+  useFlowerActions,
   NavigateFunctionParams
 } from './components/types/FlowerHooks'
 export type {

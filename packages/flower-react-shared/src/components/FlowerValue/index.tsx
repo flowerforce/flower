@@ -1,12 +1,10 @@
 /* eslint-disable */
-import React, { useContext, useEffect, useMemo } from 'react';
-import { CoreUtils } from '@flowerforce/flower-core';
-import { Selectors, useSelector } from '@flowerforce/flower-react-store';
-import { Component as FlowerRule } from '../FlowerRule';
-import type { FlowerValueProps } from '../types';
+import React, { Fragment, useContext, useEffect, useMemo } from 'react'
+import { CoreUtils } from '@flowerforce/flower-core'
+import { Selectors, useSelector } from '@flowerforce/flower-react-store'
+import { Component as FlowerRule } from '../FlowerRule'
+import type { FlowerValueProps } from '../types'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
-
-
 
 //TODO make types for wrapper function
 function Wrapper({
@@ -21,18 +19,20 @@ function Wrapper({
   const { formName: formNameFromPath, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
-  );
-  const value = useSelector(Selectors.getDataFromState(formNameFromPath ?? formName, path));
+  )
+  const value = useSelector(
+    Selectors.getDataFromState(formNameFromPath ?? formName, path)
+  )
   const values =
     spreadValue && typeof value === 'object' && !Array.isArray(value)
       ? value
-      : { value };
+      : { value }
 
   useEffect(() => {
     if (onUpdate) {
-      onUpdate(value);
+      onUpdate(value)
     }
-  }, [onUpdate, value]);
+  }, [onUpdate, value])
 
   return (
     <Component
@@ -42,7 +42,7 @@ function Wrapper({
       hidden={hidden}
       {...values}
     />
-  );
+  )
 }
 
 const RenderRules = ({
@@ -77,8 +77,8 @@ const RenderRules = ({
         />
       )}
     </FlowerRule>
-  );
-};
+  )
+}
 
 const FlowerValue = ({
   id = '*',
@@ -88,12 +88,11 @@ const FlowerValue = ({
   children,
   spreadValue,
   formId,
-  onUpdate,
+  onUpdate
 }: FlowerValueProps) => {
-  const { name: formNameCtx, initialData } = useContext(FlowerReactContext);
+  const { name: formNameCtx, initialData } = useContext(FlowerReactContext)
 
-
-  const name = formId || formNameCtx;
+  const name = formId || formNameCtx
   if (typeof children === 'function') {
     return (
       <RenderRules
@@ -106,32 +105,36 @@ const FlowerValue = ({
         flowName={name}
         onUpdate={onUpdate}
       />
-    );
+    )
   }
 
-  return React.Children.map(children, (child, i) => {
-    if (!React.isValidElement(child)) return child;
-    const {type, props} = child
-    const Component = type;
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    return (
-      <RenderRules
-        key={i}
-        id={id}
-        alwaysDisplay={alwaysDisplay}
-        rules={rules}
-        value={value}
-        spreadValue={spreadValue}
-        formName={name}
-        Component={Component}
-        {...props}
-        onUpdate={onUpdate}
-      />
-    );
-  });
-};
+  return (
+    <Fragment>
+      {React.Children.map(children, (child, i) => {
+        if (!React.isValidElement(child)) return child
+        const { type, props } = child
+        const Component = type
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        return (
+          <RenderRules
+            key={i}
+            id={id}
+            alwaysDisplay={alwaysDisplay}
+            rules={rules}
+            value={value}
+            spreadValue={spreadValue}
+            formName={name}
+            Component={Component}
+            {...props}
+            onUpdate={onUpdate}
+          />
+        )
+      })}
+    </Fragment>
+  )
+}
 
-const component = React.memo(FlowerValue);
-component.displayName = 'FlowerValue';
+const component = React.memo(FlowerValue)
+component.displayName = 'FlowerValue'
 
-export const Component = component;
+export const Component = component as typeof FlowerValue

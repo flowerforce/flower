@@ -29,7 +29,7 @@ import {
   useStore
 } from '@flowerforce/flower-react-store'
 
-type FlowerInitalState = {
+type FlowerInitialState = {
   startId?: string
   current?: string
   history?: string[]
@@ -39,7 +39,7 @@ type FlowerClientProps = PropsWithChildren<{
   name: string
   destroyOnUnmount?: boolean
   startId?: string | null
-  initialState?: FlowerInitalState
+  initialState?: FlowerInitialState
   initialData?: Record<string, unknown>
 }>
 
@@ -62,9 +62,10 @@ const FlowerClient = ({
     devtoolState && _get(devtoolState, '__FLOWER_DEVTOOLS_INITIALIZED__', false)
   )
 
-  // TODO rivedere il giro, potremmo fare le trasformazioni in CoreUtils.generateNodesForFlowerJson
+  // TODO could make that transformation in CoreUtils.generateNodesForFlowerJson
   // eslint-disable-next-line react-hooks/exhaustive-deps, max-len
   const nodes = useMemo(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     () => convertElements(Children.toArray(children) as any),
     [children]
   )
@@ -251,7 +252,7 @@ const FlowerClient = ({
       devtoolState &&
       _get(devtoolState, '__FLOWER_DEVTOOLS__')
     ) {
-      if (isInitialized === current) return // salto il primo evento
+      if (isInitialized === current) return // salto il primo event
       Emitter.emit('flower-devtool-from-client', {
         source: 'flower-client',
         action: 'SET_SELECTED',
@@ -299,5 +300,8 @@ const FlowerClient = ({
     </>
   ) : null
 }
+const component = memo(FlowerClient)
+component.displayName = 'Flower'
 
-export default memo(FlowerClient)
+// workaround for let typescript read JSX component as a valid JSX element using react 19(?)
+export default component as typeof FlowerClient
