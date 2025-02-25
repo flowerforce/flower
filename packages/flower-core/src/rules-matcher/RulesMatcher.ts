@@ -1,7 +1,7 @@
-import { FunctionRule, RulesObject } from './interfaces'
-import RulesMatcherUtils from './rules-matcher/utils'
+import { FunctionRule, RulesObject } from '../interfaces'
+import { rulesMatcherUtils } from './utils'
 
-const rulesMatcher = (
+export const rulesMatcher = (
   rules?: Record<string, any> | Record<string, any>[] | FunctionRule,
   formValue: Record<string, any> = {},
   apply = true,
@@ -20,15 +20,10 @@ const rulesMatcher = (
     ? ({ $and: rules } as RulesObject<any>)
     : (rules as RulesObject<any>)
 
-  const valid = RulesMatcherUtils.checkRule(
+  const valid = rulesMatcherUtils.checkRule(
     conditions,
     formValue,
     options ?? {}
   )
   return [valid === apply]
-}
-
-export const MatchRules = {
-  rulesMatcher,
-  utils: RulesMatcherUtils
 }

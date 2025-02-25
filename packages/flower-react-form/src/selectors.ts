@@ -1,4 +1,4 @@
-import { Selectors } from '@flowerforce/flower-react-store'
+import { DataSelectors } from '@flowerforce/flower-react-store'
 
 export const {
   getAllData,
@@ -10,4 +10,4 @@ export const {
   makeSelectNodeFieldFocused,
   makeSelectNodeFieldTouched,
   makeSelectNodeFormSubmitted
-} = Selectors
+} = DataSelectors

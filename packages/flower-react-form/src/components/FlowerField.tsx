@@ -26,9 +26,9 @@ import {
   useStore
 } from '@flowerforce/flower-react-store'
 import {
-  MatchRules,
   CoreUtils,
-  FlowerStateUtils
+  FlowerStateUtils,
+  rulesMatcherUtils
 } from '@flowerforce/flower-core'
 import { FlowerFieldProps } from './types/FlowerField'
 import isEqual from 'lodash/isEqual'
@@ -185,7 +185,7 @@ function Wrapper({
       if (refValue.current === value) return
       refValue.current = value
 
-      const hasValue = !MatchRules.utils.isEmpty(value)
+      const hasValue = !rulesMatcherUtils.isEmpty(value)
 
       if (!hasValue) {
         setCustomAsyncErrors(asyncInitialError && [asyncInitialError])

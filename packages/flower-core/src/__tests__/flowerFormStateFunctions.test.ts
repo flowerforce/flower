@@ -1,5 +1,5 @@
 import { CoreUtils } from '../utils/FlowerCoreUtils'
-import { FlowerCoreDataReducers } from '../core/state-functions/FlowerFormStateFunctions'
+import { FlowerCoreDataReducers } from '../state-manager/state-functions/FlowerDataStateFunctions'
 import { Flower } from '../interfaces/Store'
 import { REDUCER_NAME } from '../constants'
 import cloneDeep from 'lodash/cloneDeep'

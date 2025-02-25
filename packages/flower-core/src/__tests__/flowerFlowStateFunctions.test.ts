@@ -1,8 +1,8 @@
 import { CoreUtils } from '../utils/FlowerCoreUtils'
-import { FlowerCoreBaseReducers } from '../core/state-functions/FlowerCoreStateFunctions'
+import { FlowerCoreBaseReducers } from '../state-manager/state-functions/FlowerCoreStateFunctions'
 import { Flower } from '../interfaces/Store'
 import { REDUCER_NAME } from '../constants'
-import { FlowerCoreStateBaseSelectors } from '../core/state-selectors/FlowerCoreStateSelectors'
+import { FlowerCoreStateBaseSelectors } from '../state-manager/state-selectors/FlowerCoreStateSelectors'
 import cloneDeep from 'lodash/cloneDeep'
 
 type State = Partial<

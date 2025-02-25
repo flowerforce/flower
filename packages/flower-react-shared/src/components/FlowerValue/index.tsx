@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Fragment, useContext, useEffect, useMemo } from 'react'
 import { CoreUtils } from '@flowerforce/flower-core'
-import { Selectors, useSelector } from '@flowerforce/flower-react-store'
+import { DataSelectors, useSelector } from '@flowerforce/flower-react-store'
 import { Component as FlowerRule } from '../FlowerRule'
 import type { FlowerValueProps } from '../types'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
@@ -21,7 +21,7 @@ function Wrapper({
     [id]
   )
   const value = useSelector(
-    Selectors.getDataFromState(formNameFromPath ?? formName, path)
+    DataSelectors.getDataFromState(formNameFromPath ?? formName, path)
   )
   const values =
     spreadValue && typeof value === 'object' && !Array.isArray(value)

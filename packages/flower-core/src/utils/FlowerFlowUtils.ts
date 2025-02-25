@@ -8,8 +8,8 @@ import isEmpty from 'lodash/isEmpty'
 import isPlainObject from 'lodash/isPlainObject'
 import mapKeys from 'lodash/mapKeys'
 import mapValues from 'lodash/mapValues'
-import { MatchRules } from '../RulesMatcher'
 import { FlowUtilitiesFunctions, GetRulesExists } from '../interfaces'
+import { rulesMatcher } from '../rules-matcher'
 
 // TODO align this set of functions to selectors and reducers functions
 export const flattenRules = (ob: Record<string, any>) => {
@@ -155,7 +155,7 @@ export const FlowUtils: FlowUtilitiesFunctions = {
       }
 
       if (typeof rule.rules === 'function') {
-        return rule.rules(value) as boolean
+        return rule.rules(value)
       }
 
       if (rule.rules === null) {
@@ -170,7 +170,7 @@ export const FlowUtils: FlowUtilitiesFunctions = {
         return false
       }
 
-      const [valid] = MatchRules.rulesMatcher(rule.rules.rules, value, true, {
+      const [valid] = rulesMatcher(rule.rules.rules, value, true, {
         prefix
       })
       return valid

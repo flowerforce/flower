@@ -1,10 +1,10 @@
 import { CoreUtils } from '../../utils/FlowerCoreUtils'
-import { MatchRules } from '../../RulesMatcher'
 import { unflatten } from 'flat'
 import { createFormData } from '../../utils/FlowerCoreStateUtils'
 import { IFormSelectors } from '../../interfaces'
 import _get from 'lodash/get'
 import { REDUCER_NAME } from '../../constants'
+import { rulesMatcher } from '../../rules-matcher'
 
 export const FlowerCoreStateDataSelectors: IFormSelectors = {
   selectGlobalReducerByName: (name) => (state) =>
@@ -39,7 +39,7 @@ export const FlowerCoreStateDataSelectors: IFormSelectors = {
       const transformSelf = CoreUtils.mapKeysDeepLodash(rule.rules, (v, key) =>
         key === '$self' ? id : key
       )
-      const [hasError] = MatchRules.rulesMatcher(transformSelf, data, false, {
+      const [hasError] = rulesMatcher(transformSelf, data, false, {
         prefix: name
       })
       return hasError
@@ -69,12 +69,9 @@ export const FlowerCoreStateDataSelectors: IFormSelectors = {
       return Object.assign(acc, { [k]: _get(state, k) })
     }, {})
 
-    const [disabled] = MatchRules.rulesMatcher(
-      rules,
-      { ...unflatten(res) },
-      false,
-      { prefix: flowName }
-    )
+    const [disabled] = rulesMatcher(rules, { ...unflatten(res) }, false, {
+      prefix: flowName
+    })
 
     return disabled
   }

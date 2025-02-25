@@ -1,4 +1,4 @@
-import { RulesObject } from '../interfaces/CoreInterface'
+import { RulesObject } from './CoreInterface'
 
 export type CheckTypeOf = (v: any) => boolean
 

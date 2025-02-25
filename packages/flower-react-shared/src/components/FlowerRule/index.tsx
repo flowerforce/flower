@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect } from 'react'
-import { MatchRules } from '@flowerforce/flower-core'
+import { rulesMatcherUtils } from '@flowerforce/flower-core'
 import { useSelector } from '@flowerforce/flower-react-store'
 import { selectorRulesDisabled } from './selectors'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
@@ -18,7 +18,7 @@ const FlowerRule = ({
 
   const name = formName || flowNameContext
 
-  const keys = MatchRules.utils.getKeys(rules, { prefix: name })
+  const keys = rulesMatcherUtils.getKeys(rules, { prefix: name })
 
   const hidden = useSelector(
     selectorRulesDisabled(id ?? '', rules, keys ?? [], name ?? '', value)

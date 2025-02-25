@@ -1,16 +1,15 @@
 import _get from 'lodash/get'
 import _trimStart from 'lodash/trimStart'
 import _intersection from 'lodash/intersection'
-import { Operators } from './interface'
-import { RulesMatcherUtils } from './interface'
 import { RulesObject } from '../interfaces/CoreInterface'
+import { Operators, RulesMatcherUtils } from '../interfaces'
 
 const EMPTY_STRING_REGEXP = /^\s*$/
 
 /**
  * Defines a utility object named rulesMatcherUtils, which contains various helper functions used for processing rules and data in a rule-matching context.
  */
-const rulesMatcherUtils: RulesMatcherUtils = {
+export const rulesMatcherUtils: RulesMatcherUtils = {
   isNumber: (el) => {
     const num = String(el)
     return !!num.match(/(^-?|^\d+\.)\d+$/)
@@ -302,7 +301,3 @@ const operators: Operators = {
         c instanceof RegExp ? c.test(a) : new RegExp(c, opt).test(a)
       )
 }
-
-// export default operators
-
-export default rulesMatcherUtils
