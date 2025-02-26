@@ -1,1 +1,1 @@
-export { selectorRulesDisabled } from './selectors/selectors'
+export { selectorRulesDisabled } from './selectors'
