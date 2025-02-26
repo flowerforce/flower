@@ -12,12 +12,9 @@ import { fireEvent, render, screen } from '@testing-library/react'
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
 
-import FlowerNode from '../components/FlowerNode'
-import FlowerNavigate from '../components/FlowerNavigate'
-import Flower from '../components/Flower'
-import FlowerProvider from '../provider'
-import useFlower from '../components/useFlower'
-import useFlowerForm from '../components/useFlowerForm'
+import { FlowerProvider } from '../provider'
+import { useFlower, FlowerNavigate, FlowerNode, Flower } from '../components'
+import { useFlowerForm } from '@flowerforce/flower-react-form'
 
 const Text = ({
   text,
@@ -39,14 +36,14 @@ const Text = ({
 //   );
 // };
 
-// const ButtonNext = ({ id = '' }) => {
-//   const { next } = useFlower();
-//   return (
-//     <button data-testid={'btn-next' + id} onClick={() => next()}>
-//       NEXT
-//     </button>
-//   );
-// };
+const ButtonNext = ({ id = '' }) => {
+  const { next } = useFlower()
+  return (
+    <button data-testid={'btn-next' + id} onClick={() => next()}>
+      NEXT
+    </button>
+  )
+}
 
 const InitState = ({ state }: any) => {
   const { next } = useFlower()
@@ -60,10 +57,69 @@ const InitState = ({ state }: any) => {
 }
 
 describe('Test Flower component', () => {
+  it('Test flow alone with initialData and truthy rules', async () => {
+    render(
+      <FlowerProvider>
+        <Flower
+          name="app-test"
+          initialData={{ name: 'andrea', surname: 'rossi' }}
+        >
+          <FlowerNode
+            id="step-1"
+            to={{
+              Success: { rules: { $and: [{ name: { $eq: 'andrea' } }] } },
+              Error: { rules: { $and: [{ name: { $ne: 'andrea' } }] } }
+            }}
+          >
+            <Text>{'Step 1'}</Text>
+            <ButtonNext />
+          </FlowerNode>
+          <FlowerNode id="Success">
+            <Text>Success</Text>
+          </FlowerNode>
+          <FlowerNode id="Error">
+            <Text>Error</Text>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(screen.getByTestId('h1')).toHaveTextContent('Success')
+  })
+  it('Test flow alone with initialData and falsy rules', async () => {
+    render(
+      <FlowerProvider>
+        <Flower
+          name="app-test"
+          initialData={{ name: 'Jhon', surname: 'rossi' }}
+        >
+          <FlowerNode
+            id="step-1"
+            to={{
+              Success: { rules: { $and: [{ name: { $eq: 'andrea' } }] } },
+              Error: { rules: { $and: [{ name: { $ne: 'andrea' } }] } }
+            }}
+          >
+            <Text>{'Step 1'}</Text>
+            <ButtonNext />
+          </FlowerNode>
+          <FlowerNode id="Success">
+            <Text>Success</Text>
+          </FlowerNode>
+          <FlowerNode id="Error">
+            <Text>Error</Text>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+    fireEvent.click(screen.getByTestId('btn-next'))
+
+    expect(screen.getByTestId('h1')).toHaveTextContent('Error')
+  })
   it('Test flow success', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test" initialData={{}}>
+        <Flower name="app-test">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>

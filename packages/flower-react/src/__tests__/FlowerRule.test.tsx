@@ -13,13 +13,12 @@ import userEvent from '@testing-library/user-event'
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
 
-import FlowerNode from '../components/FlowerNode'
-import Flower from '../components/Flower'
-import FlowerField from '../components/FlowerField'
-import FlowerRule from '../components/FlowerRule'
-import FlowerProvider from '../provider'
-import useFlower from '../components/useFlower'
-import useFlowerForm from '../components/useFlowerForm'
+import { FlowerProvider } from '../provider'
+import { Flower, FlowerNode, useFlower } from '../components'
+import { FlowerField, useFlowerForm } from '@flowerforce/flower-react-form'
+import { FlowerRule } from '@flowerforce/flower-react-shared'
+
+import { useStore } from '@flowerforce/flower-react-store'
 
 const Text = ({ text, value, children, id }: any) => (
   <h1 data-testid={id || 'h1'}>{text || value || children}</h1>
@@ -58,10 +57,12 @@ const InitState = ({ state }: any) => {
 }
 
 const Form = ({ flowName }: any) => {
-  const { getData } = useFlowerForm({ flowName })
+  const { getData } = useFlowerForm(flowName)
+  const store = useStore()
+
   useEffect(() => {
-    // console.log("🚀 ~ Form ~ getData:", getData())
-  }, [getData])
+    console.log('🚀 ~ Form ~ getData:', getData(), store.getState())
+  }, [getData, store])
 
   return null //errors && errors.join(',')
 }
@@ -80,9 +81,9 @@ describe('Test FlowerRule component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name">
@@ -131,9 +132,9 @@ describe('Test FlowerRule component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name">
@@ -213,6 +214,7 @@ describe('Test FlowerRule component', () => {
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
           <FlowerNode id="form">
+            <Form />
             <FlowerField id="name">
               <Input />
             </FlowerField>
@@ -297,9 +299,9 @@ describe('Test FlowerRule component', () => {
             id="form"
             to={{
               success: {
-                rules: { $and: [{ '$form.isValid': { $eq: true } }] }
+                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
               },
-              error: { rules: { $and: [{ '$form.isValid': { $ne: true } }] } }
+              error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } }
             }}
           >
             <FlowerField id="name" onUpdate={onUpdateSpy}>

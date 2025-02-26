@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef } from 'react'
-import { useDispatch } from '../provider'
-import { context } from '../context'
-import { FlowerRouteProps } from './types/FlowerRoute'
-
-const FlowerRoute = ({
+import { useDispatch } from '@flowerforce/flower-react-store'
+import { FlowerRouteProps } from '../types/FlowerRoute'
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
+import { flowerActions } from '../features'
+const _FlowerRoute = ({
   autostart = true,
   children,
   onEnter,
@@ -11,7 +11,7 @@ const FlowerRoute = ({
 }: FlowerRouteProps) => {
   const dispatch = useDispatch()
   const one = useRef(false)
-  const { flowName } = useContext(context)
+  const { name } = useContext(FlowerReactContext)
 
   useEffect(() => {
     onEnter?.()
@@ -23,14 +23,14 @@ const FlowerRoute = ({
   useEffect(() => {
     if (autostart && one.current === false) {
       one.current = true
-      dispatch({ type: 'flower/next', payload: { flowName } })
+      dispatch(flowerActions.next({ flowName: name }))
     }
-  }, [dispatch, flowName, autostart])
+  }, [dispatch, name, autostart])
 
-  return children
+  return <>{children}</>
 }
 
-const component = React.memo(FlowerRoute)
+const component = React.memo(_FlowerRoute)
 component.displayName = 'FlowerRoute'
 
-export default component
+export const FlowerRoute = component as typeof _FlowerRoute

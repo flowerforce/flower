@@ -1,7 +1,7 @@
 import React, { useEffect, memo } from 'react'
-import { FlowerNodeProps } from './types/FlowerNode'
+import { FlowerNodeProps } from '../types/FlowerNode'
 
-const FlowerNode = ({ children, onEnter, onExit }: FlowerNodeProps) => {
+const _FlowerNode = ({ children, onEnter, onExit }: FlowerNodeProps) => {
   useEffect(() => {
     onEnter?.()
     return () => {
@@ -9,10 +9,10 @@ const FlowerNode = ({ children, onEnter, onExit }: FlowerNodeProps) => {
     }
   }, [onEnter, onExit])
 
-  return children
+  return <>{children}</>
 }
 
-const component = memo(FlowerNode)
+const component = memo(_FlowerNode)
 component.displayName = 'FlowerNode'
 
-export default component
+export const FlowerNode = component as typeof _FlowerNode

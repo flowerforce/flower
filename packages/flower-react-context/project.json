@@ -1,0 +1,8 @@
+{
+  "name": "flower-react-context",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/flower-react-context/src",
+  "projectType": "library",
+  "tags": ["react-context"],
+  "targets": {}
+}

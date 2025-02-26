@@ -11,34 +11,39 @@ import React, {
 } from 'react'
 import _keyBy from 'lodash/keyBy'
 import { Emitter, devtoolState } from '@flowerforce/flower-core'
-import { Provider } from '../context'
+import { FlowerReactProvider } from '@flowerforce/flower-react-context'
 import _get from 'lodash/get'
 import { convertElements } from '../utils'
-import { actions } from '../reducer'
 import {
+  flowerActions,
   makeSelectStartNodeId,
   selectFlowerHistory,
   makeSelectCurrentNodeId,
   makeSelectCurrentNodeDisabled,
   makeSelectPrevNodeRetain
-} from '../selectors'
-import { useDispatch, useSelector, useStore } from '../provider'
+} from '../features'
+import {
+  flowerDataActions,
+  useDispatch,
+  useSelector,
+  useStore
+} from '@flowerforce/flower-react-store'
 
-type FlowerInitalState = {
+type FlowerInitialState = {
   startId?: string
   current?: string
   history?: string[]
 }
 
-type FlowerClientProps = PropsWithChildren & {
+type FlowerClientProps = PropsWithChildren<{
   name: string
   destroyOnUnmount?: boolean
   startId?: string | null
-  initialData?: any
-  initialState?: FlowerInitalState
-}
+  initialState?: FlowerInitialState
+  initialData?: Record<string, unknown>
+}>
 
-/**
+/*
  * FlowerClient
  */
 const FlowerClient = ({
@@ -46,8 +51,8 @@ const FlowerClient = ({
   name,
   destroyOnUnmount = true,
   startId = null,
-  initialData = {},
-  initialState = {}
+  initialState = {},
+  initialData
 }: FlowerClientProps) => {
   const flowName = name
 
@@ -57,9 +62,10 @@ const FlowerClient = ({
     devtoolState && _get(devtoolState, '__FLOWER_DEVTOOLS_INITIALIZED__', false)
   )
 
-  // TODO rivedere il giro, potremmo fare le trasformazioni in CoreUtils.generateNodesForFlowerJson
+  // TODO could make that transformation in CoreUtils.generateNodesForFlowerJson
   // eslint-disable-next-line react-hooks/exhaustive-deps, max-len
   const nodes = useMemo(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     () => convertElements(Children.toArray(children) as any),
     [children]
   )
@@ -78,25 +84,32 @@ const FlowerClient = ({
     if (nodes.length > 0 && one.current === false) {
       one.current = true
       dispatch(
-        actions.initNodes({
+        flowerActions.initNodes({
           name: flowName,
           // @ts-expect-error FIX ME
           nodes,
           startId: startId ?? '',
           persist: destroyOnUnmount === false,
-          initialData,
           initialState
         })
       )
+      if (initialData) {
+        dispatch(
+          flowerDataActions.initForm({
+            formName: flowName,
+            initialData: initialData ?? {}
+          })
+        )
+      }
     }
   }, [
     dispatch,
     flowName,
     nodes,
     startId,
-    initialData,
     destroyOnUnmount,
-    initialState
+    initialState,
+    initialData
   ])
 
   useEffect(() => {
@@ -112,16 +125,18 @@ const FlowerClient = ({
       }
 
       if (msg.action === 'SELECTED_NODE' && msg.name === flowName) {
-        dispatch(actions.setCurrentNode({ name: msg.name, node: msg.id }))
+        dispatch(flowerActions.setCurrentNode({ name: msg.name, node: msg.id }))
       }
 
-      if (msg.action === 'REPLACE_DATA' && msg.name === flowName) {
-        dispatch(actions.replaceData({ flowName: msg.name, value: msg.data }))
-      }
+      // if (msg.action === 'REPLACE_DATA' && msg.name === flowName) {
+      //   dispatch(
+      //     formActions.replaceData({ flowName: msg.name, value: msg.data })
+      //   )
+      // }
 
-      if (msg.action === 'ADD_DATA' && msg.name === flowName) {
-        dispatch(actions.addData({ flowName: msg.name, value: msg.data }))
-      }
+      // if (msg.action === 'ADD_DATA' && msg.name === flowName) {
+      //   dispatch(formActions.addData({ flowName: msg.name, value: msg.data }))
+      // }
     }
 
     /* istanbul ignore next */
@@ -142,7 +157,7 @@ const FlowerClient = ({
       // unmount function
       if (destroyOnUnmount && one.current === true) {
         one.current = false
-        dispatch(actions.destroy({ name: flowName }))
+        dispatch(flowerActions.destroy({ name: flowName }))
       }
     },
     [dispatch, flowName, destroyOnUnmount]
@@ -210,7 +225,7 @@ const FlowerClient = ({
     if (!isInitialized) return
 
     if (isDisabled) {
-      dispatch({ type: 'flower/next', payload: { flowName, disabled: true } })
+      dispatch(flowerActions.next({ flowName }))
       // eslint-disable-next-line no-underscore-dangle, no-undef
       /* istanbul ignore next */
       if (
@@ -237,7 +252,7 @@ const FlowerClient = ({
       devtoolState &&
       _get(devtoolState, '__FLOWER_DEVTOOLS__')
     ) {
-      if (isInitialized === current) return // salto il primo evento
+      if (isInitialized === current) return // salto il primo event
       Emitter.emit('flower-devtool-from-client', {
         source: 'flower-client',
         action: 'SET_SELECTED',
@@ -260,32 +275,33 @@ const FlowerClient = ({
 
   const contextValues = useMemo(
     () => ({
-      flowName,
-      initialData,
+      name: flowName,
       currentNode: current
     }),
-    [flowName, initialData, current]
+    [flowName, current]
   )
 
   const prevContextValues = useMemo(
     () => ({
-      flowName,
-      initialData,
+      name: flowName,
       currentNode: currentNodeId
     }),
-    [flowName, initialData, currentNodeId]
+    [flowName, currentNodeId]
   )
 
   return isInitialized ? (
     <>
-      <Provider value={prevContextValues}>{nodeById[currentNodeId]}</Provider>
-      <Provider value={contextValues}>
+      <FlowerReactProvider value={prevContextValues}>
+        {nodeById[currentNodeId]}
+      </FlowerReactProvider>
+      <FlowerReactProvider value={contextValues}>
         {!isDisabled && current !== currentNodeId && nodeById[current]}
-      </Provider>
+      </FlowerReactProvider>
     </>
   ) : null
 }
-
 const component = memo(FlowerClient)
+component.displayName = 'Flower'
 
-export default component
+// workaround for let typescript read JSX component as a valid JSX element using react 19(?)
+export const Flower = component as typeof FlowerClient

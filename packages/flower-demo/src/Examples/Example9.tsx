@@ -1,21 +1,18 @@
 import {
   FlowerNavigate,
   FlowerNode,
-  FlowerField,
   FlowerAction,
   useFlower,
-  useFlowerForm,
-  Flower,
-  FlowerRule
+  Flower
 } from '@flowerforce/flower-react'
+import { FlowerField, useFlowerForm } from '@flowerforce/flower-react-form'
+
 import { useEffect } from 'react'
 import './styles.css'
 
 export function Example9() {
-  const { reset, setCustomErrors, setData, hasFocus } = useFlowerForm({
-    flowName: 'example9'
-  })
-  console.log('🚀 ~ Example9 ~ hasFocus:', hasFocus)
+  const { reset, setCustomErrors, setData, hasFocus } =
+    useFlowerForm('example9')
   return (
     <Flower name="example9">
       {/**
@@ -37,7 +34,7 @@ export function Example9() {
         id="step1"
         to={{
           step2: {
-            rules: { '$form.isValid': { $eq: true } }
+            rules: { '$data.isValid': { $eq: true } }
           }
         }}
         retain
@@ -174,7 +171,7 @@ export function Example9() {
             </FlowerNavigate>
             <FlowerNavigate
               action="next"
-              rules={{ $and: [{ '$form.isValid': { $eq: true } }] }}
+              rules={{ $and: [{ '$data.isValid': { $eq: true } }] }}
               alwaysDisplay
             >
               {({ onClick, hidden }) => (

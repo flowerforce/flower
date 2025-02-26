@@ -2,7 +2,8 @@
 
 <a alt="Flower logo" href="https://flowerjs.it/" target="_blank" rel="noreferrer"><img src="https://flowerjs.it/_next/static/media/flower-logo.bb32f863.svg" width="50"></a>
 
-Flower React is a front-end development library built on top of Flower Core, specifically designed for React applications. It seamlessly integrates Flower's powerful capabilities into React projects, providing a user-friendly interface for creating, modifying, and monitoring workflows.
+Flower React is a front-end development library built on top of Flower Core, specifically designed for React applications.
+It seamlessly integrates Flower's powerful capabilities into React projects, providing a user-friendly interface to create, modify, and monitor workflows.
 
 For more info [flowerjs.it/](https://flowerjs.it/)
 
@@ -10,13 +11,11 @@ For more info [flowerjs.it/](https://flowerjs.it/)
 
 ## Features
 
-- **Workflow Management**: Comprehensive API for creating, updating, and managing workflows programmatically.
+- **Workflow Management**: Comprehensive API to create, update, and manage workflows programmatically.
 - **Node and Connection Handling**: Functions to manage nodes and connections, including adding, removing, and editing.
 - **State Management**: Built-in state management to keep track of workflow changes and updates.
 - **Event System**: Customizable event handling to respond to user interactions and changes within the workflow.
 - **Serialization**: Convert workflows to JSON for easy storage and retrieval. (only server side flow)
-- **Validation**: Ensure workflows follow predefined rules and constraints to maintain integrity.
-- **Form Validation**: Built-in functionalities to validate form inputs within nodes, ensuring data integrity and correctness.
 - **History Management**: Internal management of flow history, tracking node traversal and changes for debugging and visualization purposes.
 
 ### Installation
@@ -45,7 +44,7 @@ yarn add @flowerforce/flower-react
 
 ## Configuration
 
-The **FlowerProvider** component wraps the entire application, providing a global context for managing the application flow.
+The **FlowerProvider** component wraps the entire application, providing a global redux context to manage the application flow.
 
 ```jsx
 import React from 'react'
@@ -59,13 +58,45 @@ function Root() {
   )
 }
 ```
-> You can pass the prop `enableReduxDevtool` to the `FlowerProvider` to show the Flower Store data inside the redux devtool of your browser.
+> FlowerProvider accepts some properties such as `reducers` and `configureStoreOptions` in order to inject custom reducers into redux instance provided by FlowerProvider component.
+N.B.: actions and selectors from your custom reducers must use `useSelector` and `useDispatch` provided by flower-react 
+```jsx
+import React from 'react'
+import { customReducer, customReducer2 } from 'my-custom-reducers'
+import { Flower, FlowerProvider } from '@flowerforce/flower-react'
 
+const reducers = {
+  customReducer: customReducer.reducer,
+  customReducer2: customReducer2.reducer
+}
+
+function Root() {
+  return (
+    <FlowerProvider reducers={reducers}>
+      <App />
+    </FlowerProvider>
+  )
+}
+```
+> You can pass the prop `enableReduxDevtool` to the `FlowerProvider` to show the Flower Store data inside the redux devtool of your browser.
+```jsx
+import React from 'react'
+import { customReducer, customReducer2 } from 'my-custom-reducers'
+import { Flower, FlowerProvider } from '@flowerforce/flower-react'
+
+function Root() {
+  return (
+    <FlowerProvider enableReduxDevtool>
+      <App />
+    </FlowerProvider>
+  )
+}
+```
 ## How to use
 
 ### Simple Example
 
-The **Flower** component defines an application flow with a specific name, which serves as a unique identifier for the flow. It is the main component for defining the application flow, accepting a required "name" property and an initialData field for prepopulating values.
+The **Flower** component defines an application flow with a specific name, which serves as a unique identifier for the flow. It is the main component to define the application flow, accepting a required "name" property and an initialData field to prepopulate values.
 
 The **FlowerNode** component represents a UI state or a step within the application flow. Transitions between nodes can be specified using the **to** object.
 
@@ -106,7 +137,7 @@ export const Page = () => {
 Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-9wsjv7)
 
 
-> In addition you can pass the prop ***initialState*** to the `<Flower>` component 
+> In addition you can pass the prop ***initialState*** to the `<Flower>` component
 
 This prop allows you to configure the following fields:
 
@@ -133,7 +164,7 @@ export const Page = () => {
   return (
     <Flower name="demo">
       {/* autonext */}
-      <FlowerRoute id="start" to={{ step1: null }} /> 
+      <FlowerRoute id="start" to={{ step1: null }} />
       <FlowerNode
         id="step1"
         to={{
@@ -210,64 +241,6 @@ export const Page = () => {
 
 Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-5c4rs4)
 
-### Basic WRITE | READ State
-
-To modify the internal state of Flower, besides passing initialData as a prop, we can always modify and read the state through the components **FlowerField** and **FlowerValue**.
-
-_FlowerField_ pass two props, onChange and value, to properly modify and read the value from the state of Flower.
-_FlowerValue_ pass value, to properly read the value from the state of Flower.
-
-Here's an example of how it works:
-
-```jsx
-import React from 'react'
-import { 
-  Flower,
-  FlowerRoute,
-  FlowerNavigate,
-  FlowerNode,
-  FlowerField,
-  FlowerValue
-} from '@flowerforce/flower-react'
-
-export const Page = () => {
-  return (
-    <Flower name="demo">
-      <FlowerNode
-        id="step1"
-        to={{
-              step3: {
-                rules: { $and: [{ skipStep2: { $eq: true } }] }
-              },
-              step2: null
-            }}
-        >
-        ...
-
-        <FlowerField id="skipStep2">
-          {({ onChange, value }) => <input type="checkbox" checked={value} onChange={e => onChange(e.target.checked)} />}
-        </FlowerField>
-
-        <FlowerNavigate action="next">
-          <button>click me to go next</button>
-        </FlowerNavigate>
-      </FlowerNode>
-
-      <FlowerNode id="step2">...</FlowerNode>
-
-      <FlowerNode id="step3">
-        <FlowerValue id="enableFinal">
-          {({ value }) => <span>skipStep2: {String(!!value)}</span>}
-        </FlowerValue>
-      </FlowerNode>
-
-    </Flower>
-  )
-}
-
-```
-
-Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-3-forked-r3hgnj)
 
 ### Action Node
 
@@ -424,7 +397,7 @@ export const Page = () => {
 
 Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-6wj3l9)
 
-#### External use
+#### External use of useFlower
 
 ```jsx
 import React from 'react'
@@ -461,9 +434,9 @@ Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-f
 
 ### Utils Callback onEnter - onExit
 
-onEnter (function): A callback function that is executed when entering the node state. It's useful for performing specific operations when the user transitions to this state.
+onEnter (function): A callback function that is executed when entering the node state. It's useful to perform specific operations when the user transitions to this state.
 
-onExit (function): A callback function that is executed when exiting the node state. It's useful for performing specific operations when the user leaves this state.
+onExit (function): A callback function that is executed when exiting the node state. It's useful to perform specific operations when the user leaves this state.
 
 ```jsx
 import React from 'react'
@@ -499,166 +472,12 @@ export const Page = () => {
 }
 ```
 
-## Form
 
-Flower enables the quick creation of forms.
 
-It keeps track of the form's validity status. This status not only facilitates displaying error messages to the user but can also be leveraged for implementing flow rules.
-
-### Basic Usage
-
-```jsx
-import {
-  Flower,
-  FlowerNavigate,
-  FlowerNode,
-  FlowerField,
-  FlowerAction,
-  useFlower,
-  useFlowerForm
-} from '@flowerforce/flower-react'
-import { useEffect } from 'react'
-import './styles.css'
-
-const ComponentAction = () => {
-  const { next } = useFlower()
-  const { getData } = useFlowerForm()
-
-  useEffect(() => {
-    // get form data
-    const formData = getData()
-
-    try {
-      // * do your staff here - api call etc **
-      // example setTimout to simulate delay api call
-      setTimeout(() => {
-        //  navigate to success step
-        next('onSuccess')
-      }, 500)
-    } catch (error) {
-      // navigate to error step
-      next('onError')
-    }
-  }, [next, getData])
-
-  return <span className="loader"></span>
-}
-
-export default function App() {
-  return (
-    <Flower name="demo">
-      {/* step 1 */}
-      <FlowerNode id="step1" to={{ step2: null }}>
-        <div className="page step1">
-          <span>1</span>
-
-          <div className="field">
-            <label htmlFor="username">Username *</label>
-            <FlowerField
-              id="username"
-              validate={[
-                {
-                  rules: { $and: [{ username: { $exists: true } }] },
-                  message: 'Field is required'
-                },
-                {
-                  rules: { $and: [{ username: { $strGte: '6' } }] },
-                  message: 'Field length must be greater than or equal to 6.'
-                }
-              ]}
-            >
-              {({ onChange, value, errors }) => (
-                <div className="input-container">
-                  <input
-                    id="username"
-                    type="text"
-                    value={value}
-                    placeholder="Username"
-                    onChange={(e) => onChange(e.target.value)}
-                  />
-                  {errors && <div className="error">{errors.join(', ')}</div>}
-                </div>
-              )}
-            </FlowerField>
-          </div>
-
-          <div className="field">
-            <label htmlFor="password">Password *</label>
-            <FlowerField
-              id="password"
-              validate={[
-                {
-                  rules: { $and: [{ password: { $exists: true } }] },
-                  message: 'Field is required'
-                }
-              ]}
-            >
-              {({ onChange, value, errors }) => (
-                <>
-                  <input
-                    id="password"
-                    type="password"
-                    value={value}
-                    placeholder="Password"
-                    onChange={(e) => onChange(e.target.value)}
-                  />
-                  {errors && <div className="error">{errors.join(', ')}</div>}
-                </>
-              )}
-            </FlowerField>
-          </div>
-
-          <FlowerNavigate
-            action="next"
-            rules={{ $and: [{ '$form.isValid': { $eq: true } }] }}
-            alwaysDisplay
-          >
-            {({ onClick, hidden }) => (
-              <button disabled={hidden} onClick={onClick}>
-                Submit &#8594;
-              </button>
-            )}
-          </FlowerNavigate>
-        </div>
-      </FlowerNode>
-
-      {/* step 2 */}
-      <FlowerAction id="step2" to={{ success: 'onSuccess', error: 'onError' }}>
-        <div className="page step2">
-          <ComponentAction />
-        </div>
-      </FlowerAction>
-
-      {/* step 3 */}
-      <FlowerNode id="success">
-        <div className="page step3">
-          <span>Success</span>
-
-          <FlowerNavigate action="reset">
-            <button>Reset</button>
-          </FlowerNavigate>
-        </div>
-      </FlowerNode>
-
-      {/* step 4 */}
-      <FlowerNode id="error">
-        <div className="page step4">
-          <span>Error</span>
-          <FlowerNavigate action="reset">
-            <button>Reset</button>
-          </FlowerNavigate>
-        </div>
-      </FlowerNode>
-    </Flower>
-  )
-}
-```
-
-Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-2f43gh)
 
 ## Operators Rules
 
-The "rules" in Flower are used to define conditions and conditional behaviors within the workflow. These rules allow for dynamically changing the display or behavior of certain fields or components based on specific conditions.
+The "rules" in Flower are used to define conditions and conditional behaviors within the workflow. These rules allow to dynamically change the display or behavior of certain fields or components based on specific conditions.
 
 The rules schema follows the MongoDB style, below is the list of available operators:
 
@@ -781,6 +600,242 @@ export const Page = () => {
 Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-sfn6ml)
 
 
+# FlowerForm Integrations
+Next to FlowerReact, we find FlowerForm, another library designed to manage data and forms independently from the flow process.
+(add link to new form documentation)
+
+### Basic WRITE | READ State - move this in form
+
+To modify the internal state of Flower, besides passing initialData as a prop, we can always modify and read the state through the components **FlowerField** and **FlowerValue**.
+
+N.B.: We must use FlowerField component provided by `@flowerforce/flower-react-form`
+N.B.: We must use FlowerValue component provided by `@flowerforce/flower-react-shared`
+
+
+_FlowerField_ pass two props, onChange and value, to properly modify and read the value from the state of Flower.
+_FlowerValue_ pass value, to properly read the value from the state of Flower.
+
+Here's an example of how it works:
+
+```jsx
+import React from 'react'
+import {
+  Flower,
+  FlowerRoute,
+  FlowerNavigate,
+  FlowerNode,
+  FlowerField,
+} from '@flowerforce/flower-react'
+
+
+import {
+  FlowerField,
+} from '@flowerforce/flower-react-form'
+
+import { FlowerValue } from '@flowerforce/flower-react-shared'
+
+
+export const Page = () => {
+  return (
+    <Flower name="demo">
+      <FlowerNode
+        id="step1"
+        to={{
+              step3: {
+                rules: { $and: [{ skipStep2: { $eq: true } }] }
+              },
+              step2: null
+            }}
+        >
+        ...
+
+        <FlowerField id="skipStep2">
+          {({ onChange, value }) => <input type="checkbox" checked={value} onChange={e => onChange(e.target.checked)} />}
+        </FlowerField>
+
+        <FlowerNavigate action="next">
+          <button>click me to go next</button>
+        </FlowerNavigate>
+      </FlowerNode>
+
+      <FlowerNode id="step2">...</FlowerNode>
+
+      <FlowerNode id="step3">
+        <FlowerValue id="enableFinal">
+          {({ value }) => <span>skipStep2: {String(!!value)}</span>}
+        </FlowerValue>
+      </FlowerNode>
+
+    </Flower>
+  )
+}
+
+```
+
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-3-forked-r3hgnj)
+
+## Form - move this in form
+N.B.: `@flowerforce/flower-react-form` provides its own provider `FormProvider` and an equivalent of `<Flower>` component  called `<FlowerForm>`
+In this case we don't need to use it as form components reads from <Flower> context and mantains consistency between flowname and formname
+
+For more info [flowerjs.it/flower-react-form](https://flowerjs.it/flower-react-form) /// we must generate pages in website for specific documentation
+
+### Basic Usage
+
+```jsx
+import {
+  Flower,
+  FlowerNavigate,
+  FlowerNode,
+  FlowerAction,
+  useFlower
+} from '@flowerforce/flower-react'
+
+import {
+  FlowerField,
+  useFlowerForm
+} from '@flowerforce/flower-react-form'
+
+import { useEffect } from 'react'
+import './styles.css'
+
+const ComponentAction = () => {
+  const { next } = useFlower()
+  const { getData } = useFlowerForm()
+
+  useEffect(() => {
+    // get form data
+    const formData = getData()
+
+    try {
+      // * do your staff here - api call etc **
+      // example setTimout to simulate delay api call
+      setTimeout(() => {
+        //  navigate to success step
+        next('onSuccess')
+      }, 500)
+    } catch (error) {
+      // navigate to error step
+      next('onError')
+    }
+  }, [next, getData])
+
+  return <span className="loader"></span>
+}
+
+export default function App() {
+  return (
+    <Flower name="demo">
+      {/* step 1 */}
+      <FlowerNode id="step1" to={{ step2: null }}>
+        <div className="page step1">
+          <span>1</span>
+
+          <div className="field">
+            <label htmlFor="username">Username *</label>
+            <FlowerField
+              id="username"
+              validate={[
+                {
+                  rules: { $and: [{ username: { $exists: true } }] },
+                  message: 'Field is required'
+                },
+                {
+                  rules: { $and: [{ username: { $strGte: '6' } }] },
+                  message: 'Field length must be greater than or equal to 6.'
+                }
+              ]}
+            >
+              {({ onChange, value, errors }) => (
+                <div className="input-container">
+                  <input
+                    id="username"
+                    type="text"
+                    value={value}
+                    placeholder="Username"
+                    onChange={(e) => onChange(e.target.value)}
+                  />
+                  {errors && <div className="error">{errors.join(', ')}</div>}
+                </div>
+              )}
+            </FlowerField>
+          </div>
+
+          <div className="field">
+            <label htmlFor="password">Password *</label>
+            <FlowerField
+              id="password"
+              validate={[
+                {
+                  rules: { $and: [{ password: { $exists: true } }] },
+                  message: 'Field is required'
+                }
+              ]}
+            >
+              {({ onChange, value, errors }) => (
+                <>
+                  <input
+                    id="password"
+                    type="password"
+                    value={value}
+                    placeholder="Password"
+                    onChange={(e) => onChange(e.target.value)}
+                  />
+                  {errors && <div className="error">{errors.join(', ')}</div>}
+                </>
+              )}
+            </FlowerField>
+          </div>
+
+          <FlowerNavigate
+            action="next"
+            rules={{ $and: [{ '$data.isValid': { $eq: true } }] }}
+            alwaysDisplay
+          >
+            {({ onClick, hidden }) => (
+              <button disabled={hidden} onClick={onClick}>
+                Submit &#8594;
+              </button>
+            )}
+          </FlowerNavigate>
+        </div>
+      </FlowerNode>
+
+      {/* step 2 */}
+      <FlowerAction id="step2" to={{ success: 'onSuccess', error: 'onError' }}>
+        <div className="page step2">
+          <ComponentAction />
+        </div>
+      </FlowerAction>
+
+      {/* step 3 */}
+      <FlowerNode id="success">
+        <div className="page step3">
+          <span>Success</span>
+
+          <FlowerNavigate action="reset">
+            <button>Reset</button>
+          </FlowerNavigate>
+        </div>
+      </FlowerNode>
+
+      {/* step 4 */}
+      <FlowerNode id="error">
+        <div className="page step4">
+          <span>Error</span>
+          <FlowerNavigate action="reset">
+            <button>Reset</button>
+          </FlowerNavigate>
+        </div>
+      </FlowerNode>
+    </Flower>
+  )
+}
+```
+
+Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-forked-2f43gh)
+
+
 # Debugging Your Flower Application with @flowerforce/devtool
 To enhance the debugging process of your Flower application, we offer a specialized library named @flowerforce/devtool. This tool is designed to provide a more convenient and powerful debugging experience.
 
@@ -875,7 +930,7 @@ First, create the JSON file at the same level as the component file.
 
 ```
 src
-│  
+│
 │
 └───components
 │   │
@@ -904,7 +959,7 @@ The keys in the JSON file have the following purposes:
   - `type`: indicates what is being described with this JSON file, in this case, a component
   - `name`: the name of the component being configured
   - `category`: components are grouped into categories in Flower's graphical interface, so you can choose a category to which the component belongs
-  - `description`: a brief description of the component that will be displayed in the graphical interface. This is particularly useful for understanding the functionality of a specific component without reading the code
+  - `description`: a brief description of the component that will be displayed in the graphical interface. This is particularly useful to understand the functionality of a specific component without reading the code
   - `editing`: in this key, we will insert the options that will allow us to configure the component's behavior directly from the graphical interface
 
 Once you have completed these two steps, you will be able to use your `Text component` through the graphical interface.
@@ -927,3 +982,7 @@ In any case, there is a JSON schema that will guide you in writing the file asso
 # Documentation
 
 The Flower React docs are published at [flowerjs.it/](https://flowerjs.it)
+
+
+
+

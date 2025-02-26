@@ -1,13 +1,14 @@
+import { REDUCER_NAME } from '../constants'
 import { RulesObject } from './CoreInterface'
 import { Flower, Form, INode } from './Store'
 
-export interface ISelectors {
+export interface IFlowerSelectors {
   /**
    * @param state
    * @returns
    */
   selectGlobal<T extends Record<string, any>>(state: {
-    flower: { [x: string]: Flower<T> }
+    [REDUCER_NAME.FLOWER_FLOW]: { [x: string]: Flower<T> }
   }): { [x: string]: Flower<T> }
   /**
    * @param name
@@ -16,13 +17,13 @@ export interface ISelectors {
   selectFlower<T extends Record<string, any>>(
     name: string
   ): (state: { [x: string]: Flower<T> }) => Flower<T>
-  /**
-   * @param id
-   * @returns
-   */
-  selectFlowerFormNode<T extends Record<string, any>>(
-    id: string
-  ): (state: Flower<T>) => Form<T>
+  // /**
+  //  * @param id
+  //  * @returns
+  //  */
+  // selectFlowerFormNode<T extends Record<string, any>>(
+  //   id: string
+  // ): (state: Flower<T>) => Form<T>
   /**
    * @param flower
    * @returns
@@ -73,6 +74,23 @@ export interface ISelectors {
     nodes: { [x: string]: Partial<INode> },
     current: Flower<T>['current']
   ): boolean
+}
+
+export interface IFormSelectors {
+  /**
+   * @param state
+   * @returns
+   */
+  selectGlobalReducerByName(
+    name: string
+  ): (state: Record<string, Record<string, unknown>>) => Record<string, unknown>
+  /**
+   * @param state
+   * @returns
+   */
+  selectGlobalForm<T extends Record<string, any>>(state: {
+    [REDUCER_NAME.FLOWER_DATA]: { [x: string]: Form<T> }
+  }): { [x: string]: Form<T> }
   /**
    * @param form
    * @returns
@@ -109,11 +127,11 @@ export interface ISelectors {
   makeSelectNodeFormFieldDirty<T extends Record<string, any>>(
     id: string
   ): (form: Form<T> | undefined) => boolean | undefined
-  /**
-   * @param flower
-   * @returns
-   */
-  getDataByFlow<T extends Record<string, any>>(flower: Flower<T>): T
+  // /**
+  //  * @param flower
+  //  * @returns
+  //  */
+  // getDataByFlow<T extends Record<string, any>>(flower: Flower<T>): T
   /**
    * @param id
    * @returns

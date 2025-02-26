@@ -1,11 +1,11 @@
 import React from 'react'
-import { FlowerServerProps } from './types/FlowerServer'
+import { FlowerServerProps } from '../types/FlowerServer'
 
-const FlowerServer = ({ children }: FlowerServerProps) => {
-  return children
+const _FlowerServer = ({ children }: FlowerServerProps) => {
+  return <>{children}</>
 }
 
-const component = React.memo(FlowerServer)
+const component = React.memo(_FlowerServer)
 component.displayName = 'FlowerServer'
 
-export default component
+export const FlowerServer = component as typeof _FlowerServer
