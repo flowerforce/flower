@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import FlowerField from '../../components/FlowerField'
-import FlowerForm from '../../components/FlowerForm'
-import useFlowerForm from '../../components/useFlowerForm'
-import FormProvider from '../../provider'
+import { useFlowerForm, FlowerField, FlowerForm } from '../../components'
+import { FormProvider } from '../../provider'
 
 const mockData = {
   name: 'andrea',

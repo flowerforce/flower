@@ -13,10 +13,8 @@ import userEvent from '@testing-library/user-event'
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
 
-import FlowerNode from '../components/FlowerNode'
-import Flower from '../components/Flower'
-import FlowerProvider from '../provider'
-import useFlower from '../components/useFlower'
+import { FlowerProvider } from '../provider'
+import { Flower, FlowerNode, useFlower } from '../components'
 import { FlowerField, useFlowerForm } from '@flowerforce/flower-react-form'
 import { FlowerValue } from '@flowerforce/flower-react-shared'
 

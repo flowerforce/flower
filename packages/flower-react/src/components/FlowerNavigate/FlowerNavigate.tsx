@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react'
 import { useFlowerNavigate } from './useFlowerNavigate'
-import WrapperComponent from './WrapperComponent'
+import { FlowerNavigateWrapper } from './WrapperComponent'
 import { FlowerRule } from '@flowerforce/flower-react-shared'
 
 import { FlowerNavigateProps } from '../../types/FlowerNavigate'
@@ -19,7 +19,7 @@ const RenderRules = ({
   return (
     <FlowerRule alwaysDisplay={alwaysDisplay} rules={rules} formName={flowName}>
       {({ hidden }) => (
-        <WrapperComponent
+        <FlowerNavigateWrapper
           {...props}
           Component={Component}
           hidden={hidden}

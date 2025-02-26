@@ -12,11 +12,8 @@ import { fireEvent, render, screen } from '@testing-library/react'
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
 
-import FlowerNode from '../components/FlowerNode'
-import FlowerNavigate from '../components/FlowerNavigate'
-import Flower from '../components/Flower'
-import FlowerProvider from '../provider'
-import useFlower from '../components/useFlower'
+import { FlowerProvider } from '../provider'
+import { useFlower, FlowerNavigate, FlowerNode, Flower } from '../components'
 import { useFlowerForm } from '@flowerforce/flower-react-form'
 
 const Text = ({

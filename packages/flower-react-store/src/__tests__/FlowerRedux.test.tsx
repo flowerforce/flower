@@ -11,7 +11,7 @@ import { render, screen } from '@testing-library/react'
 
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
-import { useSelector } from '../provider'
+import { useSelector } from '../store-provider'
 import { ReduxFlowerProvider } from '../index'
 import { createCustomReducer } from './utils'
 // const flowerReducer = createSlice({

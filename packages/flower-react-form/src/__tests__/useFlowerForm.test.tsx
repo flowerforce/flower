@@ -12,12 +12,10 @@ import { fireEvent, render, screen } from '@testing-library/react'
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
 
-import FormProvider from '../provider'
-import FlowerForm from '../components/FlowerForm'
-import FlowerField from '../components/FlowerField'
 import { FlowerValue } from '@flowerforce/flower-react-shared'
 
-import useFlowerForm from '../components/useFlowerForm'
+import { useFlowerForm, FlowerField, FlowerForm } from '../components'
+import { FormProvider } from '../provider'
 import userEvent from '@testing-library/user-event'
 import { TestCmp } from './components'
 

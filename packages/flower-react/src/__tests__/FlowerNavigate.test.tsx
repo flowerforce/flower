@@ -12,13 +12,15 @@ import { render, fireEvent, screen } from '@testing-library/react'
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
 
-import FlowerNode from '../components/FlowerNode'
-import FlowerAction from '../components/FlowerAction'
-import Flower from '../components/Flower'
-import FlowerNavigate from '../components/FlowerNavigate'
-import FlowerRoute from '../components/FlowerRoute'
-import FlowerProvider from '../provider'
-import useFlower from '../components/useFlower'
+import { FlowerProvider } from '../provider'
+import {
+  Flower,
+  FlowerNode,
+  FlowerRoute,
+  FlowerAction,
+  FlowerNavigate,
+  useFlower
+} from '../components'
 import { useFlowerForm } from '@flowerforce/flower-react-form'
 
 const delay = (ms) => new Promise((r) => setTimeout(r, ms))
