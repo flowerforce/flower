@@ -16,18 +16,14 @@ import {
   ExternalProviderProps,
   REDUCERS_TYPES,
   ReduxProviderProps
-} from './types'
-import { reducerData } from './reducer'
+} from '../types'
+import { reducerData } from '../reducer'
 
 //TODO check reduxContext type due to remove all any types
 
 const reduxContext = createContext<ReactReduxContextValue<any, Action> | null>(
   null
 )
-
-export const useDispatch = createDispatchHook(reduxContext)
-export const useSelector = createSelectorHook(reduxContext)
-export const useStore = createStoreHook(reduxContext)
 
 const store = (
   reducers?: REDUCERS_TYPES,
@@ -61,4 +57,8 @@ class FlowerStoreProvider extends PureComponent<
   }
 }
 
-export default FlowerStoreProvider
+export const useDispatch = createDispatchHook(reduxContext)
+export const useSelector = createSelectorHook(reduxContext)
+export const useStore = createStoreHook(reduxContext)
+
+export const ReduxFlowerProvider = FlowerStoreProvider

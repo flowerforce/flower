@@ -8,10 +8,6 @@ import {
 import { Flower, REDUCER_NAME } from '@flowerforce/flower-core' // import from core
 import { UnknownAction } from 'redux'
 
-export interface FormProviderInterface {
-  render(): JSX.Element
-}
-
 export type REDUCERS_TYPES =
   | Partial<
       Record<
