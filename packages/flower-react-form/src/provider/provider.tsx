@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react'
 import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 import { ConfigureStoreOptions } from '@reduxjs/toolkit'
 
-const FormProvider = ({
+export const FormProvider = ({
   children,
   configureStoreOptions
 }: PropsWithChildren<{
@@ -12,5 +12,3 @@ const FormProvider = ({
     {children}
   </ReduxFlowerProvider>
 )
-
-export default FormProvider

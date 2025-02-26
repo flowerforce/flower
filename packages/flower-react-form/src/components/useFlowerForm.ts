@@ -9,7 +9,7 @@ import {
   useSelector,
   useStore
 } from '@flowerforce/flower-react-store'
-import { UseFlowerForm } from './types/FlowerHooks'
+import { UseFlowerForm } from '../types/FlowerHooks'
 
 /**  This hook allows you to manage and retrieve information about Forms.
  *
@@ -32,7 +32,7 @@ import { UseFlowerForm } from './types/FlowerHooks'
  * @param {string} customFormName - Pass this prop if useFlowerForm its used outside FlowerForm Context to choose which form you need
  *
  */
-const useFlowerForm: UseFlowerForm = (customFormName) => {
+export const useFlowerForm: UseFlowerForm = (customFormName) => {
   const { name: formNameDefault, initialData } = useContext(FlowerReactContext) // TODO: WIP, needs to be refactored
 
   const dispatch = useDispatch()
@@ -187,5 +187,3 @@ const useFlowerForm: UseFlowerForm = (customFormName) => {
 
   return result
 }
-
-export default useFlowerForm

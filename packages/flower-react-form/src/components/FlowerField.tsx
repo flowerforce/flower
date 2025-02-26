@@ -30,7 +30,7 @@ import {
   FlowerStateUtils,
   rulesMatcherUtils
 } from '@flowerforce/flower-core'
-import { FlowerFieldProps } from './types/FlowerField'
+import { FlowerFieldProps } from '../types/FlowerField'
 import isEqual from 'lodash/isEqual'
 import { FlowerRule } from '@flowerforce/flower-react-shared'
 
@@ -330,7 +330,7 @@ function Wrapper({
   return Component && <Component {...newProps} />
 }
 
-const FlowerField = ({
+const _FlowerField = ({
   id,
   validate,
   asyncValidate,
@@ -421,7 +421,7 @@ const FlowerField = ({
   )
 }
 
-const component = React.memo(FlowerField)
+const component = React.memo(_FlowerField)
 component.displayName = 'FlowerField'
 
-export default component as typeof FlowerField
+export const FlowerField = component as typeof _FlowerField

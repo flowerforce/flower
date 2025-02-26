@@ -51,4 +51,4 @@ const FlowerFormClient = ({
   )
 }
 
-export default memo(FlowerFormClient) as typeof FlowerFormClient
+export const FlowerForm = memo(FlowerFormClient) as typeof FlowerFormClient
