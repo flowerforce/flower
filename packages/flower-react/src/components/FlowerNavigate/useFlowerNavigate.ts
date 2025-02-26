@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useCallback, useContext } from 'react'
-import useFlower from '../useFlower'
-import { FlowerNavigateProps } from '../types/FlowerNavigate'
+import { useFlower } from '../useFlower'
+import { FlowerNavigateProps } from '../../types/FlowerNavigate'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 
 type UseFlowerNavigateProps = Pick<

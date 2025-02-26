@@ -4,15 +4,18 @@ import {
   FlowerCoreBaseReducers,
   REDUCER_NAME
 } from '@flowerforce/flower-core'
+import { REDUCERS_TYPES } from '@flowerforce/flower-react-store'
 
-const flowerReducer = createSlice({
+export const flowerReducer = createSlice({
   name: REDUCER_NAME.FLOWER_FLOW,
   initialState: {} as Record<string, Flower<Record<string, any>>>,
   reducers: FlowerCoreBaseReducers
 })
 
-export const { actions } = flowerReducer
+export const flowerActions = flowerReducer.actions
 
 export const flowerFlowReducer = flowerReducer.reducer
 
-export default flowerReducer
+export const reducerFlower: REDUCERS_TYPES = {
+  [REDUCER_NAME.FLOWER_FLOW]: flowerFlowReducer
+}

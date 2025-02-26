@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { FlowerNodeDefaultProps } from './types/DefaultNode'
+import { FlowerNodeDefaultProps } from '../types/DefaultNode'
 
 const FlowAction = ({ children, onEnter, onExit }: FlowerNodeDefaultProps) => {
   useEffect(() => {
@@ -14,4 +14,4 @@ const FlowAction = ({ children, onEnter, onExit }: FlowerNodeDefaultProps) => {
 const component = React.memo(FlowAction)
 component.displayName = 'FlowerAction'
 
-export default component as typeof FlowAction
+export const FlowerAction = component as typeof FlowAction

@@ -4,7 +4,7 @@ import { useFlowerNavigate } from './useFlowerNavigate'
 import WrapperComponent from './WrapperComponent'
 import { FlowerRule } from '@flowerforce/flower-react-shared'
 
-import { FlowerNavigateProps } from '../types/FlowerNavigate'
+import { FlowerNavigateProps } from '../../types/FlowerNavigate'
 
 //TODO type RenderRules props
 // ! Probably in this scenario we must replace `FlowerRule` or refactor `FlowerNavigate`
@@ -30,7 +30,7 @@ const RenderRules = ({
   )
 }
 
-const FlowerNavigate = ({
+const _FlowerNavigate = ({
   children,
   flowName: forceFlowName,
   action,
@@ -80,7 +80,7 @@ const FlowerNavigate = ({
   )
 }
 
-const component = React.memo(FlowerNavigate)
+const component = React.memo(_FlowerNavigate)
 component.displayName = 'FlowerNavigate'
 
-export default component as typeof FlowerNavigate
+export const FlowerNavigate = component as typeof _FlowerNavigate

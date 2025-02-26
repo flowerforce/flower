@@ -8,46 +8,44 @@ import {
 } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
 
-const { getAllData: mapData } = FlowerStateUtils
-
 const { selectGlobal, selectGlobalForm } = FlowerCoreStateSelectors
 
-const selectFlower = (name: string) =>
+export const selectFlower = (name: string) =>
   createSelector(selectGlobal, FlowerCoreStateSelectors.selectFlower(name))
 
-const selectFlowerForm = selectGlobalForm
+export const selectFlowerForm = selectGlobalForm
 
-const selectFlowerFormNode = (name: string) =>
+export const selectFlowerFormNode = (name: string) =>
   createSelector(selectFlowerForm, (data) => {
     return data[name]
   })
 
-const selectFlowerHistory = (name: string) =>
+export const selectFlowerHistory = (name: string) =>
   createSelector(
     selectFlower(name),
     FlowerCoreStateSelectors.selectFlowerHistory
   )
 
-const makeSelectNodesIds = (name: string) =>
+export const makeSelectNodesIds = (name: string) =>
   createSelector(
     selectFlower(name),
     FlowerCoreStateSelectors.makeSelectNodesIds
   )
 
-const makeSelectStartNodeId = (name: string) =>
+export const makeSelectStartNodeId = (name: string) =>
   createSelector(
     selectFlower(name),
     FlowerCoreStateSelectors.makeSelectStartNodeId
   )
 
-const makeSelectCurrentNodeId = (name: string) =>
+export const makeSelectCurrentNodeId = (name: string) =>
   createSelector(
     selectFlower(name),
     makeSelectStartNodeId(name),
     FlowerCoreStateSelectors.makeSelectCurrentNodeId
   )
 
-const makeSelectPrevNodeRetain = (name: string) =>
+export const makeSelectPrevNodeRetain = (name: string) =>
   createSelector(
     makeSelectNodesIds(name),
     selectFlowerHistory(name),
@@ -55,7 +53,7 @@ const makeSelectPrevNodeRetain = (name: string) =>
     FlowerCoreStateSelectors.makeSelectPrevNodeRetain
   )
 
-const makeSelectCurrentNodeDisabled = (name: string) =>
+export const makeSelectCurrentNodeDisabled = (name: string) =>
   createSelector(
     makeSelectNodesIds(name),
     makeSelectCurrentNodeId(name),
@@ -63,47 +61,53 @@ const makeSelectCurrentNodeDisabled = (name: string) =>
   )
 
 // dati nel flow selezionato
-const makeSelectFormData = (name: string) =>
+export const makeSelectFormData = (name: string) =>
   createSelector(selectFlowerFormNode(name), (data) => data?.data ?? {})
 
 // selettore per recuperare i dati di un flow specifico e id specifico
-const getDataFromState = (name: string, id: string | string[]) =>
+export const getDataFromState = (name: string, id: string | string[]) =>
   createSelector(
     makeSelectFormData(name),
     FlowerCoreStateSelectors.getDataFromState(id)
   )
-const makeSelectNodeErrors = (name: string) =>
+export const makeSelectNodeErrors = (name: string) =>
   createSelector(selectFlowerFormNode(name), (data) =>
     FlowerCoreStateSelectors.makeSelectNodeErrors(data)
   )
 
-const makeSelectNodeFieldTouched = (name: string, fieldId: string) =>
+export const makeSelectNodeFieldTouched = (name: string, fieldId: string) =>
   createSelector(
     selectFlowerFormNode(name),
     FlowerCoreStateSelectors.makeSelectNodeFormFieldTouched(fieldId)
   )
 
-const makeSelectNodeFieldFocused = (name: string, fieldId: string) =>
+export const makeSelectNodeFieldFocused = (name: string, fieldId: string) =>
   createSelector(
     selectFlowerFormNode(name),
     FlowerCoreStateSelectors.makeSelectNodeFormFieldFocused(fieldId)
   )
 
-const makeSelectNodeFieldDirty = (name: string, fieldId: string) =>
+export const makeSelectNodeFieldDirty = (name: string, fieldId: string) =>
   createSelector(
     selectFlowerFormNode(name),
     FlowerCoreStateSelectors.makeSelectNodeFormFieldDirty(fieldId)
   )
 
-const makeSelectNodeFormSubmitted = (name: string, currentNodeId: string) =>
+export const makeSelectNodeFormSubmitted = (
+  name: string,
+  currentNodeId: string
+) =>
   createSelector(
     selectFlowerFormNode(name),
     FlowerCoreStateSelectors.makeSelectNodeFormSubmitted
   )
 
-const getAllData = createSelector(selectGlobalForm, mapData)
+export const getAllData = createSelector(
+  selectGlobalForm,
+  FlowerStateUtils.getAllData
+)
 
-const selectFlowerFormCurrentNode = (name: string) =>
+export const selectFlowerFormCurrentNode = (name: string) =>
   createSelector(
     selectFlower(name),
     makeSelectCurrentNodeId(name),
@@ -112,7 +116,7 @@ const selectFlowerFormCurrentNode = (name: string) =>
     }
   )
 
-const makeSelectFieldError = (name: string, id: string, validate: any) =>
+export const makeSelectFieldError = (name: string, id: string, validate: any) =>
   createSelector(
     getAllData,
     selectFlowerFormCurrentNode(name),
@@ -137,21 +141,3 @@ export const selectorRulesDisabled = (
       value
     )
   )
-
-export {
-  selectFlowerHistory,
-  makeSelectNodesIds,
-  makeSelectCurrentNodeId,
-  makeSelectStartNodeId,
-  makeSelectCurrentNodeDisabled,
-  getAllData,
-  makeSelectFormData,
-  getDataFromState,
-  makeSelectNodeErrors,
-  makeSelectNodeFieldTouched,
-  makeSelectNodeFieldFocused,
-  makeSelectNodeFieldDirty,
-  makeSelectFieldError,
-  makeSelectNodeFormSubmitted,
-  makeSelectPrevNodeRetain
-}

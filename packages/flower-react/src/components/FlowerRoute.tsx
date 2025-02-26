@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import { useDispatch } from '@flowerforce/flower-react-store'
-import { FlowerRouteProps } from './types/FlowerRoute'
+import { FlowerRouteProps } from '../types/FlowerRoute'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
-import { actions as flowerActions } from '../reducer/flowerReducer'
-
-const FlowerRoute = ({
+import { flowerActions } from '../features'
+const _FlowerRoute = ({
   autostart = true,
   children,
   onEnter,
@@ -31,7 +30,7 @@ const FlowerRoute = ({
   return <>{children}</>
 }
 
-const component = React.memo(FlowerRoute)
+const component = React.memo(_FlowerRoute)
 component.displayName = 'FlowerRoute'
 
-export default component as typeof FlowerRoute
+export const FlowerRoute = component as typeof _FlowerRoute

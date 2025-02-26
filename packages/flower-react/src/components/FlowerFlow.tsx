@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { FlowerFlowProps } from './types/FlowerFlow'
+import { FlowerFlowProps } from '../types/FlowerFlow'
 
-const FlowerFlow = ({ children, onEnter, onExit }: FlowerFlowProps) => {
+const _FlowerFlow = ({ children, onEnter, onExit }: FlowerFlowProps) => {
   useEffect(() => {
     onEnter?.()
     return () => {
@@ -11,8 +11,7 @@ const FlowerFlow = ({ children, onEnter, onExit }: FlowerFlowProps) => {
   return <>{children}</>
 }
 
-const component = React.memo(FlowerFlow)
+const component = React.memo(_FlowerFlow)
 component.displayName = 'FlowerFlow'
 
-export default component
-// export default component as typeof FlowerFlow
+export const FlowerFlow = component as typeof _FlowerFlow

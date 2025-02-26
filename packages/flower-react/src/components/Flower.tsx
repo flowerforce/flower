@@ -14,14 +14,14 @@ import { Emitter, devtoolState } from '@flowerforce/flower-core'
 import { FlowerReactProvider } from '@flowerforce/flower-react-context'
 import _get from 'lodash/get'
 import { convertElements } from '../utils'
-import { actions as flowerActions } from '../reducer/flowerReducer'
 import {
+  flowerActions,
   makeSelectStartNodeId,
   selectFlowerHistory,
   makeSelectCurrentNodeId,
   makeSelectCurrentNodeDisabled,
   makeSelectPrevNodeRetain
-} from '../selectors'
+} from '../features'
 import {
   flowerDataActions,
   useDispatch,
@@ -304,4 +304,4 @@ const component = memo(FlowerClient)
 component.displayName = 'Flower'
 
 // workaround for let typescript read JSX component as a valid JSX element using react 19(?)
-export default component as typeof FlowerClient
+export const Flower = component as typeof FlowerClient

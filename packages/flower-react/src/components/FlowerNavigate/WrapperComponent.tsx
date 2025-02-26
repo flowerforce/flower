@@ -6,7 +6,7 @@ function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
 }
 
 //TODO type FlowerNavigateWrapper props
-function FlowerNavigateWrapper({ hidden, Component, onNavigate, ...props }: any) {
+function _FlowerNavigateWrapper({ hidden, Component, onNavigate, ...props }: any) {
   const newProps = useMemo(
     () => ({
       ...props,
@@ -32,6 +32,6 @@ function FlowerNavigateWrapper({ hidden, Component, onNavigate, ...props }: any)
   return Component && <Component {...newProps} />;
 }
 
-const component = React.memo(FlowerNavigateWrapper);
+const component = React.memo(_FlowerNavigateWrapper);
 
-export default component;
+export const FlowerNavigateWrapper = component;

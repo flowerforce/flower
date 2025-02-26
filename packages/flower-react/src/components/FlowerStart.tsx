@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from '@flowerforce/flower-react-store'
-import { makeSelectStartNodeId } from '../selectors'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
-import { actions as flowerActions } from '../reducer/flowerReducer'
+import { flowerActions, makeSelectStartNodeId } from '../features'
 
-function FlowerStart() {
+function _FlowerStart() {
   const dispatch = useDispatch()
   const one = useRef(false)
   const { name, autostart = true, currentNode } = useContext(FlowerReactContext)
@@ -30,7 +29,7 @@ function FlowerStart() {
   return null
 }
 
-const component = React.memo(FlowerStart)
+const component = React.memo(_FlowerStart)
 component.displayName = 'FlowerStart'
 
-export default component as unknown as typeof FlowerStart
+export const FlowerStart = component as unknown as typeof _FlowerStart

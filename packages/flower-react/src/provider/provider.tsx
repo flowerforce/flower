@@ -1,9 +1,9 @@
 import React, { PropsWithChildren } from 'react'
-import { reducerFlower } from './reducer'
+import { reducerFlower } from '../features'
 import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 import { ConfigureStoreOptions, Reducer } from '@reduxjs/toolkit'
 
-const FlowerProvider = ({
+export const FlowerProvider = ({
   children,
   enableReduxDevtool,
   configureStoreOptions,
@@ -24,5 +24,3 @@ const FlowerProvider = ({
     {children}
   </ReduxFlowerProvider>
 )
-
-export default FlowerProvider

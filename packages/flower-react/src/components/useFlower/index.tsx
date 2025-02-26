@@ -1,75 +1,24 @@
 import { useCallback, useContext } from 'react'
-import { makeSelectStartNodeId, makeSelectCurrentNodeId } from '../features'
+import { makeSelectStartNodeId, makeSelectCurrentNodeId } from '../../features'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import {
   useDispatch,
   useSelector,
   useStore
 } from '@flowerforce/flower-react-store'
-import { UseFlower } from '../types/FlowerHooks'
+import { UseFlower } from '../../types'
 import { Emitter, REDUCER_NAME, devtoolState } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
+import {
+  makeActionPayloadOnNext,
+  makeActionPayloadOnNode,
+  makeActionPayloadOnPrev,
+  makeActionPayloadOnReset,
+  makeActionPayloadOnRestart
+} from './utils'
 
 type NavigateFunctionParams = string | Record<string, any>
 
-const ACTION_TYPES = {
-  back: ['prev', 'prevToNode'],
-  jump: ['node', 'node'],
-  next: ['next', 'next'],
-  restart: ['restart', 'restart'],
-  reset: ['reset', 'initializeFromNode']
-}
-const PAYLOAD_KEYS_NEEDED = {
-  back: ['node'],
-  jump: ['node', 'history'],
-  next: ['node', 'route', 'data', 'dataIn'],
-  restart: ['node'],
-  reset: ['node', 'initialData']
-}
-
-const makeActionPayload =
-  (actions: string[], keys: string[]) =>
-  (flowName: string | undefined, params: any) => {
-    const rest: Record<string, any> =
-      typeof params === 'string' ? { node: params } : params
-
-    const payload: Record<string, any> = {
-      flowName: params?.flowName || flowName,
-      ...Object.fromEntries(
-        Object.entries(rest ?? {}).filter(([k]) => keys.includes(k))
-      )
-    }
-    const type = !params || !payload.node ? actions[0] : actions[1]
-    return {
-      type,
-      payload
-    }
-  }
-
-const makeActionPayloadOnPrev = makeActionPayload(
-  ACTION_TYPES.back,
-  PAYLOAD_KEYS_NEEDED.back
-)
-
-const makeActionPayloadOnReset = makeActionPayload(
-  ACTION_TYPES.reset,
-  PAYLOAD_KEYS_NEEDED.reset
-)
-
-const makeActionPayloadOnNode = makeActionPayload(
-  ACTION_TYPES.jump,
-  PAYLOAD_KEYS_NEEDED.jump
-)
-
-const makeActionPayloadOnNext = makeActionPayload(
-  ACTION_TYPES.next,
-  PAYLOAD_KEYS_NEEDED.next
-)
-
-const makeActionPayloadOnRestart = makeActionPayload(
-  ACTION_TYPES.restart,
-  PAYLOAD_KEYS_NEEDED.restart
-)
 /** This hook allows you to read flow informations, such as the flowName and ID of the current node.
  *
  * It also exposes all the functions to navigate within the flow:
