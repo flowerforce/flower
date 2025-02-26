@@ -2,7 +2,7 @@
 import React, { Fragment, useContext, useEffect, useMemo } from 'react'
 import { CoreUtils } from '@flowerforce/flower-core'
 import { DataSelectors, useSelector } from '@flowerforce/flower-react-store'
-import { Component as FlowerRule } from '../FlowerRule'
+import { FlowerRule } from '../FlowerRule'
 import type { FlowerValueProps } from '../types'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 
@@ -80,7 +80,7 @@ const RenderRules = ({
   )
 }
 
-const FlowerValue = ({
+const _FlowerValue = ({
   id = '*',
   rules,
   alwaysDisplay,
@@ -134,7 +134,7 @@ const FlowerValue = ({
   )
 }
 
-const component = React.memo(FlowerValue)
+const component = React.memo(_FlowerValue)
 component.displayName = 'FlowerValue'
 
-export const Component = component as typeof FlowerValue
+export const FlowerValue = component as typeof _FlowerValue

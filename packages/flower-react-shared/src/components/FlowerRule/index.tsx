@@ -1,11 +1,11 @@
 import React, { Fragment, useContext, useEffect } from 'react'
+import type { FlowerRuleProps } from '../types/FlowerRule'
+import { selectorRulesDisabled } from '../../features'
 import { rulesMatcherUtils } from '@flowerforce/flower-core'
 import { useSelector } from '@flowerforce/flower-react-store'
-import { selectorRulesDisabled } from './selectors'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
-import type { FlowerRuleProps } from '../types/FlowerRule'
 
-const FlowerRule = ({
+const _FlowerRule = ({
   children,
   rules,
   value,
@@ -71,7 +71,7 @@ const FlowerRule = ({
   )
 }
 
-const component = React.memo(FlowerRule)
+const component = React.memo(_FlowerRule)
 component.displayName = 'FlowerRule'
 
-export const Component = component as typeof FlowerRule
+export const FlowerRule = component as typeof _FlowerRule
