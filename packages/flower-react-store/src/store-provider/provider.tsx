@@ -17,7 +17,7 @@ import {
   REDUCERS_TYPES,
   ReduxProviderProps
 } from '../types'
-import { reducerData } from '../reducer'
+import { reducerData } from '../reducer/dataReducer'
 
 //TODO check reduxContext type due to remove all any types
 
