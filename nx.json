@@ -18,9 +18,6 @@
         }
       }
     },
-    "git": {
-      "commitMessage": "chore(release): publish [skip ci]"
-    },
     "version": {
       "generatorOptions": {
         "updateDependents": "auto"
