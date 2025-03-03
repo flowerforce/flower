@@ -34,7 +34,7 @@ describe('FlowerStateUtils', () => {
           data: { name: 'andrea', surname: 'rossi' }
         }
       }
-      const result = FlowerStateUtils.selectFlowerFormNode('example')(state)
+      const result = FlowerStateUtils.selectFlowerDataNode('example')(state)
       expect(result).toEqual({
         errors: { name: ['is equal'], surname: [] },
         dirty: { name: false, surname: false },

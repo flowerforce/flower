@@ -4,7 +4,7 @@ export const {
   getAllData,
   getDataFromState,
   makeSelectFieldError,
-  makeSelectFormData,
+  makeSelectData,
   makeSelectNodeErrors,
   makeSelectNodeFieldDirty,
   makeSelectNodeFieldFocused,

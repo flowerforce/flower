@@ -1,6 +1,6 @@
 export type {
   CoreReducersFunctions,
-  FormReducersFunctions
+  DataReducersFunctions
 } from '../../interfaces'
 export { FlowerCoreBaseReducers } from './FlowerCoreStateFunctions'
 export { FlowerCoreDataReducers } from './FlowerDataStateFunctions'

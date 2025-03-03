@@ -95,8 +95,8 @@ const FlowerClient = ({
       )
       if (initialData) {
         dispatch(
-          flowerDataActions.initForm({
-            formName: flowName,
+          flowerDataActions.initData({
+            rootName: flowName,
             initialData: initialData ?? {}
           })
         )

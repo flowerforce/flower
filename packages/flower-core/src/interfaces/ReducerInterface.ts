@@ -10,51 +10,6 @@ type ReducerFunctionSign<T extends object, R> = (
   state: Record<string, Flower<T>>,
   action: ActionWithPayload<R>
 ) => Record<string, Flower<T>> | void
-type FormReducerFunctionSign<T extends object, R = object> = (
-  state: Record<string, T>,
-  action: ActionWithPayload<{ formName: string } & R>
-) => Record<string, T> | void
-
-export type ActionsTypes =
-  | 'historyAdd'
-  | 'historyPrevToNode'
-  | 'setFormTouched'
-  | 'forceAddHistory'
-  | 'historyPop'
-  | 'restoreHistory'
-  | 'replaceNode'
-  | 'initializeFromNode'
-  | 'forceResetHistory'
-  | 'destroy'
-  | 'initNodes'
-  | 'setCurrentNode'
-  | 'formAddErrors'
-  | 'formRemoveErrors'
-  | 'addData'
-  | 'addDataByPath'
-  | 'replaceData'
-  | 'unsetData'
-  | 'setFormIsValidating'
-  | 'resetForm'
-  | 'formFieldTouch'
-  | 'formFieldFocus'
-  | 'node'
-  | 'prevToNode'
-  | 'next'
-  | 'prev'
-  | 'reset'
-
-// TODO WATCH OVER FLOWER REDUCER STATE AND CREATE SOME MORE SPECIFIC TYPES
-/**
- * These functions are Redux reducers used in a Flux architecture for managing state transitions and updates in a Flower application.
- */
-
-// type SliceCaseReducers<State> = {
-//   [K: string]: CaseReducer<State, {
-//       payload: any;
-//       type: string;
-//   }> | CaseReducerWithPrepare<State, PayloadAction<any, string, any, any>>;
-// }
 
 export type CoreReducersFunctions<
   T extends Record<string, any> = Record<string, Flower<Record<string, any>>>
@@ -275,10 +230,12 @@ export type CoreReducersFunctions<
   >
 }
 
-// TODO:
-// from `flowName` to `formName`
-// from `currentNode` to `formNode`? Or it's better to handle it directly under `flowName`?
-export type FormReducersFunctions<
+type DataReducerFunctionSign<T extends object, R = object> = (
+  state: Record<string, T>,
+  action: ActionWithPayload<{ rootName: string } & R>
+) => Record<string, T> | void
+
+export type DataReducersFunctions<
   T extends Record<string, any> = Record<string, Record<string, any>>
 > = {
   /**
@@ -289,7 +246,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  setFormTouched: FormReducerFunctionSign<T>
+  setFormSubmitted: DataReducerFunctionSign<T>
   /**
    * @param state
    * @param action
@@ -298,7 +255,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  formAddCustomErrors: FormReducerFunctionSign<
+  addCustomDataErrors: DataReducerFunctionSign<
     T,
     {
       id: string
@@ -313,7 +270,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  formAddErrors: FormReducerFunctionSign<
+  addDataErrors: DataReducerFunctionSign<
     T,
     {
       id: string
@@ -328,7 +285,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  formFieldDirty: FormReducerFunctionSign<
+  fieldDirty: DataReducerFunctionSign<
     T,
     {
       id: string
@@ -343,7 +300,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  formFieldTouch: FormReducerFunctionSign<
+  fieldTouch: DataReducerFunctionSign<
     T,
     {
       id: string
@@ -358,7 +315,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  formFieldFocus: FormReducerFunctionSign<
+  fieldFocus: DataReducerFunctionSign<
     T,
     {
       id: string
@@ -373,7 +330,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  formRemoveErrors: FormReducerFunctionSign<
+  removeDataErrors: DataReducerFunctionSign<
     T,
     {
       id: string
@@ -387,7 +344,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  addData: FormReducerFunctionSign<
+  addData: DataReducerFunctionSign<
     T,
     {
       value: T
@@ -401,7 +358,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  addDataByPath: FormReducerFunctionSign<
+  addDataByPath: DataReducerFunctionSign<
     T,
     {
       id: string
@@ -417,7 +374,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  replaceData: FormReducerFunctionSign<
+  replaceData: DataReducerFunctionSign<
     T,
     {
       value: T
@@ -431,7 +388,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  unsetData: FormReducerFunctionSign<
+  unsetData: DataReducerFunctionSign<
     T,
     {
       id: string[] | string
@@ -445,7 +402,7 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  setFormIsValidating: FormReducerFunctionSign<T, { isValidating?: boolean }>
+  setIsDataValidating: DataReducerFunctionSign<T, { isValidating?: boolean }>
   /**
    * @param state
    * @param action
@@ -454,9 +411,9 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  resetForm: FormReducerFunctionSign<
+  resetData: DataReducerFunctionSign<
     T,
-    { formName: string; initialData?: Record<string, any> }
+    { rootName: string; initialData?: Record<string, any> }
   >
   /**
    * @param state
@@ -466,8 +423,8 @@ export type FormReducersFunctions<
    *
    * @returns state
    */
-  initForm: FormReducerFunctionSign<
+  initData: DataReducerFunctionSign<
     T,
-    { formName: string; initialData: Record<string, any> }
+    { rootName: string; initialData: Record<string, any> }
   >
 }

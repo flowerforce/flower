@@ -49,4 +49,5 @@ export type UseFlowerForm = (customFormName?: string) => {
   reset: (nodeId?: string) => void
   /**this function to set a custom error on a specific field */
   setCustomErrors: (field: string, errors: string[], nodeId?: string) => void
+  setFormSubmitted: () => void
 }

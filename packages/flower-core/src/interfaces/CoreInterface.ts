@@ -90,7 +90,7 @@ export type CleanPath = (name: string, char?: string) => string
 
 export type GetPath = (idValue?: string) => {
   path: string | string[]
-  formName?: string
+  rootName?: string
 }
 
 export type AllEqual = (...args: Array<number | string | boolean>[]) => boolean
@@ -241,7 +241,7 @@ export interface FlowUtilitiesFunctions {
    */
   findValidRule: FindValidRule
 }
-export interface FormUtilitiesFunctions {
+export interface DataUtilitiesFunctions {
   /**
    * Removes specified characters from the beginning of a string (default char -> '^').
    * @param name
@@ -260,5 +260,5 @@ export interface FormUtilitiesFunctions {
 }
 
 export interface CoreUtilitiesFunctions
-  extends FormUtilitiesFunctions,
+  extends DataUtilitiesFunctions,
     FlowUtilitiesFunctions {}

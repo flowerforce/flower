@@ -2,81 +2,69 @@ import _set from 'lodash/set'
 import _unset from 'lodash/unset'
 import _get from 'lodash/get'
 import { CoreUtils } from '../../utils/FlowerCoreUtils'
-import { FormReducersFunctions } from '../../interfaces/ReducerInterface'
+import { DataReducersFunctions } from '../../interfaces/ReducerInterface'
 
 const { getPath } = CoreUtils
-/**
- * formName => FlowerForm
- * initialData => FlowerForm
- * fieldName => FlowerField
- * fieldValue => FlowerField
- * errors => FlowerField
- * customErrors => FlowerField
- * fieldTouched => FlowerField
- * fieldDirty => FlowerField
- * fieldHasFocus => FlowerField
- */
-export const FlowerCoreDataReducers: FormReducersFunctions = {
-  setFormTouched: (state, { payload }) => {
-    if (
-      !_get(state, typeof payload === 'string' ? payload : payload.formName)
-    ) {
+export const FlowerCoreDataReducers: DataReducersFunctions = {
+  setFormSubmitted: (state, { payload }) => {
+    const rootPath = typeof payload === 'string' ? payload : payload.rootName
+    if (!_get(state, [rootPath])) {
       return state
     }
-    _set(state, typeof payload === 'string' ? payload : payload.formName, true)
+    _set(state, [rootPath, 'isSubmitted'], true)
     return state
   },
-  formAddCustomErrors: (state, { payload }) => {
-    _set(state, [payload.formName, 'customErrors', payload.id], payload.errors)
+  addCustomDataErrors: (state, { payload }) => {
+    _set(state, [payload.rootName, 'customErrors', payload.id], payload.errors)
   },
-  formAddErrors: (state, { payload }) => {
-    _set(state, [payload.formName, 'errors', payload.id], payload.errors)
+  addDataErrors: (state, { payload }) => {
+    _set(state, [payload.rootName, 'errors', payload.id], payload.errors)
   },
-  formRemoveErrors: (state, { payload }) => {
-    _unset(state, [payload.formName, 'errors', payload.id])
-    _unset(state, [payload.formName, 'customErrors', payload.id])
-    _unset(state, [payload.formName, 'isValidating'])
+  removeDataErrors: (state, { payload }) => {
+    _unset(state, [payload.rootName, 'errors', payload.id])
+    _unset(state, [payload.rootName, 'customErrors', payload.id])
+    _unset(state, [payload.rootName, 'isValidating'])
   },
-  formFieldTouch: (state, { payload }) => {
-    _set(state, [payload.formName, 'touches', payload.id], payload.touched)
+  fieldTouch: (state, { payload }) => {
+    _set(state, [payload.rootName, 'touches', payload.id], payload.touched)
   },
-  formFieldDirty: (state, { payload }) => {
-    _set(state, [payload.formName, 'dirty', payload.id], payload.dirty)
+  fieldDirty: (state, { payload }) => {
+    _set(state, [payload.rootName, 'dirty', payload.id], payload.dirty)
   },
-  formFieldFocus: (state, { payload }) => {
+  fieldFocus: (state, { payload }) => {
     if (!payload.focused) {
-      _unset(state, [payload.formName, 'hasFocus'])
+      _unset(state, [payload.rootName, 'hasFocus'])
       return
     }
-    _set(state, [payload.formName, 'hasFocus'], payload.id)
+    _set(state, [payload.rootName, 'hasFocus'], payload.id)
   },
   addData: (state, { payload }) => {
-    const prevData = _get(state, [payload.formName, 'data'], {})
-    _set(state, [payload.formName, 'data'], { ...prevData, ...payload.value })
+    const prevData = _get(state, [payload.rootName, 'data'], {})
+    _set(state, [payload.rootName, 'data'], { ...prevData, ...payload.value })
   },
   addDataByPath: (state, { payload }) => {
     const { path: newpath } = getPath(payload.id)
 
     if (payload.id && payload.id.length) {
-      _set(state, [payload.formName, 'data', ...newpath], payload.value)
+      _set(state, [payload.rootName, 'data', ...newpath], payload.value)
       if (payload && payload.dirty) {
-        _set(state, [payload.formName, 'dirty', payload.id], payload.dirty)
+        _set(state, [payload.rootName, 'dirty', payload.id], payload.dirty)
       }
     }
   },
   // TODO usato al momento solo il devtool
   replaceData: /* istanbul ignore next */ (state, { payload }) => {
     /* istanbul ignore next */
-    _set(state, [payload.formName, 'data'], payload.value)
+    _set(state, [payload.rootName, 'data'], payload.value)
   },
   unsetData: (state, { payload }) => {
-    _unset(state, [payload.formName, 'data', ...payload.id])
+    _unset(state, [payload.rootName, 'data', ...payload.id])
   },
-  setFormIsValidating: (state, { payload }) => {
-    _set(state, [payload.formName, 'isValidating'], payload.isValidating)
+  setIsDataValidating: (state, { payload }) => {
+    _set(state, [payload.rootName, 'isValidating'], payload.isValidating)
   },
-  resetForm: (state, { payload: { formName, initialData } }) => {
-    const touchedFields = _get(state, [formName, 'errors'], {})
+  resetData: (state, { payload: { rootName, initialData } }) => {
+    const touchedFields = _get(state, [rootName, 'errors'], {})
 
     const newStateData = initialData
       ? Object.keys(touchedFields).reduce((acc, key) => {
@@ -87,12 +75,12 @@ export const FlowerCoreDataReducers: FormReducersFunctions = {
         }, {})
       : {}
 
-    _set(state, [formName, 'data'], newStateData)
-    _unset(state, [formName, 'touches'])
-    _unset(state, [formName, 'dirty'])
-    _unset(state, [formName, 'isSubmitted'])
+    _set(state, [rootName, 'data'], newStateData)
+    _unset(state, [rootName, 'touches'])
+    _unset(state, [rootName, 'dirty'])
+    _unset(state, [rootName, 'isSubmitted'])
   },
-  initForm: (state, { payload: { formName, initialData } }) => {
-    _set(state, [formName, 'data'], initialData)
+  initData: (state, { payload: { rootName, initialData } }) => {
+    _set(state, [rootName, 'data'], initialData)
   }
 }

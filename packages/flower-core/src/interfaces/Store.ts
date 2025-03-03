@@ -17,7 +17,7 @@ export interface INode {
   disabled?: boolean
 }
 
-export type Form<T extends Record<string, unknown>> = {
+export type Data<T extends Record<string, unknown>> = {
   isSubmitted?: boolean
   isDirty?: boolean
   hasFocus?: string

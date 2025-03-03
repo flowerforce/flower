@@ -1,6 +1,6 @@
-import { CoreReducersFunctions, FormReducersFunctions } from '../../interfaces'
+import { CoreReducersFunctions, DataReducersFunctions } from '../../interfaces'
 import { FlowerCoreBaseReducers } from './FlowerCoreStateFunctions'
 import { FlowerCoreDataReducers } from './FlowerDataStateFunctions'
 
-export const FlowerCoreReducers: FormReducersFunctions & CoreReducersFunctions =
+export const FlowerCoreReducers: DataReducersFunctions & CoreReducersFunctions =
   { ...FlowerCoreBaseReducers, ...FlowerCoreDataReducers }

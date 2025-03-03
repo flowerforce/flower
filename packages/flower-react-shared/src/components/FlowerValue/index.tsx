@@ -10,18 +10,18 @@ import { FlowerReactContext } from '@flowerforce/flower-react-context'
 function Wrapper({
   Component,
   id,
-  formName,
+  rootName,
   spreadValue,
   hidden,
   onUpdate,
   ...props
 }: any) {
-  const { formName: formNameFromPath, path } = useMemo(
+  const { rootName: formNameFromPath, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
   )
   const value = useSelector(
-    DataSelectors.getDataFromState(formNameFromPath ?? formName, path)
+    DataSelectors.getDataFromState(formNameFromPath ?? rootName, path)
   )
   const values =
     spreadValue && typeof value === 'object' && !Array.isArray(value)
@@ -38,7 +38,7 @@ function Wrapper({
     <Component
       id={id}
       {...props}
-      formName={formName}
+      rootName={rootName}
       hidden={hidden}
       {...values}
     />
@@ -52,7 +52,7 @@ const RenderRules = ({
   value,
   Component,
   spreadValue,
-  formName,
+  rootName,
   flowName,
   onUpdate,
   ...props
@@ -62,7 +62,7 @@ const RenderRules = ({
       alwaysDisplay={alwaysDisplay}
       rules={rules}
       value={value}
-      formName={formName || flowName}
+      rootName={rootName || flowName}
       id={id}
     >
       {({ hidden }) => (
@@ -72,7 +72,7 @@ const RenderRules = ({
           id={id}
           Component={Component}
           spreadValue={spreadValue}
-          formName={formName || flowName}
+          rootName={rootName || flowName}
           onUpdate={onUpdate}
         />
       )}
@@ -87,12 +87,12 @@ const _FlowerValue = ({
   value,
   children,
   spreadValue,
-  formId,
+  rootName,
   onUpdate
 }: FlowerValueProps) => {
   const { name: formNameCtx, initialData } = useContext(FlowerReactContext)
 
-  const name = formId || formNameCtx
+  const name = rootName || formNameCtx
   if (typeof children === 'function') {
     return (
       <RenderRules
@@ -123,7 +123,7 @@ const _FlowerValue = ({
             rules={rules}
             value={value}
             spreadValue={spreadValue}
-            formName={name}
+            rootName={name}
             Component={Component}
             {...props}
             onUpdate={onUpdate}

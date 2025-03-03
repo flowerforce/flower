@@ -1,6 +1,6 @@
 export * from './components'
 export * from './provider'
-export { makeSelectFormData } from './features'
+export { makeSelectData } from './features'
 
 export type * from './types/FlowContext'
 

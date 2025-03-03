@@ -3,7 +3,7 @@ import { rulesMatcherUtils } from './utils'
 
 export const rulesMatcher = (
   rules?: Record<string, any> | Record<string, any>[] | FunctionRule,
-  formValue: Record<string, any> = {},
+  dataValue: Record<string, any> = {},
   apply = true,
   options?: Record<string, any>
 ) => {
@@ -13,7 +13,7 @@ export const rulesMatcher = (
   // }
 
   if (typeof rules === 'function') {
-    return [rules(formValue) === apply]
+    return [rules(dataValue) === apply]
   }
 
   const conditions = Array.isArray(rules)
@@ -22,7 +22,7 @@ export const rulesMatcher = (
 
   const valid = rulesMatcherUtils.checkRule(
     conditions,
-    formValue,
+    dataValue,
     options ?? {}
   )
   return [valid === apply]

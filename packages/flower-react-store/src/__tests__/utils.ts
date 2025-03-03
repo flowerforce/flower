@@ -4,7 +4,7 @@ import {
   FlowerCoreBaseReducers
 } from '@flowerforce/flower-core'
 import { createSlice } from '@reduxjs/toolkit'
-import { REDUCERS_TYPES } from '../types'
+import { REDUCERS_TYPES } from '../types/reducerTypes'
 
 export const createCustomReducer = ({
   flowReducer,

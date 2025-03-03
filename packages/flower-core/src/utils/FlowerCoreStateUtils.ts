@@ -9,7 +9,7 @@ export const FlowerStateUtils: CoreStateUtils = {
       {}
     ),
 
-  selectFlowerFormNode: (name) => (state) => _get(state, name),
+  selectFlowerDataNode: (name) => (state) => _get(state, name),
 
   makeSelectCurrentNextRules: (name) => (state) => {
     const nextRules = _get(state, [name, 'nextRules'])
@@ -24,24 +24,24 @@ export const FlowerStateUtils: CoreStateUtils = {
   },
 
   makeSelectNodeErrors: (name) => (state) => {
-    const form = FlowerStateUtils.selectFlowerFormNode(name)(state)
+    const data = FlowerStateUtils.selectFlowerDataNode(name)(state)
 
-    return createFormData(form)
+    return generateData(data)
   }
 }
 
-export const createFormData = (form: Record<string, any>) => {
-  const validationErrors = form && form.errors
+export const generateData = (data: Record<string, any>) => {
+  const validationErrors = data && data.errors
 
   const allErrors = Object.values(validationErrors || {})
 
   return {
-    isSubmitted: form?.isSubmitted || false,
-    isDirty: Object.values(form?.dirty || {}).some(Boolean) || false,
-    hasFocus: form?.hasFocus,
-    errors: form?.errors,
-    customErrors: form?.customErrors,
-    isValidating: form?.isValidating,
+    isSubmitted: data?.isSubmitted || false,
+    isDirty: Object.values(data?.dirty || {}).some(Boolean) || false,
+    hasFocus: data?.hasFocus,
+    errors: data?.errors,
+    customErrors: data?.customErrors,
+    isValidating: data?.isValidating,
     isValid: allErrors.flat().length === 0
   }
 }

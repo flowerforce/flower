@@ -17,7 +17,7 @@ describe('FlowerFormReducers', () => {
   describe('formAddErrors', () => {
     it('should add errors to the form', () => {
       const payload1 = {
-        formName: 'form',
+        rootName: 'form',
         id: 'name',
         errors: ['is equal']
       }
@@ -26,7 +26,7 @@ describe('FlowerFormReducers', () => {
         type: 'flowerAction'
       }
       const payload2 = {
-        formName: 'form',
+        rootName: 'form',
         id: 'surname',
         errors: ['is equal']
       }
@@ -53,7 +53,7 @@ describe('FlowerFormReducers', () => {
   describe('formRemoveErrors', () => {
     it('removes errors from form', () => {
       const payload = {
-        formName: 'form',
+        rootName: 'form',
         id: 'name'
       }
       const action = {
@@ -76,7 +76,7 @@ describe('FlowerFormReducers', () => {
   //   it("should set touched to true for the specified node's form", () => {
   //     const action = {
   //       payload: {
-  //         formName: 'form'
+  //         rootName: 'form'
   //       },
   //       type: 'flowerAction'
   //     }
@@ -89,7 +89,7 @@ describe('FlowerFormReducers', () => {
   //   it('should not edit state if the specified node does not exist', () => {
   //     const action = {
   //       payload: {
-  //         formName: 'flower',
+  //         rootName: 'flower',
   //         currentNode: 'randomNode'
   //       },
   //       type: 'flowerAction'
@@ -105,7 +105,7 @@ describe('FlowerFormReducers', () => {
   describe('addDataByPath', () => {
     it('should add data to the specified path in the state', () => {
       const payload = {
-        formName: 'form',
+        rootName: 'form',
         id: 'nested.path.to.data',
         value: 'new data'
       }
@@ -123,7 +123,7 @@ describe('FlowerFormReducers', () => {
   describe('replaceData', () => {
     it('should replace the data in the specified flow with the provided data', () => {
       const payload: any = {
-        formName: 'form',
+        rootName: 'form',
         value: {
           name: 'andrea',
           surname: 'rossi'
@@ -147,7 +147,7 @@ describe('FlowerFormReducers', () => {
   describe('unsetData', () => {
     it('should unset the data at the specified path in the state', () => {
       const payload = {
-        formName: 'form',
+        rootName: 'form',
         id: ['name']
       }
       const action = {
@@ -169,7 +169,7 @@ describe('FlowerFormReducers', () => {
   describe('setFormIsValidating', () => {
     it("should set isValidating to the specified value for the specified node's form", () => {
       const payload = {
-        formName: 'form',
+        rootName: 'form',
         isValidating: true
       }
       const action = {
@@ -190,7 +190,7 @@ describe('FlowerFormReducers', () => {
   describe('resetForm', () => {
     it('should reset form', () => {
       const payload = {
-        formName: 'form',
+        rootName: 'form',
         isValidating: true
       }
       const action = {

@@ -78,15 +78,14 @@ function Root() {
   )
 }
 ```
-> You can pass the prop `enableReduxDevtool` to the `FlowerProvider` to show the Flower Store data inside the redux devtool of your browser.
+> You can pass the prop `configureStoreOptions - devTools` to the `FlowerProvider` to show the Flower Store data inside the redux devtool of your browser.
 ```jsx
 import React from 'react'
-import { customReducer, customReducer2 } from 'my-custom-reducers'
 import { Flower, FlowerProvider } from '@flowerforce/flower-react'
 
 function Root() {
   return (
-    <FlowerProvider enableReduxDevtool>
+    <FlowerProvider configureStoreOptions={{ devTools: true }}>
       <App />
     </FlowerProvider>
   )
@@ -141,10 +140,9 @@ Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-9
 
 This prop allows you to configure the following fields:
 
- 1) `startId`: string
- 2) `current`: string
- 3) `history`: string[]
-
+ 1) `startId`: string - First node of current flow
+ 2) `current`: string - Current node of current flow
+ 3) `history`: string[] - History of nodes in current flow
 
 
 ### Navigate with routes

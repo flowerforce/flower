@@ -17,7 +17,7 @@ const RenderRules = ({
   ...props
 }: any) => {
   return (
-    <FlowerRule alwaysDisplay={alwaysDisplay} rules={rules} formName={flowName}>
+    <FlowerRule alwaysDisplay={alwaysDisplay} rules={rules} rootName={flowName}>
       {({ hidden }) => (
         <FlowerNavigateWrapper
           {...props}

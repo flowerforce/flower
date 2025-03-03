@@ -4,20 +4,20 @@ import {
   FlowerCoreStateDataSelectors
 } from '@flowerforce/flower-core'
 
-const { selectGlobalForm, selectGlobalReducerByName } =
+const { selectGlobalData, selectGlobalReducerByName } =
   FlowerCoreStateDataSelectors
 
 const { getAllData: mapData } = FlowerStateUtils
 
-const selectFlowerForm = selectGlobalForm
+const selectFlowerData = selectGlobalData
 
 const selectFlowerFormNode = (name: string) =>
-  createSelector(selectFlowerForm, (data) => {
+  createSelector(selectFlowerData, (data) => {
     return data[name]
   })
 
 // dati nel flow selezionato
-const makeSelectFormData = (name: string) =>
+const makeSelectData = (name: string) =>
   createSelector(
     selectFlowerFormNode(name),
     selectGlobalReducerByName(name),
@@ -27,7 +27,7 @@ const makeSelectFormData = (name: string) =>
 // selettore per recuperare i dati di un flow specifico e id specifico
 const getDataFromState = (name: string, id: string | string[]) =>
   createSelector(
-    makeSelectFormData(name),
+    makeSelectData(name),
     FlowerCoreStateDataSelectors.getDataFromState(id)
   )
 
@@ -43,28 +43,28 @@ const makeSelectNodeFieldTouched = (
 ) =>
   createSelector(
     selectFlowerFormNode(name),
-    FlowerCoreStateDataSelectors.makeSelectNodeFormFieldTouched(fieldId)
+    FlowerCoreStateDataSelectors.makeSelectNodeDataFieldTouched(fieldId)
   )
 
 const makeSelectNodeFieldFocused = (name: string, fieldId: string) =>
   createSelector(
     selectFlowerFormNode(name),
-    FlowerCoreStateDataSelectors.makeSelectNodeFormFieldFocused(fieldId)
+    FlowerCoreStateDataSelectors.makeSelectNodeDataFieldFocused(fieldId)
   )
 
 const makeSelectNodeFieldDirty = (name: string, fieldId: string) =>
   createSelector(
     selectFlowerFormNode(name),
-    FlowerCoreStateDataSelectors.makeSelectNodeFormFieldDirty(fieldId)
+    FlowerCoreStateDataSelectors.makeSelectNodeDataFieldDirty(fieldId)
   )
 
 const makeSelectNodeFormSubmitted = (name: string) =>
   createSelector(
     selectFlowerFormNode(name),
-    FlowerCoreStateDataSelectors.makeSelectNodeFormSubmitted
+    FlowerCoreStateDataSelectors.makeSelectNodeDataSubmitted
   )
 
-const getAllData = createSelector(selectGlobalForm, mapData)
+const getAllData = createSelector(selectGlobalData, mapData)
 
 const makeSelectFieldError = (name: string, id: string, validate: any) =>
   createSelector(
@@ -75,7 +75,7 @@ const makeSelectFieldError = (name: string, id: string, validate: any) =>
 
 export {
   getAllData,
-  makeSelectFormData,
+  makeSelectData,
   getDataFromState,
   makeSelectNodeErrors,
   makeSelectNodeFieldTouched,

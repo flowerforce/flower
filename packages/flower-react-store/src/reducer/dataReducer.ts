@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { FlowerCoreDataReducers, REDUCER_NAME } from '@flowerforce/flower-core'
-import { REDUCERS_TYPES } from '../types'
+import { REDUCERS_TYPES } from '../types/reducerTypes'
 
 export const dataReducer = createSlice({
   name: REDUCER_NAME.FLOWER_DATA,

@@ -10,13 +10,13 @@ const _FlowerRule = ({
   rules,
   value,
   alwaysDisplay,
-  formName,
+  rootName,
   id,
   onUpdate
 }: FlowerRuleProps) => {
   const { name: flowNameContext } = useContext(FlowerReactContext)
 
-  const name = formName || flowNameContext
+  const name = rootName || flowNameContext
 
   const keys = rulesMatcherUtils.getKeys(rules, { prefix: name })
 

@@ -1,8 +1,8 @@
-import { IFlowerSelectors, IFormSelectors } from '../../interfaces'
+import { IFlowerSelectors, IDataSelectors } from '../../interfaces'
 import { FlowerCoreStateBaseSelectors } from './FlowerCoreStateSelectors'
-import { FlowerCoreStateDataSelectors } from './FlowerFormStateSelectors'
+import { FlowerCoreStateDataSelectors } from './FlowerDataStateSelectors'
 
-export const FlowerCoreStateSelectors: IFlowerSelectors & IFormSelectors = {
+export const FlowerCoreStateSelectors: IFlowerSelectors & IDataSelectors = {
   ...FlowerCoreStateBaseSelectors,
   ...FlowerCoreStateDataSelectors
 }

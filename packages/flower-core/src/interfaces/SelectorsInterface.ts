@@ -1,6 +1,6 @@
 import { REDUCER_NAME } from '../constants'
 import { RulesObject } from './CoreInterface'
-import { Flower, Form, INode } from './Store'
+import { Flower, Data, INode } from './Store'
 
 export interface IFlowerSelectors {
   /**
@@ -21,9 +21,9 @@ export interface IFlowerSelectors {
   //  * @param id
   //  * @returns
   //  */
-  // selectFlowerFormNode<T extends Record<string, any>>(
+  // selectFlowerDataNode<T extends Record<string, any>>(
   //   id: string
-  // ): (state: Flower<T>) => Form<T>
+  // ): (state: Flower<T>) => Data<T>
   /**
    * @param flower
    * @returns
@@ -76,7 +76,7 @@ export interface IFlowerSelectors {
   ): boolean
 }
 
-export interface IFormSelectors {
+export interface IDataSelectors {
   /**
    * @param state
    * @returns
@@ -88,15 +88,15 @@ export interface IFormSelectors {
    * @param state
    * @returns
    */
-  selectGlobalForm<T extends Record<string, any>>(state: {
-    [REDUCER_NAME.FLOWER_DATA]: { [x: string]: Form<T> }
-  }): { [x: string]: Form<T> }
+  selectGlobalData<T extends Record<string, any>>(state: {
+    [REDUCER_NAME.FLOWER_DATA]: { [x: string]: Data<T> }
+  }): { [x: string]: Data<T> }
   /**
-   * @param form
+   * @param data
    * @returns
    */
   makeSelectNodeErrors<T extends Record<string, any>>(
-    form: Form<T> | undefined
+    data: Data<T> | undefined
   ): {
     isSubmitted: boolean
     isDirty: boolean
@@ -107,26 +107,26 @@ export interface IFormSelectors {
     isValidating?: boolean
   }
   /**
-   * @param form
+   * @param data
    * @returns
    */
-  makeSelectNodeFormFieldTouched<T extends Record<string, any>>(
+  makeSelectNodeDataFieldTouched<T extends Record<string, any>>(
     id: string
-  ): (form: Form<T> | undefined) => boolean | undefined
+  ): (data: Data<T> | undefined) => boolean | undefined
   /**
-   * @param form
+   * @param data
    * @returns
    */
-  makeSelectNodeFormFieldFocused<T extends Record<string, any>>(
+  makeSelectNodeDataFieldFocused<T extends Record<string, any>>(
     id: string
-  ): (form: Form<T> | undefined) => string | undefined
+  ): (data: Data<T> | undefined) => string | undefined
   /**
-   * @param form
+   * @param data
    * @returns
    */
-  makeSelectNodeFormFieldDirty<T extends Record<string, any>>(
+  makeSelectNodeDataFieldDirty<T extends Record<string, any>>(
     id: string
-  ): (form: Form<T> | undefined) => boolean | undefined
+  ): (data: Data<T> | undefined) => boolean | undefined
   // /**
   //  * @param flower
   //  * @returns
@@ -140,11 +140,11 @@ export interface IFormSelectors {
     id: string | string[]
   ): (data: T) => Partial<T>
   /**
-   * @param form
+   * @param data
    * @returns
    */
-  makeSelectNodeFormSubmitted<T extends Record<string, any>>(
-    form: Form<T>
+  makeSelectNodeDataSubmitted<T extends Record<string, any>>(
+    data: Data<T>
   ): boolean | undefined
   /**
    * @param name
@@ -156,7 +156,7 @@ export interface IFormSelectors {
     name: string,
     id: string,
     validate: { rules?: RulesObject<any>; message?: string }[] | null
-  ): (data: T | undefined, form: Form<T>) => Array<string>
+  ): (globalData: T | undefined, data: Data<T>) => Array<string>
   /**
    * @param id
    * @param rules
@@ -171,5 +171,5 @@ export interface IFormSelectors {
     keys: string[] | null,
     flowName: string,
     value: any
-  ): (data: T | undefined, form: Form<T>) => boolean
+  ): (globalData: T | undefined, data: Data<T>) => boolean
 }

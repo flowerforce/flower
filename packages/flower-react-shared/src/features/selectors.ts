@@ -6,14 +6,14 @@ import {
   FlowerCoreStateDataSelectors
 } from '@flowerforce/flower-core'
 
-const { selectGlobalForm } = FlowerCoreStateDataSelectors
+const { selectGlobalData } = FlowerCoreStateDataSelectors
 
 const { getAllData: mapData } = FlowerStateUtils
 
-const selectFlowerForm = selectGlobalForm
+const selectFlowerData = selectGlobalData
 
 const selectFlowerFormNode = (name: string) =>
-  createSelector(selectFlowerForm, (data) => {
+  createSelector(selectFlowerData, (data) => {
     return data[name]
   })
 
@@ -22,7 +22,7 @@ const makeSelectNodeErrors = (name: string) =>
     FlowerCoreStateDataSelectors.makeSelectNodeErrors(data)
   )
 
-const getAllData = createSelector(selectGlobalForm, mapData)
+const getAllData = createSelector(selectGlobalData, mapData)
 
 export const selectorRulesDisabled = (
   id: string,
