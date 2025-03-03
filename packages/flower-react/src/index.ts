@@ -2,7 +2,7 @@ export * from './components'
 export * from './provider'
 export { makeSelectData } from './features'
 
-export type * from './types/FlowContext'
+export type * from './types'
 
 export {
   useDispatch,
