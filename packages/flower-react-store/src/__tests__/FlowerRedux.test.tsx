@@ -50,7 +50,7 @@ describe('Test Flower component', () => {
   })
   it('Init Redux with flow reducer', () => {
     render(
-      <ReduxFlowerProvider reducer={reducerFlower}>
+      <ReduxFlowerProvider configureStore={{ reducer: reducerFlower! }}>
         <ConsumerComponent />
       </ReduxFlowerProvider>
     )
@@ -61,7 +61,7 @@ describe('Test Flower component', () => {
   })
   it('Init Redux with external reducer', () => {
     render(
-      <ReduxFlowerProvider reducer={customReducer}>
+      <ReduxFlowerProvider configureStore={{ reducer: customReducer! }}>
         <ConsumerComponent />
       </ReduxFlowerProvider>
     )

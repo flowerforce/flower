@@ -44,8 +44,8 @@ describe('FlowerFormReducers', () => {
         }
       }
 
-      FlowerCoreDataReducers.formAddErrors(state, action1)
-      FlowerCoreDataReducers.formAddErrors(state, action2)
+      FlowerCoreDataReducers.addDataErrors(state, action1)
+      FlowerCoreDataReducers.addDataErrors(state, action2)
 
       expect(state).toEqual(expectedResult)
     })
@@ -60,7 +60,7 @@ describe('FlowerFormReducers', () => {
         payload,
         type: 'flowerAction'
       }
-      FlowerCoreDataReducers.formRemoveErrors(state, action)
+      FlowerCoreDataReducers.removeDataErrors(state, action)
       const expectedResult = {
         form: {
           errors: {
@@ -183,7 +183,7 @@ describe('FlowerFormReducers', () => {
           isValidating: true
         }
       }
-      FlowerCoreDataReducers.setFormIsValidating(state, action)
+      FlowerCoreDataReducers.setIsDataValidating(state, action)
       expect(state).toEqual(expectedResult)
     })
   })
@@ -204,7 +204,7 @@ describe('FlowerFormReducers', () => {
           data: {}
         }
       }
-      FlowerCoreDataReducers.resetForm(state, action)
+      FlowerCoreDataReducers.resetData(state, action)
       expect(state).toEqual(expectedResult)
     })
   })

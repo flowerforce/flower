@@ -43,8 +43,9 @@ class FlowerStoreProvider extends PureComponent<
   private store: Omit<ReduxProviderProps, 'reducer' | 'config'>
   constructor(props: ExternalProviderProps) {
     super(props)
-    const { reducer, config } = props
-    this.store = store(reducer, config)
+    const { configureStore } = props
+    const { reducer, ...restConfig } = configureStore ?? {}
+    this.store = store(reducer, restConfig)
   }
 
   render() {

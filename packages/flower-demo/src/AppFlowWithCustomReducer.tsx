@@ -37,7 +37,8 @@ const reducers = {
 export const actionsCustom1 = customReducer.actions
 export const actionsCustom2 = customReducer2.actions
 
-const config: Partial<ConfigureStoreOptions> = {
+const config: ConfigureStoreOptions = {
+  reducer: reducers,
   devTools: true,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
 }
@@ -49,7 +50,7 @@ export function AppFlowWithCustomReducers() {
       style={{ display: 'flex', flexDirection: 'column', padding: '50px' }}
     >
       FLOW WITH EXTERNAL REDUCERS
-      <FlowerProvider reducers={reducers} configureStoreOptions={config}>
+      <FlowerProvider<Record<string, any>> configureStore={config}>
         <ExternalReducers />
       </FlowerProvider>
     </div>

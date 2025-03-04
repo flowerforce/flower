@@ -1,26 +1,35 @@
 import React, { PropsWithChildren } from 'react'
 import { reducerFlower } from '../features'
 import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
-import { ConfigureStoreOptions, Reducer } from '@reduxjs/toolkit'
+import { ConfigureStoreOptions, Reducer, UnknownAction } from '@reduxjs/toolkit'
 
-export const FlowerProvider = ({
+export const FlowerProvider = <
+  T extends Record<string, unknown> = Record<string, unknown>
+>({
   children,
   enableReduxDevtool,
-  configureStoreOptions,
-  reducers
+  configureStore
 }: PropsWithChildren<{
-  reducers?: Record<string, Reducer>
-  configureStoreOptions?: Omit<ConfigureStoreOptions, 'reducer'>
+  configureStore?: Omit<ConfigureStoreOptions, 'reducer'> & {
+    reducer?:
+      | Reducer<T, UnknownAction>
+      | { [x: string]: Reducer<T, UnknownAction> }
+  }
   /** @deprecated - uses devTools key from configureStoreOptions instead */
   enableReduxDevtool?: boolean
-}>) => (
-  <ReduxFlowerProvider
-    reducer={{ ...reducerFlower, ...(reducers ?? {}) }}
-    config={{
-      ...configureStoreOptions,
-      devTools: enableReduxDevtool ?? configureStoreOptions?.devTools
-    }}
-  >
-    {children}
-  </ReduxFlowerProvider>
-)
+}>) => {
+  const { reducer, ...rest } = configureStore ?? {
+    devTools: enableReduxDevtool
+  }
+  return (
+    <ReduxFlowerProvider
+      configureStore={{
+        reducer: { ...reducerFlower, ...(reducer ?? {}) },
+        ...rest,
+        devTools: enableReduxDevtool ?? rest?.devTools
+      }}
+    >
+      {children}
+    </ReduxFlowerProvider>
+  )
+}

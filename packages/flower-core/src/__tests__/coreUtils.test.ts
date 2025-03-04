@@ -554,7 +554,7 @@ describe('CoreUtils object', () => {
 
     const absPath = CoreUtils.getPath('^path1.path2.path3.path4')
     expect(absPath).toEqual({
-      formName: 'path1',
+      rootName: 'path1',
       path: ['path2', 'path3', 'path4']
     })
 
