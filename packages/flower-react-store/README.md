@@ -5,6 +5,7 @@
 Flower React Store is a package designed to instantiate a shared Redux store context for multiple packages.
 This ensures a single source of truth across different modules, enabling seamless state management and communication between components.
 It allows you to inject custom reducers to work with flower rules and validation integration.
+Now you can inject even reducers made by rtk-query 
 
 # Documentation
 
