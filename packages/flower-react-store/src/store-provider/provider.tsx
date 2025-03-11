@@ -13,6 +13,11 @@ import {
   ConfigureStoreOptions
 } from '@reduxjs/toolkit'
 import {
+  buildCreateApi,
+  coreModule,
+  reactHooksModule
+} from '@reduxjs/toolkit/query/react'
+import {
   ExternalProviderProps,
   REDUCERS_TYPES,
   ReduxProviderProps
@@ -61,5 +66,9 @@ class FlowerStoreProvider extends PureComponent<
 export const useDispatch = createDispatchHook(reduxContext)
 export const useSelector = createSelectorHook(reduxContext)
 export const useStore = createStoreHook(reduxContext)
+export const createMyApi = buildCreateApi(
+  coreModule(),
+  reactHooksModule({ hooks: { useDispatch, useSelector, useStore } })
+)
 
 export const ReduxFlowerProvider = FlowerStoreProvider
