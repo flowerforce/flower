@@ -594,6 +594,7 @@ describe('Test FlowerField component', () => {
     await user.clear(screen.getByTestId('input'))
     expect(screen.getByTestId('h1')).toHaveTextContent('Error name')
     await user.type(screen.getByTestId('input'), '@andrea')
+    await delay(300)
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(screen.getByTestId('h1')).toHaveTextContent('success')
   })
