@@ -37,10 +37,10 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@flowerforce/flower-core": "4.0.1-beta.1",
-    "@flowerforce/flower-react-context": "4.0.1-beta.1",
-    "@flowerforce/flower-react-store": "4.0.1-beta.1",
-    "@flowerforce/flower-react-shared": "4.0.2-beta.0",
+    "@flowerforce/flower-core": "4.0.2",
+    "@flowerforce/flower-react-context": "4.0.2",
+    "@flowerforce/flower-react-store": "4.0.2",
+    "@flowerforce/flower-react-shared": "4.0.4",
     "lodash": "^4.17.21"
   },
   "exports": {

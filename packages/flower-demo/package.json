@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@flowerforce/flower-react": "4.0.4-beta.0",
-    "@flowerforce/flower-react-form": "4.0.4-beta.0",
-    "@flowerforce/flower-react-store": "4.0.1-beta.1",
+    "@flowerforce/flower-react-form": "4.0.5",
+    "@flowerforce/flower-react-store": "4.0.2",
     "@flowerforce/devtool": "4.0.1-beta.1",
     "antd": "^5.17.2"
   }
