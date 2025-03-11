@@ -24,8 +24,7 @@
   "peerDependencies": {
     "react": ">=18",
     "@reduxjs/toolkit": "^2.2.4",
-    "@flowerforce/flower-core": "*",
-    "@flowerforce/flower-react-store": "*"
+    "@flowerforce/flower-core": "4.0.1-beta.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
@@ -37,7 +36,8 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@flowerforce/flower-react-context": "4.0.1-beta.0"
+    "@flowerforce/flower-react-context": "4.0.1-beta.0",
+    "@flowerforce/flower-react-store": "4.0.1-beta.0"
   },
   "exports": {
     "./package.json": "./package.json",
