@@ -3,6 +3,7 @@ import {
   Reducer,
   ThunkMiddleware,
   Tuple,
+  combineReducers,
   configureStore
 } from '@reduxjs/toolkit'
 import { Flower, REDUCER_NAME } from '@flowerforce/flower-core' // import from core
@@ -22,6 +23,7 @@ export type REDUCERS_TYPES =
       >
     >
   | Record<string, Reducer<Record<string, unknown>>>
+  | ReturnType<typeof combineReducers>
 
 export type ReduxProviderProps<T = REDUCERS_TYPES> = ReturnType<
   typeof configureStore<
