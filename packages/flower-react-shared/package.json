@@ -24,7 +24,7 @@
   "peerDependencies": {
     "react": ">=18",
     "@reduxjs/toolkit": "^2.2.4",
-    "@flowerforce/flower-core": "4.0.1-beta.0"
+    "@flowerforce/flower-core": "4.0.1-beta.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
