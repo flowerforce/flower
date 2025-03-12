@@ -1,8 +1,4 @@
-import { RulesByNodeId, RulesModes } from './CoreInterface'
-
-export interface StoreRoot<T extends Record<string, any>> {
-  flower: { [x: string]: Flower<T> }
-}
+import { RulesByNodeId } from './CoreInterface'
 
 export interface Flower<T extends Record<string, any>> {
   persist: boolean
@@ -12,8 +8,6 @@ export interface Flower<T extends Record<string, any>> {
   nodes: { [x: string]: INode }
   //TODO: REMOVE ANY
   nextRules: { [x: string]: RulesByNodeId<T>[] }
-  data: T
-  form: { [x: string]: Form<T> }
 }
 
 export interface INode {
@@ -23,7 +17,7 @@ export interface INode {
   disabled?: boolean
 }
 
-export type Form<T> = {
+export type Data<T extends Record<string, unknown>> = {
   isSubmitted?: boolean
   isDirty?: boolean
   hasFocus?: string
@@ -32,4 +26,5 @@ export type Form<T> = {
   customErrors?: { [K in keyof T]: Array<string> }
   dirty?: { [K in keyof T]: boolean }
   touches?: { [K in keyof T]: boolean }
+  data?: T
 }

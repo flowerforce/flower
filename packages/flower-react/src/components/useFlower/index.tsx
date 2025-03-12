@@ -1,0 +1,161 @@
+import { useCallback, useContext } from 'react'
+import { makeSelectStartNodeId, makeSelectCurrentNodeId } from '../../features'
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
+import {
+  useDispatch,
+  useSelector,
+  useStore
+} from '@flowerforce/flower-react-store'
+import { UseFlower } from '../../types'
+import { Emitter, REDUCER_NAME, devtoolState } from '@flowerforce/flower-core'
+import _get from 'lodash/get'
+import {
+  makeActionPayloadOnNext,
+  makeActionPayloadOnNode,
+  makeActionPayloadOnPrev,
+  makeActionPayloadOnReset,
+  makeActionPayloadOnRestart
+} from './utils'
+
+type NavigateFunctionParams = string | Record<string, any>
+
+/** This hook allows you to read flow informations, such as the flowName and ID of the current node.
+ *
+ * It also exposes all the functions to navigate within the flow:
+ *
+ * - next
+ *
+ * - back
+ *
+ * - jump
+ *
+ * - reset
+ *
+ * - restart
+ *
+ * @param {string} flowName - first optional parameter
+ *
+ * @param {string} name - optional parameter, if flowName exist, name is not used
+ */
+export const useFlower: UseFlower = ({
+  flowName: customFlowName,
+  name
+} = {}) => {
+  const dispatch = useDispatch()
+
+  const { name: flowNameDefault, initialData } = useContext(FlowerReactContext)
+  const store = useStore()
+
+  const flowName = (customFlowName || name || flowNameDefault) as string
+  const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''))
+  const startId = useSelector(makeSelectStartNodeId(flowName ?? ''))
+
+  const emitNavigateEvent = useCallback(
+    //TODO check this function is needed
+    (params: any) => {
+      /* istanbul ignore next */
+      // eslint-disable-next-line no-underscore-dangle, no-undef
+      if (_get(devtoolState, '__FLOWER_DEVTOOLS__')) {
+        Emitter.emit('flower-devtool-from-client', {
+          source: 'flower-client',
+          action: 'FLOWER_NAVIGATE',
+          nodeId,
+          name: flowName,
+          time: new Date(),
+          params
+        })
+      }
+    },
+    [flowName, nodeId]
+  )
+
+  const next = useCallback(
+    (param?: NavigateFunctionParams) => {
+      const params =
+        typeof param === 'string' ? { route: param } : { dataIn: param }
+      const { type, payload } = makeActionPayloadOnNext(flowName, params)
+      dispatch({
+        type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,
+        payload: {
+          ...payload,
+          data: store.getState()
+        }
+      })
+
+      emitNavigateEvent({ type, payload })
+    },
+    [dispatch, emitNavigateEvent, flowName, store]
+  )
+
+  const back = useCallback(
+    (param?: NavigateFunctionParams) => {
+      const { type, payload } = makeActionPayloadOnPrev(flowName, param)
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
+
+      emitNavigateEvent({ type, payload })
+    },
+    [dispatch, emitNavigateEvent, flowName]
+  )
+
+  const restart = useCallback(
+    (param?: NavigateFunctionParams) => {
+      const { type, payload } = makeActionPayloadOnRestart(flowName, param)
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
+
+      emitNavigateEvent({ type, payload })
+    },
+    [dispatch, emitNavigateEvent, flowName]
+  )
+
+  const reset = useCallback(
+    (param?: NavigateFunctionParams) => {
+      const { type, payload } = makeActionPayloadOnReset(
+        flowName,
+        typeof param === 'string'
+          ? { node: param, initialData }
+          : {
+              ...param,
+              initialData
+            }
+      )
+
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
+
+      emitNavigateEvent({ type, payload })
+    },
+    [dispatch, emitNavigateEvent, flowName, initialData]
+  )
+
+  const jump = useCallback(
+    (param?: NavigateFunctionParams) => {
+      const { type, payload } = makeActionPayloadOnNode(flowName, param)
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
+
+      emitNavigateEvent({ type, payload })
+    },
+    [dispatch, emitNavigateEvent, flowName]
+  )
+
+  const getCurrentNodeId = useCallback(
+    (customFlowName?: string) => {
+      return _get(store.getState(), [
+        REDUCER_NAME.FLOWER_FLOW,
+        customFlowName || flowName,
+        'current'
+      ])
+    },
+    [store, flowName]
+  )
+
+  return {
+    flowName,
+    nodeId,
+    getCurrentNodeId,
+    startId,
+    next,
+    jump,
+    back,
+    reset,
+    restart
+  }
+}

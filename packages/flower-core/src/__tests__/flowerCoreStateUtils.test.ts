@@ -1,4 +1,4 @@
-import { FlowerStateUtils } from '../FlowerCoreStateUtils'
+import { FlowerStateUtils } from '../utils/FlowerCoreStateUtils'
 
 describe('FlowerStateUtils', () => {
   describe('getAllData', () => {
@@ -27,14 +27,20 @@ describe('FlowerStateUtils', () => {
   describe('selectFlowerFormNode', () => {
     it('returns the form node if found in state', () => {
       const state = {
-        name: {
-          form: {
-            id: 'form-data'
-          }
+        example: {
+          errors: { name: ['is equal'], surname: [] },
+          dirty: { name: false, surname: false },
+          touches: { name: false, surname: false },
+          data: { name: 'andrea', surname: 'rossi' }
         }
       }
-      const result = FlowerStateUtils.selectFlowerFormNode('name', 'id')(state)
-      expect(result).toEqual('form-data')
+      const result = FlowerStateUtils.selectFlowerDataNode('example')(state)
+      expect(result).toEqual({
+        errors: { name: ['is equal'], surname: [] },
+        dirty: { name: false, surname: false },
+        touches: { name: false, surname: false },
+        data: { name: 'andrea', surname: 'rossi' }
+      })
     })
   })
 

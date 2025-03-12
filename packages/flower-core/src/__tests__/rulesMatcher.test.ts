@@ -1,6 +1,4 @@
-import { MatchRules } from '../RulesMatcher'
-
-const { rulesMatcher } = MatchRules
+import { rulesMatcher } from '../rules-matcher'
 
 const testRules = [
   { date: { $exists: true } },

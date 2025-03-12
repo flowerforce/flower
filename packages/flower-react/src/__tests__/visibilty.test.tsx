@@ -12,13 +12,10 @@ import userEvent from '@testing-library/user-event'
 
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
-
-import FlowerNode from '../components/FlowerNode'
-import Flower from '../components/Flower'
-import FlowerProvider from '../provider'
-import useFlower from '../components/useFlower'
-import useFlowerForm from '../components/useFlowerForm'
-import FlowerRule from '../components/FlowerRule'
+import { FlowerProvider } from '../provider'
+import { Flower, FlowerNode, useFlower } from '../components'
+import { useFlowerForm } from '@flowerforce/flower-react-form'
+import { FlowerRule } from '@flowerforce/flower-react-shared'
 
 const Text = ({ text, value, children }: any) => (
   <h1 data-testid="h1">{text || value || children}</h1>

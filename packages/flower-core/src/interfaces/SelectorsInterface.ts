@@ -1,13 +1,14 @@
+import { REDUCER_NAME } from '../constants'
 import { RulesObject } from './CoreInterface'
-import { Flower, Form, INode } from './Store'
+import { Flower, Data, INode } from './Store'
 
-export interface ISelectors {
+export interface IFlowerSelectors {
   /**
    * @param state
    * @returns
    */
   selectGlobal<T extends Record<string, any>>(state: {
-    flower: { [x: string]: Flower<T> }
+    [REDUCER_NAME.FLOWER_FLOW]: { [x: string]: Flower<T> }
   }): { [x: string]: Flower<T> }
   /**
    * @param name
@@ -16,13 +17,13 @@ export interface ISelectors {
   selectFlower<T extends Record<string, any>>(
     name: string
   ): (state: { [x: string]: Flower<T> }) => Flower<T>
-  /**
-   * @param id
-   * @returns
-   */
-  selectFlowerFormNode<T extends Record<string, any>>(
-    id: string
-  ): (state: Flower<T>) => Form<T>
+  // /**
+  //  * @param id
+  //  * @returns
+  //  */
+  // selectFlowerDataNode<T extends Record<string, any>>(
+  //   id: string
+  // ): (state: Flower<T>) => Data<T>
   /**
    * @param flower
    * @returns
@@ -73,12 +74,29 @@ export interface ISelectors {
     nodes: { [x: string]: Partial<INode> },
     current: Flower<T>['current']
   ): boolean
+}
+
+export interface IDataSelectors {
   /**
-   * @param form
+   * @param state
+   * @returns
+   */
+  selectGlobalReducerByName(
+    name: string
+  ): (state: Record<string, Record<string, unknown>>) => Record<string, unknown>
+  /**
+   * @param state
+   * @returns
+   */
+  selectGlobalData<T extends Record<string, any>>(state: {
+    [REDUCER_NAME.FLOWER_DATA]: { [x: string]: Data<T> }
+  }): { [x: string]: Data<T> }
+  /**
+   * @param data
    * @returns
    */
   makeSelectNodeErrors<T extends Record<string, any>>(
-    form: Form<T> | undefined
+    data: Data<T> | undefined
   ): {
     isSubmitted: boolean
     isDirty: boolean
@@ -89,31 +107,31 @@ export interface ISelectors {
     isValidating?: boolean
   }
   /**
-   * @param form
+   * @param data
    * @returns
    */
-  makeSelectNodeFormFieldTouched<T extends Record<string, any>>(
+  makeSelectNodeDataFieldTouched<T extends Record<string, any>>(
     id: string
-  ): (form: Form<T> | undefined) => boolean | undefined
+  ): (data: Data<T> | undefined) => boolean | undefined
   /**
-   * @param form
+   * @param data
    * @returns
    */
-  makeSelectNodeFormFieldFocused<T extends Record<string, any>>(
+  makeSelectNodeDataFieldFocused<T extends Record<string, any>>(
     id: string
-  ): (form: Form<T> | undefined) => string | undefined
+  ): (data: Data<T> | undefined) => string | undefined
   /**
-   * @param form
+   * @param data
    * @returns
    */
-  makeSelectNodeFormFieldDirty<T extends Record<string, any>>(
+  makeSelectNodeDataFieldDirty<T extends Record<string, any>>(
     id: string
-  ): (form: Form<T> | undefined) => boolean | undefined
-  /**
-   * @param flower
-   * @returns
-   */
-  getDataByFlow<T extends Record<string, any>>(flower: Flower<T>): T
+  ): (data: Data<T> | undefined) => boolean | undefined
+  // /**
+  //  * @param flower
+  //  * @returns
+  //  */
+  // getDataByFlow<T extends Record<string, any>>(flower: Flower<T>): T
   /**
    * @param id
    * @returns
@@ -122,11 +140,11 @@ export interface ISelectors {
     id: string | string[]
   ): (data: T) => Partial<T>
   /**
-   * @param form
+   * @param data
    * @returns
    */
-  makeSelectNodeFormSubmitted<T extends Record<string, any>>(
-    form: Form<T>
+  makeSelectNodeDataSubmitted<T extends Record<string, any>>(
+    data: Data<T>
   ): boolean | undefined
   /**
    * @param name
@@ -138,7 +156,7 @@ export interface ISelectors {
     name: string,
     id: string,
     validate: { rules?: RulesObject<any>; message?: string }[] | null
-  ): (data: T | undefined, form: Form<T>) => Array<string>
+  ): (globalData: T | undefined, data: Data<T>) => Array<string>
   /**
    * @param id
    * @param rules
@@ -153,5 +171,5 @@ export interface ISelectors {
     keys: string[] | null,
     flowName: string,
     value: any
-  ): (data: T | undefined, form: Form<T>) => boolean
+  ): (globalData: T | undefined, data: Data<T>) => boolean
 }

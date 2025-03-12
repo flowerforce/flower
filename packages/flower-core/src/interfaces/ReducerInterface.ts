@@ -11,48 +11,7 @@ type ReducerFunctionSign<T extends object, R> = (
   action: ActionWithPayload<R>
 ) => Record<string, Flower<T>> | void
 
-export type ActionsTypes =
-  | 'historyAdd'
-  | 'historyPrevToNode'
-  | 'setFormTouched'
-  | 'forceAddHistory'
-  | 'historyPop'
-  | 'restoreHistory'
-  | 'replaceNode'
-  | 'initializeFromNode'
-  | 'forceResetHistory'
-  | 'destroy'
-  | 'initNodes'
-  | 'setCurrentNode'
-  | 'formAddErrors'
-  | 'formRemoveErrors'
-  | 'addData'
-  | 'addDataByPath'
-  | 'replaceData'
-  | 'unsetData'
-  | 'setFormIsValidating'
-  | 'resetForm'
-  | 'formFieldTouch'
-  | 'formFieldFocus'
-  | 'node'
-  | 'prevToNode'
-  | 'next'
-  | 'prev'
-  | 'reset'
-
-// TODO WATCH OVER FLOWER REDUCER STATE AND CREATE SOME MORE SPECIFIC TYPES
-/**
- * These functions are Redux reducers used in a Flux architecture for managing state transitions and updates in a Flower application.
- */
-
-// type SliceCaseReducers<State> = {
-//   [K: string]: CaseReducer<State, {
-//       payload: any;
-//       type: string;
-//   }> | CaseReducerWithPrepare<State, PayloadAction<any, string, any, any>>;
-// }
-
-export type ReducersFunctions<
+export type CoreReducersFunctions<
   T extends Record<string, any> = Record<string, Flower<Record<string, any>>>
 > = {
   /**
@@ -75,18 +34,6 @@ export type ReducersFunctions<
   historyPrevToNode: ReducerFunctionSign<
     T,
     { name: string; node: string } | string
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Sets the "touched" state of a form node in a flow.
-   *
-   * @returns state
-   */
-  setFormTouched: ReducerFunctionSign<
-    T,
-    { flowName: string; currentNode: string } | string
   >
   /**
    * @param state
@@ -178,7 +125,6 @@ export type ReducersFunctions<
       startId: string
       persist: boolean
       nodes: Node[]
-      initialData: any
       initialState: {
         startId?: string
         current?: string
@@ -195,181 +141,6 @@ export type ReducersFunctions<
    * @returns state
    */
   setCurrentNode: ReducerFunctionSign<T, { name: string; node: string }>
-  /**
-   * @param state
-   * @param action
-   *
-   * Adds errors to a form node in a flow.
-   *
-   * @returns state
-   */
-  formAddCustomErrors: ReducerFunctionSign<
-    T,
-    {
-      name: string
-      currentNode: string
-      id: string
-      errors: string[]
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Adds errors to a form node in a flow.
-   *
-   * @returns state
-   */
-  formAddErrors: ReducerFunctionSign<
-    T,
-    {
-      name: string
-      currentNode: string
-      id: string
-      errors: { [x: string]: string[] } | string[]
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Set dirty form single field
-   *
-   * @returns state
-   */
-  formFieldDirty: ReducerFunctionSign<
-    T,
-    {
-      name: string
-      currentNode: string
-      id: string
-      dirty?: boolean
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Set touch form single field
-   *
-   * @returns state
-   */
-  formFieldTouch: ReducerFunctionSign<
-    T,
-    {
-      name: string
-      currentNode: string
-      id: string
-      touched?: boolean
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Set touch form single field
-   *
-   * @returns state
-   */
-  formFieldFocus: ReducerFunctionSign<
-    T,
-    {
-      name: string
-      currentNode: string
-      id: string
-      focused?: boolean
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Removes errors from a form node in a flow.
-   *
-   * @returns state
-   */
-  formRemoveErrors: ReducerFunctionSign<
-    T,
-    {
-      name: string
-      currentNode: string
-      id: string
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Adds data to a flow.
-   *
-   * @returns state
-   */
-  addData: ReducerFunctionSign<
-    T,
-    {
-      flowName: string
-      value: T
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Adds data to a flow at a specific path.
-   *
-   * @returns state
-   */
-  addDataByPath: ReducerFunctionSign<
-    T,
-    {
-      id: string
-      flowName: string
-      value: T | string
-      dirty?: boolean
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Replaces the data of a flow with new data.
-   *
-   * @returns state
-   */
-  replaceData: ReducerFunctionSign<
-    T,
-    {
-      flowName: string
-      value: T
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Unsets data from a flow at a specific path.
-   *
-   * @returns state
-   */
-  unsetData: ReducerFunctionSign<
-    T,
-    {
-      id: string[] | string
-      flowName: string
-    }
-  >
-  /**
-   * @param state
-   * @param action
-   *
-   * Sets the "isValidating" state of a form node in a flow.
-   *
-   * @returns state
-   */
-  setFormIsValidating: ReducerFunctionSign<
-    T,
-    { name: string; currentNode: string; isValidating?: boolean }
-  >
   /**
    * @param state
    * @param action
@@ -410,7 +181,14 @@ export type ReducersFunctions<
    */
   next: ReducerFunctionSign<
     T,
-    { name?: string; flowName?: string; data: T; route?: string }
+    {
+      name?: string
+      flowName?: string
+      route?: string
+      data?: Record<string, any>
+      dataIn?: Record<string, any>
+      isStart?: boolean
+    }
   >
   /**
    * @param state
@@ -440,7 +218,7 @@ export type ReducersFunctions<
    */
   reset: ReducerFunctionSign<
     T,
-    { name?: string; flowName?: string; initialData?: Record<string, any> }
+    { name?: string; flowName?: string }
     /**
      * @param state
      * @param action
@@ -450,5 +228,203 @@ export type ReducersFunctions<
      * @returns state
      */
   >
-  resetForm: ReducerFunctionSign<T, { id: string; flowName: string }>
+}
+
+type DataReducerFunctionSign<T extends object, R = object> = (
+  state: Record<string, T>,
+  action: ActionWithPayload<{ rootName: string } & R>
+) => Record<string, T> | void
+
+export type DataReducersFunctions<
+  T extends Record<string, any> = Record<string, Record<string, any>>
+> = {
+  /**
+   * @param state
+   * @param action
+   *
+   * Sets the "touched" state of a form node in a flow.
+   *
+   * @returns state
+   */
+  setFormSubmitted: DataReducerFunctionSign<T>
+  /**
+   * @param state
+   * @param action
+   *
+   * Adds errors to a form node in a flow.
+   *
+   * @returns state
+   */
+  addCustomDataErrors: DataReducerFunctionSign<
+    T,
+    {
+      id: string
+      errors: string[]
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Adds errors to a form node in a flow.
+   *
+   * @returns state
+   */
+  addDataErrors: DataReducerFunctionSign<
+    T,
+    {
+      id: string
+      errors: { [x: string]: string[] } | string[]
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Set dirty form single field
+   *
+   * @returns state
+   */
+  fieldDirty: DataReducerFunctionSign<
+    T,
+    {
+      id: string
+      dirty?: boolean
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Set touch form single field
+   *
+   * @returns state
+   */
+  fieldTouch: DataReducerFunctionSign<
+    T,
+    {
+      id: string
+      touched?: boolean
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Set touch form single field
+   *
+   * @returns state
+   */
+  fieldFocus: DataReducerFunctionSign<
+    T,
+    {
+      id: string
+      focused?: boolean
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Removes errors from a form node in a flow.
+   *
+   * @returns state
+   */
+  removeDataErrors: DataReducerFunctionSign<
+    T,
+    {
+      id: string
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Adds data to a flow.
+   *
+   * @returns state
+   */
+  addData: DataReducerFunctionSign<
+    T,
+    {
+      value: T
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Adds data to a flow at a specific path.
+   *
+   * @returns state
+   */
+  addDataByPath: DataReducerFunctionSign<
+    T,
+    {
+      id: string
+      value: T | string
+      dirty?: boolean
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Replaces the data of a flow with new data.
+   *
+   * @returns state
+   */
+  replaceData: DataReducerFunctionSign<
+    T,
+    {
+      value: T
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Unsets data from a flow at a specific path.
+   *
+   * @returns state
+   */
+  unsetData: DataReducerFunctionSign<
+    T,
+    {
+      id: string[] | string
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Sets the "isValidating" state of a form node in a flow.
+   *
+   * @returns state
+   */
+  setIsDataValidating: DataReducerFunctionSign<T, { isValidating?: boolean }>
+  /**
+   * @param state
+   * @param action
+   *
+   * Reset form.
+   *
+   * @returns state
+   */
+  resetData: DataReducerFunctionSign<
+    T,
+    { rootName: string; initialData?: Record<string, any> }
+  >
+  /**
+   * @param state
+   * @param action
+   *
+   * Reset form.
+   *
+   * @returns state
+   */
+  initData: DataReducerFunctionSign<
+    T,
+    { rootName: string; initialData: Record<string, any> }
+  >
 }

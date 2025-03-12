@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from '../provider'
-import { context } from '../context'
-import { makeSelectStartNodeId } from '../selectors'
+import { useDispatch, useSelector } from '@flowerforce/flower-react-store'
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
+import { flowerActions, makeSelectStartNodeId } from '../features'
 
-function FlowerStart() {
+function _FlowerStart() {
   const dispatch = useDispatch()
   const one = useRef(false)
-  const { flowName, autostart = true, currentNode } = useContext(context)
-  const startNodeId = useSelector(makeSelectStartNodeId(flowName ?? ''))
+  const { name, autostart = true, currentNode } = useContext(FlowerReactContext)
+  const startNodeId = useSelector(makeSelectStartNodeId(name ?? ''))
 
   useEffect(() => {
     if (startNodeId === currentNode && autostart && one.current === false) {
       one.current = true
-      dispatch({ type: 'flower/next', payload: { flowName, isStart: true } })
+      dispatch(flowerActions.next({ flowName: name, isStart: true }))
 
       // if (global.window
       //   // eslint-disable-next-line no-underscore-dangle, no-undef
@@ -24,12 +24,12 @@ function FlowerStart() {
       //   });
       // }
     }
-  }, [dispatch, autostart, startNodeId, currentNode, flowName])
+  }, [dispatch, autostart, startNodeId, currentNode, name])
 
   return null
 }
 
-const component = React.memo(FlowerStart)
+const component = React.memo(_FlowerStart)
 component.displayName = 'FlowerStart'
 
-export default component
+export const FlowerStart = component as unknown as typeof _FlowerStart

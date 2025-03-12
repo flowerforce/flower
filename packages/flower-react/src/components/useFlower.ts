@@ -1,9 +1,13 @@
 import { useCallback, useContext } from 'react'
-import { context } from '../context'
-import { makeSelectCurrentNodeId, makeSelectStartNodeId } from '../selectors'
-import { useDispatch, useSelector, useStore } from '../provider'
-import { UseFlower } from './types/FlowerHooks'
-import { Emitter, devtoolState } from '@flowerforce/flower-core'
+import { makeSelectStartNodeId, makeSelectCurrentNodeId } from '../features'
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
+import {
+  useDispatch,
+  useSelector,
+  useStore
+} from '@flowerforce/flower-react-store'
+import { UseFlower } from '../types/FlowerHooks'
+import { Emitter, REDUCER_NAME, devtoolState } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
 
 type NavigateFunctionParams = string | Record<string, any>
@@ -15,10 +19,10 @@ const ACTION_TYPES = {
   restart: ['restart', 'restart'],
   reset: ['reset', 'initializeFromNode']
 }
-const PAYLAOAD_KEYS_NEEDED = {
+const PAYLOAD_KEYS_NEEDED = {
   back: ['node'],
   jump: ['node', 'history'],
-  next: ['node', 'route', 'data'],
+  next: ['node', 'route', 'data', 'dataIn'],
   restart: ['node'],
   reset: ['node', 'initialData']
 }
@@ -44,27 +48,27 @@ const makeActionPayload =
 
 const makeActionPayloadOnPrev = makeActionPayload(
   ACTION_TYPES.back,
-  PAYLAOAD_KEYS_NEEDED.back
+  PAYLOAD_KEYS_NEEDED.back
 )
 
 const makeActionPayloadOnReset = makeActionPayload(
   ACTION_TYPES.reset,
-  PAYLAOAD_KEYS_NEEDED.reset
+  PAYLOAD_KEYS_NEEDED.reset
 )
 
 const makeActionPayloadOnNode = makeActionPayload(
   ACTION_TYPES.jump,
-  PAYLAOAD_KEYS_NEEDED.jump
+  PAYLOAD_KEYS_NEEDED.jump
 )
 
 const makeActionPayloadOnNext = makeActionPayload(
   ACTION_TYPES.next,
-  PAYLAOAD_KEYS_NEEDED.next
+  PAYLOAD_KEYS_NEEDED.next
 )
 
 const makeActionPayloadOnRestart = makeActionPayload(
   ACTION_TYPES.restart,
-  PAYLAOAD_KEYS_NEEDED.restart
+  PAYLOAD_KEYS_NEEDED.restart
 )
 /** This hook allows you to read flow informations, such as the flowName and ID of the current node.
  *
@@ -84,10 +88,13 @@ const makeActionPayloadOnRestart = makeActionPayload(
  *
  * @param {string} name - optional parameter, if flowName exist, name is not used
  */
-const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
+export const useFlower: UseFlower = ({
+  flowName: customFlowName,
+  name
+} = {}) => {
   const dispatch = useDispatch()
 
-  const { flowName: flowNameDefault, initialData } = useContext(context)
+  const { name: flowNameDefault, initialData } = useContext(FlowerReactContext)
   const store = useStore()
 
   const flowName = (customFlowName || name || flowNameDefault) as string
@@ -116,23 +123,25 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const next = useCallback(
     (param?: NavigateFunctionParams) => {
       const params =
-        typeof param === 'string' ? { route: param } : { data: param }
+        typeof param === 'string' ? { route: param } : { dataIn: param }
       const { type, payload } = makeActionPayloadOnNext(flowName, params)
-
       dispatch({
-        type: `flower/${type}`,
-        payload
+        type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,
+        payload: {
+          ...payload,
+          data: store.getState()
+        }
       })
 
       emitNavigateEvent({ type, payload })
     },
-    [dispatch, emitNavigateEvent, flowName]
+    [dispatch, emitNavigateEvent, flowName, store]
   )
 
   const back = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnPrev(flowName, param)
-      dispatch({ type: `flower/${type}`, payload })
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
 
       emitNavigateEvent({ type, payload })
     },
@@ -142,7 +151,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const restart = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnRestart(flowName, param)
-      dispatch({ type: `flower/${type}`, payload })
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
 
       emitNavigateEvent({ type, payload })
     },
@@ -161,7 +170,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
             }
       )
 
-      dispatch({ type: `flower/${type}`, payload })
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
 
       emitNavigateEvent({ type, payload })
     },
@@ -171,7 +180,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const jump = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnNode(flowName, param)
-      dispatch({ type: `flower/${type}`, payload })
+      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
 
       emitNavigateEvent({ type, payload })
     },
@@ -181,7 +190,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const getCurrentNodeId = useCallback(
     (customFlowName?: string) => {
       return _get(store.getState(), [
-        'flower',
+        REDUCER_NAME.FLOWER_FLOW,
         customFlowName || flowName,
         'current'
       ])
@@ -201,5 +210,3 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
     restart
   }
 }
-
-export default useFlower

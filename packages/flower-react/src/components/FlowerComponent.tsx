@@ -1,8 +1,8 @@
-import React, { memo } from 'react'
-import { FlowerComponentProps } from './types/FlowerComponent'
+import { memo } from 'react'
+import { FlowerComponentProps } from '../types/FlowerComponent'
 
-const FlowerComponent = ({ children }: FlowerComponentProps) => children
+const _FlowerComponent = ({ children }: FlowerComponentProps) => children
 
-const component = memo(FlowerComponent)
+const component = memo(_FlowerComponent)
 
-export default component
+export const FlowerComponent = component as typeof _FlowerComponent

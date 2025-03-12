@@ -16,9 +16,8 @@ export interface CoreStateUtils {
    * Selects the form node with a specific ID from a given flow.
    * It returns a selector function that accepts the state as an argument and retrieves the form node
    */
-  selectFlowerFormNode<T extends object>(
-    name: string,
-    id: string
+  selectFlowerDataNode<T extends object>(
+    name: string
   ): (state: T) => Record<string, any>
   /**
    *

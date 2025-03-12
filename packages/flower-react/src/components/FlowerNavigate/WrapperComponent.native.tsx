@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react';
 
 //TODO type FlowerNavigateWrapper props
-function FlowerNavigateWrapper({ Component, onNavigate, ...props }: any) {
+function _FlowerNavigateWrapper({ Component, onNavigate, ...props }: any) {
   const newProps = useMemo(
     () => ({
       ...props,
@@ -18,6 +18,6 @@ function FlowerNavigateWrapper({ Component, onNavigate, ...props }: any) {
   return <Component {...newProps} />;
 }
 
-const component = React.memo(FlowerNavigateWrapper);
+const component = React.memo(_FlowerNavigateWrapper);
 
-export default component;
+export const FlowerNavigateWrapper = component;

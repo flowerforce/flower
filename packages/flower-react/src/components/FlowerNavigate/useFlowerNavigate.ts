@@ -1,8 +1,8 @@
 /* eslint-disable */
-import React, { useCallback, useContext } from 'react'
-import { context } from '../../context'
-import useFlower from '../useFlower'
-import { FlowerNavigateProps } from '../types/FlowerNavigate'
+import { useCallback, useContext } from 'react'
+import { useFlower } from '../useFlower'
+import { FlowerNavigateProps } from '../../types/FlowerNavigate'
+import { FlowerReactContext } from '@flowerforce/flower-react-context'
 
 type UseFlowerNavigateProps = Pick<
   FlowerNavigateProps,
@@ -30,13 +30,15 @@ type UseFlowerNavigateProps = Pick<
 //     }
 // );
 
+
+
 export const useFlowerNavigate = ({
   flowName,
   action,
   route,
   node
 }: UseFlowerNavigateProps) => {
-  const { flowName: flowNameContext } = useContext(context)
+  const { name: flowNameContext } = useContext(FlowerReactContext)
   const name = flowName || flowNameContext
   const { next, jump, back, reset, restart } = useFlower({ flowName: name })
 

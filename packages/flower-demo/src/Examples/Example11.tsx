@@ -1,12 +1,17 @@
 import {
   FlowerNavigate,
   FlowerNode,
-  FlowerField,
   FlowerAction,
   useFlower,
-  useFlowerForm,
   Flower
 } from '@flowerforce/flower-react'
+import {
+  FlowerForm,
+  FlowerField,
+  useFlowerForm
+} from '@flowerforce/flower-react-form'
+import { FlowerValue } from '@flowerforce/flower-react-shared'
+
 import { useEffect } from 'react'
 import './styles.css'
 
@@ -14,141 +19,119 @@ import './styles.css'
  * Here we are using restart action to reset all not initial datas, form state and returns to first node
  */
 
-export function Example11() {
-  const { getFormStatus } = useFlowerForm({ flowName: 'example11' })
-  const status = getFormStatus('step1')
-  const dirties = status?.dirty ? Object.keys(status?.dirty) : []
-  const touches = status?.touches ? Object.keys(status?.touches) : []
+const Form = ({ flowName }: any) => {
+  const { getData } = useFlowerForm(flowName)
+  useEffect(() => {
+    getData()
+  }, [getData])
 
+  return null //errors && errors.join(',')
+}
+const Text = ({ text, value }: any) => <h1 data-testid="h1">{text || value}</h1>
+const Input = ({
+  onChange,
+  value = '',
+  name,
+  label,
+  errors,
+  hasError,
+  dirty
+}: any) => {
+  return (
+    <>
+      <Text text={label} />
+      <input
+        data-testid={name || 'input'}
+        name={name}
+        value={value}
+        onChange={(evt) => onChange(evt.target.value)}
+      />
+      {hasError && dirty && <div style={{ color: 'red' }}>{errors[0]}</div>}
+    </>
+  )
+}
+
+const ButtonNext = ({ id = '' }: any) => {
+  const { next } = useFlower()
+  return (
+    <button data-testid={'btn-next' + id} onClick={() => next()}>
+      NEXT
+    </button>
+  )
+}
+
+const ButtonBack = ({ id = '' }: any) => {
+  const { back } = useFlower()
+  return (
+    <button data-testid={'btn-back' + id} onClick={() => back()}>
+      BACK
+    </button>
+  )
+}
+const InitState = ({ state, path, flowName }: any) => {
+  const { next } = useFlower()
+  const { setData, getData } = useFlowerForm(flowName)
+  useEffect(() => {
+    setData(state, path)
+    next()
+  }, [next, setData, getData, state, path])
+  return '...'
+}
+
+export function Example11() {
   return (
     <Flower name="example11">
-      {/**
-       * step 1
-       */}
-      <FlowerNode id="step1" to={{ step2: null }} retain>
-        <div className="page step2">
-          <span>1</span>
-          <div className="field">
-            <label htmlFor="username">Show field </label>
-
-            <FlowerField id="check" defaultValue={false}>
-              {({ onChange, onBlur, value }) => (
-                <input
-                  type="checkbox"
-                  id="disabled"
-                  checked={value}
-                  onChange={(e) => onChange(e.target.checked)}
-                  onBlur={onBlur}
-                />
-              )}
-            </FlowerField>
-
-            <FlowerField
-              id="simple"
-              rules={{ $and: [{ check: { $eq: true } }] }}
-              validate={[
-                {
-                  rules: { $and: [{ simple: { $exists: true } }] },
-                  message: 'Field is required'
-                }
-              ]}
-              alwaysDisplay
-              destroyOnHide
-            >
-              {({ onChange, value = '', errors, onBlur, hidden }) => (
-                <div className="input-container">
-                  <input
-                    id="simple"
-                    type="text"
-                    value={value}
-                    placeholder="simple field"
-                    onBlur={onBlur}
-                    disabled={hidden}
-                    onChange={(e) => onChange(e.target.value)}
-                  />
-
-                  {errors && <div className="error">{errors.join(', ')}</div>}
-                </div>
-              )}
-            </FlowerField>
-
-            <FlowerField
-              id="async"
-              rules={{ $and: [{ check: { $eq: true } }] }}
-              asyncValidate={() => ['Async field error']}
-              asyncInitialError="Async initial error"
-              asyncWaitingError="Async waiting error"
-              asyncDebounce={500}
-              alwaysDisplay
-            >
-              {({ onChange, value = '', errors, onBlur, hidden }) => (
-                <div className="input-container">
-                  <input
-                    id="async"
-                    type="text"
-                    value={value}
-                    placeholder="async field"
-                    onBlur={onBlur}
-                    disabled={hidden}
-                    onChange={(e) => onChange(e.target.value)}
-                  />
-
-                  {errors && <div className="error">{errors.join(', ')}</div>}
-                </div>
-              )}
-            </FlowerField>
-          </div>
-
-          {touches && <div>touches: {touches.join(', ')}</div>}
-          {dirties && <div>dirty: {dirties.join(', ')}</div>}
-
-          <div className="navigate">
-            <FlowerNavigate
-              action="next"
-              rules={{ $and: [{ '$form.isValid': { $eq: true } }] }}
-              alwaysDisplay
-            >
-              {({ onClick, hidden }) => (
-                <button disabled={hidden} onClick={onClick}>
-                  Submit &#8594;
-                </button>
-              )}
-            </FlowerNavigate>
-          </div>
-        </div>
+      <FlowerNode
+        id="node-test"
+        to={{
+          success: {
+            rules: {
+              $and: [{ '$data.isValid': { $eq: true } }]
+            }
+          },
+          error: {
+            rules: { $and: [{ '^form-test.name': { $exists: false } }] }
+          }
+        }}
+      >
+        <FlowerField
+          id="name"
+          validate={[
+            {
+              message: 'name must be andrea',
+              // rules: { $and: [{ name: { $eq: '$ref:sourceName' } }] }
+              rules: { $and: [{ name: { $eq: 'andrea' } }] }
+            }
+          ]}
+        >
+          <Input label="name" />
+        </FlowerField>
+        <FlowerField
+          id="surname"
+          validate={[
+            {
+              message: 'surname must be rossi',
+              rules: { $and: [{ surname: { $eq: 'rossi' } }] }
+            }
+          ]}
+        >
+          <Input label="surname" />
+        </FlowerField>
+        <ButtonNext />
       </FlowerNode>
-
-      {/**
-       * step 2
-       */}
-      <FlowerAction id="step2" to={{ success: 'onSuccess', error: 'onError' }}>
-        <div className="page step2">
-          <ComponentAction />
-        </div>
-      </FlowerAction>
-
-      {/**
-       * step 3
-       */}
       <FlowerNode id="success">
-        <div className="page step3">
-          <span>Success</span>
-          <FlowerNavigate action="restart">
-            <button>Reset</button>
-          </FlowerNavigate>
+        <div style={{ background: 'green' }}>
+          <Text text="SUCCESS" />
+          <FlowerValue id="name">
+            <Text />
+            <ButtonBack />
+          </FlowerValue>
         </div>
       </FlowerNode>
-
-      {/**
-       * step 4
-       */}
       <FlowerNode id="error">
-        <div className="page step4">
-          <span>Error</span>
-          <FlowerNavigate action="reset">
-            <button>Reset</button>
-          </FlowerNavigate>
-        </div>
+        <Form />
+        <Text text="error" />
+        <ButtonBack />
       </FlowerNode>
     </Flower>
   )

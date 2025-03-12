@@ -51,7 +51,11 @@ export enum RulesModes {
   $or = '$or'
 }
 
-type RulesValuesType<T> = { '$form.isValid'?: boolean } & T
+type RulesValuesType<T> = {
+  '$data.isValid'?: boolean
+  /** @deprecated use $data.isValid instead */
+  '$form.isValid'?: boolean
+} & T
 
 type RulesOperatorsInArray<T> = Partial<{
   [KEY in keyof T]: Partial<{
@@ -86,7 +90,7 @@ export type CleanPath = (name: string, char?: string) => string
 
 export type GetPath = (idValue?: string) => {
   path: string | string[]
-  flowNameFromPath?: string
+  rootName?: string
 }
 
 export type AllEqual = (...args: Array<number | string | boolean>[]) => boolean
@@ -150,7 +154,7 @@ export type GenerateRulesName = (nextRules: RulesWithName[]) => {
   [X: string]: string
 }
 
-export interface CoreUtilitiesFunctions {
+export interface FlowUtilitiesFunctions {
   /**
    *
    * Generates rule names from a set of rules.
@@ -220,21 +224,6 @@ export interface CoreUtilitiesFunctions {
    */
   generateNodesForFlowerJson: GenerateNodesForFlowerJson
   /**
-   * Removes specified characters from the beginning of a string (default char -> '^').
-   * @param name
-   * @param char
-   *
-   * @returns
-   */
-  cleanPath: CleanPath
-  /**
-   * Creates a valid path from idValue
-   * @param idValue
-   *
-   * @returns
-   */
-  getPath: GetPath
-  /**
    * Checks if two arrays are equal in length and have the same elements.
    * @param arr
    * @param arr2
@@ -252,3 +241,24 @@ export interface CoreUtilitiesFunctions {
    */
   findValidRule: FindValidRule
 }
+export interface DataUtilitiesFunctions {
+  /**
+   * Removes specified characters from the beginning of a string (default char -> '^').
+   * @param name
+   * @param char
+   *
+   * @returns
+   */
+  cleanPath: CleanPath
+  /**
+   * Creates a valid path from idValue
+   * @param idValue
+   *
+   * @returns
+   */
+  getPath: GetPath
+}
+
+export interface CoreUtilitiesFunctions
+  extends DataUtilitiesFunctions,
+    FlowUtilitiesFunctions {}

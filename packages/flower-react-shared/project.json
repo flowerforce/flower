@@ -1,0 +1,8 @@
+{
+  "name": "flower-react-shared",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/flower-react-shared/src",
+  "projectType": "library",
+  "tags": ["react-shared"],
+  "targets": {}
+}
