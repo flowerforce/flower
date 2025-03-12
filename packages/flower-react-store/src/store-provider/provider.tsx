@@ -66,7 +66,7 @@ class FlowerStoreProvider extends PureComponent<
 export const useDispatch = createDispatchHook(reduxContext)
 export const useSelector = createSelectorHook(reduxContext)
 export const useStore = createStoreHook(reduxContext)
-export const createMyApi = buildCreateApi(
+export const createApi = buildCreateApi(
   coreModule(),
   reactHooksModule({ hooks: { useDispatch, useSelector, useStore } })
 )
