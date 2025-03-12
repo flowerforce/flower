@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/flower-react",
-  "version": "4.0.3-beta.0",
+  "version": "3.5.0",
   "description": "FlowerJS components, hooks and utils for React.",
   "repository": {
     "type": "git",
@@ -37,10 +37,10 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@flowerforce/flower-core": "4.0.1-beta.0",
-    "@flowerforce/flower-react-context": "4.0.1-beta.0",
-    "@flowerforce/flower-react-store": "4.0.1-beta.0",
-    "@flowerforce/flower-react-shared": "4.0.2-beta.0",
+    "@flowerforce/flower-core": "3.5.0",
+    "@flowerforce/flower-react-context": "3.5.0",
+    "@flowerforce/flower-react-store": "3.5.0",
+    "@flowerforce/flower-react-shared": "3.5.0",
     "lodash": "^4.17.21"
   },
   "exports": {

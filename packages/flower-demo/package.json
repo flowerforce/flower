@@ -18,10 +18,10 @@
     "lodash": "^4.17.21"
   },
   "dependencies": {
-    "@flowerforce/flower-react": "4.0.3-beta.0",
-    "@flowerforce/flower-react-form": "4.0.3-beta.0",
-    "@flowerforce/flower-react-store": "4.0.1-beta.0",
-    "@flowerforce/devtool": "4.0.1-beta.0",
+    "@flowerforce/flower-react": "3.5.0",
+    "@flowerforce/flower-react-form": "3.5.0",
+    "@flowerforce/flower-react-store": "3.5.0",
+    "@flowerforce/devtool": "3.5.0",
     "antd": "^5.17.2"
   }
 }

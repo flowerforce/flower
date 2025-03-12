@@ -9,11 +9,11 @@ Flower is currently available for React only. -->
 
 ## Features
 
-- **Manage flows using Rules Sets**: Usign a set of rules you could tell Flower which is the next node to mount.
+- **Manage flows using Rules Sets**: Using a set of rules you could tell Flower which is the next node to mount.
 - **Customization**: Extensive customization options for flow elements, including nodes, connections, and labels.
 - **Compatibility**: Easily integrates with React.
 - **Interactivity**: Customizable events and interactions to respond to user actions and changes.
-- **Form Management**: Flower has a powerfull built-in Form Manager that allows to create sets of rules to know if a form is valid.
+- **Form Management**: Flower has a powerful built-in Form Manager that allows to create sets of rules to know if a form is valid.
 - **Render Benefits**: Flower optimally manages rerenders, ensuring top-notch performance.
 
 ## Full Documentation

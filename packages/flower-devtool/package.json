@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/devtool",
-  "version": "4.0.1-beta.0",
+  "version": "3.5.0",
   "description": "Devtool",
   "bin": {
     "flower": "./bin/cli.js"
@@ -49,7 +49,7 @@
     "@babel/parser": "7.24.7"
   },
   "peerDependencies": {
-    "@flowerforce/flower-core": "4.0.1-beta.0"
+    "@flowerforce/flower-core": "3.5.0"
   },
   "devDependencies": {
     "@types/flat": "^5.0.5",
