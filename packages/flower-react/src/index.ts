@@ -1,11 +1,12 @@
 export * from './components'
 export * from './provider'
-export { makeSelectData } from './features'
+export { makeSelectData, reducerFlower, flowerReducers } from './features'
 
 export type * from './types'
 
 export {
   useDispatch,
   useSelector,
-  useStore
+  useStore,
+  createApi
 } from '@flowerforce/flower-react-store'

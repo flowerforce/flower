@@ -8,8 +8,10 @@ export const FlowerProvider = <
 >({
   children,
   enableReduxDevtool,
-  configureStore
+  configureStore,
+  store
 }: PropsWithChildren<{
+  store: any
   configureStore?: Omit<ConfigureStoreOptions, 'reducer'> & {
     reducer?:
       | Reducer<T, UnknownAction>
@@ -23,6 +25,7 @@ export const FlowerProvider = <
   }
   return (
     <ReduxFlowerProvider
+      store={store}
       configureStore={{
         reducer: { ...reducerFlower, ...(reducer ?? {}) },
         ...rest,

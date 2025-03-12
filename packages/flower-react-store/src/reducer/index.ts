@@ -1,1 +1,5 @@
-export { flowerDataActions, flowerDataReducer } from './dataReducer'
+export {
+  flowerDataActions,
+  flowerDataReducer,
+  reducerData
+} from './dataReducer'

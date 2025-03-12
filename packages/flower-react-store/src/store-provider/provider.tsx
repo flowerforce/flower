@@ -4,7 +4,10 @@ import {
   createDispatchHook,
   createSelectorHook,
   createStoreHook,
-  ReactReduxContextValue
+  ReactReduxContextValue,
+  useDispatch as useDispatchRedux,
+  useStore as useStoreRedux,
+  useSelector as useSelectorRedux
 } from 'react-redux'
 import {
   Action,
@@ -48,9 +51,9 @@ class FlowerStoreProvider extends PureComponent<
   private store: Omit<ReduxProviderProps, 'reducer' | 'config'>
   constructor(props: ExternalProviderProps) {
     super(props)
-    const { configureStore } = props
-    const { reducer, ...restConfig } = configureStore ?? {}
-    this.store = store(reducer, restConfig)
+    const { configureStore, store: storeFromProps } = props
+    const { reducer } = configureStore ?? {}
+    this.store = storeFromProps as any //store(reducer, restConfig)
   }
 
   render() {
@@ -66,6 +69,7 @@ class FlowerStoreProvider extends PureComponent<
 export const useDispatch = createDispatchHook(reduxContext)
 export const useSelector = createSelectorHook(reduxContext)
 export const useStore = createStoreHook(reduxContext)
+
 export const createApi = buildCreateApi(
   coreModule(),
   reactHooksModule({ hooks: { useDispatch, useSelector, useStore } })
