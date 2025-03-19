@@ -1,11 +1,7 @@
 import { useCallback, useContext } from 'react'
 import { makeSelectStartNodeId, makeSelectCurrentNodeId } from '../features'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
-import {
-  useDispatch,
-  useSelector,
-  useStore
-} from '@flowerforce/flower-react-store'
+import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 import { UseFlower } from '../types/FlowerHooks'
 import { Emitter, REDUCER_NAME, devtoolState } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
@@ -92,10 +88,11 @@ export const useFlower: UseFlower = ({
   flowName: customFlowName,
   name
 } = {}) => {
-  const dispatch = useDispatch()
+  const { store, useSelector, dispatch } = ReduxFlowerProvider.getReduxHooks()
+  // const dispatch = useDispatch()
 
   const { name: flowNameDefault, initialData } = useContext(FlowerReactContext)
-  const store = useStore()
+  // const store = useStore()
 
   const flowName = (customFlowName || name || flowNameDefault) as string
   const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''))

@@ -1,12 +1,10 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import { CoreUtils, REDUCER_NAME } from '@flowerforce/flower-core'
 import get from 'lodash/get'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import {
   flowerDataActions,
-  useDispatch,
-  useSelector,
-  useStore
+  ReduxFlowerProvider
 } from '@flowerforce/flower-react-store'
 import type { UseFlowerForm } from '../../types'
 import { makeSelectNodeErrors } from '../../selectors'
@@ -35,10 +33,8 @@ import { makeSelectNodeErrors } from '../../selectors'
 export const useFlowerForm: UseFlowerForm = (customFormName) => {
   const { name: formNameDefault, initialData } = useContext(FlowerReactContext) // TODO: WIP, needs to be refactored
 
-  const dispatch = useDispatch()
-  const store = useStore()
+  const { dispatch, store, useSelector } = ReduxFlowerProvider.getReduxHooks()
 
-  const storeRef = useRef(store.getState())
   const formName = (formNameDefault || customFormName) as string
   const {
     errors,
@@ -51,7 +47,7 @@ export const useFlowerForm: UseFlowerForm = (customFormName) => {
   } = useSelector(makeSelectNodeErrors(formName))
 
   const getGlobalData = useCallback(() => {
-    const { FlowerFlow, FlowerData, ...rest } = storeRef.current
+    const { FlowerFlow, FlowerData, ...rest } = store.getState() as any
     return {
       ...FlowerData,
       ...rest
@@ -59,7 +55,7 @@ export const useFlowerForm: UseFlowerForm = (customFormName) => {
   }, [])
 
   const getExternalReducersData = useCallback(() => {
-    const { FlowerFlow, FlowerData, ...rest } = storeRef.current
+    const { FlowerFlow, FlowerData, ...rest } = store.getState() as any
     return rest
   }, [])
 
@@ -67,7 +63,7 @@ export const useFlowerForm: UseFlowerForm = (customFormName) => {
     (path?: string) => {
       const { rootName: formNameFromPath = formName, path: newpath } =
         CoreUtils.getPath(path)
-      return get(storeRef.current, [
+      return get(store.getState(), [
         REDUCER_NAME.FLOWER_DATA,
         formNameFromPath,
         'data',
@@ -78,7 +74,7 @@ export const useFlowerForm: UseFlowerForm = (customFormName) => {
   )
 
   const getFormStatus = useCallback(() => {
-    return get(storeRef.current, [REDUCER_NAME.FLOWER_DATA, formName])
+    return get(store.getState(), [REDUCER_NAME.FLOWER_DATA, formName])
   }, [formName])
 
   const setDataField = useCallback(

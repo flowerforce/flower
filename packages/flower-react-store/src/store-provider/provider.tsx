@@ -5,9 +5,7 @@ import {
   createSelectorHook,
   createStoreHook,
   ReactReduxContextValue,
-  useDispatch as useDispatchRedux,
-  useStore as useStoreRedux,
-  useSelector as useSelectorRedux
+  ReactReduxContext
 } from 'react-redux'
 import {
   Action,
@@ -27,13 +25,7 @@ import {
 } from '../types/reducerTypes'
 import { reducerData } from '../reducer/dataReducer'
 
-//TODO check reduxContext type due to remove all any types
-
-const reduxContext = createContext<ReactReduxContextValue<any, Action> | null>(
-  null
-)
-
-const store = (
+const createStore = (
   reducers?: REDUCERS_TYPES,
   config?: Omit<ConfigureStoreOptions, 'reducer'>
 ) => {
@@ -48,27 +40,66 @@ class FlowerStoreProvider extends PureComponent<
   PropsWithChildren<ExternalProviderProps>,
   ExternalProviderProps
 > {
-  private store: Omit<ReduxProviderProps, 'reducer' | 'config'>
+  private static instance: FlowerStoreProvider | null = null
+  private store: Omit<ReduxProviderProps, 'reducer' | 'config'> = createStore(
+    {}
+  )
+  static reduxContext: any = null
+
   constructor(props: ExternalProviderProps) {
     super(props)
-    const { configureStore, store: storeFromProps } = props
-    const { reducer } = configureStore ?? {}
-    this.store = storeFromProps as any //store(reducer, restConfig)
+    if (!FlowerStoreProvider.instance) {
+      const { configureStore } = props
+      const { reducer, ...restConfig } = configureStore ?? {}
+      this.store = createStore(reducer, restConfig)
+      FlowerStoreProvider.reduxContext = createContext<ReactReduxContextValue<
+        any,
+        Action
+      > | null>(null)
+      FlowerStoreProvider.instance = this
+    }
+    return FlowerStoreProvider.instance
+  }
+
+  public static createDispatchHook() {
+    return createDispatchHook(
+      FlowerStoreProvider.reduxContext ?? ReactReduxContext
+    )
+  }
+
+  public static createSelectorHook() {
+    return createSelectorHook(
+      FlowerStoreProvider.reduxContext ?? ReactReduxContext
+    )
+  }
+
+  public static createStoreHook() {
+    return createStoreHook(
+      FlowerStoreProvider.reduxContext ?? ReactReduxContext
+    )
+  }
+
+  public static getReduxHooks() {
+    return {
+      dispatch: this.createDispatchHook()(),
+      useSelector: this.createSelectorHook(),
+      store: this.createStoreHook()()
+    }
   }
 
   render() {
     const { children } = this.props
     return (
-      <Provider context={reduxContext} store={this.store}>
+      <Provider context={FlowerStoreProvider.reduxContext} store={this.store}>
         {children}
       </Provider>
     )
   }
 }
 
-export const useDispatch = createDispatchHook(reduxContext)
-export const useSelector = createSelectorHook(reduxContext)
-export const useStore = createStoreHook(reduxContext)
+const useDispatch = FlowerStoreProvider.createDispatchHook()
+const useSelector = FlowerStoreProvider.createSelectorHook()
+const useStore = FlowerStoreProvider.createStoreHook()
 
 export const createApi = buildCreateApi(
   coreModule(),

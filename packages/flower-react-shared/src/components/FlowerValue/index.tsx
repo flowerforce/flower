@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Fragment, useContext, useEffect, useMemo } from 'react'
 import { CoreUtils } from '@flowerforce/flower-core'
-import { DataSelectors, useSelector } from '@flowerforce/flower-react-store'
+import { DataSelectors, ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 import { FlowerRule } from '../FlowerRule'
 import type { FlowerValueProps } from '../types'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
@@ -20,6 +20,7 @@ function Wrapper({
     () => CoreUtils.getPath(id),
     [id]
   )
+  const { useSelector } = ReduxFlowerProvider.getReduxHooks()
   const value = useSelector(
     DataSelectors.getDataFromState(formNameFromPath ?? rootName, path)
   )

@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect } from 'react'
 import type { FlowerRuleProps } from '../types/FlowerRule'
 import { selectorRulesDisabled } from '../../features'
 import { rulesMatcherUtils } from '@flowerforce/flower-core'
-import { useSelector } from '@flowerforce/flower-react-store'
+import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 
 const _FlowerRule = ({
@@ -16,6 +16,7 @@ const _FlowerRule = ({
 }: FlowerRuleProps) => {
   const { name: flowNameContext } = useContext(FlowerReactContext)
 
+  const { useSelector } = ReduxFlowerProvider.getReduxHooks()
   const name = rootName || flowNameContext
 
   const keys = rulesMatcherUtils.getKeys(rules, { prefix: name })

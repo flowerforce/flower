@@ -36,7 +36,6 @@ export type ReduxProviderProps<T = REDUCERS_TYPES> = ReturnType<
   ExternalProviderProps<T>
 
 export type ExternalProviderProps<T = REDUCERS_TYPES> = {
-  store: EnhancedStore
   configureStore?: Omit<ConfigureStoreOptions<T>, 'reducer'> & {
     reducer?: REDUCERS_TYPES
   }
