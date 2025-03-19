@@ -41,9 +41,7 @@ class FlowerStoreProvider extends PureComponent<
   ExternalProviderProps
 > {
   private static instance: FlowerStoreProvider | null = null
-  private store: Omit<ReduxProviderProps, 'reducer' | 'config'> = createStore(
-    {}
-  )
+  private store: Omit<ReduxProviderProps, 'reducer' | 'config'> | null = null
   static reduxContext: any = null
 
   constructor(props: ExternalProviderProps) {
@@ -90,7 +88,7 @@ class FlowerStoreProvider extends PureComponent<
   render() {
     const { children } = this.props
     return (
-      <Provider context={FlowerStoreProvider.reduxContext} store={this.store}>
+      <Provider context={FlowerStoreProvider.reduxContext} store={this.store!}>
         {children}
       </Provider>
     )
