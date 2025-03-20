@@ -3,7 +3,7 @@ import { Middleware } from '@reduxjs/toolkit'
 
 const { getPath } = CoreUtils
 
-export const flowerMiddleware: Middleware =
+export const flowerUpdateMiddleware: Middleware =
   (store) => (next) => (action: any) => {
     if (action?.type?.startsWith('FlowerData/addDataByPath')) {
       const { payload } = action

@@ -196,9 +196,10 @@ describe('Test FlowerForm component', () => {
   })
   it('Test getStatus', async () => {
     const data = {
-      errors: { name: [], surname: [], age: [], address: [] },
+      errors: {},
       data: { name: 'andrea', surname: 'Rossi', age: 19, address: 'via roma' },
-      dirty: { surname: true }
+      touches: { name: false, surname: false, age: false, address: false },
+      dirty: { name: false, surname: false, age: false, address: false }
     }
     render(<TestCmp />)
 

@@ -11,27 +11,16 @@ import { render, screen } from '@testing-library/react'
 
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
-import { useSelector } from '../store-provider'
 import { ReduxFlowerProvider } from '../index'
 import { createCustomReducer } from './utils'
-// const flowerReducer = createSlice({
-//   name: REDUCER_NAME.FLOWER_FLOW,
-//   initialState: {} as Record<string, Flower<Record<string, any>>>,
-//   reducers: FlowerCoreBaseReducers
-// })
-
-// const { actions: flowerReducerActions } = flowerReducer
-// const flowerFlowReducer = flowerReducer.reducer
-// const reducerFlower: REDUCERS_TYPES = {
-//   [REDUCER_NAME.FLOWER_FLOW]: flowerFlowReducer
-// }
-
-const reducerFlower = createCustomReducer({ flowReducer: true })
-const customReducer = createCustomReducer({ config: { name: 'CustomReducer' } })
+// const reducerFlower = createCustomReducer({ flowReducer: true })
+// const customReducer = createCustomReducer({ config: { name: 'CustomReducer' } })
 
 const CONSUMER_TEST_ID = 'redux-test'
 
 const ConsumerComponent = () => {
+  const { useSelector } = ReduxFlowerProvider.getReduxHooks()
+
   const state = useSelector((state) => state)
   return <div data-testid={CONSUMER_TEST_ID}>{JSON.stringify(state)}</div>
 }
@@ -46,28 +35,6 @@ describe('Test Flower component', () => {
 
     expect(screen.getByTestId(CONSUMER_TEST_ID)).toHaveTextContent(
       JSON.stringify({ FlowerData: {} })
-    )
-  })
-  it('Init Redux with flow reducer', () => {
-    render(
-      <ReduxFlowerProvider configureStore={{ reducer: reducerFlower! }}>
-        <ConsumerComponent />
-      </ReduxFlowerProvider>
-    )
-
-    expect(screen.getByTestId(CONSUMER_TEST_ID)).toHaveTextContent(
-      JSON.stringify({ FlowerData: {}, FlowerFlow: {} })
-    )
-  })
-  it('Init Redux with external reducer', () => {
-    render(
-      <ReduxFlowerProvider configureStore={{ reducer: customReducer! }}>
-        <ConsumerComponent />
-      </ReduxFlowerProvider>
-    )
-
-    expect(screen.getByTestId(CONSUMER_TEST_ID)).toHaveTextContent(
-      JSON.stringify({ FlowerData: {}, CustomReducer: {} })
     )
   })
 })

@@ -17,8 +17,8 @@ import { FlowerProvider } from '../provider'
 import { Flower, FlowerNode, useFlower } from '../components'
 import { FlowerField, useFlowerForm } from '@flowerforce/flower-react-form'
 import { FlowerRule } from '@flowerforce/flower-react-shared'
-
-import { useStore } from '@flowerforce/flower-react-store'
+import { FlowerReactProvider } from '@flowerforce/flower-react-context'
+import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 
 const Text = ({ text, value, children, id }: any) => (
   <h1 data-testid={id || 'h1'}>{text || value || children}</h1>
@@ -57,8 +57,8 @@ const InitState = ({ state }: any) => {
 }
 
 const Form = ({ flowName }: any) => {
+  const { store } = ReduxFlowerProvider.getReduxHooks()
   const { getData } = useFlowerForm(flowName)
-  const store = useStore()
 
   useEffect(() => {
     console.log('🚀 ~ Form ~ getData:', getData(), store.getState())
@@ -124,7 +124,7 @@ describe('Test FlowerRule component', () => {
 
     render(
       <FlowerProvider>
-        <Flower name="app-test">
+        <Flower name="app-test-1">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
@@ -170,7 +170,7 @@ describe('Test FlowerRule component', () => {
 
     render(
       <FlowerProvider>
-        <Flower name="app-test">
+        <Flower name="app-test-2">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
@@ -209,7 +209,7 @@ describe('Test FlowerRule component', () => {
 
     render(
       <FlowerProvider>
-        <Flower name="app-test">
+        <Flower name="app-test-3">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
@@ -249,7 +249,7 @@ describe('Test FlowerRule component', () => {
 
     render(
       <FlowerProvider>
-        <Flower name="app-test">
+        <Flower name="app-test-4">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
@@ -291,7 +291,7 @@ describe('Test FlowerRule component', () => {
 
     render(
       <FlowerProvider>
-        <Flower name="app-test">
+        <Flower name="app-test-5">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
