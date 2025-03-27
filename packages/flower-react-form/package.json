@@ -39,7 +39,7 @@
   "dependencies": {
     "@flowerforce/flower-core": "4.0.1-beta.2",
     "@flowerforce/flower-react-store": "4.0.1-beta.2",
-    "@flowerforce/flower-react-shared": "4.0.3-beta.0",
+    "@flowerforce/flower-react-shared": "4.0.4-beta.0",
     "@flowerforce/flower-react-context": "4.0.1-beta.2",
     "lodash": "^4.17.21"
   },
