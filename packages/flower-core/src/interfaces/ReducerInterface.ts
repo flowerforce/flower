@@ -12,7 +12,10 @@ type ReducerFunctionSign<T extends object, R> = (
 ) => Record<string, Flower<T>> | void
 
 export type CoreReducersFunctions<
-  T extends Record<string, any> = Record<string, Flower<Record<string, any>>>
+  T extends Record<string, any> = Record<
+    FlowCaseReducersNames,
+    Flower<Record<string, any>>
+  >
 > = {
   /**
    * @param state
@@ -230,13 +233,34 @@ export type CoreReducersFunctions<
   >
 }
 
+export type FlowCaseReducersNames =
+  | 'historyAdd'
+  | 'historyPrevToNode'
+  | 'forceAddHistory'
+  | 'historyPop'
+  | 'restoreHistory'
+  | 'replaceNode'
+  | 'forceResetHistory'
+  | 'destroy'
+  | 'initNodes'
+  | 'setCurrentNode'
+  | 'node'
+  | 'prevToNode'
+  | 'next'
+  | 'prev'
+  | 'restart'
+  | 'reset'
+
 type DataReducerFunctionSign<T extends object, R = object> = (
   state: Record<string, T>,
   action: ActionWithPayload<{ rootName: string } & R>
 ) => Record<string, T> | void
 
 export type DataReducersFunctions<
-  T extends Record<string, any> = Record<string, Record<string, any>>
+  T extends Record<string, any> = Record<
+    DataCaseReducersNames,
+    Record<string, any>
+  >
 > = {
   /**
    * @param state
@@ -428,3 +452,19 @@ export type DataReducersFunctions<
     { rootName: string; initialData: Record<string, any> }
   >
 }
+
+export type DataCaseReducersNames =
+  | 'setFormSubmitted'
+  | 'addCustomDataErrors'
+  | 'addDataErrors'
+  | 'fieldDirty'
+  | 'fieldTouch'
+  | 'fieldFocus'
+  | 'removeDataErrors'
+  | 'addData'
+  | 'addDataByPath'
+  | 'replaceData'
+  | 'unsetData'
+  | 'setIsDataValidating'
+  | 'resetData'
+  | 'initData'

@@ -1,5 +1,6 @@
 import {
   ConfigureStoreOptions,
+  EnhancedStore,
   Reducer,
   ThunkMiddleware,
   Tuple,

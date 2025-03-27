@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from '@flowerforce/flower-react-store'
+import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import { flowerActions, makeSelectStartNodeId } from '../features'
 
 function _FlowerStart() {
-  const dispatch = useDispatch()
+  const { dispatch, useSelector } = ReduxFlowerProvider.getReduxHooks()
   const one = useRef(false)
   const { name, autostart = true, currentNode } = useContext(FlowerReactContext)
   const startNodeId = useSelector(makeSelectStartNodeId(name ?? ''))
