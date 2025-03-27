@@ -4,7 +4,7 @@ import { REDUCERS_TYPES } from '../types/reducerTypes'
 
 export const dataReducer = createSlice({
   name: REDUCER_NAME.FLOWER_DATA,
-  initialState: {} as Record<string, Record<string, any>>,
+  initialState: {},
   reducers: FlowerCoreDataReducers
 })
 

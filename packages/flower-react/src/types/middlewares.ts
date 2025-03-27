@@ -1,6 +1,6 @@
 import { ConfigureStoreOptions, Store } from '@reduxjs/toolkit'
 
-export type MiddlewareList = 'flowerMiddleware' | 'none'
+export type MiddlewareList = 'flowerUpdateMiddleware'
 
 type Values<T> = T[keyof T]
 type UniqueTuple<U extends string> = [U] extends [never]
@@ -20,5 +20,5 @@ export type UniqueMiddlewaresist = UniqueTuple<MiddlewareList>
  */
 export type CreateStoreWithFlower = (
   configureStore?: ConfigureStoreOptions,
-  middlewaresBlacklist?: UniqueMiddlewaresist
+  middlewaresBlacklist?: Array<MiddlewareList>
 ) => Store

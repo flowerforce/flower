@@ -1,38 +1,42 @@
 import { CoreUtils } from '@flowerforce/flower-core'
-import { Middleware } from '@reduxjs/toolkit'
+import { generateDataMiddlewares } from './generateMiddlewares'
 
 const { getPath } = CoreUtils
 
-export const flowerUpdateMiddleware: Middleware =
-  (store) => (next) => (action: any) => {
-    if (action?.type?.startsWith('FlowerData/addDataByPath')) {
-      const { payload } = action
+const _flowerUpdateMiddleware = generateDataMiddlewares(
+  'FlowerData/addDataByPath',
+  (next, action, { getState, dispatch }) => {
+    const { payload } = action
+    if (payload && payload.id) {
+      const state = getState() // Get current state
 
-      if (payload && payload.id) {
-        const state = store.getState() // Get current state
+      const { id, value, ...rest } = payload
+      const { path, rootName } = getPath(id)
 
-        const { id, value, ...rest } = payload
-        const { path, rootName } = getPath(id)
+      const newPath = typeof path === 'string' ? [path] : path
 
-        const newPath = typeof path === 'string' ? [path] : path
-
-        if (rootName && state[rootName]) {
-          store.dispatch({
-            type: `${rootName}/flowerUpdateData`, // You need a reducer in that slice
-            payload: {
-              path: newPath,
-              value
-            }
-          })
-          const newAction = {
-            type: action.type,
-            payload: { id: id.replace(/^\^.*?\./, ''), ...rest }
+      if (rootName && state[rootName]) {
+        dispatch({
+          type: `${rootName}/flowerUpdateData`, // You need a reducer in that slice
+          payload: {
+            path: newPath,
+            value
           }
-          next(newAction)
-          return
+        })
+
+        const newAction: typeof action = {
+          type: action.type,
+          payload: { id, ...rest }
         }
+
+        return next(newAction)
       }
     }
-
-    return next(action) // Pass the original action down the middleware chain
   }
+)
+
+export const flowerUpdateMiddleware = Object.defineProperty(
+  _flowerUpdateMiddleware,
+  'name',
+  { value: 'flowerUpdateMiddleware' }
+)

@@ -47,17 +47,23 @@ export const useFlowerForm: UseFlowerForm = (customFormName) => {
   } = useSelector(makeSelectNodeErrors(formName))
 
   const getGlobalData = useCallback(() => {
-    const { FlowerFlow, FlowerData, ...rest } = store.getState() as any
+    const { FlowerFlow, FlowerData, ...rest } = store.getState() as Record<
+      string,
+      Record<string, unknown>
+    >
     return {
       ...FlowerData,
       ...rest
     }
-  }, [])
+  }, [store])
 
   const getExternalReducersData = useCallback(() => {
-    const { FlowerFlow, FlowerData, ...rest } = store.getState() as any
+    const { FlowerFlow, FlowerData, ...rest } = store.getState() as Record<
+      string,
+      Record<string, unknown>
+    >
     return rest
-  }, [])
+  }, [store])
 
   const getData = useCallback(
     (path?: string) => {
@@ -70,12 +76,12 @@ export const useFlowerForm: UseFlowerForm = (customFormName) => {
         ...newpath
       ])
     },
-    [formName]
+    [formName, store]
   )
 
   const getFormStatus = useCallback(() => {
     return get(store.getState(), [REDUCER_NAME.FLOWER_DATA, formName])
-  }, [formName])
+  }, [formName, store])
 
   const setDataField = useCallback(
     (id: string, val: any, dirty = true) => {

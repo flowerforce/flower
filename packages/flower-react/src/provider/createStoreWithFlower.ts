@@ -6,6 +6,12 @@ import { reducerFlower } from '../features'
 import { middlewares, reducerData } from '@flowerforce/flower-react-store'
 import { CreateStoreWithFlower, MiddlewareList } from '../types/middlewares'
 
+/**
+ *
+ * @param {ConfigureStoreOptions} configureStore object to configure store - same structure as redux configureStore options
+ * @param {MiddlewareList} middlewaresBlacklist list of flower middlewares to blacklist
+ * @returns {Store} redux store instance
+ */
 export const createStoreWithFlower: CreateStoreWithFlower = (
   configureStore,
   middlewaresBlacklist
@@ -23,12 +29,13 @@ export const createStoreWithFlower: CreateStoreWithFlower = (
     ...(reducer || {})
   })
 
-  const flowerMiddlewares = middlewaresBlacklist
-    ? middlewares.filter(
-        (middleware) =>
-          !middlewaresBlacklist.includes(middleware.name as MiddlewareList)
-      )
-    : middlewares
+  const flowerMiddlewares =
+    middlewaresBlacklist && !!middlewaresBlacklist.length
+      ? middlewares.filter(
+          (middleware) =>
+            !middlewaresBlacklist.includes(middleware.name as MiddlewareList)
+        )
+      : middlewares
 
   return generateStore({
     reducer: combinedReducers,
@@ -36,9 +43,7 @@ export const createStoreWithFlower: CreateStoreWithFlower = (
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(
         ...flowerMiddlewares,
-        // Here we can insert any number of defaults middleware for flower reducers if needed
         ...((configOptions.middleware as any) ?? [])
-        // configOptions.middleware as any
       )
   })
 }
