@@ -18,7 +18,7 @@
     "lodash": "^4.17.21"
   },
   "dependencies": {
-    "@flowerforce/flower-core": "4.0.1-beta.2",
+    "@flowerforce/flower-react": "4.0.5-beta.0",
     "@flowerforce/flower-react-form": "4.0.5-beta.0",
     "@flowerforce/flower-react-store": "4.0.1-beta.2",
     "@flowerforce/devtool": "4.0.1-beta.2",
