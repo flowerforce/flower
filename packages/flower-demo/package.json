@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/flower-demo",
-  "version": "4.0.52",
+  "version": "4.0.64",
   "description": "FlowerJS React demo app.",
   "license": "ISC",
   "scripts": {
@@ -18,10 +18,10 @@
     "lodash": "^4.17.21"
   },
   "dependencies": {
-    "@flowerforce/flower-react": "4.0.7-beta.0",
-    "@flowerforce/flower-react-form": "4.0.7-beta.0",
-    "@flowerforce/flower-react-store": "4.0.1-beta.4",
-    "@flowerforce/devtool": "4.0.1-beta.4",
+    "@flowerforce/flower-react": "4.0.8-beta.0",
+    "@flowerforce/flower-react-form": "4.0.8-beta.0",
+    "@flowerforce/flower-react-store": "4.0.1-beta.5",
+    "@flowerforce/devtool": "4.0.1-beta.5",
     "antd": "^5.17.2"
   }
 }
