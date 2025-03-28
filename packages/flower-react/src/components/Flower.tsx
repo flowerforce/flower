@@ -24,9 +24,7 @@ import {
 } from '../features'
 import {
   flowerDataActions,
-  useDispatch,
-  useSelector,
-  useStore
+  ReduxFlowerProvider
 } from '@flowerforce/flower-react-store'
 
 type FlowerInitialState = {
@@ -56,7 +54,7 @@ const FlowerClient = ({
 }: FlowerClientProps) => {
   const flowName = name
 
-  const dispatch = useDispatch()
+  const { dispatch, store, useSelector } = ReduxFlowerProvider.getReduxHooks()
   const one = useRef(false)
   const [wsDevtools, setWsDevtools] = useState<boolean>(
     devtoolState && _get(devtoolState, '__FLOWER_DEVTOOLS_INITIALIZED__', false)
@@ -78,7 +76,6 @@ const FlowerClient = ({
   const current = useSelector(makeSelectCurrentNodeId(flowName))
   const isDisabled = useSelector(makeSelectCurrentNodeDisabled(flowName))
   const prevFlowerNodeId = useSelector(makeSelectPrevNodeRetain(flowName))
-  const store = useStore()
 
   useEffect(() => {
     if (nodes.length > 0 && one.current === false) {

@@ -1,12 +1,10 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import { CoreUtils, REDUCER_NAME } from '@flowerforce/flower-core'
 import get from 'lodash/get'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import {
   flowerDataActions,
-  useDispatch,
-  useSelector,
-  useStore
+  ReduxFlowerProvider
 } from '@flowerforce/flower-react-store'
 import type { UseFlowerForm } from '../../types'
 import { makeSelectNodeErrors } from '../../selectors'
@@ -35,8 +33,7 @@ import { makeSelectNodeErrors } from '../../selectors'
 export const useFlowerForm: UseFlowerForm = (customFormName) => {
   const { name: formNameDefault, initialData } = useContext(FlowerReactContext) // TODO: WIP, needs to be refactored
 
-  const dispatch = useDispatch()
-  const store = useStore()
+  const { dispatch, store, useSelector } = ReduxFlowerProvider.getReduxHooks()
 
   const formName = (formNameDefault || customFormName) as string
   const {
@@ -50,7 +47,10 @@ export const useFlowerForm: UseFlowerForm = (customFormName) => {
   } = useSelector(makeSelectNodeErrors(formName))
 
   const getGlobalData = useCallback(() => {
-    const { FlowerFlow, FlowerData, ...rest } = store.getState()
+    const { FlowerFlow, FlowerData, ...rest } = store.getState() as Record<
+      string,
+      Record<string, unknown>
+    >
     return {
       ...FlowerData,
       ...rest
@@ -58,7 +58,10 @@ export const useFlowerForm: UseFlowerForm = (customFormName) => {
   }, [store])
 
   const getExternalReducersData = useCallback(() => {
-    const { FlowerFlow, FlowerData, ...rest } = store.getState()
+    const { FlowerFlow, FlowerData, ...rest } = store.getState() as Record<
+      string,
+      Record<string, unknown>
+    >
     return rest
   }, [store])
 

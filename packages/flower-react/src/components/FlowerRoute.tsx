@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react'
-import { useDispatch } from '@flowerforce/flower-react-store'
+import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 import { FlowerRouteProps } from '../types/FlowerRoute'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import { flowerActions } from '../features'
@@ -9,7 +9,7 @@ const _FlowerRoute = ({
   onEnter,
   onExit
 }: FlowerRouteProps) => {
-  const dispatch = useDispatch()
+  const { dispatch } = ReduxFlowerProvider.getReduxHooks()
   const one = useRef(false)
   const { name } = useContext(FlowerReactContext)
 

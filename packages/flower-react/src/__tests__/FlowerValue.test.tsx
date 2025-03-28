@@ -91,7 +91,7 @@ describe('Test FlowerValue component', () => {
   it('Test value all data', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test">
+        <Flower name="app-test-1">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
@@ -115,7 +115,7 @@ describe('Test FlowerValue component', () => {
 
     render(
       <FlowerProvider>
-        <Flower name="app-test">
+        <Flower name="app-test-2">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>

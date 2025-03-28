@@ -16,7 +16,7 @@ export const createCustomReducer = ({
   if (flowReducer) {
     const flowerReducer = createSlice({
       name: REDUCER_NAME.FLOWER_FLOW,
-      initialState: {} as Record<string, Flower<Record<string, any>>>,
+      initialState: {},
       reducers: FlowerCoreBaseReducers
     })
 

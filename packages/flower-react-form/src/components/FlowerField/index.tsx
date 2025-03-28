@@ -21,9 +21,7 @@ import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import debounce from 'lodash/debounce'
 import {
   flowerDataActions,
-  useDispatch,
-  useSelector,
-  useStore
+  ReduxFlowerProvider
 } from '@flowerforce/flower-react-store'
 import {
   CoreUtils,
@@ -33,6 +31,7 @@ import {
 import { FlowerFieldProps } from '../../types/FlowerField'
 import isEqual from 'lodash/isEqual'
 import { FlowerRule } from '@flowerforce/flower-react-shared'
+import { ReactReduxContext } from 'react-redux'
 
 function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
   return typeof x === 'string'
@@ -57,7 +56,7 @@ function Wrapper({
   defaultValue,
   ...props
 }: any) {
-  const dispatch = useDispatch()
+  const { dispatch, store, useSelector } = ReduxFlowerProvider.getReduxHooks()
 
   const [customAsyncErrors, setCustomAsyncErrors] = useState(
     asyncValidate && asyncInitialError && [asyncInitialError]
@@ -85,8 +84,6 @@ function Wrapper({
   const refValue = useRef<Record<string, any>>()
 
   const isSubmitted = useSelector(makeSelectNodeFormSubmitted(formName))
-
-  const store = useStore()
 
   const allErrors = useMemo(
     () =>

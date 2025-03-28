@@ -1,5 +1,8 @@
 import React, { memo, useEffect, useRef, PropsWithChildren } from 'react'
-import { flowerDataActions, useDispatch } from '@flowerforce/flower-react-store'
+import {
+  flowerDataActions,
+  ReduxFlowerProvider
+} from '@flowerforce/flower-react-store'
 import { FlowerReactProvider } from '@flowerforce/flower-react-context'
 
 type FlowerClientProps = PropsWithChildren<{
@@ -19,7 +22,7 @@ const FlowerFormClient = ({
 }: FlowerClientProps) => {
   const formName = name
 
-  const dispatch = useDispatch()
+  const { dispatch } = ReduxFlowerProvider.getReduxHooks()
   const one = useRef(false)
 
   useEffect(

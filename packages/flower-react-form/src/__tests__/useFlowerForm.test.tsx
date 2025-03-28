@@ -196,10 +196,12 @@ describe('Test FlowerForm component', () => {
   })
   it('Test getStatus', async () => {
     const data = {
-      errors: { name: [], surname: [], age: [], address: [] },
+      errors: {},
       data: { name: 'andrea', surname: 'Rossi', age: 19, address: 'via roma' },
-      dirty: { surname: true }
+      dirty: { surname: false, name: false, age: false, address: false },
+      touches: { name: false, surname: false, age: false, address: false }
     }
+
     render(<TestCmp />)
 
     fireEvent.click(screen.getByTestId('btn-setState'))
