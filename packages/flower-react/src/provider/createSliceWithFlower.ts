@@ -1,13 +1,3 @@
-// createSlice({
-//     name: "myStore",
-//     initialState: {
-//       gino: 1,
-//     } as Record<string, number>,
-//     reducers: {
-//       add: (state) => ({ ...state, gino: state.gino + 1 }),
-//     },
-//   });
-
 import {
   createSlice,
   CreateSliceOptions,
