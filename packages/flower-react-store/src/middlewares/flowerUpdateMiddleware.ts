@@ -31,6 +31,7 @@ const _flowerUpdateMiddleware = generateDataMiddlewares(
 
         return next(newAction)
       }
+      return next(action)
     }
   }
 )

@@ -8,7 +8,7 @@ import _get from 'lodash/get'
 import {
   makeActionPayloadOnNext,
   makeActionPayloadOnNode,
-  makeActionPayloadOnPrev,
+  makeActionPayloadOnBack,
   makeActionPayloadOnReset,
   makeActionPayloadOnRestart
 } from './utils'
@@ -84,7 +84,7 @@ export const useFlower: UseFlower = ({
 
   const back = useCallback(
     (param?: NavigateFunctionParams) => {
-      const { type, payload } = makeActionPayloadOnPrev(flowName, param)
+      const { type, payload } = makeActionPayloadOnBack(flowName, param)
       dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
 
       emitNavigateEvent({ type, payload })

@@ -287,7 +287,7 @@ export const FlowerCoreBaseReducers: CoreReducersFunctions = {
       payload: { name: flowName, node: nextNumberNode }
     })
   },
-  prev: (state, { payload }) => {
+  back: (state, { payload }) => {
     const { name, flowName } = payload
 
     FlowerCoreBaseReducers.historyPop(state, {

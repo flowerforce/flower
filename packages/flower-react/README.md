@@ -44,6 +44,10 @@ yarn add @flowerforce/flower-react
 
 ## Configuration
 
+
+Flower React works with redux global state.
+
+If you starts an application with Flower React from scratch, you need to wrap your application with **FlowerProvider**
 The **FlowerProvider** component wraps the entire application, providing a global redux context to manage the application flow.
 
 ```jsx
@@ -58,39 +62,70 @@ function Root() {
   )
 }
 ```
-> FlowerProvider accepts some properties such as `reducers` and `configureStoreOptions` in order to inject custom reducers into redux instance provided by FlowerProvider component.
-N.B.: actions and selectors from your custom reducers must use `useSelector` and `useDispatch` provided by flower-react 
+
+If your application is already built with redux as global state manager, you can use differents approaches:
+
+- Separates Providers
+
+In this case, you need to wrap your application with the **FlowerProvider** component in addition to the classic Redux provider.
+The order of providers is not relevant, since their redux contexts are different.
+n.b.: FlowerProvider generates a store instance with `FlowerData slice` from `flower-react-form`
+
 ```jsx
 import React from 'react'
-import { customReducer, customReducer2 } from 'my-custom-reducers'
-import { Flower, FlowerProvider } from '@flowerforce/flower-react'
-
-const reducers = {
-  customReducer: customReducer.reducer,
-  customReducer2: customReducer2.reducer
-}
+import { Provider } from 'react-redux'
+import { yourStore } from 'yourStore'
+import { FlowerProvider } from '@flowerforce/flower-react'
 
 function Root() {
   return (
-    <FlowerProvider reducers={reducers}>
-      <App />
-    </FlowerProvider>
+    <Provider store={yourStore}>
+      <FlowerProvider>  
+        <App />
+      </FlowerProvider>
+    </Provider>
   )
 }
 ```
-> You can pass the prop `configureStoreOptions - devTools` to the `FlowerProvider` to show the Flower Store data inside the redux devtool of your browser.
+
+- Single Provider
+
+For this scenario, we provides ***createStoreWithFlower***
+This functions takes a `configureStoreOptions` object (same as createStore from redux) and an optional `middlewaresBlacklist`, since flower inject automatically some middlewares in its store.
+To generate slices fully compatible, you can use ***createSliceWithFlower***, a function same as `createSlice` from redux.
+Let's see the needed configuration
 ```jsx
 import React from 'react'
-import { Flower, FlowerProvider } from '@flowerforce/flower-react'
+import { Provider } from 'react-redux'
+import { FormProvider, createStoreWithFlower, createSliceWithFlower } from '@flowerforce/flower-react'
+
+const myStoreWithFlower = createSliceWithFlower({
+  name: 'myStore',
+  initialData: {},
+  reducers: {
+    add: (state) => {
+      state.count += 1
+    }
+  }
+})
+
+const storeWithFlower = createStoreWithFlower({
+  reducer: {
+      myStore: myStoreWithFlower.reducer,
+    }
+})
 
 function Root() {
   return (
-    <FlowerProvider configureStoreOptions={{ devTools: true }}>
+    <Provider store={storeWithFlower}>
       <App />
-    </FlowerProvider>
+    </Provider>
   )
 }
 ```
+
+In this scenario, we need a single provider, so we use the default redux provider
+
 ## How to use
 
 ### Simple Example
@@ -621,10 +656,8 @@ import {
   Flower,
   FlowerRoute,
   FlowerNavigate,
-  FlowerNode,
-  FlowerField,
+  FlowerNode
 } from '@flowerforce/flower-react'
-
 
 import {
   FlowerField,
@@ -980,6 +1013,7 @@ In any case, there is a JSON schema that will guide you in writing the file asso
 # Documentation
 
 The Flower React docs are published at [flowerjs.it/](https://flowerjs.it)
+
 
 
 

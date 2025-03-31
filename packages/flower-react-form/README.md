@@ -38,6 +38,9 @@ yarn add @flowerforce/flower-react-form
 
 ## Configuration
 
+Flower React Form works with redux global state.
+
+If you starts an application with Flower React Form from scratch, you need to wrap your application with ***FormProvider***
 The **FormProvider** component wraps the entire application, providing a global context for managing the application flow.
 
 ```jsx
@@ -52,26 +55,69 @@ function Root() {
   )
 }
 ```
-> FormProvider accepts some properties such as `reducers` and `configureStoreOptions` in order to inject custom reducers into redux instance provided by FlowerProvider component.
-N.B.: actions and selectors from your custom reducers must use `useSelector` and `useDispatch` provided by flower-react-form 
+
+If your application is already built with redux as global state manager, you can use differents approaches:
+
+- Separates Providers
+
+In this case, you need to wrap your application with the ***FormProvider*** component in addition to the classic Redux provider.
+The order of providers is not relevant, since their redux contexts are different.
+
 ```jsx
 import React from 'react'
-import { customReducer, customReducer2 } from 'my-custom-reducers'
+import { Provider } from 'react-redux'
+import { yourStore } from 'yourStore'
 import { FormProvider } from '@flowerforce/flower-react-form'
-
-const reducers = {
-  customReducer: customReducer.reducer,
-  customReducer2: customReducer2.reducer
-}
 
 function Root() {
   return (
-    <FormProvider reducers={reducers}>
-      <App />
-    </FormProvider>
+    <Provider store={yourStore}>
+      <FormProvider>  
+        <App />
+      </FormProvider>
+    </Provider>
   )
 }
 ```
+- Single Provider
+
+For this scenario, we provides ***createStoreWithFlowerData***
+This functions takes a `configureStoreOptions` object (same as createStore from redux) and an optional `middlewaresBlacklist`, since flower inject automatically some middlewares in its store.
+To generate slices fully compatible, you can use ***createSliceWithFlowerData***, a function same as `createSlice` from redux.
+Let's see the needed configuration
+```jsx
+import React from 'react'
+import { Provider } from 'react-redux'
+import { FormProvider, createStoreWithFlowerData, createSliceWithFlowerData } from '@flowerforce/flower-react-form'
+
+const myStoreWithFlower = createSliceWithFlowerData({
+  name: 'myStore',
+  initialData: {},
+  reducers: {
+    add: (state) => {
+      state.count += 1
+    }
+  }
+})
+
+const storeWithFlower = createStoreWithFlowerData({
+  reducer: {
+      myStore: myStoreWithFlower.reducer,
+    }
+})
+
+function Root() {
+  return (
+    <Provider store={storeWithFlower}>
+      <App />
+    </Provider>
+  )
+}
+```
+
+In this scenario, we need a single provider, so we use the default redux provider
+
+### N.B.: If form is used combined with flower-react, take a look to Configuration chapter of flower-react docs.
 
 ## How to use
 
@@ -212,3 +258,4 @@ Edit on [codesandbox/](add link)
 # Documentation
 
 The Flower React docs are published at [flowerjs.it/](https://flowerjs.it)
+

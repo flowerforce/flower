@@ -11,7 +11,7 @@ import set from 'lodash/set'
 const updateAction = (reducerName: string) =>
   createAction<{ path: string; value: any }>(`${reducerName}/flowerUpdateData`)
 
-export const createSliceWithFlower = <
+export const createSliceWithFlowerData = <
   State extends object,
   CaseReducers extends SliceCaseReducers<State>,
   Name extends string,
