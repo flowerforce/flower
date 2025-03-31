@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/flower-react-context",
-  "version": "4.0.1-beta.5",
+  "version": "4.0.1-beta.6",
   "description": "FlowerJS utils for Form handling.",
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@flowerforce/flower-core": "4.0.1-beta.5",
+    "@flowerforce/flower-core": "4.0.1-beta.6",
     "lodash": "^4.17.21"
   },
   "exports": {
