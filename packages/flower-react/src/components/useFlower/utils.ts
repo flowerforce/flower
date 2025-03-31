@@ -1,5 +1,5 @@
 const ACTION_TYPES = {
-  back: ['prev', 'prevToNode'],
+  back: ['back', 'prevToNode'],
   jump: ['node', 'node'],
   next: ['next', 'next'],
   restart: ['restart', 'restart'],
@@ -32,7 +32,7 @@ const makeActionPayload =
     }
   }
 
-export const makeActionPayloadOnPrev = makeActionPayload(
+export const makeActionPayloadOnBack = makeActionPayload(
   ACTION_TYPES.back,
   PAYLOAD_KEYS_NEEDED.back
 )

@@ -201,7 +201,7 @@ export type CoreReducersFunctions<
    *
    * @returns state
    */
-  prev: ReducerFunctionSign<T, { name?: string; flowName?: string }>
+  back: ReducerFunctionSign<T, { name?: string; flowName?: string }>
   /**
    * @param state
    * @param action
@@ -247,7 +247,7 @@ export type FlowCaseReducersNames =
   | 'node'
   | 'prevToNode'
   | 'next'
-  | 'prev'
+  | 'back'
   | 'restart'
   | 'reset'
 
