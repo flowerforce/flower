@@ -10,7 +10,7 @@ const _flowerUpdateMiddleware = generateDataMiddlewares(
     if (payload && payload.id) {
       const state = getState() // Get current state
 
-      const { id, value, ...rest } = payload
+      const { id, value } = payload
       const { path, rootName } = getPath(id)
 
       const newPath = typeof path === 'string' ? [path] : path
@@ -25,8 +25,12 @@ const _flowerUpdateMiddleware = generateDataMiddlewares(
         })
 
         const newAction: typeof action = {
-          type: action.type,
-          payload: { id, ...rest }
+          type: 'FlowerData/fieldDirty',
+          payload: {
+            rootName: payload.rootName,
+            id,
+            dirty: true
+          }
         }
 
         return next(newAction)

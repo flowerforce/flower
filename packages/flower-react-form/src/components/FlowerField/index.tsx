@@ -31,7 +31,6 @@ import {
 import { FlowerFieldProps } from '../../types/FlowerField'
 import isEqual from 'lodash/isEqual'
 import { FlowerRule } from '@flowerforce/flower-react-shared'
-import { ReactReduxContext } from 'react-redux'
 
 function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
   return typeof x === 'string'
@@ -70,7 +69,7 @@ function Wrapper({
     [id]
   )
 
-  const value = useSelector(getDataFromState(formName, path))
+  const value = useSelector(getDataFromState(formNameFromPath, path))
   const errors = useSelector(
     makeSelectFieldError(formName, id, validate),
     CoreUtils.allEqual
