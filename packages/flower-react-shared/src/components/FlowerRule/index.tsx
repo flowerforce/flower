@@ -33,12 +33,14 @@ const _FlowerRule = ({
 
   if (typeof children === 'function') {
     if (alwaysDisplay && hidden) {
-      return children({ hidden }) ?? null
+      return children({ hidden }) ? (
+        <Fragment>{children({ hidden })}</Fragment>
+      ) : null
     }
     if (hidden) {
       return null
     }
-    return children({}) ?? null
+    return children({}) ? <Fragment>{children({})}</Fragment> : null
   }
 
   if (alwaysDisplay && hidden) {
