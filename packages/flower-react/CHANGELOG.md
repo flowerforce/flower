@@ -1,3 +1,20 @@
+## 3.6.0 (2025-04-19)
+
+
+### 🚀 Features
+
+- added remove value on hide element ([#68](https://github.com/flowerforce/flower/pull/68))
+
+
+### 🩹 Fixes
+
+- avoid validate hidden field ([#67](https://github.com/flowerforce/flower/pull/67))
+
+
+### 🧱 Updated Dependencies
+
+- Updated flower-core to 3.4.0
+
 ## 3.5.0 (2024-10-08)
 
 
