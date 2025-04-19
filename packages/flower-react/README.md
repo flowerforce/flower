@@ -2,7 +2,7 @@
 
 <a alt="Flower logo" href="https://flowerjs.it/" target="_blank" rel="noreferrer"><img src="https://flowerjs.it/_next/static/media/flower-logo.bb32f863.svg" width="50"></a>
 
-Flower React is a front-end development library built on top of Flower Core, specifically designed for React applications. It seamlessly integrates Flower's powerful capabilities into React projects, providing a user-friendly interface for creating, modifying, and monitoring workflows.
+Flower React is a front-end development library built on top of Flower Core, specifically designed for React applications. It seamlessly integrates Flower's powerful capabilities into React projects, providing a user-friendly interface to create, modify, and monitor workflows.
 
 For more info [flowerjs.it/](https://flowerjs.it/)
 
@@ -10,7 +10,7 @@ For more info [flowerjs.it/](https://flowerjs.it/)
 
 ## Features
 
-- **Workflow Management**: Comprehensive API for creating, updating, and managing workflows programmatically.
+- **Workflow Management**: Comprehensive API to create, update, and manage workflows programmatically.
 - **Node and Connection Handling**: Functions to manage nodes and connections, including adding, removing, and editing.
 - **State Management**: Built-in state management to keep track of workflow changes and updates.
 - **Event System**: Customizable event handling to respond to user interactions and changes within the workflow.
@@ -45,7 +45,7 @@ yarn add @flowerforce/flower-react
 
 ## Configuration
 
-The **FlowerProvider** component wraps the entire application, providing a global context for managing the application flow.
+The **FlowerProvider** component wraps the entire application, providing a global context to manage the application flow.
 
 ```jsx
 import React from 'react'
@@ -65,7 +65,7 @@ function Root() {
 
 ### Simple Example
 
-The **Flower** component defines an application flow with a specific name, which serves as a unique identifier for the flow. It is the main component for defining the application flow, accepting a required "name" property and an initialData field for prepopulating values.
+The **Flower** component defines an application flow with a specific name, which serves as a unique identifier for the flow. It is the main component to define the application flow, accepting a required "name" property and an initialData field to prepopulate values.
 
 The **FlowerNode** component represents a UI state or a step within the application flow. Transitions between nodes can be specified using the **to** object.
 
@@ -106,7 +106,7 @@ export const Page = () => {
 Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-9wsjv7)
 
 
-> In addition you can pass the prop ***initialState*** to the `<Flower>` component 
+> In addition you can pass the prop ***initialState*** to the `<Flower>` component
 
 This prop allows you to configure the following fields:
 
@@ -133,7 +133,7 @@ export const Page = () => {
   return (
     <Flower name="demo">
       {/* autonext */}
-      <FlowerRoute id="start" to={{ step1: null }} /> 
+      <FlowerRoute id="start" to={{ step1: null }} />
       <FlowerNode
         id="step1"
         to={{
@@ -221,7 +221,7 @@ Here's an example of how it works:
 
 ```jsx
 import React from 'react'
-import { 
+import {
   Flower,
   FlowerRoute,
   FlowerNavigate,
@@ -461,9 +461,9 @@ Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-f
 
 ### Utils Callback onEnter - onExit
 
-onEnter (function): A callback function that is executed when entering the node state. It's useful for performing specific operations when the user transitions to this state.
+onEnter (function): A callback function that is executed when entering the node state. It's useful to perform specific operations when the user transitions to this state.
 
-onExit (function): A callback function that is executed when exiting the node state. It's useful for performing specific operations when the user leaves this state.
+onExit (function): A callback function that is executed when exiting the node state. It's useful to perform specific operations when the user leaves this state.
 
 ```jsx
 import React from 'react'
@@ -503,7 +503,7 @@ export const Page = () => {
 
 Flower enables the quick creation of forms.
 
-It keeps track of the form's validity status. This status not only facilitates displaying error messages to the user but can also be leveraged for implementing flow rules.
+It keeps track of the form's validity status. Not only does this status facilitate displaying error messages to the user, but it can also be leveraged to implement flow rules.
 
 ### Basic Usage
 
@@ -658,7 +658,7 @@ Edit on [codesandbox/](https://codesandbox.io/p/sandbox/flower-react-example-1-f
 
 ## Operators Rules
 
-The "rules" in Flower are used to define conditions and conditional behaviors within the workflow. These rules allow for dynamically changing the display or behavior of certain fields or components based on specific conditions.
+The "rules" in Flower are used to define conditions and conditional behaviors within the workflow. These rules allow to dynamically change the display or behavior of certain fields or components based on specific conditions.
 
 The rules schema follows the MongoDB style, below is the list of available operators:
 
@@ -875,7 +875,7 @@ First, create the JSON file at the same level as the component file.
 
 ```
 src
-│  
+│
 │
 └───components
 │   │
@@ -904,7 +904,7 @@ The keys in the JSON file have the following purposes:
   - `type`: indicates what is being described with this JSON file, in this case, a component
   - `name`: the name of the component being configured
   - `category`: components are grouped into categories in Flower's graphical interface, so you can choose a category to which the component belongs
-  - `description`: a brief description of the component that will be displayed in the graphical interface. This is particularly useful for understanding the functionality of a specific component without reading the code
+  - `description`: a brief description of the component that will be displayed in the graphical interface. This is particularly useful to understand the functionality of a specific component without reading the code
   - `editing`: in this key, we will insert the options that will allow us to configure the component's behavior directly from the graphical interface
 
 Once you have completed these two steps, you will be able to use your `Text component` through the graphical interface.

@@ -113,7 +113,10 @@ export type FlowerFieldProps<
   flowName?: string
   /** Initial value field */
   defaultValue?: unknown
+  /** Remove value from data on destroy element */
   destroyValue?: boolean
+  /** Remove value from data on hide element */
+  destroyOnHide?: boolean
   value?: any
   /** When set to true, the children is shown even if the rules are not satisfied
    *

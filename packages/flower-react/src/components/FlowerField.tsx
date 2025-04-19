@@ -42,6 +42,7 @@ function Wrapper({
   asyncInitialError,
   asyncWaitingError,
   destroyValue,
+  destroyOnHide,
   onBlur,
   onFocus,
   hidden,
@@ -52,7 +53,7 @@ function Wrapper({
   const dispatch = useDispatch()
 
   const [customAsyncErrors, setCustomAsyncErrors] = useState(
-    asyncValidate && [asyncInitialError]
+    asyncValidate && asyncInitialError && [asyncInitialError]
   )
   const [isValidating, setIsValidating] = useState<boolean | undefined>(
     undefined
@@ -85,8 +86,8 @@ function Wrapper({
   )
 
   const allErrors = useMemo(
-    () => [...errors, ...(customAsyncErrors || []).filter(Boolean)],
-    [errors, customAsyncErrors]
+    () => hidden ? [] : [...errors, ...(customAsyncErrors || []).filter(Boolean)],
+    [errors, hidden, customAsyncErrors]
   )
 
   const setTouched = useCallback((touched: boolean) => {
@@ -167,14 +168,16 @@ function Wrapper({
   )
   
   useEffect(() => {
+    if(hidden) return
     if (asyncValidate) {
+
       if (refValue.current === value) return
       refValue.current = value
 
       const hasValue = !MatchRules.utils.isEmpty(value)
 
       if (!hasValue) {
-        setCustomAsyncErrors([asyncInitialError])
+        setCustomAsyncErrors(asyncInitialError && [asyncInitialError])
         setIsValidating(false)
         return
       }
@@ -182,7 +185,7 @@ function Wrapper({
       setTouched(true)
       debouncedValidation(value)
     }
-  }, [asyncValidate, asyncInitialError, value, debouncedValidation, setTouched])
+  }, [asyncValidate, asyncInitialError, value, debouncedValidation, setTouched, hidden])
 
   useEffect(() => {
     if (onUpdate) {
@@ -214,6 +217,35 @@ function Wrapper({
     })
   }, [flowName, currentNode, isValidating])
 
+  const resetField = useCallback(()=>{
+      dispatch({
+        type: 'flower/formFieldTouch',
+        payload: {
+          name: flowName,
+          id,
+          currentNode,
+          touched: false
+        }
+      })  
+      dispatch({
+        type: 'flower/formFieldDirty',
+        payload: {
+          name: flowName,
+          id,
+          currentNode,
+          dirty: false
+        }
+      })  
+      dispatch({
+        type: 'flower/formRemoveErrors',
+        payload: {
+          name: flowName,
+          id,
+          currentNode
+        }
+      })
+  },[currentNode, id, flowName])
+
   useEffect(() => {
     // destroy
     return () => {
@@ -223,18 +255,22 @@ function Wrapper({
           payload: { flowName: flowNameFromPath, id: path }
         })
       }
-      dispatch({
-        type: 'flower/formRemoveErrors',
-        payload: {
-          name: flowName,
-          id,
-          currentNode
-        }
-      })
+      resetField()
     }
-  }, [destroyValue, id, flowNameFromPath, path, currentNode])
+  }, [destroyValue, id, flowNameFromPath, path, resetField])
 
-  
+  useEffect(() => {
+    if(hidden){
+        if (destroyOnHide) {
+          dispatch({
+            type: `flower/unsetData`,
+            payload: { flowName: flowNameFromPath, id: path }
+          })
+          resetField()
+        }
+      }
+  }, [destroyOnHide, hidden, flowNameFromPath, path, resetField])
+
   useEffect(() => {
     if (defaultValue && !dirty && !isEqual(value, defaultValue)) {
       onChange(defaultValue)
@@ -301,6 +337,7 @@ const FlowerField = ({
   value,
   children,
   defaultValue,
+  destroyOnHide,
   destroyValue,
   flowName,
   onUpdate
@@ -333,6 +370,7 @@ const FlowerField = ({
             destroyValue={destroyValue}
             onUpdate={onUpdate}
             defaultValue={defaultValue}
+            destroyOnHide={destroyOnHide}
           />
         )}
       </FlowerRule>

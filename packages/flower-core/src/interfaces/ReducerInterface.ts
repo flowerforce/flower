@@ -233,6 +233,23 @@ export type ReducersFunctions<
    * @param state
    * @param action
    *
+   * Set dirty form single field
+   *
+   * @returns state
+   */
+  formFieldDirty: ReducerFunctionSign<
+    T,
+    {
+      name: string
+      currentNode: string
+      id: string
+      dirty?: boolean
+    }
+  >
+  /**
+   * @param state
+   * @param action
+   *
    * Set touch form single field
    *
    * @returns state

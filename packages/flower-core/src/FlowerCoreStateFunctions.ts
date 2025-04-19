@@ -253,6 +253,13 @@ export const FlowerCoreReducers: ReducersFunctions = {
       payload.touched
     )
   },
+  formFieldDirty: (state, { payload }) => {
+    _set(
+      state,
+      [payload.name, 'form', payload.currentNode, 'dirty', payload.id],
+      payload.dirty
+    )
+  },
   formFieldFocus: (state, { payload }) => {
     if (!payload.focused) {
       _unset(state, [payload.name, 'form', payload.currentNode, 'hasFocus'])
@@ -282,7 +289,6 @@ export const FlowerCoreReducers: ReducersFunctions = {
           [payload.flowName, 'form', currentNode, 'dirty', payload.id],
           payload.dirty
         )
-        _set(state, [payload.flowName, 'form', currentNode, 'isDirty'], true)
       }
     }
   },
@@ -315,7 +321,6 @@ export const FlowerCoreReducers: ReducersFunctions = {
 
     _unset(state, [payload.flowName, 'form', payload.id, 'touches'])
     _unset(state, [payload.flowName, 'form', payload.id, 'dirty'])
-    _unset(state, [payload.flowName, 'form', payload.id, 'isDirty'])
     _unset(state, [payload.flowName, 'form', payload.id, 'isSubmitted'])
   },
   node: (state, { payload }) => {

@@ -10,8 +10,10 @@ import { Example6v2 } from './Examples/Example6_2' // Simple example action step
 import { Example7 } from './Examples/Example7' // Simple example alwaysDisplay on btn
 import { Example8 } from './Examples/Example8' // Simple example with FlowerRule
 import { Example9 } from './Examples/Example9' // Simple example form
+import { Example10 } from './Examples/Example10' // Simple example form
+import { Example11 } from './Examples/Example11' // Form async error and hidden
 
 function AppLogin() {
-  return <Example9 />
+  return <Example11 />
 }
 export default AppLogin
