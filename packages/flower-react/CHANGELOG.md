@@ -1,17 +1,3 @@
-## 3.7.0 (2024-10-08)
-
-
-### 🚀 Features
-
-- initNodes subs data only if initialData is defined 
-
-## 3.6.0 (2024-10-08)
-
-
-### 🚀 Features
-
-- added "destroyOPnHide" in FlowerField 
-
 ## 3.5.0 (2024-10-08)
 
 
