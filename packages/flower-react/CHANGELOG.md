@@ -1,3 +1,10 @@
+## 3.7.1 (2025-04-19)
+
+
+### 🧱 Updated Dependencies
+
+- Updated flower-core to 3.5.1
+
 ## 3.7.0 (2025-04-19)
 
 
