@@ -1,3 +1,10 @@
+## 3.5.0 (2025-04-19)
+
+
+### 🚀 Features
+
+- remove data blank from init nodes ([#80](https://github.com/flowerforce/flower/pull/80))
+
 ## 3.4.0 (2025-04-19)
 
 
