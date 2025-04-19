@@ -1,3 +1,10 @@
+## 3.4.1 (2025-04-19)
+
+
+### 🩹 Fixes
+
+- avoid validate hidden field ([#67](https://github.com/flowerforce/flower/pull/67))
+
 ## 3.4.0 (2024-10-08)
 
 
