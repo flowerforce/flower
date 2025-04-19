@@ -43,6 +43,7 @@ function Wrapper({
   asyncWaitingError,
   destroyValue,
   destroyOnHide,
+  hiddenAndDestroyValue,
   onBlur,
   onFocus,
   hidden,
@@ -259,17 +260,17 @@ function Wrapper({
     }
   }, [destroyValue, id, flowNameFromPath, path, resetField])
 
-  useEffect(() => {
-    if(hidden){
-        if (destroyOnHide) {
-          dispatch({
-            type: `flower/unsetData`,
-            payload: { flowName: flowNameFromPath, id: path }
-          })
-          resetField()
-        }
-      }
-  }, [destroyOnHide, hidden, flowNameFromPath, path, resetField])
+   useEffect(() => {
+    if (destroyOnHide || (hidden && destroyValue)) {
+      dispatch({
+        type: `flower/unsetData`,
+        payload: { flowName: flowNameFromPath, id: path }
+      })
+      resetField()
+    }
+  }, [destroyOnHide, destroyValue, flowNameFromPath, path, resetField])
+
+
 
   useEffect(() => {
     if (defaultValue && !dirty && !isEqual(value, defaultValue)) {
@@ -312,6 +313,8 @@ function Wrapper({
     ]
   )
 
+  if(hiddenAndDestroyValue) return null
+
   if (typeof Component === 'function') {
     return Component(newProps)
   }
@@ -350,27 +353,27 @@ const FlowerField = ({
     return (
       <FlowerRule
         alwaysDisplay={alwaysDisplay}
+        destroyOnHide={destroyOnHide}
         rules={rules}
         value={value}
         flowName={name}
         id={id}
       >
-        {({ hidden }) => (
+        {({ ...rest }) => (
           <Wrapper
-            hidden={hidden}
-            id={id}
-            Component={children}
-            flowName={name}
-            currentNode={currentNode}
-            validate={validate}
-            asyncValidate={asyncValidate}
-            asyncDebounce={asyncDebounce}
-            asyncInitialError={asyncInitialError}
-            asyncWaitingError={asyncWaitingError}
-            destroyValue={destroyValue}
-            onUpdate={onUpdate}
-            defaultValue={defaultValue}
-            destroyOnHide={destroyOnHide}
+          id={id}
+          Component={children}
+          flowName={name}
+          currentNode={currentNode}
+          validate={validate}
+          asyncValidate={asyncValidate}
+          asyncDebounce={asyncDebounce}
+          asyncInitialError={asyncInitialError}
+          asyncWaitingError={asyncWaitingError}
+          destroyValue={destroyValue}
+          onUpdate={onUpdate}
+          defaultValue={defaultValue}
+          {...rest}
           />
         )}
       </FlowerRule>
@@ -387,14 +390,14 @@ const FlowerField = ({
       <FlowerRule
         key={i}
         alwaysDisplay={alwaysDisplay}
+        destroyOnHide={destroyOnHide}
         rules={rules}
         value={value}
         flowName={name}
       >
-        {({ hidden }) => (
+        {({ ...rest }) => (
           <Wrapper
             {...props}
-            hidden={hidden}
             id={id}
             Component={Component}
             flowName={name}
@@ -407,6 +410,7 @@ const FlowerField = ({
             destroyValue={destroyValue}
             onUpdate={onUpdate}
             defaultValue={defaultValue}
+            {...rest}
           />
         )}
       </FlowerRule>

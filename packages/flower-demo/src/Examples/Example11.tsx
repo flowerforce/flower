@@ -36,7 +36,7 @@ export function Example11() {
                 <input
                   type="checkbox"
                   id="disabled"
-                  checked={value}
+                  checked={!!value}
                   onChange={(e) => onChange(e.target.checked)}
                   onBlur={onBlur}
                 />
@@ -52,8 +52,9 @@ export function Example11() {
                   message: 'Field is required'
                 }
               ]}
+              destroyValue
               alwaysDisplay
-              destroyOnHide
+              // destroyOnHide
             >
               {({ onChange, value = '', errors, onBlur, hidden }) => (
                 <div className="input-container">
@@ -72,7 +73,7 @@ export function Example11() {
               )}
             </FlowerField>
 
-            <FlowerField
+            {/* <FlowerField
               id="async"
               rules={{ $and: [{ check: { $eq: true } }] }}
               asyncValidate={() => ['Async field error']}
@@ -96,7 +97,7 @@ export function Example11() {
                   {errors && <div className="error">{errors.join(', ')}</div>}
                 </div>
               )}
-            </FlowerField>
+            </FlowerField> */}
           </div>
 
           {touches && <div>touches: {touches.join(', ')}</div>}

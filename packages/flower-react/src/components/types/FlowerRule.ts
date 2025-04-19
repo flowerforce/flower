@@ -27,6 +27,8 @@ export type FlowerRuleProps = {
    * The FlowerRule returns the boolean variable "hidden" to notify you if the conditions are satisfied or not
    */
   alwaysDisplay?: boolean
+  destroyOnHide?: boolean
+  destroyValue?: boolean
   /** The function executed when the value found at the path passed to the "id" prop changes */
   onUpdate?: (hidden: boolean) => void
   /** The children of the FlowerRule*/
@@ -34,5 +36,7 @@ export type FlowerRuleProps = {
     | React.ReactNode
     | ((props: {
         hidden?: boolean
+        hiddenAndDestroyValue?: boolean
+        destroyOnHide?: boolean
       }) => React.ReactNode | React.ReactElement | undefined)
 }
