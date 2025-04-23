@@ -1,3 +1,10 @@
+## 3.5.1 (2025-04-23)
+
+
+### 🩹 Fixes
+
+- package lock ([a3bb210](https://github.com/flowerforce/flower/commit/a3bb210))
+
 ## 3.5.0 (2025-04-19)
 
 

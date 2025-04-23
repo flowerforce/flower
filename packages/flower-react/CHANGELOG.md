@@ -1,3 +1,15 @@
+## 3.7.2 (2025-04-23)
+
+
+### 🩹 Fixes
+
+- package lock ([a3bb210](https://github.com/flowerforce/flower/commit/a3bb210))
+
+
+### 🧱 Updated Dependencies
+
+- Updated flower-core to 3.5.2
+
 ## 3.7.1 (2025-04-19)
 
 

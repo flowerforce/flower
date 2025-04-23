@@ -1,3 +1,12 @@
+## 3.5.2 (2025-04-23)
+
+
+### 🩹 Fixes
+
+- fix init nodes ([996d8af](https://github.com/flowerforce/flower/commit/996d8af))
+
+- package lock ([a3bb210](https://github.com/flowerforce/flower/commit/a3bb210))
+
 ## 3.5.1 (2025-04-19)
 
 
