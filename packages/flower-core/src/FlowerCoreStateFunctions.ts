@@ -199,7 +199,10 @@ export const FlowerCoreReducers: ReducersFunctions = {
       history,
       nodes: generateNodes(payload.nodes),
       nextRules: makeObjectRules(payload.nodes),
-      data: Object.keys(payload.initialData).length === 0 ? (state.data ?? {}) : payload.initialData
+      data:
+        Object.keys(payload.initialData).length === 0
+          ? _get(state, [payload.name, 'data']) ?? {}
+          : payload.initialData
     })
   },
   // TODO usato solo da flower su vscode
