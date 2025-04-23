@@ -201,7 +201,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
       nextRules: makeObjectRules(payload.nodes),
       data:
         Object.keys(payload.initialData).length === 0
-          ? state.data ?? {}
+          ? _get(state, [payload.name, 'data']) ?? {}
           : payload.initialData
     })
   },
