@@ -1,3 +1,10 @@
+## 3.5.1 (2025-04-19)
+
+
+### 🩹 Fixes
+
+- remove empty object from init state ([8604346](https://github.com/flowerforce/flower/commit/8604346))
+
 ## 3.5.0 (2025-04-19)
 
 
