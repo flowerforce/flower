@@ -39,15 +39,14 @@ describe('FlowerCoreSelectors', () => {
   describe('SelectGlobal', () => {
     it('should return the flower object in state.flower', () => {
       const flower = FlowerCoreStateSelectors.selectGlobal(state)
-      expect(flower).toEqual(state.flower)
+      expect(flower).toEqual(state)
     })
   })
 
   describe('selectFlower', () => {
     it('should return the flower object for the given name', () => {
-      const flower = FlowerCoreStateSelectors.selectFlower(TEST_FLOW_NAME)(
-        state.flower
-      )
+      const flower =
+        FlowerCoreStateSelectors.selectFlower(TEST_FLOW_NAME)(state)
       expect(flower).toEqual(state.flower[TEST_FLOW_NAME])
     })
   })
@@ -235,7 +234,7 @@ describe('FlowerCoreSelectors', () => {
         id,
         validate
       )
-      const result = selectFieldError({} as Flower<any>, {})
+      const result = selectFieldError({} as Flower<any>, {}, {})
 
       expect(result).toEqual([])
     })
@@ -250,7 +249,7 @@ describe('FlowerCoreSelectors', () => {
         id,
         validate
       )
-      const result = selectFieldError({} as Flower<any>, {})
+      const result = selectFieldError({} as Flower<any>, {}, {})
 
       expect(result).toEqual([])
     })
@@ -273,7 +272,7 @@ describe('FlowerCoreSelectors', () => {
         keys,
         flowName,
         value
-      )(data, form)
+      )(data, {}, form)
       expect(result).toBe(false)
     })
   })
