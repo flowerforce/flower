@@ -33,18 +33,21 @@ const _FlowerRule = ({
 
   if (typeof children === 'function') {
     if (alwaysDisplay && hidden) {
-      return children({ hidden })
+      return children({ hidden }) ? (
+        <Fragment>{children({ hidden })}</Fragment>
+      ) : null
     }
     if (hidden) {
-      return undefined
+      return null
     }
-    return children({})
+    return children({}) ? <Fragment>{children({})}</Fragment> : null
   }
 
   if (alwaysDisplay && hidden) {
     return (
       <Fragment>
         {React.Children.map(children, (child, i) => {
+          if (typeof child === 'undefined') return null
           if (React.isValidElement(child)) {
             const { props, type } = child
             const Component = type
@@ -57,9 +60,12 @@ const _FlowerRule = ({
     )
   }
 
-  return hidden ? undefined : (
+  if (hidden) return null
+
+  return (
     <Fragment>
       {React.Children.map(children, (child, i) => {
+        if (typeof child === 'undefined') return null
         if (React.isValidElement(child)) {
           const { props, type } = child
           const Component = type

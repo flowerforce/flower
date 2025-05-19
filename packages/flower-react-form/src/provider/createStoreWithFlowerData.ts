@@ -3,10 +3,7 @@ import {
   configureStore as generateStore
 } from '@reduxjs/toolkit'
 import { middlewares, reducerData } from '@flowerforce/flower-react-store'
-import {
-  CreateStoreWithFlowerData,
-  MiddlewareList
-} from '../types/CreateStoreWithFlowerData'
+import { CreateStoreWithFlowerData, MiddlewareList } from '../types'
 
 /**
  *

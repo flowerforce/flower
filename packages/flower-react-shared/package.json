@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/flower-react-shared",
-  "version": "4.0.6-beta.0",
+  "version": "4.0.6-beta.4",
   "description": "FlowerJS utils for Form handling.",
   "repository": {
     "type": "git",
@@ -24,9 +24,9 @@
   "peerDependencies": {
     "react": ">=18",
     "@reduxjs/toolkit": "^2.2.4",
-    "@flowerforce/flower-core": "4.0.1-beta.4",
-    "@flowerforce/flower-react-context": "4.0.1-beta.4",
-    "@flowerforce/flower-react-store": "4.0.1-beta.4"
+    "@flowerforce/flower-core": "4.0.1-beta.7",
+    "@flowerforce/flower-react-context": "4.0.1-beta.7",
+    "@flowerforce/flower-react-store": "4.0.1-beta.7"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",

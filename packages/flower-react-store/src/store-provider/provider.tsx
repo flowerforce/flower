@@ -1,4 +1,9 @@
-import React, { PropsWithChildren, createContext, PureComponent } from 'react'
+import React, {
+  PropsWithChildren,
+  createContext,
+  PureComponent,
+  Context
+} from 'react'
 import {
   Provider,
   createDispatchHook,
@@ -11,18 +16,15 @@ import {
   Action,
   combineReducers,
   configureStore,
-  ConfigureStoreOptions
+  ConfigureStoreOptions,
+  Store
 } from '@reduxjs/toolkit'
 import {
   buildCreateApi,
   coreModule,
   reactHooksModule
 } from '@reduxjs/toolkit/query/react'
-import {
-  ExternalProviderProps,
-  REDUCERS_TYPES,
-  ReduxProviderProps
-} from '../types/reducerTypes'
+import { ExternalProviderProps, REDUCERS_TYPES } from '../types/reducerTypes'
 import { reducerData } from '../reducer/dataReducer'
 
 const createStore = (
@@ -41,8 +43,8 @@ class FlowerStoreProvider extends PureComponent<
   ExternalProviderProps
 > {
   private static instance: FlowerStoreProvider | null = null
-  private store: Omit<ReduxProviderProps, 'reducer' | 'config'> | null = null
-  static reduxContext: any = null
+  private store: Store<any, never, unknown> | null = null
+  private reduxContext: any = null
 
   constructor(props: ExternalProviderProps) {
     super(props)
@@ -50,7 +52,7 @@ class FlowerStoreProvider extends PureComponent<
       const { configureStore } = props
       const { reducer, ...restConfig } = configureStore ?? {}
       this.store = createStore(reducer, restConfig)
-      FlowerStoreProvider.reduxContext = createContext<ReactReduxContextValue<
+      this.reduxContext = createContext<ReactReduxContextValue<
         any,
         Action
       > | null>(null)
@@ -59,25 +61,26 @@ class FlowerStoreProvider extends PureComponent<
     return FlowerStoreProvider.instance
   }
 
-  public static createDispatchHook() {
-    return createDispatchHook(
-      FlowerStoreProvider.reduxContext ?? ReactReduxContext
-    )
+  private getReduxContext(): Context<ReactReduxContextValue<
+    any,
+    Action
+  > | null> {
+    return this?.reduxContext ?? ReactReduxContext
   }
 
-  public static createSelectorHook() {
-    return createSelectorHook(
-      FlowerStoreProvider.reduxContext ?? ReactReduxContext
-    )
+  static createDispatchHook() {
+    return createDispatchHook(this.instance?.getReduxContext())
   }
 
-  public static createStoreHook() {
-    return createStoreHook(
-      FlowerStoreProvider.reduxContext ?? ReactReduxContext
-    )
+  static createSelectorHook() {
+    return createSelectorHook(this.instance?.getReduxContext())
   }
 
-  public static getReduxHooks() {
+  static createStoreHook() {
+    return createStoreHook(this.instance?.getReduxContext())
+  }
+
+  static getReduxHooks() {
     return {
       dispatch: this.createDispatchHook()(),
       useSelector: this.createSelectorHook(),
@@ -88,7 +91,7 @@ class FlowerStoreProvider extends PureComponent<
   render() {
     const { children } = this.props
     return (
-      <Provider context={FlowerStoreProvider.reduxContext} store={this.store!}>
+      <Provider context={this.reduxContext} store={this.store!}>
         {children}
       </Provider>
     )
