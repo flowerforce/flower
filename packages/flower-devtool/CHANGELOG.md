@@ -1,3 +1,24 @@
+## 3.5.1 (2025-04-23)
+
+
+### 🩹 Fixes
+
+- package lock ([a3bb210](https://github.com/flowerforce/flower/commit/a3bb210))
+
+## 3.5.0 (2025-04-19)
+
+
+### 🚀 Features
+
+- remove data blank from init nodes ([#80](https://github.com/flowerforce/flower/pull/80))
+
+## 3.4.1 (2025-04-19)
+
+
+### 🩹 Fixes
+
+- avoid validate hidden field ([#67](https://github.com/flowerforce/flower/pull/67))
+
 ## 3.4.0 (2024-10-08)
 
 
