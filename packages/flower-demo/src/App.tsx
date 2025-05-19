@@ -6,8 +6,8 @@ export function MainApp() {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <AppFlow />
-      <AppForm />
-      <AppFlowWithCustomReducers />
+      {/* <AppForm /> */}
+      {/* <AppFlowWithCustomReducers /> */}
     </div>
   )
 }

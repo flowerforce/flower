@@ -57,6 +57,7 @@
   "homepage": "https://www.flowerjs.it",
   "dependencies": {
     "majestic": "^1.8.1",
+    "react-dom": "^19.1.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
@@ -70,6 +71,7 @@
     "@nx/rollup": "19.4.1",
     "@nx/webpack": "19.4.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@reduxjs/toolkit": "^2.2.4",
     "@svgr/webpack": "^8.0.1",
     "@swc-node/register": "~1.9.1",
     "@swc/cli": "~0.3.12",
@@ -94,17 +96,15 @@
     "markdownlint-cli2": "^0.15.0",
     "nx": "19.4.1",
     "prettier": "^3.2.5",
+    "react": ">=18",
+    "react-redux": "^9.1.2",
+    "reselect": "^5.1.0",
     "rimraf": "^5.0.7",
     "rollup": "^4.18.0",
     "ts-jest": "^29.1.4",
     "ts-node": "^10.9.2",
     "typescript": "~5.4.2",
-    "webpack-cli": "^5.1.4",
-    "react": ">=18",
-    "@reduxjs/toolkit": "^2.2.4",
-    "react-redux": "^9.1.2",
-    "reselect": "^5.1.0"
-
+    "webpack-cli": "^5.1.4"
   },
   "optionalDependencies": {
     "@nx/nx-darwin-arm64": "19.4.1",

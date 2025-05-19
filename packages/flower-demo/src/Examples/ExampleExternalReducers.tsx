@@ -4,7 +4,6 @@ import {
   FlowerAction,
   useFlower,
   Flower,
-  useDispatch
 } from '@flowerforce/flower-react'
 import {
   FlowerForm,
@@ -16,6 +15,7 @@ import { FlowerValue } from '@flowerforce/flower-react-shared'
 import { useCallback, useEffect } from 'react'
 import './styles.css'
 import { actionsCustom1, actionsCustom2 } from '../AppFlowWithCustomReducer'
+import { useDispatch } from 'react-redux'
 
 const ButtonNext = () => {
   const { next } = useFlower()
