@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useRef } from 'react'
 import { makeSelectStartNodeId, makeSelectCurrentNodeId } from '../../features'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
@@ -12,6 +12,7 @@ import {
   makeActionPayloadOnReset,
   makeActionPayloadOnRestart
 } from './utils'
+import { useHistorySync } from '../hooks/useBrowserNavigationSync'
 
 type NavigateFunctionParams = string | Record<string, any>
 
@@ -45,6 +46,8 @@ export const useFlower: UseFlower = ({
   const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''))
   const startId = useSelector(makeSelectStartNodeId(flowName ?? ''))
 
+  const indexRef = useRef(0)
+
   const emitNavigateEvent = useCallback(
     //TODO check this function is needed
     (params: any) => {
@@ -71,13 +74,18 @@ export const useFlower: UseFlower = ({
       const { type, payload } = makeActionPayloadOnNext(flowName, params)
       dispatch({
         type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,
-        payload: {
-          ...payload,
-          data: store.getState()
-        }
+        payload: { ...payload, data: store.getState() }
       })
 
       emitNavigateEvent({ type, payload })
+      indexRef.current += 1
+      window.history.pushState(
+        { index: indexRef.current },
+        '',
+        window.location.pathname
+      )
+
+      console.log(indexRef, 'next index ref')
     },
     [dispatch, emitNavigateEvent, flowName, store]
   )
@@ -85,12 +93,24 @@ export const useFlower: UseFlower = ({
   const back = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnBack(flowName, param)
-      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
+      dispatch({
+        type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,
+        payload
+      })
+
+      indexRef.current -= 1
+      window.history.replaceState(
+        { index: indexRef.current },
+        '',
+        window.location.pathname
+      )
 
       emitNavigateEvent({ type, payload })
     },
     [dispatch, emitNavigateEvent, flowName]
   )
+
+  useHistorySync({ indexRef, backAction: back, nextAction: next })
 
   const restart = useCallback(
     (param?: NavigateFunctionParams) => {
@@ -108,10 +128,7 @@ export const useFlower: UseFlower = ({
         flowName,
         typeof param === 'string'
           ? { node: param, initialData }
-          : {
-              ...param,
-              initialData
-            }
+          : { ...param, initialData }
       )
 
       dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
@@ -130,6 +147,8 @@ export const useFlower: UseFlower = ({
     },
     [dispatch, emitNavigateEvent, flowName]
   )
+  
+
 
   const getCurrentNodeId = useCallback(
     (customFlowName?: string) => {

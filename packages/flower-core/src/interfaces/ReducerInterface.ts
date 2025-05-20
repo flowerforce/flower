@@ -133,6 +133,7 @@ export type CoreReducersFunctions<
         current?: string
         history?: string[]
       }
+      initialData?: Record<string, unknown>
     }
   >
   /**

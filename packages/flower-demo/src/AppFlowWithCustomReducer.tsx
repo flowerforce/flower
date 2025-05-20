@@ -50,7 +50,7 @@ export function AppFlowWithCustomReducers() {
       style={{ display: 'flex', flexDirection: 'column', padding: '50px' }}
     >
       FLOW WITH EXTERNAL REDUCERS
-      <FlowerProvider<Record<string, any>> configureStore={config}>
+      <FlowerProvider configureStore={config}>
         <ExternalReducers />
       </FlowerProvider>
     </div>
