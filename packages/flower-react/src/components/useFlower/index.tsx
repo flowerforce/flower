@@ -79,10 +79,10 @@ export const useFlower: UseFlower = ({
 
       emitNavigateEvent({ type, payload })
       indexRef.current += 1
-      window.history.pushState(
+      window.history.replaceState(
         { index: indexRef.current },
         '',
-        window.location.pathname
+        ''
       )
 
       console.log(indexRef, 'next index ref')
@@ -102,7 +102,7 @@ export const useFlower: UseFlower = ({
       window.history.replaceState(
         { index: indexRef.current },
         '',
-        window.location.pathname
+        ''
       )
 
       emitNavigateEvent({ type, payload })

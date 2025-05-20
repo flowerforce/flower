@@ -1,4 +1,4 @@
-import { Node } from './CoreInterface'
+import { NodeConfig } from './CoreInterface'
 import { Flower } from './Store'
 
 export type ActionWithPayload<T> = {
@@ -127,13 +127,12 @@ export type CoreReducersFunctions<
       name: string
       startId: string
       persist: boolean
-      nodes: Node[]
+      nodes: NodeConfig[]
       initialState: {
         startId?: string
         current?: string
         history?: string[]
       }
-      initialData?: Record<string, unknown>
     }
   >
   /**

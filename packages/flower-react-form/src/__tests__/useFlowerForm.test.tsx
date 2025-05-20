@@ -198,8 +198,8 @@ describe('Test FlowerForm component', () => {
     const data = {
       errors: {},
       data: { name: 'andrea', surname: 'Rossi', age: 19, address: 'via roma' },
-      dirty: { surname: false, name: false, age: false, address: false },
-      touches: { name: false, surname: false, age: false, address: false }
+      touches: { name: false, surname: false, age: false, address: false },
+      dirty: { name: false, surname: false, age: false, address: false }
     }
 
     render(<TestCmp />)

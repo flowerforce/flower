@@ -1,4 +1,5 @@
 import { rulesMatcher, rulesMatcherUtils } from '@flowerforce/flower-core'
+import { generateNodesForFlowerJson } from '../utils'
 
 describe('Test elements utils', () => {
   it('Test RulesMatcher empty args', () => {
@@ -15,6 +16,50 @@ describe('Test elements utils', () => {
 
   it('Test RulesMatcher option undefined', () => {
     expect(rulesMatcher([{ a: 1 }])).toEqual([false])
+  })
+  test('generateNodesForFlowerJson', () => {
+    const nodes = [
+      {
+        type: {
+          displayName: 'FlowerNode'
+        },
+        props: {
+          id: 'step1',
+          as: 'div',
+          to: {
+            step2: {
+              rules: {
+                enableStep2: { $eq: true }
+              }
+            }
+          },
+          data: {
+            children: [],
+            title: 'Title'
+          },
+          retain: true,
+          disabled: true
+        }
+      }
+    ] as any
+
+    const result = generateNodesForFlowerJson(nodes)
+
+    const equalTo = [
+      {
+        children: [],
+        disabled: true,
+        nextRules: [
+          { nodeId: 'step2', rules: { rules: { enableStep2: { $eq: true } } } }
+        ],
+        nodeId: 'step1',
+        nodeTitle: 'Title',
+        nodeType: 'div',
+        retain: true
+      }
+    ]
+
+    expect(result).toEqual(equalTo)
   })
 
   it('Test getKeys option undefined', () => {

@@ -502,51 +502,7 @@ describe('CoreUtils object', () => {
     ])
   })
 
-  test('generateNodesForFlowerJson', () => {
-    const nodes = [
-      {
-        type: {
-          displayName: 'FlowerNode'
-        },
-        props: {
-          id: 'step1',
-          as: 'div',
-          to: {
-            step2: {
-              rules: {
-                enableStep2: { $eq: true }
-              }
-            }
-          },
-          data: {
-            children: [],
-            title: 'Title'
-          },
-          retain: true,
-          disabled: true
-        }
-      }
-    ]
 
-    //@ts-expect-error error
-    const result = CoreUtils.generateNodesForFlowerJson(nodes)
-
-    const equalTo = [
-      {
-        children: [],
-        disabled: true,
-        nextRules: [
-          { nodeId: 'step2', rules: { rules: { enableStep2: { $eq: true } } } }
-        ],
-        nodeId: 'step1',
-        nodeTitle: 'Title',
-        nodeType: 'FlowerNode',
-        retain: true
-      }
-    ]
-
-    expect(result).toEqual(equalTo)
-  })
 
   test('getPath id', () => {
     const simplePath = CoreUtils.getPath('path1.path2.path3.path4')

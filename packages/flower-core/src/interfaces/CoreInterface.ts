@@ -26,6 +26,16 @@ export type Edge<T = object> = {
   data?: { rules: RulesObject<T> }
 }
 
+export type NodeConfig = {
+  nodeId: string | undefined
+  nodeType: string
+  nodeTitle: string
+  children: Node['children']
+  nextRules: ReturnType<MapEdge> | undefined
+  retain: boolean
+  disabled: boolean
+}
+
 export type Node = {
   nodeId: string | undefined
   nodeType: string
@@ -113,22 +123,7 @@ export type MakeRules<
   }
 > = (rules: T) => Array<RulesByNodeId<T>>
 
-export type GetRulesExists = (
-  rules: RulesByNodeId<any>[]
-) => ReturnType<MapEdge> | undefined
 
-export type GenerateNodesForFlowerJson = (
-  nodes: Node[],
-  edges?: Edge[]
-) => {
-  nodeId: string | undefined
-  nodeType: string
-  nodeTitle: string
-  children: Node['children']
-  nextRules: ReturnType<GetRulesExists>
-  retain: boolean
-  disabled: boolean
-}[]
 
 export type HasNode = (
   state: Record<string, any>,
@@ -136,12 +131,12 @@ export type HasNode = (
   node: string
 ) => boolean
 
-export type MakeObjectRules = (nodes: Node[]) => {
+export type MakeObjectRules = (nodes: NodeConfig[]) => {
   [x: string]: Node['nextRules']
 }
 
-export type GenerateNodes = (nodes: Node[]) => {
-  [x: string]: Omit<Node, 'nextRules'>
+export type GenerateNodes = (nodes: NodeConfig[]) => {
+  [x: string]: Partial<Node>
 }
 
 export type MapKeysDeepLodash = (
@@ -216,13 +211,6 @@ export interface FlowUtilitiesFunctions {
    * @returns
    */
   makeRules: MakeRules
-  /**
-   * Generates nodes for a flower JSON structure, extracting rules and other properties.
-   * @param nodes
-   *
-   * @returns
-   */
-  generateNodesForFlowerJson: GenerateNodesForFlowerJson
   /**
    * Checks if two arrays are equal in length and have the same elements.
    * @param arr

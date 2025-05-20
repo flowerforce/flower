@@ -24,10 +24,10 @@ export const useHistorySync = ({
     // Inizializza lo stato nella history se non esiste
     const initialIndex = window.history.state?.index ?? 0
     indexRef.current = initialIndex
-    window.history.replaceState(
+    window.history.pushState(
       { index: initialIndex },
       '',
-      window.location.pathname
+      ''
     )
 
     const onPopState = (event: PopStateEvent) => {

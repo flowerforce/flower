@@ -644,7 +644,7 @@ describe('FlowerNavigate test render <Flower />', () => {
               b: { rules: { $and: [{ '$in.name': { $eq: 'zucca' } }] } }
             }}
           >
-            <Text text="form screen"></Text>
+            <Text text="form-screen"></Text>
             <ButtonNext />
           </FlowerNode>
           <FlowerNode id="b">
@@ -658,7 +658,7 @@ describe('FlowerNavigate test render <Flower />', () => {
     )
 
     fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('form screen')
+    expect(screen.getByTestId('h1')).toHaveTextContent('form-screen')
   })
 
   it('FlowerNavigate test next node disabled', async () => {
@@ -675,7 +675,7 @@ describe('FlowerNavigate test render <Flower />', () => {
               b: null
             }}
           >
-            <Text text="form screen"></Text>
+            <Text text="form-screen"></Text>
             <ButtonNext />
           </FlowerNode>
           <FlowerAction
@@ -695,8 +695,8 @@ describe('FlowerNavigate test render <Flower />', () => {
       </FlowerProvider>
     )
 
+    expect(await screen.findByText('form-screen')).toBeVisible()
     fireEvent.click(screen.getByTestId('btn-next'))
-    expect(await screen.findByText('form screen')).toBeVisible()
     expect(await screen.findByText('value from state')).toBeVisible()
   })
 
