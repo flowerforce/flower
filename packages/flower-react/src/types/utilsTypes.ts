@@ -1,4 +1,9 @@
-import { Edge, MapEdge, NodeConfig, RulesByNodeId } from '@flowerforce/flower-core'
+import {
+  Edge,
+  MapEdge,
+  NodeConfig,
+  RulesByNodeId
+} from '@flowerforce/flower-core'
 import { Children } from 'react'
 
 export type GenerateNodesForFlowerJson = (

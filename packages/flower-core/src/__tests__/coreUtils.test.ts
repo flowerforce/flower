@@ -502,8 +502,6 @@ describe('CoreUtils object', () => {
     ])
   })
 
-
-
   test('getPath id', () => {
     const simplePath = CoreUtils.getPath('path1.path2.path3.path4')
     expect(simplePath).toEqual({ path: ['path1', 'path2', 'path3', 'path4'] })

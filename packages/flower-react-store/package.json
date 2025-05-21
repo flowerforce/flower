@@ -26,8 +26,7 @@
     "react-redux": "^9.1.2",
     "reselect": "^5.1.0",
     "@reduxjs/toolkit": "^2.2.4",
-    "@flowerforce/flower-core": "4.0.0",
-    "lodash": "^4.17.21"
+    "@flowerforce/flower-core": "4.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",

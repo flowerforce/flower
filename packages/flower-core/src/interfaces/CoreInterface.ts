@@ -123,8 +123,6 @@ export type MakeRules<
   }
 > = (rules: T) => Array<RulesByNodeId<T>>
 
-
-
 export type HasNode = (
   state: Record<string, any>,
   name: string,

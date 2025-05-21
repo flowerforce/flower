@@ -1,5 +1,5 @@
 import { FlowUtils } from '@flowerforce/flower-core'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import React from 'react'
 import { GetRulesExists, GenerateNodesForFlowerJson } from './types/utilsTypes'
 

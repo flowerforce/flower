@@ -3,7 +3,7 @@ import {
   FlowerNode,
   FlowerAction,
   useFlower,
-  Flower,
+  Flower
 } from '@flowerforce/flower-react'
 import {
   FlowerForm,
