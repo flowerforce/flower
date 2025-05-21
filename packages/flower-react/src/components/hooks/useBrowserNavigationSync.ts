@@ -24,7 +24,7 @@ export const useHistorySync = ({
     // Inizializza lo stato nella history se non esiste
     const initialIndex = window.history.state?.index ?? 0
     indexRef.current = initialIndex
-    window.history.pushState(
+    window.history.replaceState(
       { index: initialIndex },
       '',
       ''
@@ -32,15 +32,6 @@ export const useHistorySync = ({
 
     const onPopState = (event: PopStateEvent) => {
       const newIndex = window.history.state?.index ?? 0
-
-      console.log(
-        {
-          newIndex,
-          event,
-          indexRef
-        },
-        'onPopState USE HISTORY SYNC'
-      )
       if (newIndex > indexRef.current) {
         nextAction()
       }

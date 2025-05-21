@@ -77,15 +77,10 @@ export const useFlower: UseFlower = ({
         payload: { ...payload, data: store.getState() }
       })
 
-      emitNavigateEvent({ type, payload })
       indexRef.current += 1
-      window.history.replaceState(
-        { index: indexRef.current },
-        '',
-        ''
-      )
+      window.history.pushState({ index: indexRef.current }, '')
 
-      console.log(indexRef, 'next index ref')
+      emitNavigateEvent({ type, payload })
     },
     [dispatch, emitNavigateEvent, flowName, store]
   )
@@ -99,11 +94,6 @@ export const useFlower: UseFlower = ({
       })
 
       indexRef.current -= 1
-      window.history.replaceState(
-        { index: indexRef.current },
-        '',
-        ''
-      )
 
       emitNavigateEvent({ type, payload })
     },
@@ -147,8 +137,6 @@ export const useFlower: UseFlower = ({
     },
     [dispatch, emitNavigateEvent, flowName]
   )
-  
-
 
   const getCurrentNodeId = useCallback(
     (customFlowName?: string) => {

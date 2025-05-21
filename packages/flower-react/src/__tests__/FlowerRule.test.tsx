@@ -59,11 +59,6 @@ const InitState = ({ state }: any) => {
 const Form = ({ flowName }: any) => {
   const { store } = ReduxFlowerProvider.getReduxHooks()
   const { getData } = useFlowerForm(flowName)
-
-  useEffect(() => {
-    console.log('🚀 ~ Form ~ getData:', getData(), store.getState())
-  }, [getData, store])
-
   return null //errors && errors.join(',')
 }
 
