@@ -26,7 +26,10 @@
     "react-redux": "^9.1.2",
     "reselect": "^5.1.0",
     "@reduxjs/toolkit": "^2.2.4",
-    "@flowerforce/flower-core": "4.0.0"
+    "@flowerforce/flower-core": "4.0.0",
+    "@testing-library/react": "15.0.7",
+    "@testing-library/jest-dom": "6.6.3",
+    "redux": "5.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
