@@ -1,4 +1,4 @@
-import { useCallback, useContext, useRef } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import {
   makeSelectStartNodeId,
   makeSelectCurrentNodeId,
@@ -55,6 +55,12 @@ export const useFlower: UseFlower = ({
   const currentNode = useSelector(makeSelectIsCurrentNode(flowName ?? ''))
   const startId = useSelector(makeSelectStartNodeId(flowName ?? ''))
 
+  const stack = useMemo(
+    () =>
+      window.history.state.stack?.map((path: string) => path.split('__')[0]),
+    [window.history.state.stack]
+  )
+
   const emitNavigateEvent = useCallback(
     //TODO check this function is needed
     (params: any) => {
@@ -85,7 +91,7 @@ export const useFlower: UseFlower = ({
       })
 
       if (isActive) {
-        setIndex(handleHistoryStackChange(index, currentNode))
+        setIndex(handleHistoryStackChange(index, currentNode, flowName))
       }
 
       emitNavigateEvent({ type, payload })
@@ -111,7 +117,10 @@ export const useFlower: UseFlower = ({
 
   const back = useCallback(
     (param?: NavigateFunctionParams) => {
-      const { type, payload } = makeActionPayloadOnBack(flowName, param)
+      const { type, payload } = makeActionPayloadOnBack(
+        isActive ? stack?.[stack?.length - 1] ?? flowName : flowName,
+        param
+      )
       dispatch({
         type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,
         payload
@@ -121,7 +130,7 @@ export const useFlower: UseFlower = ({
 
       emitNavigateEvent({ type, payload })
     },
-    [dispatch, emitNavigateEvent, flowName]
+    [dispatch, emitNavigateEvent, flowName, stack]
   )
 
   useHistorySync({ backAction: back, nextAction: next })

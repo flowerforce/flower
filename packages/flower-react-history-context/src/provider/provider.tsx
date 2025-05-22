@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { FallbackHistoryContext, HistoryContextType } from '../types';
 
-
-
 const HistoryContext = createContext<HistoryContextType | null>(null);
 
 export const HistoryContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

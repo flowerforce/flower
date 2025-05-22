@@ -50,8 +50,7 @@
     ".": {
       "module": "./dist/index.esm.js",
       "import": "./dist/index.cjs.mjs",
-      "default": "./dist/index.cjs.js",
-      "types": "./dist/index.d.ts"
+      "default": "./dist/index.cjs.js"
     }
   },
   "module": "./dist/index.esm.js",

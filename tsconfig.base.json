@@ -19,6 +19,9 @@
       "@flowerforce/flower-react-context": [
         "packages/flower-react-context/src/index.ts"
       ],
+      "@flowerforce/flower-react-history-context": [
+        "packages/flower-react-history-context/src/index.ts"
+      ],
       "@flowerforce/flower-react-form": [
         "packages/flower-react-form/src/index.ts"
       ],
