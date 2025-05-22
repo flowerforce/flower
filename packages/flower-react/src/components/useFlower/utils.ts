@@ -1,3 +1,5 @@
+import { INode } from "@flowerforce/flower-core"
+
 const ACTION_TYPES = {
   back: ['back', 'prevToNode'],
   jump: ['node', 'node'],
@@ -56,3 +58,12 @@ export const makeActionPayloadOnRestart = makeActionPayload(
   ACTION_TYPES.restart,
   PAYLOAD_KEYS_NEEDED.restart
 )
+
+export const handleHistoryStackChange = (currentIndex: number, currentNode: INode): number => {
+  if (currentNode.nodeType === 'FlowerAction') return currentIndex
+  const nextIndex = currentIndex + 1
+  if (history.state?.index !== nextIndex) {
+    window.history.pushState({ index: nextIndex }, '', '')
+  }
+  return nextIndex
+}

@@ -11,9 +11,10 @@ function hasDisplayName(
   type: unknown
 ): type is React.JSXElementConstructor<any> & { displayName: string } {
   return (
-    typeof type === 'function' &&
+    !!type &&
+    typeof type === 'object' &&
     'displayName' in type &&
-    typeof (type as any).displayName === 'string'
+    typeof type.displayName === 'string'
   )
 }
 

@@ -1,5 +1,5 @@
 import { useCallback, useContext, useRef } from 'react'
-import { makeSelectStartNodeId, makeSelectCurrentNodeId } from '../../features'
+import { makeSelectStartNodeId, makeSelectCurrentNodeId, makeSelectIsCurrentNode } from '../../features'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 import { UseFlower } from '../../types'
@@ -10,7 +10,8 @@ import {
   makeActionPayloadOnNode,
   makeActionPayloadOnBack,
   makeActionPayloadOnReset,
-  makeActionPayloadOnRestart
+  makeActionPayloadOnRestart,
+  handleHistoryStackChange
 } from './utils'
 import { useHistorySync } from '../hooks/useBrowserNavigationSync'
 
@@ -44,6 +45,7 @@ export const useFlower: UseFlower = ({
 
   const flowName = (customFlowName || name || flowNameDefault) as string
   const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''))
+  const currentNode = useSelector(makeSelectIsCurrentNode(flowName ?? ''))
   const startId = useSelector(makeSelectStartNodeId(flowName ?? ''))
 
   const indexRef = useRef(0)
@@ -77,8 +79,7 @@ export const useFlower: UseFlower = ({
         payload: { ...payload, data: store.getState() }
       })
 
-      indexRef.current += 1
-      window.history.pushState({ index: indexRef.current }, '')
+      indexRef.current = handleHistoryStackChange(indexRef.current, currentNode)
 
       emitNavigateEvent({ type, payload })
     },
