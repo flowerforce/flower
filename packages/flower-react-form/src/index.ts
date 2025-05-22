@@ -2,4 +2,4 @@ export * from './components'
 export * from './provider'
 export * from './selectors'
 
-export * from './types'
+export type * from './types'
