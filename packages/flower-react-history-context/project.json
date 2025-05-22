@@ -1,0 +1,8 @@
+{
+  "name": "flower-react-history-context",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/flower-react-history-context/src",
+  "projectType": "library",
+  "tags": ["react-history-context"],
+  "targets": {}
+}

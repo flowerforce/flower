@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useFlowerActions } from '../../types'
 import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
+import { useHistoryContext } from '@flowerforce/flower-react-history-context'
 
 /**
  * Hook centralizzato per sincronizzare la navigazione browser con Redux
@@ -9,32 +10,31 @@ import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
  */
 
 type UseHistorySyncProps = {
-  indexRef: React.MutableRefObject<number>
   backAction: () => ReturnType<useFlowerActions['back']>
   nextAction: () => ReturnType<useFlowerActions['next']>
 }
 export const useHistorySync = ({
-  indexRef,
   backAction,
   nextAction
 }: UseHistorySyncProps) => {
   const { dispatch } = ReduxFlowerProvider.getReduxHooks()
+  const { index, isActive, setIndex } = useHistoryContext()
 
   useEffect(() => {
-    // Inizializza lo stato nella history se non esiste
+    if (!isActive) return
     const initialIndex = window.history.state?.index ?? 0
-    indexRef.current = initialIndex
+    setIndex(initialIndex)
     window.history.replaceState({ index: initialIndex }, '', '')
 
     const onPopState = (event: PopStateEvent) => {
       const newIndex = window.history.state?.index ?? 0
-      if (newIndex > indexRef.current) {
+      if (newIndex > index) {
         nextAction()
       }
-      if (newIndex < indexRef.current) {
+      if (newIndex < index) {
         backAction()
       }
-      indexRef.current = newIndex
+      setIndex(newIndex)
     }
 
     window.addEventListener('popstate', onPopState)
