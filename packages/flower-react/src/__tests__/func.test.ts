@@ -54,7 +54,7 @@ describe('Test elements utils', () => {
         ],
         nodeId: 'step1',
         nodeTitle: 'Title',
-        nodeType: 'div',
+        nodeType: 'FlowerNode',
         retain: true
       }
     ]
