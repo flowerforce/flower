@@ -13,7 +13,7 @@ import _keyBy from 'lodash/keyBy'
 import { Emitter, devtoolState } from '@flowerforce/flower-core'
 import { FlowerReactProvider } from '@flowerforce/flower-react-context'
 import _get from 'lodash/get'
-import { convertElements } from '../utils'
+import { generateNodesForFlowerJson } from '../utils'
 import {
   flowerActions,
   makeSelectStartNodeId,
@@ -60,11 +60,8 @@ const FlowerClient = ({
     devtoolState && _get(devtoolState, '__FLOWER_DEVTOOLS_INITIALIZED__', false)
   )
 
-  // TODO could make that transformation in CoreUtils.generateNodesForFlowerJson
-  // eslint-disable-next-line react-hooks/exhaustive-deps, max-len
   const nodes = useMemo(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    () => convertElements(Children.toArray(children) as any),
+    () => generateNodesForFlowerJson(Children.toArray(children)),
     [children]
   )
   const nodeById = useMemo(
@@ -83,7 +80,6 @@ const FlowerClient = ({
       dispatch(
         flowerActions.initNodes({
           name: flowName,
-          // @ts-expect-error FIX ME
           nodes,
           startId: startId ?? '',
           persist: destroyOnUnmount === false,

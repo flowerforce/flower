@@ -71,36 +71,6 @@ describe('FlowerFormReducers', () => {
       expect(state).toEqual(expectedResult)
     })
   })
-  // TODO we use thiw at the moment?
-  // describe('setFormTouched', () => {
-  //   it("should set touched to true for the specified node's form", () => {
-  //     const action = {
-  //       payload: {
-  //         rootName: 'form'
-  //       },
-  //       type: 'flowerAction'
-  //     }
-  //     console.log('🚀 ~ it ~ newState:', state)
-
-  //     const newState = FlowerCoreDataReducers.setFormTouched(state, action)
-  //     console.log('🚀 ~ it ~ newState:', newState)
-  //     expect(newState?.flower?.form?.Start.isSubmitted).toEqual(true)
-  //   })
-  //   it('should not edit state if the specified node does not exist', () => {
-  //     const action = {
-  //       payload: {
-  //         rootName: 'flower',
-  //         currentNode: 'randomNode'
-  //       },
-  //       type: 'flowerAction'
-  //     }
-  //     const newState = FlowerCoreDataReducers.setFormTouched(
-  //       FlowerStateWrap({ ...cloneDeep(state) }) as any,
-  //       action
-  //     )
-  //     expect(newState).toEqual(FlowerStateWrap(state))
-  //   })
-  // })
 
   describe('addDataByPath', () => {
     it('should add data to the specified path in the state', () => {

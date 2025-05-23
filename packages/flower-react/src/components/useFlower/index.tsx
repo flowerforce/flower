@@ -1,5 +1,9 @@
-import { useCallback, useContext } from 'react'
-import { makeSelectStartNodeId, makeSelectCurrentNodeId } from '../../features'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
+import {
+  makeSelectStartNodeId,
+  makeSelectCurrentNodeId,
+  makeSelectIsCurrentNode
+} from '../../features'
 import { FlowerReactContext } from '@flowerforce/flower-react-context'
 import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 import { UseFlower } from '../../types'
@@ -10,8 +14,11 @@ import {
   makeActionPayloadOnNode,
   makeActionPayloadOnBack,
   makeActionPayloadOnReset,
-  makeActionPayloadOnRestart
+  makeActionPayloadOnRestart,
+  handleHistoryStackChange
 } from './utils'
+import { useHistorySync } from '../hooks/useBrowserNavigationSync'
+import { useHistoryContext } from '@flowerforce/flower-react-history-context'
 
 type NavigateFunctionParams = string | Record<string, any>
 
@@ -39,11 +46,28 @@ export const useFlower: UseFlower = ({
 } = {}) => {
   const { name: flowNameDefault, initialData } = useContext(FlowerReactContext)
 
+  const { index, isActive, setIndex, withUrl } = useHistoryContext()
+
   const { store, dispatch, useSelector } = ReduxFlowerProvider.getReduxHooks()
 
   const flowName = (customFlowName || name || flowNameDefault) as string
   const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''))
+  const currentNode = useSelector(makeSelectIsCurrentNode(flowName ?? ''))
   const startId = useSelector(makeSelectStartNodeId(flowName ?? ''))
+
+  useEffect(() => {
+    window.history.replaceState(
+      { ...window.history.state },
+      '',
+      withUrl ? `/${flowName}/${nodeId}` : ''
+    )
+  }, [nodeId, flowName, withUrl])
+
+  const stack = useMemo(
+    () =>
+      window.history.state?.stack?.map((path: string) => path.split('/')[1]),
+    [window.history.state?.stack]
+  )
 
   const emitNavigateEvent = useCallback(
     //TODO check this function is needed
@@ -71,26 +95,55 @@ export const useFlower: UseFlower = ({
       const { type, payload } = makeActionPayloadOnNext(flowName, params)
       dispatch({
         type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,
-        payload: {
-          ...payload,
-          data: store.getState()
-        }
+        payload: { ...payload, data: store.getState() }
       })
+
+      if (isActive) {
+        setIndex(
+          handleHistoryStackChange(index, currentNode, flowName, withUrl)
+        )
+      }
 
       emitNavigateEvent({ type, payload })
     },
     [dispatch, emitNavigateEvent, flowName, store]
   )
 
+  /**
+   * By doing this, we have a full control over flower navigation from both our buttons and browser back and forward navigation
+   * In order to trigger back correctly, trigger a real history back
+   * If you use replaceState({ index: 2 }) while at index 3,
+   * you visually move to step 2, but the browser still sees you at step 3.
+   * As a result:
+   *  - The browser's Forward button stays disabled
+   *  - No popstate event is triggered
+   *  - The history flow is broken
+   * Use history.back() instead to preserve proper browser navigation.
+   * TODO we
+   */
+  const interceptBack = () => {
+    window.history.back()
+  }
+
   const back = useCallback(
     (param?: NavigateFunctionParams) => {
-      const { type, payload } = makeActionPayloadOnBack(flowName, param)
-      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
+      const { type, payload } = makeActionPayloadOnBack(
+        isActive ? (stack?.[stack?.length - 1] ?? flowName) : flowName,
+        param
+      )
+      dispatch({
+        type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`,
+        payload
+      })
+
+      setIndex(index - 1)
 
       emitNavigateEvent({ type, payload })
     },
-    [dispatch, emitNavigateEvent, flowName]
+    [dispatch, emitNavigateEvent, flowName, stack]
   )
+
+  useHistorySync({ backAction: back, nextAction: next })
 
   const restart = useCallback(
     (param?: NavigateFunctionParams) => {
@@ -108,10 +161,7 @@ export const useFlower: UseFlower = ({
         flowName,
         typeof param === 'string'
           ? { node: param, initialData }
-          : {
-              ...param,
-              initialData
-            }
+          : { ...param, initialData }
       )
 
       dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/${type}`, payload })
@@ -149,7 +199,7 @@ export const useFlower: UseFlower = ({
     startId,
     next,
     jump,
-    back,
+    back: isActive ? interceptBack : back,
     reset,
     restart
   }

@@ -8,7 +8,7 @@ import isEmpty from 'lodash/isEmpty'
 import isPlainObject from 'lodash/isPlainObject'
 import mapKeys from 'lodash/mapKeys'
 import mapValues from 'lodash/mapValues'
-import { FlowUtilitiesFunctions, GetRulesExists } from '../interfaces'
+import { FlowUtilitiesFunctions } from '../interfaces'
 import { rulesMatcher } from '../rules-matcher'
 
 // TODO align this set of functions to selectors and reducers functions
@@ -34,10 +34,6 @@ export const flattenRules = (ob: Record<string, any>) => {
     }
   }
   return result
-}
-
-const getRulesExists: GetRulesExists = (rules) => {
-  return Object.keys(rules).length ? FlowUtils.mapEdge(rules) : undefined
 }
 
 export const FlowUtils: FlowUtilitiesFunctions = {
@@ -124,24 +120,6 @@ export const FlowUtils: FlowUtilitiesFunctions = {
       (acc2, [k, v]) => [...acc2, { nodeId: k, rules: v }],
       []
     ),
-  // TODO: This function is strictly related to React nodes, could make sense to move it in the flower-react folder
-  generateNodesForFlowerJson: (nodes) =>
-    nodes
-      .filter((e) => !!get(e, 'props.id'))
-      .map((e) => {
-        const rules = FlowUtils.makeRules(e.props.to ?? {})
-        const nextRules = getRulesExists(rules)
-        const children = e.props.data?.children
-        return {
-          nodeId: e.props.id,
-          nodeType: e.type.displayName || e.props.as || 'FlowerNode',
-          nodeTitle: get(e.props, 'data.title'),
-          children,
-          nextRules,
-          retain: e.props.retain,
-          disabled: e.props.disabled
-        }
-      }),
 
   allEqual: (arr, arr2) =>
     arr.length === arr2.length && arr.every((v) => arr2.includes(v)),
