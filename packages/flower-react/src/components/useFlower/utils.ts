@@ -67,7 +67,6 @@ export const handleHistoryStackChange = (
 ): number => {
   const historyNode = `/${flowName}/${currentNode.nodeId}`
 
-  console.log("🚀 ~ historyNode:", historyNode)
   if (currentNode.nodeType === 'FlowerAction') return currentIndex
   const nextIndex = currentIndex + 1
   if (history.state?.index !== nextIndex) {

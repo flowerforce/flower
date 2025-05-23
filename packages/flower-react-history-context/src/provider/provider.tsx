@@ -1,24 +1,33 @@
-import React, { createContext, useContext, useState } from 'react';
-import { FallbackHistoryContext, HistoryContextProviderProps, HistoryContextType } from '../types';
+import React, { createContext, useContext, useState } from 'react'
+import {
+  FallbackHistoryContext,
+  HistoryContextProviderProps,
+  HistoryContextType
+} from '../types'
 
-const HistoryContext = createContext<HistoryContextType | null>(null);
+const HistoryContext = createContext<HistoryContextType | null>(null)
 
-export const HistoryContextProvider = ({ children, withUrl = false }: HistoryContextProviderProps) => {
-  const [index, setIndex] = useState<number>(0);
+export const HistoryContextProvider = ({
+  children,
+  withUrl = false
+}: HistoryContextProviderProps) => {
+  const [index, setIndex] = useState<number>(0)
 
   return (
-    <HistoryContext.Provider value={{ index, setIndex, isActive: true, withUrl }}>
+    <HistoryContext.Provider
+      value={{ index, setIndex, isActive: true, withUrl }}
+    >
       {children}
     </HistoryContext.Provider>
-  );
-};
+  )
+}
 
+export const useHistoryContext = ():
+  | HistoryContextType
+  | FallbackHistoryContext => {
+  const ctx = useContext(HistoryContext)
 
-
-export const useHistoryContext = (): HistoryContextType | FallbackHistoryContext => {
-  const ctx = useContext(HistoryContext);
-
-  if (ctx) return ctx;
+  if (ctx) return ctx
 
   // fallback per quando il provider non è montato
   return {
@@ -26,5 +35,5 @@ export const useHistoryContext = (): HistoryContextType | FallbackHistoryContext
     setIndex: () => {},
     isActive: false,
     withUrl: false
-  };
-};
+  }
+}

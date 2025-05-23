@@ -32,6 +32,8 @@ describe('Test Flower component', () => {
   it('Not Istantiate history context provider', () => {
     render(<AppTest />)
 
-    expect(screen.getByTestId('history-sync')).toHaveTextContent('History not sync')
+    expect(screen.getByTestId('history-sync')).toHaveTextContent(
+      'History not sync'
+    )
   })
 })
