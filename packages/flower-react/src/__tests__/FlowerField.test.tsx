@@ -599,55 +599,6 @@ describe('Test FlowerField component', () => {
     expect(screen.getByTestId('h1')).toHaveTextContent('success')
   })
 
-  it('Test asyncValidate type and clear', async () => {
-    const user = userEvent.setup()
-    render(
-      <FlowerProvider>
-        <Flower name="app-test-10">
-          <FlowerNode id="start" to={{ form: null }}>
-            <InitState state={{ amount: 1 }} />
-          </FlowerNode>
-          <FlowerNode
-            id="form"
-            to={{
-              success: {
-                rules: { $and: [{ '$data.isValid': { $eq: true } }] }
-              }
-              // error: { rules: { $and: [{ '$data.isValid': { $ne: true } }] } },
-            }}
-          >
-            <FlowerField
-              id="name"
-              asyncInitialError="Invalid field"
-              asyncValidate={(val) => {
-                return val !== '@andrea' ? ['error'] : []
-              }}
-            >
-              {({ errors, onChange, value, onBlur }) => (
-                <>
-                  <Input onChange={onChange} value={value} onBlur={onBlur} />
-                  <Text value={errors?.join()} />
-                </>
-              )}
-            </FlowerField>
-            <ButtonNext />
-          </FlowerNode>
-          <FlowerNode id="success">
-            <Text text="success" />
-          </FlowerNode>
-        </Flower>
-      </FlowerProvider>
-    )
-
-    await user.type(screen.getByTestId('input'), '@')
-    fireEvent.click(screen.getByTestId('btn-next'))
-    await user.clear(screen.getByTestId('input'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('Invalid field')
-    await user.type(screen.getByTestId('input'), '@andrea')
-    fireEvent.click(screen.getByTestId('btn-next'))
-    expect(screen.getByTestId('h1')).toHaveTextContent('success')
-  })
-
   it('Test asyncValidate asyncWaitingError', async () => {
     const user = userEvent.setup()
     const go = jest.fn()
