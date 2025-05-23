@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useState } from 'react';
-import { FallbackHistoryContext, HistoryContextType } from '../types';
+import { FallbackHistoryContext, HistoryContextProviderProps, HistoryContextType } from '../types';
 
 const HistoryContext = createContext<HistoryContextType | null>(null);
 
-export const HistoryContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const HistoryContextProvider = ({ children, withUrl = false }: HistoryContextProviderProps) => {
   const [index, setIndex] = useState<number>(0);
 
   return (
-    <HistoryContext.Provider value={{ index, setIndex, isActive: true }}>
+    <HistoryContext.Provider value={{ index, setIndex, isActive: true, withUrl }}>
       {children}
     </HistoryContext.Provider>
   );
@@ -25,5 +25,6 @@ export const useHistoryContext = (): HistoryContextType | FallbackHistoryContext
     index: 0,
     setIndex: () => {},
     isActive: false,
+    withUrl: false
   };
 };

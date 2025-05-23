@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo } from 'react'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
 import {
   makeSelectStartNodeId,
   makeSelectCurrentNodeId,
@@ -46,7 +46,7 @@ export const useFlower: UseFlower = ({
 } = {}) => {
   const { name: flowNameDefault, initialData } = useContext(FlowerReactContext)
 
-  const { index, isActive, setIndex } = useHistoryContext()
+  const { index, isActive, setIndex, withUrl } = useHistoryContext()
 
   const { store, dispatch, useSelector } = ReduxFlowerProvider.getReduxHooks()
 
@@ -55,9 +55,17 @@ export const useFlower: UseFlower = ({
   const currentNode = useSelector(makeSelectIsCurrentNode(flowName ?? ''))
   const startId = useSelector(makeSelectStartNodeId(flowName ?? ''))
 
+  useEffect(() => {
+    window.history.replaceState(
+      { ...window.history.state },
+      '',
+      withUrl ? `/${flowName}/${nodeId}` : ''
+    )
+  }, [nodeId, flowName, withUrl])
+
   const stack = useMemo(
     () =>
-      window.history.state?.stack?.map((path: string) => path.split('__')[0]),
+      window.history.state?.stack?.map((path: string) => path.split('/')[1]),
     [window.history.state?.stack]
   )
 
@@ -91,7 +99,9 @@ export const useFlower: UseFlower = ({
       })
 
       if (isActive) {
-        setIndex(handleHistoryStackChange(index, currentNode, flowName))
+        setIndex(
+          handleHistoryStackChange(index, currentNode, flowName, withUrl)
+        )
       }
 
       emitNavigateEvent({ type, payload })
@@ -118,7 +128,7 @@ export const useFlower: UseFlower = ({
   const back = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnBack(
-        isActive ? stack?.[stack?.length - 1] ?? flowName : flowName,
+        isActive ? (stack?.[stack?.length - 1] ?? flowName) : flowName,
         param
       )
       dispatch({

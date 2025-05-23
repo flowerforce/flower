@@ -18,13 +18,17 @@ export const useHistorySync = ({
   nextAction
 }: UseHistorySyncProps) => {
   const { dispatch } = ReduxFlowerProvider.getReduxHooks()
-  const { index, isActive, setIndex } = useHistoryContext()
+  const { index, isActive, setIndex, withUrl } = useHistoryContext()
 
   useEffect(() => {
     if (!isActive) return
     const initialIndex = window.history.state?.index ?? 0
     setIndex(initialIndex)
-    window.history.replaceState({ index: initialIndex, stack: [...(window.history.state?.stack ?? [])] }, '', '')
+    window.history.replaceState(
+      { index: initialIndex, stack: [...(window.history.state?.stack ?? [])] },
+      withUrl ? '/' : '',
+      ''
+    )
 
     const onPopState = (event: PopStateEvent) => {
       const newIndex = window.history.state?.index ?? 0

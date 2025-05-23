@@ -62,21 +62,23 @@ export const makeActionPayloadOnRestart = makeActionPayload(
 export const handleHistoryStackChange = (
   currentIndex: number,
   currentNode: INode,
-  flowName: string
+  flowName: string,
+  withUrl?: boolean
 ): number => {
+  const historyNode = `/${flowName}/${currentNode.nodeId}`
+
+  console.log("🚀 ~ historyNode:", historyNode)
   if (currentNode.nodeType === 'FlowerAction') return currentIndex
   const nextIndex = currentIndex + 1
   if (history.state?.index !== nextIndex) {
+    // const historyNode = `/${flowName}/${currentNode.nodeId}`
     window.history.pushState(
       {
         index: nextIndex,
-        stack: [
-          ...(window.history.state.stack ?? []),
-          `${flowName}__${currentNode.nodeId}`
-        ]
+        stack: [...(window.history.state.stack ?? []), historyNode]
       },
       '',
-      ''
+      withUrl ? historyNode : ''
     )
   }
   return nextIndex
