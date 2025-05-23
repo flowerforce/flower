@@ -57,8 +57,8 @@ export const useFlower: UseFlower = ({
 
   const stack = useMemo(
     () =>
-      window.history.state.stack?.map((path: string) => path.split('__')[0]),
-    [window.history.state.stack]
+      window.history.state?.stack?.map((path: string) => path.split('__')[0]),
+    [window.history.state?.stack]
   )
 
   const emitNavigateEvent = useCallback(

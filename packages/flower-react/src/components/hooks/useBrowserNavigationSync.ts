@@ -24,7 +24,7 @@ export const useHistorySync = ({
     if (!isActive) return
     const initialIndex = window.history.state?.index ?? 0
     setIndex(initialIndex)
-    window.history.replaceState({ index: initialIndex }, '', '')
+    window.history.replaceState({ index: initialIndex, stack: [...(window.history.state?.stack ?? [])] }, '', '')
 
     const onPopState = (event: PopStateEvent) => {
       const newIndex = window.history.state?.index ?? 0
