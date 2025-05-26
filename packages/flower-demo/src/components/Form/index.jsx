@@ -8,7 +8,6 @@ export const Form = ({ children }) => {
 
   const onSubmit = useCallback(() => {
     setData({ gino: 1 })
-    console.log(getData())
     next({ isValid })
   }, [isValid, next, getData, setData])
 
