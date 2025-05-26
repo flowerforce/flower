@@ -56,12 +56,13 @@ export const useFlower: UseFlower = ({
   const startId = useSelector(makeSelectStartNodeId(flowName ?? ''))
 
   useEffect(() => {
+    if (currentNode.nodeType === 'FlowerAction') return
     window.history.replaceState(
       { ...window.history.state },
       '',
       withUrl ? `/${flowName}/${nodeId}` : ''
     )
-  }, [nodeId, flowName, withUrl])
+  }, [nodeId, flowName, withUrl, currentNode])
 
   const stack = useMemo(
     () =>
@@ -119,7 +120,6 @@ export const useFlower: UseFlower = ({
    *  - No popstate event is triggered
    *  - The history flow is broken
    * Use history.back() instead to preserve proper browser navigation.
-   * TODO we
    */
   const interceptBack = () => {
     window.history.back()

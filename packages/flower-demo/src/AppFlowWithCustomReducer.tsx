@@ -1,12 +1,13 @@
-import { FlowerProvider } from '@flowerforce/flower-react'
 import {
-  ConfigureStoreOptions,
-  createSlice,
-  PayloadAction
-} from '@reduxjs/toolkit'
+  createSliceWithFlower,
+  createStoreWithFlower,
+  FlowerProvider
+} from '@flowerforce/flower-react'
+import { ConfigureStoreOptions, PayloadAction } from '@reduxjs/toolkit'
 import { ExternalReducers } from './Examples/ExampleExternalReducers'
+import { Provider } from 'react-redux'
 
-const customReducer = createSlice({
+const customReducer = createSliceWithFlower({
   name: 'My_Custom_Reducer_1',
   initialState: {
     count: 0
@@ -17,7 +18,7 @@ const customReducer = createSlice({
     }
   }
 })
-const customReducer2 = createSlice({
+const customReducer2 = createSliceWithFlower({
   name: 'My_Custom_Reducer_2',
   initialState: {
     count2: 0
@@ -37,11 +38,10 @@ const reducers = {
 export const actionsCustom1 = customReducer.actions
 export const actionsCustom2 = customReducer2.actions
 
-const config: ConfigureStoreOptions = {
+const store = createStoreWithFlower({
   reducer: reducers,
-  devTools: true,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
-}
+  devTools: true
+})
 
 export function AppFlowWithCustomReducers() {
   return (
@@ -50,9 +50,9 @@ export function AppFlowWithCustomReducers() {
       style={{ display: 'flex', flexDirection: 'column', padding: '50px' }}
     >
       FLOW WITH EXTERNAL REDUCERS
-      <FlowerProvider configureStore={config}>
+      <Provider store={store}>
         <ExternalReducers />
-      </FlowerProvider>
+      </Provider>
     </div>
   )
 }
