@@ -178,7 +178,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const back = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnPrev(
-        isActive ? (stack?.[stack?.length - 1] ?? flowName) : flowName,
+        isActive ? stack?.[stack?.length - 1] ?? flowName : flowName,
         param
       )
       dispatch({

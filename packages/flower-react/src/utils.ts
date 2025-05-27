@@ -6,7 +6,6 @@ export const convertElements = (nodes: Node[]) => {
   return res
 }
 
-
 export const handleHistoryStackChange = (
   currentIndex: number,
   currentNode: INode,
