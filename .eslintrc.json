@@ -26,7 +26,11 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript"],
-      "rules": {}
+      "rules": {
+        "no-restricted-globals": "off",
+        "@typescript-eslint/no-empty-function": "off"
+      }
+    
     },
     {
       "files": ["*.js", "*.jsx"],

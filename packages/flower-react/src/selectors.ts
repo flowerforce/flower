@@ -33,6 +33,13 @@ const makeSelectCurrentNodeId = (name: string) =>
     Selectors.makeSelectCurrentNodeId
   )
 
+export const makeSelectIsCurrentNode = (name: string) =>
+  createSelector(
+    selectFlower(name),
+    makeSelectCurrentNodeId(name),
+    (flower, current) => flower?.nodes?.[current]
+  )
+
 const makeSelectPrevNodeRetain = (name: string) =>
   createSelector(
     makeSelectNodesIds(name),
