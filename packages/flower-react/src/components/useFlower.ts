@@ -1,10 +1,17 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
 import { context } from '../context'
-import { makeSelectCurrentNodeId, makeSelectStartNodeId } from '../selectors'
+import {
+  makeSelectCurrentNodeId,
+  makeSelectIsCurrentNode,
+  makeSelectStartNodeId
+} from '../selectors'
 import { useDispatch, useSelector, useStore } from '../provider'
 import { UseFlower } from './types/FlowerHooks'
 import { Emitter, devtoolState } from '@flowerforce/flower-core'
 import _get from 'lodash/get'
+import { useHistoryContext } from '../historyProvider'
+import { handleHistoryStackChange } from '../utils'
+import { useHistorySync } from '../historyProvider/useBrowserNavigationSync'
 
 type NavigateFunctionParams = string | Record<string, any>
 
@@ -88,11 +95,29 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
   const dispatch = useDispatch()
 
   const { flowName: flowNameDefault, initialData } = useContext(context)
+  const { index, isActive, setIndex, withUrl } = useHistoryContext()
+
   const store = useStore()
 
   const flowName = (customFlowName || name || flowNameDefault) as string
   const nodeId = useSelector(makeSelectCurrentNodeId(flowName ?? ''))
+  const currentNode = useSelector(makeSelectIsCurrentNode(flowName ?? ''))
   const startId = useSelector(makeSelectStartNodeId(flowName ?? ''))
+
+  useEffect(() => {
+    if (currentNode.nodeType === 'FlowerAction') return
+    window.history.replaceState(
+      { ...window.history.state },
+      '',
+      withUrl ? `/${flowName}/${nodeId}` : ''
+    )
+  }, [nodeId, flowName, withUrl, currentNode])
+
+  const stack = useMemo(
+    () =>
+      window.history.state?.stack?.map((path: string) => path.split('/')[1]),
+    [window.history.state?.stack]
+  )
 
   const emitNavigateEvent = useCallback(
     //TODO check this function is needed
@@ -124,20 +149,51 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
         payload
       })
 
+      if (isActive) {
+        setIndex(
+          handleHistoryStackChange(index, currentNode, flowName, withUrl)
+        )
+      }
+
       emitNavigateEvent({ type, payload })
     },
     [dispatch, emitNavigateEvent, flowName]
   )
+
+  /**
+   * By doing this, we have a full control over flower navigation from both our buttons and browser back and forward navigation
+   * In order to trigger back correctly, trigger a real history back
+   * If you use replaceState({ index: 2 }) while at index 3,
+   * you visually move to step 2, but the browser still sees you at step 3.
+   * As a result:
+   *  - The browser's Forward button stays disabled
+   *  - No popstate event is triggered
+   *  - The history flow is broken
+   * Use history.back() instead to preserve proper browser navigation.
+   */
+  const interceptBack = () => {
+    window.history.back()
+  }
 
   const back = useCallback(
     (param?: NavigateFunctionParams) => {
-      const { type, payload } = makeActionPayloadOnPrev(flowName, param)
-      dispatch({ type: `flower/${type}`, payload })
+      const { type, payload } = makeActionPayloadOnPrev(
+        isActive ? (stack?.[stack?.length - 1] ?? flowName) : flowName,
+        param
+      )
+      dispatch({
+        type: `flower/${type}`,
+        payload
+      })
+
+      setIndex(index - 1)
 
       emitNavigateEvent({ type, payload })
     },
-    [dispatch, emitNavigateEvent, flowName]
+    [dispatch, emitNavigateEvent, flowName, stack]
   )
+
+  useHistorySync({ backAction: back, nextAction: next })
 
   const restart = useCallback(
     (param?: NavigateFunctionParams) => {
@@ -196,7 +252,7 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
     startId,
     next,
     jump,
-    back,
+    back: isActive ? interceptBack : back,
     reset,
     restart
   }
