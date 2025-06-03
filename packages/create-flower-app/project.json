@@ -1,0 +1,8 @@
+{
+  "name": "create-flower-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/create-flower-app/src",
+  "projectType": "library",
+  "tags": ["create-app"],
+  "targets": {}
+}

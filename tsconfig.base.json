@@ -19,6 +19,9 @@
       "@flowerforce/flower-react-context": [
         "packages/flower-react-context/src/index.ts"
       ],
+      "@flowerforce/flower-react-history-context": [
+        "packages/flower-react-history-context/src/index.ts"
+      ],
       "@flowerforce/flower-react-form": [
         "packages/flower-react-form/src/index.ts"
       ],
@@ -27,7 +30,10 @@
       ],
       "@flowerforce/flower-react-store": [
         "packages/flower-react-store/src/index.ts"
-      ]
+      ],
+      "@flowerforce/create-flower-app": [
+        "packages/create-flower-app/src/index.ts"
+      ],
     }
   },
   "exclude": ["node_modules"]

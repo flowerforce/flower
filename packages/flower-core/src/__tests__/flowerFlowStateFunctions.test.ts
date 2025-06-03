@@ -285,30 +285,6 @@ describe('FlowerCoreBaseReducers', () => {
     })
   })
 
-  // TODO check use case to understand internal logic
-  //   describe('forceAddHistory', () => {
-  //     const mockState = cloneDeep(mock)
-  //     it('should add history to the flow', () => {
-  //       const payload = {
-  //         name: 'flower',
-  //         history: ['Node3']
-  //       }
-  //       const action = {
-  //         payload,
-  //         type: 'flowerAction'
-  //       }
-  //       console.log('🚀 ~ it ~ mockState before:', mockState)
-
-  //       FlowerCoreBaseReducers.forceAddHistory(mockState, action)
-  //       console.log('🚀 ~ it ~ mockState:', mockState)
-
-  //       expect(mockState.flower.history).toEqual([
-  //         ...mock.flower.history,
-  //         'Node3'
-  //       ])
-  //     })
-  //   })
-
   describe('initNodes', () => {
     it('initializes the state with the provided nodes and data', () => {
       const payload = {
