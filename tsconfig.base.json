@@ -30,7 +30,10 @@
       ],
       "@flowerforce/flower-react-store": [
         "packages/flower-react-store/src/index.ts"
-      ]
+      ],
+      "@flowerforce/create-flower-app": [
+        "packages/create-flower-app/src/index.ts"
+      ],
     }
   },
   "exclude": ["node_modules"]

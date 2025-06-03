@@ -7,7 +7,16 @@
   "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "release": {
-    "projects": ["flower-core", "flower-react", "flower-devtool", "flower-react-form", "flower-react-store", "flower-react-context", "flower-react-shared"],
+    "projects": [
+      "flower-core",
+      "flower-react",
+      "flower-devtool",
+      "flower-react-form",
+      "flower-react-store",
+      "flower-react-context",
+      "flower-react-shared",
+      "create-flower-app"
+    ],
     "projectsRelationship": "independent",
     "changelog": {
       "projectChangelogs": {
@@ -22,6 +31,7 @@
       "commitMessage": "chore(release): publish [skip ci]"
     },
     "version": {
+      "preVersionCommand": "npx nx run-many -t build",
       "generatorOptions": {
         "updateDependents": "auto"
       },
@@ -31,8 +41,23 @@
   "targetDefaults": {
     "@nx/js:tsc": {
       "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "default",
+        "^default"
+      ]
+    },
+    "@nx/vite:build": {
+      "cache": true,
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "default",
+        "^default"
+      ]
     }
   },
   "plugins": [
@@ -60,6 +85,16 @@
         "buildTargetName": "build",
         "serveTargetName": "serve",
         "previewTargetName": "preview"
+      }
+    },
+    {
+      "plugin": "@nx/vite/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview",
+        "serveStaticTargetName": "serve-static"
       }
     }
   ]

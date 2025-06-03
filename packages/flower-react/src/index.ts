@@ -16,4 +16,9 @@ export { makeSelectData, reducerFlower, flowerReducers } from './features'
 export type * from './types'
 
 export { createApi } from '@flowerforce/flower-react-store'
-export * from '@flowerforce/flower-react-history-context'
+
+export {
+  HistoryContextProvider,
+  HistoryContextProviderProps,
+  HistoryContextType
+} from '@flowerforce/flower-react-history-context'
