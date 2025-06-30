@@ -32,7 +32,9 @@ type FlowerInitalState = {
 
 type FlowerClientProps = PropsWithChildren & {
   name: string
+  /**@deprecated Use persist instead */
   destroyOnUnmount?: boolean
+  persist?: boolean
   startId?: string | null
   initialData?: any
   initialState?: FlowerInitalState
@@ -45,6 +47,7 @@ const FlowerClient = ({
   children,
   name,
   destroyOnUnmount = true,
+  persist = false,
   startId = null,
   initialData = {},
   initialState = {}
@@ -83,7 +86,7 @@ const FlowerClient = ({
           // @ts-expect-error FIX ME
           nodes,
           startId: startId ?? '',
-          persist: destroyOnUnmount === false,
+          persist: destroyOnUnmount === false || persist,
           initialData,
           initialState
         })
@@ -96,7 +99,8 @@ const FlowerClient = ({
     startId,
     initialData,
     destroyOnUnmount,
-    initialState
+    initialState,
+    persist
   ])
 
   useEffect(() => {
@@ -140,12 +144,12 @@ const FlowerClient = ({
   useEffect(
     () => () => {
       // unmount function
-      if (destroyOnUnmount && one.current === true) {
+      if ((persist || destroyOnUnmount) && one.current === true) {
         one.current = false
         dispatch(actions.destroy({ name: flowName }))
       }
     },
-    [dispatch, flowName, destroyOnUnmount]
+    [dispatch, flowName, destroyOnUnmount, persist]
   )
 
   useEffect(() => {
