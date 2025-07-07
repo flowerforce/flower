@@ -27,14 +27,15 @@ const delay = (ms) => new Promise((r) => setTimeout(r, ms))
 
 const Text = ({
   text,
-  value
+  value,
+  id
 }: {
   text?: string
   value?: any
   id?: any
   children?: any
 }) => {
-  return <h1 data-testid="h1">{text || value}</h1>
+  return <h1 data-testid={id ?? "h1"}>{text || value}</h1>
 }
 
 const ButtonNode = ({ route }: any) => {
@@ -602,7 +603,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test next node with data from state', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test1">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'andrea' }} />
           </FlowerNode>
@@ -633,7 +634,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test next node with data from state wrong', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test2">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -664,7 +665,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test next node disabled', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test3">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -689,21 +690,23 @@ describe('FlowerNavigate test render <Flower />', () => {
             <ButtonNext />
           </FlowerAction>
           <FlowerAction id="d">
-            <Text text="value from state" />
+            <Text id={'h1-d'} text="value from state" />
           </FlowerAction>
         </Flower>
       </FlowerProvider>
     )
 
+    await delay(500)
     expect(await screen.findByText('form-screen')).toBeVisible()
     fireEvent.click(screen.getByTestId('btn-next'))
+    await delay(500)
     expect(await screen.findByText('value from state')).toBeVisible()
   })
 
   it('FlowerNavigate test next node disabled and retain', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test4">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -777,7 +780,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('test reset to node', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test6">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -820,7 +823,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('test reset to missing node', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test7">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -852,7 +855,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('test reset to node with object node', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test8">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -895,7 +898,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test prev to node', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test9">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -926,7 +929,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test prev to node with object node', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test10">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -957,7 +960,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test prev to node', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test11">
           <FlowerNode id="start" to={{ a: null }}>
             <Text text="step1"></Text>
             <ButtonPrevNode node="start" />
@@ -973,7 +976,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test prev to node not exists', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test12">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -1004,7 +1007,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test prev to start', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test13">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -1040,7 +1043,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test prev only node', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test14">
           <FlowerNode id="start" to={{ a: null }}>
             <Text text="step1" />
             <ButtonPrev />
@@ -1057,7 +1060,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test reset history', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test15">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -1120,7 +1123,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test prev node disabled', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test16">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'aaaa' }} />
           </FlowerNode>
@@ -1144,6 +1147,7 @@ describe('FlowerNavigate test render <Flower />', () => {
       </FlowerProvider>
     )
 
+    await delay(500)
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(await screen.findByText('step3')).toBeVisible()
     fireEvent.click(screen.getByTestId('btn-prev'))
@@ -1153,7 +1157,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test next node with data from state complex rules', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test17">
           <FlowerNode id="start" to={{ a: null }}>
             <InitState state={{ name: 'andrea', age: 18, tags: ['a', 'b'] }} />
           </FlowerNode>
@@ -1206,7 +1210,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test next node with data $in and priority rules', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test4">
+        <Flower name="app-test18">
           <FlowerNode
             id="a"
             to={{
@@ -1234,7 +1238,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test next node with data $in and priority rules inverse', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test4">
+        <Flower name="app-test19">
           <FlowerNode
             id="a"
             to={{
@@ -1262,7 +1266,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test node rules to object null', () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test1">
+        <Flower name="app-test20">
           <FlowerNode
             id="a"
             to={{
@@ -1285,7 +1289,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test node rules to object empty rules', () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test1">
+        <Flower name="app-test21">
           <FlowerNode
             id="a"
             to={{
@@ -1308,7 +1312,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test node rules to object label and name', () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test1">
+        <Flower name="app-test22">
           <FlowerNode
             id="a"
             to={{
@@ -1331,7 +1335,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test next default', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test2">
+        <Flower name="app-test23">
           <FlowerNode
             id="a"
             to={{
@@ -1359,7 +1363,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test hide by rule', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test">
+        <Flower name="app-test24">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
@@ -1381,7 +1385,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test hide by rule BUT alwaysDisplay', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test">
+        <Flower name="app-test26">
           <FlowerNode id="start" to={{ form: null }}>
             <InitState state={{ amount: 1 }} />
           </FlowerNode>
@@ -1407,7 +1411,7 @@ describe('FlowerNavigate test render <Flower />', () => {
   it('FlowerNavigate test next to node with functional children', async () => {
     render(
       <FlowerProvider>
-        <Flower name="app-test5">
+        <Flower name="app-test25">
           <FlowerRoute
             onEnter={() => {
               console.log('start')
@@ -1439,6 +1443,7 @@ describe('FlowerNavigate test render <Flower />', () => {
       </FlowerProvider>
     )
 
+    await delay(500)
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(await screen.findByText('step3')).toBeVisible()
   })

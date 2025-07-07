@@ -18,7 +18,5 @@ export type * from './types'
 export { createApi } from '@flowerforce/flower-react-store'
 
 export {
-  HistoryContextProvider,
-  HistoryContextProviderProps,
-  HistoryContextType
+  HistoryContextProvider
 } from '@flowerforce/flower-react-history-context'
