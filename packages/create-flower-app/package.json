@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/create-flower-app",
-  "version": "1.0.0",
+  "version": "1.0.9-beta.0",
   "bin": {
     "create-flower-app": "./dist/index.js"
   },
@@ -14,11 +14,11 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@flowerforce/devtool": "4.0.0",
-    "@flowerforce/flower-core": "4.0.0",
-    "@flowerforce/flower-react": "4.0.0",
-    "@flowerforce/flower-react-form": "4.0.0",
-    "@flowerforce/flower-react-shared": "4.0.0",
+    "@flowerforce/devtool": "4.0.1-beta.0",
+    "@flowerforce/flower-core": "4.0.1-beta.0",
+    "@flowerforce/flower-react": "4.0.1-beta.0",
+    "@flowerforce/flower-react-form": "4.0.1-beta.0",
+    "@flowerforce/flower-react-shared": "4.0.1-beta.0",
     "tsup": "^8.5.0",
     "typescript": "^5.0.0",
     "vite": "^5.0.0"

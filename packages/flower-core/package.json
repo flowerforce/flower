@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/flower-core",
-  "version": "4.0.0",
+  "version": "4.0.1-beta.0",
   "description": "Core functions for flowerJS",
   "repository": {
     "type": "git",

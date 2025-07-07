@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/flower-react-store",
-  "version": "4.0.0",
+  "version": "4.0.1-beta.0",
   "description": "FlowerJS utils for Form handling.",
   "repository": {
     "type": "git",
