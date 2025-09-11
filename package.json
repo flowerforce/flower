@@ -41,7 +41,7 @@
     "graph": "nx graph",
     "reset": "nx reset",
     "lint:check": "nx run-many -t lint --fix --quiet --exclude=flower-demo",
-    "build:packages": "nx run-many -t build --no-cache --exclude=flower-demo",
+    "build:packages": "NX_VERBOSE_LOGGING=true nx run-many --target=build --exclude=flower-demo --parallel=1 --skip-nx-cache",
     "prepare:prerelease": "npm run build:packages --skip-nx-cache && ts-node scripts/prerelease",
     "publish:prerelease": "nx release publish --tag prerelease",
     "prepare:release": "npm run build:packages && nx release --skip-publish",
