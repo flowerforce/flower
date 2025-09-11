@@ -42,7 +42,7 @@
     "reset": "nx reset",
     "lint:check": "nx run-many -t lint --fix --quiet --exclude=flower-demo",
     "build:packages": "nx run-many -t build --exclude=flower-demo",
-    "prepare:prerelease": "npm run build:packages && ts-node scripts/prerelease",
+    "prepare:prerelease": "npm run build:packages --skip-nx-cache && ts-node scripts/prerelease",
     "publish:prerelease": "nx release publish --tag prerelease",
     "prepare:release": "npm run build:packages && nx release --skip-publish",
     "publish:release": "nx release publish",
