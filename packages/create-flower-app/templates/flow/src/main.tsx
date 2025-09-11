@@ -13,10 +13,10 @@ Devtool({
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <div id='historyprovideropen' />
+    <div id="historyprovideropen" />
     <FlowerProvider enableReduxDevtool>
       <App />
     </FlowerProvider>
-    <div id='historyproviderclose' />
+    <div id="historyproviderclose" />
   </StrictMode>
 )

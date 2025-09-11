@@ -2,7 +2,6 @@ import { NodeConfig } from '@flowerforce/flower-core'
 import { FlowerClientProps } from '../../../types/Flower'
 import { MutableRefObject } from 'react'
 
-
 export type UseClientInitEventProps = {
   isInitialized: string
   wsDevtools: boolean
@@ -32,6 +31,6 @@ export type UseInitDevtoolsProps = {
 }
 
 export type UseInitNodesProps = {
-    one: MutableRefObject<boolean>
-    nodes: NodeConfig[]
-  } & Omit<FlowerClientProps, 'destroyOnUnmount'>
+  one: MutableRefObject<boolean>
+  nodes: NodeConfig[]
+} & Omit<FlowerClientProps, 'destroyOnUnmount'>

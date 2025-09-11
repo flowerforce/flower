@@ -3,9 +3,12 @@ import { useEffect } from 'react'
 import _get from 'lodash/get'
 import { ReduxFlowerProvider } from '@flowerforce/flower-react-store'
 import { flowerActions, selectFlowerHistory } from '../../features'
-import { UseClientInitEventProps, UseFlowerNavigateEventProps, UseSetCurrentEventProps, UseSetHistoryEventProps } from './types'
-
-
+import {
+  UseClientInitEventProps,
+  UseFlowerNavigateEventProps,
+  UseSetCurrentEventProps,
+  UseSetHistoryEventProps
+} from './types'
 
 export const useClientInitEvent = ({
   flowName,
@@ -100,7 +103,10 @@ export const useFlowerNavigateEvent = ({
     if (!isInitialized) return
 
     if (isDisabled) {
-      dispatch({ type: `${REDUCER_NAME.FLOWER_FLOW}/next`, payload: { flowName, disabled: true } })
+      dispatch({
+        type: `${REDUCER_NAME.FLOWER_FLOW}/next`,
+        payload: { flowName, disabled: true }
+      })
       // eslint-disable-next-line no-underscore-dangle, no-undef
       /* istanbul ignore next */
       if (

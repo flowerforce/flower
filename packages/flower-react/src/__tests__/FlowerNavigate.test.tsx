@@ -35,7 +35,7 @@ const Text = ({
   id?: any
   children?: any
 }) => {
-  return <h1 data-testid={id ?? "h1"}>{text || value}</h1>
+  return <h1 data-testid={id ?? 'h1'}>{text || value}</h1>
 }
 
 const ButtonNode = ({ route }: any) => {

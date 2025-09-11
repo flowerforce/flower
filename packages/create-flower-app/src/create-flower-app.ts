@@ -68,7 +68,6 @@ export async function createFlowerApp({
   } catch (error) {
     gitSpinner.fail('Git init failed')
     console.warn(error)
-
   }
 
   // Esegui npm install

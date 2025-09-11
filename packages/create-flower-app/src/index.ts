@@ -1,6 +1,5 @@
 import { createFlowerApp } from './create-flower-app.js' // assicurati di usare .js se type=module
 import prompts from 'prompts'
-
 ;(async () => {
   const response = await prompts([
     {

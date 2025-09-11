@@ -19,6 +19,4 @@ export * from './abacProvider'
 
 export { createApi } from '@flowerforce/flower-react-store'
 
-export {
-  HistoryContextProvider
-} from '@flowerforce/flower-react-history-context'
+export { HistoryContextProvider } from '@flowerforce/flower-react-history-context'

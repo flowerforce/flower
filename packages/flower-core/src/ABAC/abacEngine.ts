@@ -80,7 +80,6 @@ export class AbacEngine {
             ctx.action,
             ctx.environment
           )
-
         } catch (err) {
           matches = false
           console.error(`ABAC: rule ${r.id} threw while evaluating`, err)

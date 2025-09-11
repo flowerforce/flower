@@ -95,16 +95,13 @@ export const AbacProvider: React.FC<AbacProviderProps> = ({
     }
   }, [rules, rulesPath, fetchOptions])
 
-  const can = useCallback(
-    (ctx: Omit<AbacCtx, 'subject'>) => {
-      if (!isAbacInitialized()) return !denyByDefault
-      const subject = getSubject()
-      return (
-        getAbacEngine()?.decide({ subject: subject ?? {}, ...ctx }) === 'Permit'
-      )
-    },
-    []
-  )
+  const can = useCallback((ctx: Omit<AbacCtx, 'subject'>) => {
+    if (!isAbacInitialized()) return !denyByDefault
+    const subject = getSubject()
+    return (
+      getAbacEngine()?.decide({ subject: subject ?? {}, ...ctx }) === 'Permit'
+    )
+  }, [])
 
   const allowedActions = useCallback(
     (

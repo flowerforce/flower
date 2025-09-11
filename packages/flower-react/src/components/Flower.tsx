@@ -17,7 +17,6 @@ import {
 } from './hooks'
 import { FlowerClientProps } from '../types/Flower'
 
-
 /*
  * FlowerClient
  */

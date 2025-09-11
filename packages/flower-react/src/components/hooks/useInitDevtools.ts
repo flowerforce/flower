@@ -8,9 +8,8 @@ import { UseInitDevtoolsProps } from './types'
 export const useInitDevtools = ({
   devtoolState,
   setWsDevtools,
-  flowName,
+  flowName
 }: UseInitDevtoolsProps) => {
-
   const { dispatch } = ReduxFlowerProvider.getReduxHooks()
 
   useEffect(() => {
