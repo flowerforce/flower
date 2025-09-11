@@ -32,6 +32,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Install deps
         run: npm ci --include=optional
+      - name: Nx Reset
+        run: npx nx reset
       - name: Prepare prerelease and push commit
         run: | # Fix me: ugly hack for nx conflicting configuration
           sed -i '/"git": {/,/}/d' nx.json
