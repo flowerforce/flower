@@ -1,3 +1,4 @@
+import { AbacEngine, CompiledRule } from '../ABAC'
 import { RulesObject } from './CoreInterface'
 
 export type CheckTypeOf = (v: any) => boolean
@@ -188,7 +189,23 @@ export type OperatorsFunction = (
   data?: any
 ) => boolean
 
+export type DecisionFunction = (
+  subject: Record<string, any>,
+  action: string,
+  resource: Record<string, any>
+) => boolean
+
 export type Operators = {
+  /**
+   * @param subject
+   * @param action
+   * @param resource
+   *
+   * Checks if a operation is denied or permitted based on ABAC rules.
+   *
+   * @returns
+   */
+  $can: DecisionFunction
   /**
    * @param a
    * @param b

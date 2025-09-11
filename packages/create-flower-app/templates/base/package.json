@@ -18,8 +18,8 @@
       "@flowerforce/devtool": "4.0.1-beta.8",
       "@reduxjs/toolkit": "^2.6.1",
       "antd": "^5.24.1",
-      "react": "^19.0.0",
-      "react-dom": "^19.0.0",
+      "react": ">=18",
+      "react-dom": ">=18",
       "react-redux": "^9.2.0",
       "react-router-dom": "^7.2.0"
     },

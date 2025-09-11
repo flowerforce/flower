@@ -1,5 +1,6 @@
 export enum RulesOperators {
   $exists = '$exists',
+  $can = '$can',
   $eq = '$eq',
   $ne = '$ne',
   $gt = '$gt',

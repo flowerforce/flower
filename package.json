@@ -25,6 +25,7 @@
     "coverage:react-context": "nx test flower-react-context --collectCoverage && npm run react-context:showcoverage",
     "tsc:noemit": "nx run-many -t tsc:noemit",
     "build:devtool": "nx build flower-devtool",
+    "build:cfa": "nx build create-flower-app",
     "build:core": "nx build flower-core",
     "build:form": "nx build flower-react-form",
     "build:react": "nx build flower-react",
