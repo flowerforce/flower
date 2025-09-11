@@ -3,6 +3,7 @@ import _trimStart from 'lodash/trimStart'
 import _intersection from 'lodash/intersection'
 import { RulesObject } from '../interfaces/CoreInterface'
 import { Operators, RulesMatcherUtils } from '../interfaces'
+import { getAbacEngine, getSubject } from '../ABAC'
 
 const EMPTY_STRING_REGEXP = /^\s*$/
 
@@ -36,6 +37,16 @@ export const rulesMatcherUtils: RulesMatcherUtils = {
 
     if (!operators[op]) {
       throw new Error(`Error missing operator:${op}`)
+    }
+
+    if (op === '$can') {
+      const subject = getSubject()
+      const valid = operators['$can'](
+        subject ?? {},
+        _get(value, 'action'),
+        _get(value, 'resource')
+      )
+      return { valid, name: `${pathWithPrefix}___${name || op}` }
     }
 
     const valid =
@@ -239,6 +250,13 @@ export const rulesMatcherUtils: RulesMatcherUtils = {
  * Defines a set of comparison operators used for matching rules against user input.
  */
 const operators: Operators = {
+  $can: (subject, action, resource) =>
+    getAbacEngine()?.decide({
+      subject: subject ?? {},
+      action,
+      resource
+    }) === 'Permit',
+
   $exists: (a, b) => !rulesMatcherUtils.isEmpty(a) === b,
 
   $eq: (a, b) => a === b,

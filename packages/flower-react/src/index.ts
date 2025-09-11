@@ -15,6 +15,8 @@ export { makeSelectData, reducerFlower, flowerReducers } from './features'
 
 export type * from './types'
 
+export * from './abacProvider'
+
 export { createApi } from '@flowerforce/flower-react-store'
 
 export {

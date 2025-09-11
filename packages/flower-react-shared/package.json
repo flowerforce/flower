@@ -23,9 +23,9 @@
   "license": "MIT",
   "peerDependencies": {
     "react": ">=18",
-    "@flowerforce/flower-core": "4.0.1-beta.8",
-    "@flowerforce/flower-react-context": "4.0.1-beta.8",
-    "@flowerforce/flower-react-store": "4.0.1-beta.8",
+    "@flowerforce/flower-core": "4.0.1-beta.9",
+    "@flowerforce/flower-react-context": "4.0.1-beta.9",
+    "@flowerforce/flower-react-store": "4.0.1-beta.9",
     "reselect": "^5.1.0"
   },
   "devDependencies": {
