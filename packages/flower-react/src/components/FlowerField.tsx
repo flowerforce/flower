@@ -5,7 +5,7 @@ import React, {
   useState,
   useMemo,
   useEffect,
-  useRef,
+  useRef
 } from 'react'
 import {
   getDataFromState,
@@ -69,9 +69,7 @@ function Wrapper({
     makeSelectFieldError(flowName, id, validate),
     CoreUtils.allEqual
   )
-  const dirty = useSelector(
-    makeSelectNodeFieldDirty(flowName, currentNode, id)
-  )
+  const dirty = useSelector(makeSelectNodeFieldDirty(flowName, currentNode, id))
   const touched = useSelector(
     makeSelectNodeFieldTouched(flowName, currentNode, id)
   )
@@ -80,39 +78,46 @@ function Wrapper({
   )
 
   const refValue = useRef<Record<string, any>>()
-  
+
   const isSubmitted = useSelector(
     makeSelectNodeFormSubmitted(flowName, currentNode)
   )
 
   const allErrors = useMemo(
-    () => hidden ? [] : [...errors, ...(customAsyncErrors || []).filter(Boolean)],
+    () =>
+      hidden ? [] : [...errors, ...(customAsyncErrors || []).filter(Boolean)],
     [errors, hidden, customAsyncErrors]
   )
 
-  const setTouched = useCallback((touched: boolean) => {
-    dispatch({
-      type: 'flower/formFieldTouch',
-      payload: {
-        name: flowName,
-        id,
-        currentNode,
-        touched
-      }
-    })  
-  }, [dispatch, flowName, currentNode, id])
+  const setTouched = useCallback(
+    (touched: boolean) => {
+      dispatch({
+        type: 'flower/formFieldTouch',
+        payload: {
+          name: flowName,
+          id,
+          currentNode,
+          touched
+        }
+      })
+    },
+    [dispatch, flowName, currentNode, id]
+  )
 
-  const setFocus = useCallback((focused: boolean) => {
-    dispatch({
-      type: 'flower/formFieldFocus',
-      payload: {
-        name: flowName,
-        id,
-        currentNode,
-        focused
-      }
-    })  
-  }, [dispatch, flowName, currentNode, id])
+  const setFocus = useCallback(
+    (focused: boolean) => {
+      dispatch({
+        type: 'flower/formFieldFocus',
+        payload: {
+          name: flowName,
+          id,
+          currentNode,
+          focused
+        }
+      })
+    },
+    [dispatch, flowName, currentNode, id]
+  )
 
   const validateFn = useCallback(
     async (value: any) => {
@@ -143,11 +148,18 @@ function Wrapper({
           flowName: flowNameFromPath,
           id,
           value: val,
-          dirty: defaultValue ? !isEqual(val, defaultValue) : true
+          dirty: !isEqual(val, defaultValue)
         }
       })
     },
-    [flowNameFromPath, id, dispatch, setCustomAsyncErrors, asyncValidate, asyncWaitingError]
+    [
+      flowNameFromPath,
+      id,
+      dispatch,
+      setCustomAsyncErrors,
+      asyncValidate,
+      asyncWaitingError
+    ]
   )
 
   const onBlurInternal = useCallback(
@@ -166,11 +178,10 @@ function Wrapper({
     },
     [onFocus, setFocus]
   )
-  
-  useEffect(() => {
-    if(hidden) return
-    if (asyncValidate) {
 
+  useEffect(() => {
+    if (hidden) return
+    if (asyncValidate) {
       if (refValue.current === value) return
       refValue.current = value
 
@@ -185,14 +196,20 @@ function Wrapper({
       setTouched(true)
       debouncedValidation(value)
     }
-  }, [asyncValidate, asyncInitialError, value, debouncedValidation, setTouched, hidden])
+  }, [
+    asyncValidate,
+    asyncInitialError,
+    value,
+    debouncedValidation,
+    setTouched,
+    hidden
+  ])
 
   useEffect(() => {
     if (onUpdate) {
       onUpdate(value)
     }
   }, [value, onUpdate])
-
 
   useEffect(() => {
     dispatch({
@@ -217,34 +234,34 @@ function Wrapper({
     })
   }, [flowName, currentNode, isValidating])
 
-  const resetField = useCallback(()=>{
-      dispatch({
-        type: 'flower/formFieldTouch',
-        payload: {
-          name: flowName,
-          id,
-          currentNode,
-          touched: false
-        }
-      })  
-      dispatch({
-        type: 'flower/formFieldDirty',
-        payload: {
-          name: flowName,
-          id,
-          currentNode,
-          dirty: false
-        }
-      })  
-      dispatch({
-        type: 'flower/formRemoveErrors',
-        payload: {
-          name: flowName,
-          id,
-          currentNode
-        }
-      })
-  },[currentNode, id, flowName])
+  const resetField = useCallback(() => {
+    dispatch({
+      type: 'flower/formFieldTouch',
+      payload: {
+        name: flowName,
+        id,
+        currentNode,
+        touched: false
+      }
+    })
+    dispatch({
+      type: 'flower/formFieldDirty',
+      payload: {
+        name: flowName,
+        id,
+        currentNode,
+        dirty: false
+      }
+    })
+    dispatch({
+      type: 'flower/formRemoveErrors',
+      payload: {
+        name: flowName,
+        id,
+        currentNode
+      }
+    })
+  }, [currentNode, id, flowName])
 
   useEffect(() => {
     // destroy
@@ -260,15 +277,15 @@ function Wrapper({
   }, [destroyValue, id, flowNameFromPath, path, resetField])
 
   useEffect(() => {
-    if(hidden){
-        if (destroyOnHide) {
-          dispatch({
-            type: `flower/unsetData`,
-            payload: { flowName: flowNameFromPath, id: path }
-          })
-          resetField()
-        }
+    if (hidden) {
+      if (destroyOnHide) {
+        dispatch({
+          type: `flower/unsetData`,
+          payload: { flowName: flowNameFromPath, id: path }
+        })
+        resetField()
       }
+    }
   }, [destroyOnHide, hidden, flowNameFromPath, path, resetField])
 
   useEffect(() => {
@@ -276,7 +293,6 @@ function Wrapper({
       onChange(defaultValue)
     }
   }, [defaultValue, value, dirty, onChange])
-
 
   const newProps = useMemo(
     () => ({
@@ -293,7 +309,7 @@ function Wrapper({
       dirty,
       hidden,
       isValidating,
-      isSubmitted,
+      isSubmitted
     }),
     [
       props,

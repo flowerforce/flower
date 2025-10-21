@@ -9,6 +9,7 @@ import { CoreUtils } from './CoreUtils'
 import { ReducersFunctions } from './interfaces/ReducerInterface'
 import { FlowerStateUtils } from './FlowerCoreStateUtils'
 import { devtoolState } from './devtoolState'
+import { isNil } from 'lodash'
 
 const {
   generateNodes,
@@ -286,7 +287,7 @@ export const FlowerCoreReducers: ReducersFunctions = {
 
     if (payload.id && payload.id.length) {
       _set(state, [payload.flowName, 'data', ...newpath], payload.value)
-      if (payload && payload.dirty) {
+      if (payload && !isNil(payload.dirty)) {
         _set(
           state,
           [payload.flowName, 'form', currentNode, 'dirty', payload.id],
