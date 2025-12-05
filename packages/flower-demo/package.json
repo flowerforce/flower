@@ -1,6 +1,6 @@
 {
   "name": "@flowerforce/flower-demo",
-  "version": "3.0.28",
+  "version": "3.0.31",
   "description": "FlowerJS React demo app.",
   "license": "ISC",
   "scripts": {
@@ -17,8 +17,8 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@flowerforce/flower-react": "3.7.2",
-    "@flowerforce/devtool": "^3.5.1",
+    "@flowerforce/flower-react": "3.7.3-beta.0",
+    "@flowerforce/devtool": "^3.5.2-beta.0",
     "@reduxjs/toolkit": "^2.2.4",
     "antd": "^5.17.2",
     "lodash": "^4.17.21",
