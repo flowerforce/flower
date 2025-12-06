@@ -16,7 +16,7 @@ const reduxContext = createContext<ReactReduxContextValue<any, Action> | null>(
   null
 )
 
-export const useDispatch = createDispatchHook(reduxContext)
+export const useDispatch = createDispatchHook(reduxContext) // exported
 export const useSelector = createSelectorHook(reduxContext)
 export const useStore = createStoreHook(reduxContext)
 
