@@ -7,7 +7,7 @@
 import React, { useEffect } from 'react'
 
 // import react-testing methods
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
@@ -20,6 +20,7 @@ import FlowerRoute from '../components/FlowerRoute'
 import FlowerProvider from '../provider'
 import useFlower from '../components/useFlower'
 import useFlowerForm from '../components/useFlowerForm'
+import { devtoolState, Emitter } from '@flowerforce/flower-core'
 
 const delay = (ms) => new Promise((r) => setTimeout(r, ms))
 
@@ -1114,6 +1115,47 @@ describe('FlowerNavigate test render <Flower />', () => {
   //   await delay(1000)
   //   expect(await screen.findByText('step1')).toBeVisible()
   // })
+
+  it('FlowerNavigate restart action emits devtool event', async () => {
+    const originalDevtool = devtoolState.__FLOWER_DEVTOOLS__
+    devtoolState.__FLOWER_DEVTOOLS__ = true
+    const emitSpy = jest.spyOn(Emitter, 'emit')
+
+    render(
+      <FlowerProvider>
+        <Flower name="restart-test">
+          <FlowerNode id="start" to={{ a: null }}>
+            <InitState state={{ amount: 1 }} />
+          </FlowerNode>
+          <FlowerNode id="a" to={{ b: null }}>
+            <Text text="step1"></Text>
+            <ButtonNext />
+          </FlowerNode>
+          <FlowerNode id="b">
+            <Text text="step2" />
+            <ButtonRestart />
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    fireEvent.click(screen.getByTestId('btn-next'))
+    expect(await screen.findByText('step2')).toBeVisible()
+    fireEvent.click(screen.getByTestId('btn-restart'))
+
+    await waitFor(() => expect(emitSpy).toHaveBeenCalled())
+
+    const emittedRestart = emitSpy.mock.calls.some(
+      ([eventName, payload]) =>
+        eventName === 'flower-devtool-from-client' &&
+        payload.params?.type === 'restart'
+    )
+
+    expect(emittedRestart).toBe(true)
+
+    emitSpy.mockRestore()
+    devtoolState.__FLOWER_DEVTOOLS__ = originalDevtool
+  })
 
   it('FlowerNavigate test prev node disabled', async () => {
     render(

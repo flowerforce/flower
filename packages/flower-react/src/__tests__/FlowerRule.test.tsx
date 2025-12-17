@@ -335,4 +335,31 @@ describe('Test FlowerRule component', () => {
 
     expect(screen.getByTestId('h1')).toHaveTextContent('success')
   })
+
+  it('renders string children for hidden and visible conditions', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <FlowerProvider>
+        <Flower name="app-test">
+          <FlowerNode id="start" to={{ form: null }}>
+            <InitState state={{ amount: 1 }} />
+          </FlowerNode>
+          <FlowerNode id="form">
+            <FlowerField id="name">
+              <Input />
+            </FlowerField>
+            <FlowerRule rules={() => false} alwaysDisplay>
+              Hidden text
+            </FlowerRule>
+            <FlowerRule rules={() => true}>Visible text</FlowerRule>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    await user.type(screen.getByTestId('input'), '@andrea')
+    expect(document.body).toHaveTextContent('Hidden text')
+    expect(document.body).toHaveTextContent('Visible text')
+  })
 })

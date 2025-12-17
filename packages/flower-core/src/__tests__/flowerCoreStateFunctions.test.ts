@@ -1,6 +1,9 @@
 import { CoreUtils } from '../CoreUtils'
 import { FlowerCoreReducers } from '../FlowerCoreStateFunctions'
-import { ActionWithPayload } from '../interfaces/ReducerInterface'
+import {
+  ActionWithPayload,
+  ReducersFunctions
+} from '../interfaces/ReducerInterface'
 import { Flower } from '../interfaces/Store'
 import cloneDeep from 'lodash/cloneDeep'
 
@@ -27,6 +30,10 @@ const state: Flower<Record<string, any>> = {
 const FlowerStateWrap = (state: Flower<Record<string, any>>) => ({
   flower: state
 })
+
+const TypedFlowerCoreReducers = FlowerCoreReducers as ReducersFunctions<
+  Record<string, any>
+>
 
 const mock = {
   first: {
@@ -599,6 +606,231 @@ describe('FlowerCoreReducers', () => {
       FlowerCoreReducers.reset(mock_2, action)
 
       expect(mock_2).toEqual(expectedResult)
+    })
+  })
+
+  describe('Additional FlowerCoreReducers helpers', () => {
+    const flowName = 'flower'
+
+    const createBaseState = (): Record<
+      string,
+      Flower<Record<string, any>>
+    > => ({
+      [flowName]: {
+        persist: false,
+        startId: 'start',
+        current: 'start',
+        history: ['start'],
+        nodes: {
+          start: { nodeId: 'start', nodeType: 'FlowerNode' },
+          end: { nodeId: 'end', nodeType: 'FlowerNode' }
+        },
+        nextRules: {
+          start: [{ nodeId: 'end', rules: null }]
+        },
+        data: {
+          existing: 'value'
+        },
+        form: {
+          start: {
+            errors: {},
+            customErrors: {},
+            touches: {},
+            dirty: {},
+            hasFocus: undefined,
+            isSubmitted: false,
+            isValidating: false
+          }
+        }
+      }
+    })
+
+    it('stores custom errors via formAddCustomErrors', () => {
+      const state = createBaseState()
+      const action = {
+        payload: {
+          name: flowName,
+          currentNode: 'start',
+          id: 'custom',
+          errors: ['oops']
+        },
+        type: 'formAddCustomErrors'
+      }
+
+      FlowerCoreReducers.formAddCustomErrors(state as any, action)
+
+      expect(state[flowName].form.start.customErrors!['custom']).toEqual([
+        'oops'
+      ])
+    })
+
+    it('tracks dirty and focus state for fields', () => {
+      const state = createBaseState()
+      const dirtyAction = {
+        payload: {
+          name: flowName,
+          currentNode: 'start',
+          id: 'name',
+          dirty: true
+        },
+        type: 'formFieldDirty'
+      }
+
+      FlowerCoreReducers.formFieldDirty(state as any, dirtyAction)
+
+      expect(state[flowName].form.start.dirty!['name']).toBe(true)
+
+      const focusAction = {
+        payload: {
+          name: flowName,
+          currentNode: 'start',
+          id: 'name',
+          focused: true
+        },
+        type: 'formFieldFocus'
+      }
+
+      FlowerCoreReducers.formFieldFocus(state as any, focusAction)
+      expect(state[flowName].form.start.hasFocus).toBe('name')
+
+      FlowerCoreReducers.formFieldFocus(state as any, {
+        payload: {
+          ...focusAction.payload,
+          focused: false
+        },
+        type: 'formFieldFocus'
+      })
+
+      expect(state[flowName].form.start.hasFocus).toBeUndefined()
+    })
+
+    it('merges data via addData', () => {
+      const state = createBaseState()
+      const action: ActionWithPayload<{
+        flowName: string
+        value: Record<string, any>
+      }> = {
+        payload: {
+          flowName,
+          value: {
+            added: 'new'
+          }
+        },
+        type: 'addData'
+      }
+      TypedFlowerCoreReducers.addData(state as any, action)
+
+      expect(state[flowName].data).toEqual({
+        existing: 'value',
+        added: 'new'
+      })
+    })
+
+    it('updates history when node is triggered', () => {
+      const state = createBaseState()
+      const action = {
+        payload: {
+          name: flowName,
+          nodeId: 'end',
+          node: 'end',
+          history: ['start', 'end']
+        },
+        type: 'node'
+      }
+
+      FlowerCoreReducers.node(state as any, action)
+
+      expect(state[flowName].history.includes('end')).toBe(true)
+      expect(state[flowName].current).toBe('end')
+    })
+
+    it('navigates back to a specific node with prevToNode', () => {
+      const state = createBaseState()
+      state[flowName].history = ['start', 'mid', 'end']
+      state[flowName].current = 'end'
+      state[flowName].nodes.mid = { nodeId: 'mid', nodeType: 'FlowerNode' }
+      const action = {
+        payload: {
+          name: flowName,
+          node: 'mid'
+        },
+        type: 'prevToNode'
+      }
+
+      FlowerCoreReducers.prevToNode(state as any, action)
+
+      expect(state[flowName].current).toBe('mid')
+      expect(state[flowName].history).toContain('mid')
+    })
+
+    it('moves to the next node when valid rules are satisfied', () => {
+      const state = createBaseState()
+      state[flowName].history = ['start']
+      const action = {
+        payload: {
+          name: flowName,
+          data: {}
+        },
+        type: 'next'
+      }
+
+      FlowerCoreReducers.next(state as any, action)
+
+      expect(state[flowName].history).toContain('end')
+      expect(state[flowName].current).toBe('end')
+    })
+
+    it('pops history with prev', () => {
+      const state = createBaseState()
+      state[flowName].history = ['start', 'end']
+      state[flowName].current = 'end'
+      const action = {
+        payload: {
+          name: flowName
+        },
+        type: 'prev'
+      }
+
+      FlowerCoreReducers.prev(state as any, action)
+
+      expect(state[flowName].current).toBe('start')
+    })
+
+    it('restart restores history to start', () => {
+      const state = createBaseState()
+      state[flowName].history = ['start', 'end']
+      state[flowName].current = 'end'
+      const action = {
+        payload: {
+          name: flowName
+        },
+        type: 'restart'
+      }
+
+      FlowerCoreReducers.restart(state as any, action)
+
+      expect(state[flowName].current).toBe('start')
+      expect(state[flowName].history).toEqual(['start'])
+    })
+
+    it('reset clears form and applies provided initial data', () => {
+      const state = createBaseState()
+      state[flowName].form.start.touches = { some: true }
+      state[flowName].form.start.dirty = { some: true }
+      state[flowName].data = { existing: 'value' }
+      const action = {
+        payload: {
+          name: flowName,
+          initialData: { reset: 'done' }
+        },
+        type: 'reset'
+      }
+
+      FlowerCoreReducers.reset(state as any, action)
+
+      expect(state[flowName].data).toEqual({ reset: 'done' })
+      expect(state[flowName].form).toEqual({})
+      expect(state[flowName].current).toBe(state[flowName].startId)
     })
   })
 })

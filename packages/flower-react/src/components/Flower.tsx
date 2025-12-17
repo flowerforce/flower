@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-underscore-dangle */
 import React, {
   Children,
   memo,

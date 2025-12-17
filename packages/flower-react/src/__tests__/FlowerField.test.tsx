@@ -17,9 +17,10 @@ import '@testing-library/jest-dom'
 import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
 import FlowerField from '../components/FlowerField'
-import FlowerProvider from '../provider'
+import FlowerProvider, * as provider from '../provider'
 import useFlower from '../components/useFlower'
 import useFlowerForm from '../components/useFlowerForm'
+import FlowerNavigate from '../components/FlowerNavigate'
 
 const delay = (ms: any) => new Promise((r) => setTimeout(r, ms))
 
@@ -864,5 +865,75 @@ describe('Test FlowerField component', () => {
     fireEvent.click(screen.getByTestId('btn-next'))
 
     expect(screen.getByTestId('h1')).toHaveTextContent('success')
+  })
+
+  it('renders intrinsic child elements through FlowerField', async () => {
+    render(
+      <FlowerProvider>
+        <Flower name="app-test">
+          <FlowerNode id="start" to={{ form: null }}>
+            <FlowerField id="primitive-field">
+              <input data-testid="primitive-input" />
+            </FlowerField>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    await waitFor(() =>
+      expect(screen.getByTestId('primitive-input')).toHaveAttribute(
+        'id',
+        'primitive-field'
+      )
+    )
+  })
+
+  it('runs destroyOnHide cleanup when the field is hidden', async () => {
+    render(
+      <FlowerProvider>
+        <Flower name="app-test" initialData={{ name: 'initial' }}>
+          <FlowerNode id="start" to={{ form: null }}>
+            <InitState state={{}} />
+          </FlowerNode>
+          <FlowerNode id="form">
+            <FlowerField
+              id="name"
+              destroyOnHide
+              alwaysDisplay
+              rules={() => false}
+            >
+              <Input />
+            </FlowerField>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    await waitFor(() => expect(screen.getByTestId('input')).toBeInTheDocument())
+  })
+
+  it('renders memoized component children through the fallback branch', async () => {
+    const MemoInput = React.memo(({ value }: any) => (
+      <input data-testid="memo-input" value={value || ''} readOnly />
+    ))
+
+    render(
+      <FlowerProvider>
+        <Flower name="app-test">
+          <FlowerNode id="start" to={{ form: null }}>
+            <InitState state={{ memo: 'memo-value' }} />
+          </FlowerNode>
+          <FlowerNode id="form">
+            <FlowerField id="memo">
+              <MemoInput />
+            </FlowerField>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    await waitFor(() =>
+      expect(screen.getByTestId('memo-input')).toHaveValue('memo-value')
+    )
   })
 })
