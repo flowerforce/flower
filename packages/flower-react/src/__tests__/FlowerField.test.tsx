@@ -5,14 +5,20 @@
  */
 
 // import dependencies
-import React, { forwardRef, useEffect, useImperativeHandle } from 'react'
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState
+} from 'react'
 
 // import react-testing methods
-import { render, fireEvent, screen, waitFor } from '@testing-library/react'
+import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 // add custom jest matchers from jest-dom
 import '@testing-library/jest-dom'
+import _get from 'lodash/get'
 
 import FlowerNode from '../components/FlowerNode'
 import Flower from '../components/Flower'
@@ -106,6 +112,32 @@ const FormErrors = forwardRef(({ children, flowName }: any, ref) => {
     </>
   )
 })
+
+const StoreInspector = ({
+  flowName,
+  path
+}: {
+  flowName: string
+  path: string | string[]
+}) => {
+  const store = provider.useStore()
+  const [value, setValue] = useState<string>('')
+
+  useEffect(() => {
+    const updateValue = () => {
+      const state = store.getState()
+      const parts = Array.isArray(path) ? path : path.split('.')
+      const data = _get(state, ['flower', flowName, 'data', ...parts])
+      setValue(data === undefined ? 'undefined' : String(data))
+    }
+
+    updateValue()
+    const unsubscribe = store.subscribe(updateValue)
+    return () => unsubscribe()
+  }, [flowName, path, store])
+
+  return <div data-testid="store-data-value">{value}</div>
+}
 
 describe('Test FlowerField component', () => {
   it('Test flow success', async () => {
@@ -934,6 +966,52 @@ describe('Test FlowerField component', () => {
 
     await waitFor(() =>
       expect(screen.getByTestId('memo-input')).toHaveValue('memo-value')
+    )
+  })
+
+  it('unsets data and resets metadata when destroyOnHide hides the field', async () => {
+    const HiddenToggleField = () => {
+      const [hiddenFlag, setHiddenFlag] = React.useState(false)
+
+      return (
+        <>
+          <FlowerField
+            id="name"
+            destroyOnHide
+            alwaysDisplay
+            rules={() => (hiddenFlag ? false : true)}
+          >
+            <Input />
+          </FlowerField>
+          <button data-testid="hide-btn" onClick={() => setHiddenFlag(true)} />
+        </>
+      )
+    }
+
+    render(
+      <FlowerProvider>
+        <Flower name="hidden-cleanup">
+          <FlowerNode id="start">
+            <InitState state={{ name: 'initial' }} />
+            <HiddenToggleField />
+            <StoreInspector flowName="hidden-cleanup" path="name" />
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    await waitFor(() =>
+      expect(screen.getByTestId('store-data-value')).toHaveTextContent(
+        'initial'
+      )
+    )
+
+    fireEvent.click(screen.getByTestId('hide-btn'))
+
+    await waitFor(() =>
+      expect(screen.getByTestId('store-data-value')).toHaveTextContent(
+        'undefined'
+      )
     )
   })
 })
