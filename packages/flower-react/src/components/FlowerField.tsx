@@ -260,15 +260,13 @@ function Wrapper({
   }, [destroyValue, id, flowNameFromPath, path, resetField])
 
   useEffect(() => {
-    if(hidden){
-        if (destroyOnHide) {
-          dispatch({
-            type: `flower/unsetData`,
-            payload: { flowName: flowNameFromPath, id: path }
-          })
-          resetField()
-        }
-      }
+    if (hidden && destroyOnHide) {
+      dispatch({
+        type: `flower/unsetData`,
+        payload: { flowName: flowNameFromPath, id: path }
+      })
+      resetField()
+    }
   }, [destroyOnHide, hidden, flowNameFromPath, path, resetField])
 
   useEffect(() => {
@@ -392,28 +390,28 @@ const FlowerField = ({
         flowName={name}
       >
         {({ hidden }) => (
-          <Wrapper
-            {...props}
-            hidden={hidden}
-            id={id}
-            Component={Component}
-            flowName={name}
-            currentNode={currentNode}
-            validate={validate}
-            asyncValidate={asyncValidate}
-            asyncDebounce={asyncDebounce}
-            asyncInitialError={asyncInitialError}
-            asyncWaitingError={asyncWaitingError}
-            destroyValue={destroyValue}
-            onUpdate={onUpdate}
-            defaultValue={defaultValue}
-          />
+        <Wrapper
+          {...props}
+          hidden={hidden}
+          id={id}
+          Component={Component}
+          flowName={name}
+          currentNode={currentNode}
+          validate={validate}
+          asyncValidate={asyncValidate}
+          asyncDebounce={asyncDebounce}
+          asyncInitialError={asyncInitialError}
+          asyncWaitingError={asyncWaitingError}
+          destroyValue={destroyValue}
+          destroyOnHide={destroyOnHide}
+          onUpdate={onUpdate}
+          defaultValue={defaultValue}
+        />
         )}
       </FlowerRule>
     )
   })
 }
-
 const component = React.memo(FlowerField)
 component.displayName = 'FlowerField'
 
