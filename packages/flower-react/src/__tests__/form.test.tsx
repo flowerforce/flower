@@ -7,7 +7,7 @@
 import React, { useEffect } from 'react'
 
 // import react-testing methods
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 // add custom jest matchers from jest-dom
@@ -910,6 +910,81 @@ describe('Test Form', () => {
     expect(screen.getByTestId('input').getAttribute('value')).toBe('andreaa')
     fireEvent.click(screen.getByTestId('btn-next'))
     expect(screen.getByTestId('h1')).toHaveTextContent('EMPTY')
+  })
+
+  it('Test form destroy field with rules', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <FlowerProvider>
+        <Flower name="app-test">
+          <FlowerNode id="form" to={{ success: null }}>
+            <FlowerField id="mode">
+              <Input name="mode" />
+            </FlowerField>
+            <FlowerField
+              id="description"
+              destroyValue={{
+                $and: [{ mode: { $eq: 'reset' } }]
+              }}
+            >
+              <Input name="description" />
+            </FlowerField>
+            <FlowerValue id="description">
+              {({ value }) => (
+                <p data-testid="description-value">{value || 'EMPTY'}</p>
+              )}
+            </FlowerValue>
+            <ButtonNext />
+          </FlowerNode>
+          <FlowerNode id="success">
+            <Text text="SUCCESS" />
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    await user.type(screen.getByTestId('description'), 'persistent')
+    expect(screen.getByTestId('description-value')).toHaveTextContent('persistent')
+
+    await user.type(screen.getByTestId('mode'), 'reset')
+    await waitFor(() => {
+      expect(screen.getByTestId('description-value')).toHaveTextContent('EMPTY')
+      expect(screen.getByTestId('description')).toHaveAttribute('value', '')
+    })
+  })
+
+  it('Test form destroy field with rules does not destroy on mount when already satisfied', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <FlowerProvider>
+        <Flower name="app-test">
+          <FlowerNode id="start" to={{ form: null }}>
+            <InitState state={{ mode: 'reset' }} />
+          </FlowerNode>
+          <FlowerNode id="form" to={{ success: null }}>
+            <FlowerField
+              id="description"
+              destroyValue={{
+                $and: [{ mode: { $eq: 'reset' } }]
+              }}
+            >
+              <Input name="description" />
+            </FlowerField>
+            <FlowerValue id="description">
+              {({ value }) => (
+                <p data-testid="description-value">{value || 'EMPTY'}</p>
+              )}
+            </FlowerValue>
+          </FlowerNode>
+        </Flower>
+      </FlowerProvider>
+    )
+
+    await user.type(screen.getByTestId('description'), 'stable')
+    expect(screen.getByTestId('description-value')).toHaveTextContent('stable')
+    expect(screen.getByTestId('description')).toHaveAttribute('value', 'stable')
   })
 
   it('Test form replace field whit replaceData', async () => {

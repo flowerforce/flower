@@ -13,7 +13,8 @@ import {
   makeSelectNodeFieldDirty,
   makeSelectNodeFieldFocused,
   makeSelectNodeFieldTouched,
-  makeSelectNodeFormSubmitted
+  makeSelectNodeFormSubmitted,
+  selectorRulesDisabled
 } from '../selectors'
 import { context } from '../context'
 import FlowerRule from './FlowerRule'
@@ -79,7 +80,33 @@ function Wrapper({
     makeSelectNodeFieldFocused(flowName, currentNode, id)
   )
 
+  const destroyRules = useMemo(() => {
+    if (!destroyValue || typeof destroyValue === 'boolean') return undefined
+    return destroyValue
+  }, [destroyValue])
+
+  const destroyRulesKeys = useMemo(
+    () =>
+      destroyRules
+        ? MatchRules.utils.getKeys(destroyRules, { prefix: flowName }) ?? []
+        : [],
+    [destroyRules, flowName]
+  )
+
+  const destroyRulesDisabled = useSelector(
+    selectorRulesDisabled(
+      id ?? '',
+      destroyRules,
+      destroyRulesKeys,
+      flowName ?? '',
+      value,
+      currentNode ?? ''
+    )
+  )
+
   const refValue = useRef<Record<string, any>>()
+  const destroyRulesTriggered = useRef(false)
+  const prevDestroyRulesDisabled = useRef<boolean | undefined>()
   
   const isSubmitted = useSelector(
     makeSelectNodeFormSubmitted(flowName, currentNode)
@@ -247,9 +274,46 @@ function Wrapper({
   },[currentNode, id, flowName])
 
   useEffect(() => {
+    if (!destroyRules) {
+      destroyRulesTriggered.current = false
+      prevDestroyRulesDisabled.current = undefined
+      return
+    }
+
+    const wasDisabled = prevDestroyRulesDisabled.current
+    prevDestroyRulesDisabled.current = destroyRulesDisabled
+
+    const shouldDestroy =
+      wasDisabled !== undefined && wasDisabled && !destroyRulesDisabled
+
+    if (!shouldDestroy) {
+      if (destroyRulesTriggered.current && destroyRulesDisabled) {
+        destroyRulesTriggered.current = false
+      }
+      return
+    }
+
+    if (!destroyRulesTriggered.current) {
+      destroyRulesTriggered.current = true
+      dispatch({
+        type: `flower/unsetData`,
+        payload: { flowName: flowNameFromPath, id: path }
+      })
+      resetField()
+    }
+  }, [
+    destroyRules,
+    destroyRulesDisabled,
+    flowNameFromPath,
+    path,
+    resetField,
+    dispatch
+  ])
+
+  useEffect(() => {
     // destroy
     return () => {
-      if (destroyValue) {
+      if (typeof destroyValue === 'boolean' && destroyValue === true) {
         dispatch({
           type: `flower/unsetData`,
           payload: { flowName: flowNameFromPath, id: path }

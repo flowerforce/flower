@@ -12,8 +12,9 @@ import { Example8 } from './Examples/Example8' // Simple example with FlowerRule
 import { Example9 } from './Examples/Example9' // Simple example form
 import { Example10 } from './Examples/Example10' // Simple example form
 import { Example11 } from './Examples/Example11' // Form async error and hidden
+import { Example12 } from './Examples/Example12'
 
 function AppLogin() {
-  return <Example11 />
+  return <Example12 />
 }
 export default AppLogin

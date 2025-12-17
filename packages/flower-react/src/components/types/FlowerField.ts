@@ -114,7 +114,7 @@ export type FlowerFieldProps<
   /** Initial value field */
   defaultValue?: unknown
   /** Remove value from data on destroy element */
-  destroyValue?: boolean
+  destroyValue?: boolean | RulesObject<T> | FunctionRule
   /** Remove value from data on hide element */
   destroyOnHide?: boolean
   value?: any
