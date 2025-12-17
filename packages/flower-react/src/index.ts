@@ -16,6 +16,8 @@ export { default as FlowerComponent } from './components/FlowerComponent'
 export { default as useFlower } from './components/useFlower'
 export { default as useFlowerForm } from './components/useFlowerForm'
 export { default as FlowerProvider } from './provider'
+export { createFlowerStore } from './provider'
+export { reducerFlower } from './reducer'
 export { getDataByFlow } from './selectors'
 export { useSelector, useDispatch, useStore } from './provider'
 export type { FlowerContext as FlowerContextProps } from './context'
@@ -38,8 +40,11 @@ export type {
   FlowerNavigateActionsProps
 } from './components/types/FlowerNavigate'
 export type { FlowerNodeProps } from './components/types/FlowerNode'
-export type { FlowerProviderProps } from './components/types/FlowerProvider'
 export type { FlowerRouteProps } from './components/types/FlowerRoute'
 export type { FlowerRuleProps } from './components/types/FlowerRule'
 export type { FlowerServerProps } from './components/types/FlowerServer'
 export type { FlowerValueProps } from './components/types/FlowerValue'
+export type {
+  FlowerStore,
+  FlowerProviderProps
+} from './components/types/FlowerProvider'

@@ -153,5 +153,9 @@ export interface ISelectors {
     keys: string[] | null,
     flowName: string,
     value: any
-  ): (data: T | undefined, form: Form<T>) => boolean
+  ): (
+    data: T | undefined,
+    form: Form<T>,
+    state?: Record<string, any>
+  ) => boolean
 }

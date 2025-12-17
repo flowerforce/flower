@@ -61,6 +61,40 @@ function Root() {
 ```
 > You can pass the prop `enableReduxDevtool` to the `FlowerProvider` to show the Flower Store data inside the redux devtool of your browser.
 
+## Integrating with an existing Redux store
+
+If your application already relies on Redux to keep domain data (for example the current user, UI flags, or feature toggles), you can merge Flower's reducer into that store and reuse it when rendering Flower components. Flower now re-exports the `reducerFlower` object together with the `FlowerStore` type, and `FlowerProvider` accepts an optional `store` prop so you can pass the shared store instead of letting Flower create its own.
+
+Here is a typical setup:
+
+```tsx
+import { Provider } from 'react-redux'
+import { configureStore } from '@reduxjs/toolkit'
+import { FlowerProvider, reducerFlower, FlowerStore } from '@flowerforce/flower-react'
+import userReducer from './userSlice'
+
+const store: FlowerStore = configureStore({
+  reducer: {
+    ...reducerFlower,
+    user: userReducer
+  }
+})
+
+function App() {
+  return (
+    <Provider store={store}>
+      <FlowerProvider store={store} enableReduxDevtool>
+        <YourFlowerApp />
+      </FlowerProvider>
+    </Provider>
+  )
+}
+```
+
+Every rule or selector inside Flower can now read the rest of the Redux tree (the `MatchRules` machinery uses `selectGlobal`), so referencing `state.user` or another slice lets you branch the flow based on your shared data without duplicating it inside Flower.
+
+Internally Flower attaches the current store state to every navigation action, so selectors and branching rules (even the ones defined inside `to` maps) can reference external slices using the `^slice.path` syntax shown above.
+
 ## How to use
 
 ### Simple Example

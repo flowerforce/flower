@@ -6,21 +6,16 @@ export interface FlowerProviderInterface {
   render(): JSX.Element
 }
 
-export type FlowerProviderProps = ReturnType<
+type FlowerStoreReducers = {
+  flower: Record<string, Flower<any>>
+}
+
+export type FlowerStore = ReturnType<
   typeof configureStore<
-    {
-      flower: Record<string, Flower<any>>
-    },
+    FlowerStoreReducers,
     UnknownAction,
-    Tuple<
-      [
-        ThunkMiddleware<
-          {
-            flower: Record<string, Flower<any>>
-          },
-          UnknownAction
-        >
-      ]
-    >
+    Tuple<[ThunkMiddleware<FlowerStoreReducers, UnknownAction>]>
   >
 >
+
+export type FlowerProviderProps = FlowerStore

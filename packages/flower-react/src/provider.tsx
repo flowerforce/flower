@@ -8,7 +8,7 @@ import {
 } from 'react-redux'
 import { Action, configureStore } from '@reduxjs/toolkit'
 import { reducerFlower } from './reducer'
-import { FlowerProviderProps } from './components/types/FlowerProvider'
+import { FlowerStore } from './components/types/FlowerProvider'
 
 //TODO check reduxContext type due to remove all any types
 
@@ -20,20 +20,29 @@ export const useDispatch = createDispatchHook(reduxContext) // exported
 export const useSelector = createSelectorHook(reduxContext)
 export const useStore = createStoreHook(reduxContext)
 
-export const store = ({ enableDevtool }: { enableDevtool?: boolean }) =>
+export const createFlowerStore = ({
+  enableDevtool
+}: {
+  enableDevtool?: boolean
+}) =>
   configureStore({
     reducer: reducerFlower,
     devTools: enableDevtool ? { name: 'flower' } : false
   })
 
-class FlowerProvider extends PureComponent<
-  PropsWithChildren<{ enableReduxDevtool?: boolean }>,
-  FlowerProviderProps
-> {
-  private store: FlowerProviderProps
-  constructor(props: PropsWithChildren<{ enableReduxDevtool?: boolean }>) {
+type FlowerProviderComponentProps = PropsWithChildren<{
+  enableReduxDevtool?: boolean
+  store?: FlowerStore
+}>
+
+class FlowerProvider extends PureComponent<FlowerProviderComponentProps> {
+  private readonly store: FlowerStore
+
+  constructor(props: FlowerProviderComponentProps) {
     super(props)
-    this.store = store({ enableDevtool: props.enableReduxDevtool })
+    this.store =
+      props.store ??
+      createFlowerStore({ enableDevtool: props.enableReduxDevtool })
   }
 
   render() {

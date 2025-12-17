@@ -55,6 +55,13 @@ body {
   opacity: 0.5;
 }
 
+.info-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
 .field {
   display: flex;
   flex-direction: column;

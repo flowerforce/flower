@@ -113,40 +113,54 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
     [flowName, nodeId]
   )
 
+  const dispatchWithRootState = useCallback(
+    (type: string, payload: Record<string, any>) => {
+      const shouldAttachRootState = !Object.prototype.hasOwnProperty.call(
+        payload,
+        'rootState'
+      )
+      const actionPayload = shouldAttachRootState
+        ? { ...payload, rootState: store.getState() }
+        : payload
+
+      dispatch({ type: `flower/${type}`, payload: actionPayload })
+    },
+    [dispatch, store]
+  )
+
   const next = useCallback(
     (param?: NavigateFunctionParams) => {
       const params =
         typeof param === 'string' ? { route: param } : { data: param }
       const { type, payload } = makeActionPayloadOnNext(flowName, params)
 
-      dispatch({
-        type: `flower/${type}`,
-        payload
-      })
+      dispatchWithRootState(type, payload)
 
       emitNavigateEvent({ type, payload })
     },
-    [dispatch, emitNavigateEvent, flowName]
+    [dispatchWithRootState, emitNavigateEvent, flowName]
   )
 
   const back = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnPrev(flowName, param)
-      dispatch({ type: `flower/${type}`, payload })
+
+      dispatchWithRootState(type, payload)
 
       emitNavigateEvent({ type, payload })
     },
-    [dispatch, emitNavigateEvent, flowName]
+    [dispatchWithRootState, emitNavigateEvent, flowName]
   )
 
   const restart = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnRestart(flowName, param)
-      dispatch({ type: `flower/${type}`, payload })
+
+      dispatchWithRootState(type, payload)
 
       emitNavigateEvent({ type, payload })
     },
-    [dispatch, emitNavigateEvent, flowName]
+    [dispatchWithRootState, emitNavigateEvent, flowName]
   )
 
   const reset = useCallback(
@@ -161,21 +175,22 @@ const useFlower: UseFlower = ({ flowName: customFlowName, name } = {}) => {
             }
       )
 
-      dispatch({ type: `flower/${type}`, payload })
+      dispatchWithRootState(type, payload)
 
       emitNavigateEvent({ type, payload })
     },
-    [dispatch, emitNavigateEvent, flowName, initialData]
+    [dispatchWithRootState, emitNavigateEvent, flowName, initialData]
   )
 
   const jump = useCallback(
     (param?: NavigateFunctionParams) => {
       const { type, payload } = makeActionPayloadOnNode(flowName, param)
-      dispatch({ type: `flower/${type}`, payload })
+
+      dispatchWithRootState(type, payload)
 
       emitNavigateEvent({ type, payload })
     },
-    [dispatch, emitNavigateEvent, flowName]
+    [dispatchWithRootState, emitNavigateEvent, flowName]
   )
 
   const getCurrentNodeId = useCallback(

@@ -1,5 +1,6 @@
 import { FlowerCoreStateSelectors } from '../FlowerCoreStateSelectors'
 import { Flower } from '../interfaces/Store'
+import { MatchRules } from '../RulesMatcher'
 
 //todo: double check if tests are ok
 
@@ -273,7 +274,33 @@ describe('FlowerCoreSelectors', () => {
         keys,
         flowName,
         value
-      )(data, form)
+      )(data, form, undefined)
+      expect(result).toBe(false)
+    })
+
+    it('should consider other slices on the root state when evaluating rules', () => {
+      const id = 'id'
+      const flowName = 'flower'
+      const rules = { '^user.role': { $eq: 'admin' } }
+      const keys = MatchRules.utils.getKeys(rules, { prefix: flowName })
+      const value = {}
+
+      const data: any = {}
+      const form: any = {}
+      const rootState = {
+        flower: {},
+        user: {
+          role: 'admin'
+        }
+      }
+
+      const result = FlowerCoreStateSelectors.selectorRulesDisabled(
+        id,
+        rules,
+        keys,
+        flowName,
+        value
+      )(data, form, rootState)
       expect(result).toBe(false)
     })
   })

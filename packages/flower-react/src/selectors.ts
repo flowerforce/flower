@@ -116,6 +116,8 @@ const makeSelectFieldError = (name: string, id: string, validate: any) =>
     Selectors.makeSelectFieldError(name, id, validate)
   )
 
+const selectRootState = (state: any) => state
+
 export const selectorRulesDisabled = (
   id: string,
   rules: RulesObject<any> | FunctionRule,
@@ -127,7 +129,15 @@ export const selectorRulesDisabled = (
   createSelector(
     getAllData,
     makeSelectNodeErrors(flowName, currentNode),
-    Selectors.selectorRulesDisabled(id, rules, keys, flowName, value)
+    selectRootState,
+    (data, form, rootState) =>
+      Selectors.selectorRulesDisabled(
+        id,
+        rules,
+        keys,
+        flowName,
+        value
+      )(data, form, rootState)
   )
 
 export {

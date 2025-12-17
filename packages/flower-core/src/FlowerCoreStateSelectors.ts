@@ -70,32 +70,43 @@ export const FlowerCoreStateSelectors: ISelectors = {
     return [...customErrors, ...(result.length === 0 ? [] : result)]
   },
 
-  selectorRulesDisabled: (id, rules, keys, flowName, value) => (data, form) => {
-    const newState = { ...data, ...value, $form: form }
-    const state = Object.assign(
-      newState,
-      id ? { $self: _get(newState, [flowName, ...id.split('.')]) } : {}
-    )
+  selectorRulesDisabled:
+    (id, rules, keys, flowName, value) =>
+    (data, form, rootState = {}) => {
+      const globalState =
+        rootState && typeof rootState === 'object' ? rootState : {}
+      const baseState = {
+        ...globalState,
+        ...data,
+        ...value,
+        $form: form
+      }
+      const state = id
+        ? {
+            ...baseState,
+            $self: _get(baseState, [flowName, ...id.split('.')])
+          }
+        : baseState
 
-    if (!rules) return false
-    if (typeof rules === 'function') {
-      return !rules(state)
+      if (!rules) return false
+      if (typeof rules === 'function') {
+        return !rules(state)
+      }
+
+      if (!keys) return false
+
+      const res = keys.reduce((acc, inc) => {
+        const k = inc
+        return Object.assign(acc, { [k]: _get(state, k) })
+      }, {})
+
+      const [disabled] = MatchRules.rulesMatcher(
+        rules,
+        { ...unflatten(res) },
+        false,
+        { prefix: flowName }
+      )
+
+      return disabled
     }
-
-    if (!keys) return false
-
-    const res = keys.reduce((acc, inc) => {
-      const k = inc
-      return Object.assign(acc, { [k]: _get(state, k) })
-    }, {})
-
-    const [disabled] = MatchRules.rulesMatcher(
-      rules,
-      { ...unflatten(res) },
-      false,
-      { prefix: flowName }
-    )
-
-    return disabled
-  }
 }

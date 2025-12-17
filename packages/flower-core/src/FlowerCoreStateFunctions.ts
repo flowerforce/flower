@@ -380,10 +380,12 @@ export const FlowerCoreReducers: ReducersFunctions = {
 
     const clonedData = _cloneDeep(FlowerStateUtils.getAllData(state))
 
+    const rootState = _get(payload, 'rootState', {})
     const stateWithNodeData = {
+      ...rootState,
+      ...clonedData,
       $in: data,
-      $form: form,
-      ...clonedData
+      $form: form
     }
 
     FlowerCoreReducers.setFormTouched(state, {

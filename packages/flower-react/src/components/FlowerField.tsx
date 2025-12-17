@@ -17,7 +17,7 @@ import {
 } from '../selectors'
 import { context } from '../context'
 import FlowerRule from './FlowerRule'
-import { store, useDispatch, useSelector } from '../provider'
+import { useDispatch, useSelector, useStore } from '../provider'
 import debounce from 'lodash/debounce'
 import {
   MatchRules,
@@ -59,6 +59,7 @@ function Wrapper({
     undefined
   )
 
+  const reduxStore = useStore()
   const { flowNameFromPath = flowName, path } = useMemo(
     () => CoreUtils.getPath(id),
     [id]
@@ -120,12 +121,12 @@ function Wrapper({
         setCustomAsyncErrors([asyncWaitingError])
       }
       setIsValidating(true)
-      const state = FlowerStateUtils.getAllData(store)
+      const state = FlowerStateUtils.getAllData(reduxStore)
       const res = await asyncValidate(value, state, errors)
       setIsValidating(false)
       setCustomAsyncErrors(res)
     },
-    [asyncWaitingError, errors]
+    [asyncWaitingError, errors, asyncValidate, reduxStore]
   )
 
   const debouncedValidation = useCallback(debounce(validateFn, asyncDebounce), [
