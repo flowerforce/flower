@@ -24,6 +24,7 @@ import {
   CoreUtils,
   FlowerStateUtils
 } from '@flowerforce/flower-core'
+import { createExternalFieldSelector, getFieldPathInfo } from '../utils'
 import { FlowerFieldProps } from './types/FlowerField'
 import isEqual from 'lodash/isEqual'
 function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
@@ -60,12 +61,18 @@ function Wrapper({
   )
 
   const reduxStore = useStore()
-  const { flowNameFromPath = flowName, path } = useMemo(
-    () => CoreUtils.getPath(id),
-    [id]
+  const pathInfo = useMemo(() => CoreUtils.getPath(id), [id])
+  const flowNameFromPath = pathInfo.flowNameFromPath
+  const path = pathInfo.path
+  const pathSegments = useMemo(() => getFieldPathInfo(path), [path])
+  const selectExternalValue = useMemo(
+    () => createExternalFieldSelector(flowNameFromPath, pathSegments),
+    [flowNameFromPath, pathSegments]
   )
 
-  const value = useSelector(getDataFromState(flowNameFromPath, path))
+  const value = useSelector(
+    flowNameFromPath ? selectExternalValue : getDataFromState(flowName, path)
+  )
   const errors = useSelector(
     makeSelectFieldError(flowName, id, validate),
     CoreUtils.allEqual

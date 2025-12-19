@@ -1,5 +1,6 @@
 import {
   Flower,
+  FlowerField,
   FlowerNavigate,
   FlowerNode,
   FlowerRule
@@ -10,7 +11,7 @@ import './styles.css'
 
 export function ExampleExternalStore() {
   const dispatch = useDispatch()
-  const user = useSelector((state: RootState) => state.user)
+  const user = useSelector((state: any) => state?.user)
 
   return (
     <Flower name="external-store-demo">
@@ -18,7 +19,12 @@ export function ExampleExternalStore() {
         id="start"
         to={{
           adminStep: {
-            rules: { '^user.role': { $eq: 'admin' } }
+            rules: {
+              $and: [
+                { '^user.role': { $eq: 'admin' } },
+                { '^user.active': { $eq: true } }
+              ]
+            }
           },
           memberStep: null
         }}
@@ -35,6 +41,21 @@ export function ExampleExternalStore() {
             <button type="button" onClick={() => dispatch(toggleRole())}>
               {user.role === 'admin' ? 'Switch to member' : 'Switch to admin'}
             </button>
+            <FlowerField id="^user.active">
+              {({ onChange, value }) => (
+                <label className="external-field">
+                  <input
+                    type="checkbox"
+                    checked={value}
+                    onChange={(event) => onChange(event.target.checked)}
+                  />
+                  <span>Active</span>
+                </label>
+              )}
+            </FlowerField>
+            <p>
+              Active flag: <strong>{user.active ? 'Si' : 'No'}</strong>
+            </p>
           </div>
           <p>
             Flower uses the shared Redux store so <strong>{user.role}</strong>{' '}

@@ -1,16 +1,18 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
-import { reducerFlower } from '@flowerforce/flower-react'
+import { createFlowerRootReducer } from '@flowerforce/flower-react'
 
 type UserRole = 'admin' | 'member'
 
 interface UserState {
   name: string
   role: UserRole
+  active: boolean
 }
 
 const initialUserState: UserState = {
   name: 'Flower guest',
-  role: 'member'
+  role: 'member',
+  active: false
 }
 
 const userSlice = createSlice({
@@ -26,10 +28,9 @@ const userSlice = createSlice({
 export const { toggleRole } = userSlice.actions
 
 export const store = configureStore({
-  reducer: {
-    ...reducerFlower,
+  reducer: createFlowerRootReducer({
     user: userSlice.reducer
-  }
+  })
 })
 
 export type RootState = ReturnType<typeof store.getState>

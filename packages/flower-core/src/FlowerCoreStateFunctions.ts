@@ -279,21 +279,36 @@ export const FlowerCoreReducers: ReducersFunctions = {
     _set(state, [payload.flowName, 'data'], { ...prevData, ...payload.value })
   },
   addDataByPath: (state, { payload }) => {
-    const { path: newpath } = getPath(payload.id)
+    if (!payload.id || !payload.id.length) {
+      return
+    }
+
+    const { path: newpath, flowNameFromPath } = getPath(payload.id)
     const currentNode = FlowerStateUtils.makeSelectCurrentNodeId(
       payload.flowName
     )(state)
 
-    if (payload.id && payload.id.length) {
-      _set(state, [payload.flowName, 'data', ...newpath], payload.value)
-      if (payload && payload.dirty) {
-        _set(
-          state,
-          [payload.flowName, 'form', currentNode, 'dirty', payload.id],
-          payload.dirty
-        )
-      }
+    const pathSegments = Array.isArray(newpath)
+      ? newpath
+      : newpath === '*'
+        ? []
+        : newpath
+          ? [newpath]
+          : []
+
+    if (payload && payload.dirty) {
+      _set(
+        state,
+        [payload.flowName, 'form', currentNode, 'dirty', payload.id],
+        payload.dirty
+      )
     }
+
+    if (flowNameFromPath) {
+      return
+    }
+
+    _set(state, [payload.flowName, 'data', ...pathSegments], payload.value)
   },
   // TODO usato al momento solo il devtool
   replaceData: /* istanbul ignore next */ (state, { payload }) => {

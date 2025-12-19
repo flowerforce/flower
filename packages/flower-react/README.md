@@ -70,14 +70,17 @@ Here is a typical setup:
 ```tsx
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
-import { FlowerProvider, reducerFlower, FlowerStore } from '@flowerforce/flower-react'
+import {
+  FlowerProvider,
+  createFlowerRootReducer,
+  FlowerStore
+} from '@flowerforce/flower-react'
 import userReducer from './userSlice'
 
 const store: FlowerStore = configureStore({
-  reducer: {
-    ...reducerFlower,
+  reducer: createFlowerRootReducer({
     user: userReducer
-  }
+  })
 })
 
 function App() {
@@ -90,6 +93,8 @@ function App() {
   )
 }
 ```
+
+With this setup, `FlowerField` can still target external slices using the `^slice.path` notation. The generated reducer keeps Flower's form state synced while writing the updated value straight into `state.user.active` (without requiring additional action creators in the slice).
 
 Every rule or selector inside Flower can now read the rest of the Redux tree (the `MatchRules` machinery uses `selectGlobal`), so referencing `state.user` or another slice lets you branch the flow based on your shared data without duplicating it inside Flower.
 
