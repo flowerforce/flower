@@ -12,6 +12,7 @@ const FlowerRule = ({
   alwaysDisplay,
   flowName,
   id,
+  destroyOnHide,
   onUpdate
 }: FlowerRuleProps) => {
   const { flowName: flowNameContext, currentNode } = useContext(context)
@@ -41,6 +42,15 @@ const FlowerRule = ({
     if (alwaysDisplay && hidden) {
       return children({ hidden })
     }
+
+    if (destroyOnHide && hidden) {
+      return children({
+        hidden,
+        hiddenAndDestroyValue: true,
+        destroyOnHide: true
+      })
+    }
+
     if (hidden) {
       return undefined
     }
