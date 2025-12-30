@@ -63,22 +63,27 @@ function Root() {
 
 ### External store support
 
-Flower può condividere lo store Redux che già usi. Usa `createFlowerStore` da `@flowerforce/flower-react` al posto di `configureStore`: l’helper accetta la stessa configurazione ma aggiunge un reducer che intercetta gli id `^external.*` e applica il nuovo valore direttamente al path specificato. In questo modo i reducer esterni non devono conoscere Flower e il codice dello store rimane invariato.
+Flower può riutilizzare uno store Redux esistente sovrascrivendo il `configureStore` con `createFlowerStore`. La funzione:
+
+- arricchisce la configurazione standard con il reducer Flower interno;
+- registra automaticamente i reducer aggiuntivi (tranne `flower`) come sorgenti esterne, in modo che le stringhe `^reducerName.path` sappiano a quale ramo dello stato scrivere o leggere;
+- espone `setExternalValue(path, value)` per aggiornare il ramo esterno senza passare da `FlowerField`.
 
 ```tsx
 import { createFlowerStore } from '@flowerforce/flower-react'
 
 const store = createFlowerStore({
   reducer: {
-    external: (state = { externalMessage: '' }) => state
-  }
+    external: (state = { externalMessage: '' }) => state,
+    anotherSlice: anotherReducer
+  },
+  devTools: { name: 'flower-external-store' }
 })
 ```
-`createFlowerStore` registra automaticamente il reducer di Flower, quindi non serve passare manualmente `reducerFlower`.
 
-`FlowerField` e le regole di navigazione possono continuare a usare `^external.*` e lo stato esterno viene aggiornato automaticamente in `state.external.*` senza che il reducer debba ascoltare azioni Flower-specifiche.
+Quando in un flow leggi o scrivi `^external.externalMessage`, Flower scrive il dato direttamente dentro `state.external.externalMessage` e non emette azioni Flower-specifiche verso i reducer esterni. Gli aggiornamenti manuali si ottengono dispatchando `setExternalValue(['external', 'externalMessage'], value)` con `useDispatch` (o con `react-redux` direttamente, come mostra la demo).
 
-`FlowerField` e le regole di navigazione possono mantenere gli stessi `^external.*` path, ma i dati vengono scritti solo da chi gestisce la callback: la tua slice non ha bisogno di sapere che Flower sta passando l’aggiornamento.
+Per evitare confusione tra flow e reducer, Flower segnala con una warning console quando il `flowName` coincide con il nome di un reducer esterno registrato.
 
 ## How to use
 
