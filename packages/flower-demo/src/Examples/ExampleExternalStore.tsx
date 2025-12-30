@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Flower,
   FlowerField,
@@ -6,8 +7,14 @@ import {
   FlowerProvider,
   FlowerValue,
   createFlowerStore,
+  setExternalValue,
+  useDispatch,
   useSelector
 } from '@flowerforce/flower-react'
+import {
+  Provider as ReduxProvider,
+  useDispatch as useReduxDispatch
+} from 'react-redux'
 import './styles.css'
 
 type ExternalState = {
@@ -32,11 +39,74 @@ const ExternalControls = () => {
   )
 }
 
+const ExternalDispatcher = () => {
+  const dispatch = useDispatch()
+  const [externalText, setExternalText] = useState('message from outside')
+
+  const updateExternalMessage = () => {
+    dispatch(setExternalValue(['external', 'externalMessage'], externalText))
+  }
+
+  const updateWithTimestamp = () => {
+    dispatch(
+      setExternalValue(
+        ['external', 'externalMessage'],
+        `updated @ ${new Date().toLocaleTimeString()}`
+      )
+    )
+  }
+
+  return (
+    <div className="external-update">
+      <label>
+        <span>Dispatch esterno:</span>
+        <input
+          value={externalText}
+          onChange={(event) => setExternalText(event.target.value)}
+          placeholder="Scrivi qualcosa..."
+        />
+      </label>
+      <div className="external-update__actions">
+        <button onClick={updateExternalMessage}>Aggiorna store esterno</button>
+        <button onClick={updateWithTimestamp}>Aggiorna con timestamp</button>
+      </div>
+    </div>
+  )
+}
+
+const ExternalDispatcherRedux = () => {
+  const dispatch = useReduxDispatch()
+  const [text, setText] = useState('dispatched da redux')
+
+  const dispatchText = () =>
+    dispatch(setExternalValue(['external', 'externalMessage'], text))
+
+  return (
+    <div className="external-update">
+      <label>
+        <span>Dispatch Redux standard:</span>
+        <input
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+          placeholder="Scrivi qualcosa..."
+        />
+      </label>
+      <div className="external-update__actions">
+        <button onClick={dispatchText}>Aggiorna da redux</button>
+      </div>
+    </div>
+  )
+}
+
 export function ExampleExternalStore() {
   return (
     <section className="example external-store">
       <FlowerProvider store={externalFlowerStore}>
         <ExternalControls />
+        <ExternalDispatcher />
+        <ReduxProvider store={externalFlowerStore}>
+          <ExternalDispatcherRedux />
+        </ReduxProvider>
 
         <Flower name="example-external-store">
 
