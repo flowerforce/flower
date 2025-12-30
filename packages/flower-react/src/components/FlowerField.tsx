@@ -17,7 +17,7 @@ import {
 } from '../selectors'
 import { context } from '../context'
 import FlowerRule from './FlowerRule'
-import { store, useDispatch, useSelector } from '../provider'
+import { useDispatch, useSelector, useStore } from '../provider'
 import debounce from 'lodash/debounce'
 import {
   MatchRules,
@@ -26,6 +26,8 @@ import {
 } from '@flowerforce/flower-core'
 import { FlowerFieldProps } from './types/FlowerField'
 import isEqual from 'lodash/isEqual'
+import { readExternalValue, resolveFieldPath } from '@flowerforce/flower-core'
+import { setExternalValue } from '../externalState'
 function isIntrinsicElement(x: unknown): x is keyof JSX.IntrinsicElements {
   return typeof x === 'string'
 }
@@ -51,6 +53,7 @@ function Wrapper({
   ...props
 }: any) {
   const dispatch = useDispatch()
+  const reduxStore = useStore()
 
   const [customAsyncErrors, setCustomAsyncErrors] = useState(
     asyncValidate && asyncInitialError && [asyncInitialError]
@@ -59,12 +62,18 @@ function Wrapper({
     undefined
   )
 
-  const { flowNameFromPath = flowName, path } = useMemo(
-    () => CoreUtils.getPath(id),
-    [id]
-  )
+  const {
+    flowNameFromPath = flowName,
+    path,
+    externalPath,
+    isExternal
+  } = useMemo(() => resolveFieldPath(id, flowName), [id, flowName])
 
-  const value = useSelector(getDataFromState(flowNameFromPath, path))
+  const value = useSelector(
+    isExternal && externalPath
+      ? (state: Record<string, any>) => readExternalValue(state, externalPath)
+      : getDataFromState(flowNameFromPath, path)
+  )
   const errors = useSelector(
     makeSelectFieldError(flowName, id, validate),
     CoreUtils.allEqual
@@ -120,7 +129,9 @@ function Wrapper({
         setCustomAsyncErrors([asyncWaitingError])
       }
       setIsValidating(true)
-      const state = FlowerStateUtils.getAllData(store)
+      const state = FlowerStateUtils.getAllData(
+        reduxStore.getState ? reduxStore.getState() : reduxStore
+      )
       const res = await asyncValidate(value, state, errors)
       setIsValidating(false)
       setCustomAsyncErrors(res)
@@ -137,6 +148,10 @@ function Wrapper({
       if (asyncValidate && asyncWaitingError) {
         setCustomAsyncErrors([asyncWaitingError])
       }
+      if (isExternal && externalPath) {
+        dispatch(setExternalValue(externalPath, val))
+        return
+      }
       dispatch({
         type: `flower/addDataByPath`,
         payload: {
@@ -147,7 +162,17 @@ function Wrapper({
         }
       })
     },
-    [flowNameFromPath, id, dispatch, setCustomAsyncErrors, asyncValidate, asyncWaitingError]
+    [
+      flowNameFromPath,
+      id,
+      dispatch,
+      setCustomAsyncErrors,
+      asyncValidate,
+      asyncWaitingError,
+      isExternal,
+      externalPath,
+      defaultValue
+    ]
   )
 
   const onBlurInternal = useCallback(
@@ -247,29 +272,53 @@ function Wrapper({
   },[currentNode, id, flowName])
 
   useEffect(() => {
-    // destroy
     return () => {
       if (destroyValue) {
-        dispatch({
-          type: `flower/unsetData`,
-          payload: { flowName: flowNameFromPath, id: path }
-        })
-      }
-      resetField()
-    }
-  }, [destroyValue, id, flowNameFromPath, path, resetField])
-
-  useEffect(() => {
-    if(hidden){
-        if (destroyOnHide) {
+        if (isExternal && externalPath) {
+          dispatch(setExternalValue(externalPath, undefined))
+        } else {
           dispatch({
             type: `flower/unsetData`,
             payload: { flowName: flowNameFromPath, id: path }
           })
-          resetField()
         }
       }
-  }, [destroyOnHide, hidden, flowNameFromPath, path, resetField])
+      resetField()
+    }
+  }, [
+    destroyValue,
+    flowNameFromPath,
+    path,
+    resetField,
+    isExternal,
+    externalPath,
+    dispatch
+  ])
+
+  useEffect(() => {
+    if (hidden) {
+      if (destroyOnHide) {
+        if (isExternal && externalPath) {
+          dispatch(setExternalValue(externalPath, undefined))
+        } else {
+          dispatch({
+            type: `flower/unsetData`,
+            payload: { flowName: flowNameFromPath, id: path }
+          })
+        }
+        resetField()
+      }
+    }
+  }, [
+    destroyOnHide,
+    hidden,
+    flowNameFromPath,
+    path,
+    resetField,
+    isExternal,
+    externalPath,
+    dispatch
+  ])
 
   useEffect(() => {
     if (defaultValue && !dirty && !isEqual(value, defaultValue)) {

@@ -6,9 +6,13 @@ import {
   createStoreHook,
   ReactReduxContextValue
 } from 'react-redux'
-import { Action, configureStore } from '@reduxjs/toolkit'
+import { Action } from '@reduxjs/toolkit'
 import { reducerFlower } from './reducer'
-import { FlowerProviderProps } from './components/types/FlowerProvider'
+import { createFlowerStore } from './createFlowerStore'
+import {
+  FlowerProviderOptions,
+  FlowerProviderStore
+} from './components/types/FlowerProvider'
 
 //TODO check reduxContext type due to remove all any types
 
@@ -20,29 +24,39 @@ export const useDispatch = createDispatchHook(reduxContext) // exported
 export const useSelector = createSelectorHook(reduxContext)
 export const useStore = createStoreHook(reduxContext)
 
-export const store = ({ enableDevtool }: { enableDevtool?: boolean }) =>
-  configureStore({
+export const store = ({
+  enableDevtool
+}: {
+  enableDevtool?: boolean
+}): FlowerProviderStore => {
+  return createFlowerStore({
     reducer: reducerFlower,
     devTools: enableDevtool ? { name: 'flower' } : false
   })
+}
 
-class FlowerProvider extends PureComponent<
-  PropsWithChildren<{ enableReduxDevtool?: boolean }>,
-  FlowerProviderProps
-> {
-  private store: FlowerProviderProps
-  constructor(props: PropsWithChildren<{ enableReduxDevtool?: boolean }>) {
-    super(props)
-    this.store = store({ enableDevtool: props.enableReduxDevtool })
-  }
+class FlowerProvider extends PureComponent<PropsWithChildren<FlowerProviderOptions>> {
+  private storeInstance?: FlowerProviderStore
 
   render() {
-    const { children } = this.props
+    const { children, store: providedStore } = this.props
+    const currentStore =
+      providedStore ?? this.storeInstance ?? this.getStore()
+
     return (
-      <Provider context={reduxContext} store={this.store}>
+      <Provider context={reduxContext} store={currentStore}>
         {children}
       </Provider>
     )
+  }
+
+  private getStore(): FlowerProviderStore {
+    if (!this.storeInstance) {
+      this.storeInstance = store({
+        enableDevtool: this.props.enableReduxDevtool
+      })
+    }
+    return this.storeInstance
   }
 }
 

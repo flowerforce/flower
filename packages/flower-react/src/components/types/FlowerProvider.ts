@@ -1,26 +1,15 @@
-import { ThunkMiddleware, Tuple, configureStore } from '@reduxjs/toolkit'
-import { Flower } from '@flowerforce/flower-core'
-import { UnknownAction } from 'redux'
+import type { EnhancedStore } from '@reduxjs/toolkit'
+import type { Flower } from '@flowerforce/flower-core'
 
-export interface FlowerProviderInterface {
-  render(): JSX.Element
+export type FlowerProviderState = {
+  flower: Record<string, Flower<any>>
 }
 
-export type FlowerProviderProps = ReturnType<
-  typeof configureStore<
-    {
-      flower: Record<string, Flower<any>>
-    },
-    UnknownAction,
-    Tuple<
-      [
-        ThunkMiddleware<
-          {
-            flower: Record<string, Flower<any>>
-          },
-          UnknownAction
-        >
-      ]
-    >
-  >
->
+export type FlowerProviderStore = EnhancedStore<FlowerProviderState>
+
+export type FlowerProviderProps = FlowerProviderStore
+
+export interface FlowerProviderOptions {
+  enableReduxDevtool?: boolean
+  store?: FlowerProviderStore
+}

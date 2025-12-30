@@ -566,6 +566,12 @@ describe('CoreUtils object', () => {
 
     const emptyPath = CoreUtils.getPath()
     expect(emptyPath).toEqual({ path: [] })
+
+    const externalPath = CoreUtils.getPath('#external.externalMessage')
+    expect(externalPath).toEqual({
+      path: [],
+      externalPath: ['external', 'externalMessage']
+    })
   })
 
   test('allEqual match', () => {

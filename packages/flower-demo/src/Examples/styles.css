@@ -149,3 +149,7 @@ button.error {
   font-size: 12px;
   font-weight: bold;
 }
+
+.external-store{
+  background-color: #ccc;
+}

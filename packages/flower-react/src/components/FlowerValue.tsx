@@ -1,11 +1,11 @@
 /* eslint-disable */
-import React, { useContext, useEffect, useMemo } from 'react';
-import { CoreUtils } from '@flowerforce/flower-core';
+import React, { useContext, useEffect, useMemo } from 'react'
 import { useSelector } from '../provider';
 import { getDataFromState } from '../selectors';
 import { context } from '../context';
 import FlowerRule from './FlowerRule';
 import { FlowerValueProps } from './types/FlowerValue';
+import { readExternalValue, resolveFieldPath } from '@flowerforce/flower-core';
 
 //TODO make types for wrapper function
 function Wrapper({
@@ -17,11 +17,13 @@ function Wrapper({
   onUpdate,
   ...props
 }: any) {
-  const { flowNameFromPath = flowName, path } = useMemo(
-    () => CoreUtils.getPath(id),
-    [id]
+  const { flowNameFromPath = flowName, path, externalPath, isExternal } =
+    useMemo(() => resolveFieldPath(id, flowName), [id, flowName]);
+  const value = useSelector(
+    isExternal && externalPath
+      ? (state: Record<string, any>) => readExternalValue(state, externalPath)
+      : getDataFromState(flowNameFromPath, path)
   );
-  const value = useSelector(getDataFromState(flowNameFromPath, path));
   const values =
     spreadValue && typeof value === 'object' && !Array.isArray(value)
       ? value

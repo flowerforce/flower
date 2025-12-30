@@ -61,6 +61,25 @@ function Root() {
 ```
 > You can pass the prop `enableReduxDevtool` to the `FlowerProvider` to show the Flower Store data inside the redux devtool of your browser.
 
+### External store support
+
+Flower può condividere lo store Redux che già usi. Usa `createFlowerStore` da `@flowerforce/flower-react` al posto di `configureStore`: l’helper accetta la stessa configurazione ma aggiunge un reducer che intercetta gli id `#external.*` e applica il nuovo valore direttamente al path specificato. In questo modo i reducer esterni non devono conoscere Flower e il codice dello store rimane invariato.
+
+```tsx
+import { reducerFlower, createFlowerStore } from '@flowerforce/flower-react'
+
+const store = createFlowerStore({
+  reducer: {
+    flower: reducerFlower,
+    external: (state = { externalMessage: '' }) => state
+  }
+})
+```
+
+`FlowerField` e le regole di navigazione possono continuare a usare `#external.*` e lo stato esterno viene aggiornato automaticamente in `state.external.*` senza che il reducer debba ascoltare azioni Flower-specifiche.
+
+`FlowerField` e le regole di navigazione possono mantenere gli stessi `#external.*` path, ma i dati vengono scritti solo da chi gestisce la callback: la tua slice non ha bisogno di sapere che Flower sta passando l’aggiornamento.
+
 ## How to use
 
 ### Simple Example

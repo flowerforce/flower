@@ -75,7 +75,7 @@ export function Example11() {
             <FlowerField
               id="async"
               rules={{ $and: [{ check: { $eq: true } }] }}
-              asyncValidate={() => ['Async field error']}
+              asyncValidate={(v) => v?.includes('a') ? []: ['Async field error']}
               asyncInitialError="Async initial error"
               asyncWaitingError="Async waiting error"
               asyncDebounce={500}

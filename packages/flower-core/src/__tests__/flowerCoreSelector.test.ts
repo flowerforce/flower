@@ -5,32 +5,43 @@ import { Flower } from '../interfaces/Store'
 
 const TEST_FLOW_NAME = 'test_flow'
 
-const state: { flower: { [x: string]: Flower<Record<string, any>> } } = {
-  flower: {
-    test_flow: {
-      persist: false,
-      startId: 'Start',
-      current: 'Node1',
-      history: ['start', 'Node1'],
-      nodes: {
-        Start: { nodeId: 'start', nodeType: 'FlowerRoute' },
-        Node1: { nodeId: 'Node1', nodeType: 'FlowerNode' },
-        Node2: { nodeId: 'Node2', nodeType: 'FlowerNode', retain: true }
-      },
-      nextRules: {
-        Start: [{ nodeId: 'Node1', rules: null }]
-      },
-      data: {
-        name: 'UserName',
-        test_getDataFromState: { value: 'test' }
-      },
-      form: {
-        Start: {
-          isSubmitted: true,
-          errors: {},
-          isValidating: false
-        }
+const flowerSlice: { [x: string]: Flower<Record<string, any>> } = {
+  test_flow: {
+    persist: false,
+    startId: 'Start',
+    current: 'Node1',
+    history: ['start', 'Node1'],
+    nodes: {
+      Start: { nodeId: 'start', nodeType: 'FlowerRoute' },
+      Node1: { nodeId: 'Node1', nodeType: 'FlowerNode' },
+      Node2: { nodeId: 'Node2', nodeType: 'FlowerNode', retain: true }
+    },
+    nextRules: {
+      Start: [{ nodeId: 'Node1', rules: null }]
+    },
+    data: {
+      name: 'UserName',
+      test_getDataFromState: { value: 'test' }
+    },
+    form: {
+      Start: {
+        isSubmitted: true,
+        errors: {},
+        isValidating: false
       }
+    }
+  }
+}
+
+const state: {
+  flower: { [x: string]: Flower<Record<string, any>> }
+  external: Record<string, any>
+} = {
+  flower: flowerSlice,
+  external: {
+    externalMessage: 'external value',
+    nested: {
+      flag: true
     }
   }
 }
@@ -221,6 +232,35 @@ describe('FlowerCoreSelectors', () => {
           FlowerCoreStateSelectors.makeSelectNodeErrors(undefined)
         expect(nodeErrors).toEqual(defaultErrors)
       })
+    })
+  })
+
+  describe('makeSelectFieldValue', () => {
+    it('returns flow data for regular field ids', () => {
+      const selectFieldValue = FlowerCoreStateSelectors.makeSelectFieldValue(
+        TEST_FLOW_NAME,
+        'test_getDataFromState.value'
+      )
+
+      expect(selectFieldValue(state)).toEqual('test')
+    })
+
+    it('returns values from external paths', () => {
+      const selectFieldValue = FlowerCoreStateSelectors.makeSelectFieldValue(
+        TEST_FLOW_NAME,
+        '#external.externalMessage'
+      )
+
+      expect(selectFieldValue(state)).toEqual('external value')
+    })
+
+    it('returns undefined for missing external paths', () => {
+      const selectFieldValue = FlowerCoreStateSelectors.makeSelectFieldValue(
+        TEST_FLOW_NAME,
+        '#external.unknownValue'
+      )
+
+      expect(selectFieldValue(state)).toBeUndefined()
     })
   })
 

@@ -198,6 +198,14 @@ export const CoreUtils: CoreUtilitiesFunctions = {
       }
     }
 
+    if (idValue.indexOf('#') === 0) {
+      const externalPath = CoreUtils.cleanPath(idValue, '#').split('.')
+      return {
+        path: [],
+        externalPath
+      }
+    }
+
     return {
       path: idValue.split('.')
     }
