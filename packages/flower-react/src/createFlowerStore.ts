@@ -21,16 +21,30 @@ const applyExternalUpdate = (state: any, action: UnknownAction) => {
   })
 }
 
+const attachExternalSnapshot = (state: any) => {
+  if (!state) return state
+  const { flower, ...rest } = state
+  return {
+    ...state,
+    flower: {
+      ...flower,
+      __external: rest
+    }
+  }
+}
+
 const wrapReducerWithExternal = (reducer: Reducer<any, UnknownAction>) => (
   state: any,
   action: UnknownAction
 ) => {
+  const stateWithSnapshot = attachExternalSnapshot(state)
   if (action.type === FLOWER_EXTERNAL_UPDATE) {
-    const patchedState = applyExternalUpdate(state, action)
+    const patchedState = applyExternalUpdate(stateWithSnapshot, action)
     const nextState = reducer(patchedState, action)
-    return applyExternalUpdate(nextState, action)
+    return attachExternalSnapshot(nextState)
   }
-  return reducer(state, action)
+  const nextState = reducer(stateWithSnapshot, action)
+  return attachExternalSnapshot(nextState)
 }
 
 export const createFlowerStore = (
