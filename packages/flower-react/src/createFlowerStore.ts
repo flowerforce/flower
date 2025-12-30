@@ -10,6 +10,7 @@ import { produce } from 'immer'
 import set from 'lodash/set'
 import { FLOWER_EXTERNAL_UPDATE, FlowerExternalPayload } from './externalState'
 import flowerReducer from './reducer'
+import { registerExternalReducers } from '@flowerforce/flower-core'
 
 const applyExternalUpdate = (state: any, action: UnknownAction) => {
   const { path, value } = (action.payload as FlowerExternalPayload) ?? {}
@@ -47,11 +48,21 @@ const wrapReducerWithExternal = (reducer: Reducer<any, UnknownAction>) => (
   return attachExternalSnapshot(nextState)
 }
 
-export const createFlowerStore = (
-  options: ConfigureStoreOptions<any, UnknownAction>
-) => {
+type FlowerStoreOptions = Omit<
+  ConfigureStoreOptions<any, UnknownAction>,
+  'reducer'
+> & {
+  reducer?: ReducersMapObject<any, UnknownAction>
+}
+
+export const createFlowerStore = (options: FlowerStoreOptions) => {
   const { reducer, ...rest } = options
-  const reducerMap = reducer as ReducersMapObject<any, UnknownAction>
+  const reducerMap =
+    (reducer as ReducersMapObject<any, UnknownAction>) ?? {}
+
+  registerExternalReducers(
+    Object.keys(reducerMap).filter((name) => name !== 'flower')
+  )
 
   const rootReducerMap: ReducersMapObject<any, UnknownAction> = {
     flower: flowerReducer,

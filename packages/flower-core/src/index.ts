@@ -7,3 +7,8 @@ export { MatchRules } from './RulesMatcher'
 export { devtoolState } from './devtoolState'
 export * from './interfaces'
 export { readExternalValue, resolveFieldPath } from './utils/fieldPaths'
+export {
+  registerExternalReducers,
+  isExternalReducer,
+  clearExternalReducers
+} from './externalReducers'

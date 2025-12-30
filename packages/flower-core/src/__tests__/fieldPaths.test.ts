@@ -1,6 +1,18 @@
-import { readExternalValue, resolveFieldPath } from '../utils/fieldPaths'
+import {
+  readExternalValue,
+  resolveFieldPath
+} from '../utils/fieldPaths'
+import {
+  clearExternalReducers,
+  registerExternalReducers
+} from '../externalReducers'
 
 describe('fieldPaths utils', () => {
+  beforeEach(() => {
+    clearExternalReducers()
+    registerExternalReducers(['external'])
+  })
+
   it('resolves regular field paths with flowName fallback', () => {
     const result = resolveFieldPath('form.field', 'defaultFlow')
 
@@ -10,8 +22,8 @@ describe('fieldPaths utils', () => {
     expect(result.externalPath).toBeUndefined()
   })
 
-  it('resolves external paths starting with # and marks them as external', () => {
-    const result = resolveFieldPath('#external.values.message', 'defaultFlow')
+  it('resolves external paths starting with ^ and marks them as external', () => {
+    const result = resolveFieldPath('^external.values.message', 'defaultFlow')
 
     expect(result.path).toEqual([])
     expect(result.externalPath).toEqual(['external', 'values', 'message'])

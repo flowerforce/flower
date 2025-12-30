@@ -44,7 +44,7 @@ export function ExampleExternalStore() {
             success: null,
             info: {
               rules: {
-                "#external.externalMessage": {
+                "^external.externalMessage": {
                   $eq: "asd"
                 }
               }
@@ -53,7 +53,7 @@ export function ExampleExternalStore() {
             <div className="page step1">
               <span>External Store</span>
               <p>Navigation uses the same reducers but a custom store instance.</p>
-              <FlowerField id="#external.externalMessage"
+              <FlowerField id="^external.externalMessage"
                 validate={[
                   {
                     rules: { $and: [{ "$self": { $exists: true } }] },
@@ -75,7 +75,7 @@ export function ExampleExternalStore() {
               <FlowerNavigate
                 action="next"
                 rules={{
-                  '#external.externalMessage': {
+                  '^external.externalMessage': {
                     $exists: true
                   }
                 }}
@@ -97,7 +97,7 @@ export function ExampleExternalStore() {
           <FlowerNode id="info">
             <div className="page step2">
               <span>Info</span>
-              <FlowerValue id="#external.externalMessage">
+              <FlowerValue id="^external.externalMessage">
                 {({ value }) => value}
               </FlowerValue>
               <FlowerNavigate action="reset">

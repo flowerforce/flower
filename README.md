@@ -18,15 +18,13 @@ Flower is currently available for React only. -->
 
 ## External Redux Store Support
 
-Flower può convivere con uno store già esistente semplicemente usando `createFlowerStore`, lo stesso helper che `FlowerProvider` usa internamente: la funzione accetta la stessa configurazione di `configureStore` ma aggiunge un reducer che intercetta gli id `#external.*` e aggiorna il rispettivo path alla radice dello stato. I reducer esterni non devono contenere logiche custom per Flower, basta combinarli normalmente.
+Flower può convivere con uno store già esistente semplicemente usando `createFlowerStore`, lo stesso helper che `FlowerProvider` usa internamente: la funzione accetta la stessa configurazione di `configureStore` ma aggiunge un reducer che intercetta gli id `^external.*` e aggiorna il rispettivo path alla radice dello stato. I reducer esterni non devono contenere logiche custom per Flower, basta combinarli normalmente.
 
 ```tsx
 import { createFlowerStore } from '@flowerforce/flower-react'
-import { reducerFlower } from '@flowerforce/flower-react'
 
 const store = createFlowerStore({
   reducer: {
-    flower: reducerFlower,
     external: (state = { externalMessage: '' }) => state
   }
 })
@@ -39,8 +37,9 @@ function AppWithExternalStore() {
   )
 }
 ```
+L'helper `createFlowerStore` registra automaticamente il reducer interno di Flower, quindi ti basta dichiarare i reducer esterni da integrare.
 
-`FlowerField` e le regole di navigazione possono continuare a usare `#external.*`, e ogni scrittura viene automaticamente applicata al path specificato (es. `state.external.externalMessage`). I reducer esterni vedono i dati aggiornati senza dover ascoltare azioni Flower-specifiche.
+`FlowerField` e le regole di navigazione possono continuare a usare `^external.*`, e ogni scrittura viene automaticamente applicata al path specificato (es. `state.external.externalMessage`). I reducer esterni vedono i dati aggiornati senza dover ascoltare azioni Flower-specifiche.
 
 ## Full Documentation
 

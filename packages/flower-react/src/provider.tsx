@@ -7,7 +7,6 @@ import {
   ReactReduxContextValue
 } from 'react-redux'
 import { Action } from '@reduxjs/toolkit'
-import { reducerFlower } from './reducer'
 import { createFlowerStore } from './createFlowerStore'
 import {
   FlowerProviderOptions,
@@ -30,7 +29,6 @@ export const store = ({
   enableDevtool?: boolean
 }): FlowerProviderStore => {
   return createFlowerStore({
-    reducer: reducerFlower,
     devTools: enableDevtool ? { name: 'flower' } : false
   })
 }

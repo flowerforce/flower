@@ -1,5 +1,14 @@
 import { FlowerCoreStateSelectors } from '../FlowerCoreStateSelectors'
 import { Flower } from '../interfaces/Store'
+import {
+  clearExternalReducers,
+  registerExternalReducers
+} from '../externalReducers'
+
+beforeEach(() => {
+  clearExternalReducers()
+  registerExternalReducers(['external'])
+})
 
 //todo: double check if tests are ok
 
@@ -248,7 +257,7 @@ describe('FlowerCoreSelectors', () => {
     it('returns values from external paths', () => {
       const selectFieldValue = FlowerCoreStateSelectors.makeSelectFieldValue(
         TEST_FLOW_NAME,
-        '#external.externalMessage'
+        '^external.externalMessage'
       )
 
       expect(selectFieldValue(state)).toEqual('external value')
@@ -257,7 +266,7 @@ describe('FlowerCoreSelectors', () => {
     it('returns undefined for missing external paths', () => {
       const selectFieldValue = FlowerCoreStateSelectors.makeSelectFieldValue(
         TEST_FLOW_NAME,
-        '#external.unknownValue'
+        '^external.unknownValue'
       )
 
       expect(selectFieldValue(state)).toBeUndefined()
