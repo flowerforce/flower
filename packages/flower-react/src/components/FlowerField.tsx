@@ -13,7 +13,8 @@ import {
   makeSelectNodeFieldDirty,
   makeSelectNodeFieldFocused,
   makeSelectNodeFieldTouched,
-  makeSelectNodeFormSubmitted
+  makeSelectNodeFormSubmitted,
+  selectorRulesDisabled
 } from '../selectors'
 import { context } from '../context'
 import FlowerRule from './FlowerRule'
@@ -92,6 +93,32 @@ function Wrapper({
   
   const isSubmitted = useSelector(
     makeSelectNodeFormSubmitted(flowName, currentNode)
+  )
+
+  const prevDestroyRulesDisabled = useRef<boolean | undefined>()
+
+  const destroyRules = useMemo(() => {
+    if (!destroyValue || typeof destroyValue === 'boolean') return undefined
+    return 'rules' in destroyValue ? destroyValue.rules : destroyValue
+  }, [destroyValue])
+
+  const destroyRulesKeys = useMemo(
+    () =>
+      destroyRules
+        ? MatchRules.utils.getKeys(destroyRules, { prefix: flowName }) ?? []
+        : [],
+    [destroyRules, flowName]
+  )
+
+  const destroyRulesDisabled = useSelector(
+    selectorRulesDisabled(
+      id ?? '',
+      destroyRules,
+      destroyRulesKeys,
+      flowName ?? '',
+      value,
+      currentNode ?? ''
+    )
   )
 
   const allErrors = useMemo(
@@ -273,7 +300,7 @@ function Wrapper({
 
   useEffect(() => {
     return () => {
-      if (destroyValue) {
+      if (typeof destroyValue === 'boolean' && destroyValue === true) {
         if (isExternal && externalPath) {
           dispatch(setExternalValue(externalPath, undefined))
         } else {
@@ -296,8 +323,43 @@ function Wrapper({
   ])
 
   useEffect(() => {
-    if (hidden) {
-      if (destroyOnHide) {
+    if (!destroyRules) {
+      prevDestroyRulesDisabled.current = undefined
+      return
+    }
+
+    const wasDisabled = prevDestroyRulesDisabled.current
+    prevDestroyRulesDisabled.current = destroyRulesDisabled
+
+    const shouldDestroy =
+      wasDisabled !== undefined && wasDisabled && !destroyRulesDisabled
+
+    if (!shouldDestroy) {
+      return
+    }
+
+    if (isExternal && externalPath) {
+      dispatch(setExternalValue(externalPath, undefined))
+    } else {
+      dispatch({
+        type: `flower/unsetData`,
+        payload: { flowName: flowNameFromPath, id: path }
+      })
+    }
+    resetField()
+  }, [
+    destroyRules,
+    destroyRulesDisabled,
+    flowNameFromPath,
+    path,
+    resetField,
+    dispatch,
+    isExternal,
+    externalPath
+  ])
+
+  useEffect(() => {
+    if (destroyOnHide || (hidden && destroyValue)) {
         if (isExternal && externalPath) {
           dispatch(setExternalValue(externalPath, undefined))
         } else {
@@ -307,7 +369,6 @@ function Wrapper({
           })
         }
         resetField()
-      }
     }
   }, [
     destroyOnHide,

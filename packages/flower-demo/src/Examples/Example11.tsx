@@ -97,6 +97,35 @@ export function Example11() {
                 </div>
               )}
             </FlowerField>
+
+            <FlowerField
+              id="autoDestroy"
+              destroyValue={{
+                rules: {
+                  $and: [{ simple: { $eq: 'reset' } }]
+                }
+              }}
+              alwaysDisplay
+            >
+              {({ value = '', onChange, hidden }) => (
+                <div className="input-container">
+                  <label>Field destroyed when "simple" equals "reset"</label>
+                  <input
+                    id="autoDestroy"
+                    type="text"
+                    value={value}
+                    placeholder="This value disappears"
+                    disabled={hidden}
+                    onChange={(e) => onChange(e.target.value)}
+                  />
+                  {hidden && (
+                    <p className="info">
+                      The rule has hidden this input and destroyed its data.
+                    </p>
+                  )}
+                </div>
+              )}
+            </FlowerField>
           </div>
 
           {touches && <div>touches: {touches.join(', ')}</div>}
