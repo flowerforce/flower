@@ -1,0 +1,27 @@
+{
+  "name": "@flowerforce/flower-storybook",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Storie Storybook per Flower React",
+  "main": "src/index.ts",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build": "storybook build"
+  },
+  "dependencies": {
+    "@flowerforce/flower-react": "*",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^8.6.15",
+    "@storybook/addon-interactions": "^8.6.15",
+    "@storybook/react-vite": "^8.6.15",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "storybook": "^8.6.15",
+    "storybook-addon-designs": "^6.3.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
+  }
+}

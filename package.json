@@ -19,6 +19,7 @@
     "build:react": "nx build flower-react",
     "start:demo": "nx serve flower-demo",
     "build:demo": "nx build flower-demo",
+    "storybook": "nx storybook flower-storybook",
     "lint": "nx run-many -t lint",
     "lint:fix": "nx run-many -t lint --fix",
     "test": "nx run-many -t test --passWithNoTests",
@@ -83,7 +84,13 @@
     "ts-jest": "^29.1.4",
     "ts-node": "^10.9.2",
     "typescript": "~5.4.2",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "@storybook/addon-essentials": "^8.6.15",
+    "@storybook/addon-interactions": "^8.6.15",
+    "@storybook/react-vite": "^8.6.15",
+    "storybook": "^8.6.15",
+    "storybook-addon-designs": "^6.3.1",
+    "vite": "^5.0.0"
   },
   "optionalDependencies": {
     "@nx/nx-darwin-arm64": "19.4.1",
