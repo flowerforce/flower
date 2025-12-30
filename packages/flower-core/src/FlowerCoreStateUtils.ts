@@ -4,10 +4,12 @@ import { CoreStateUtils } from './interfaces/UtilsInterface'
 export const FlowerStateUtils: CoreStateUtils = {
   getAllData: (state) =>
     state &&
-    Object.entries(state ?? {}).reduce(
-      (acc, [k, v]) => ({ ...acc, [k]: v.data }),
-      {}
-    ),
+    Object.entries(state ?? {}).reduce((acc, [k, v]) => {
+      if (k === '__external') {
+        return { ...acc, ...v }
+      }
+      return { ...acc, [k]: v.data }
+    }, {}),
 
   selectFlowerFormNode: (name, id) => (state) =>
     _get(state, [name, 'form', id]),

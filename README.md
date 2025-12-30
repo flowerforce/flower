@@ -16,6 +16,31 @@ Flower is currently available for React only. -->
 - **Form Management**: Flower has a powerfull built-in Form Manager that allows to create sets of rules to know if a form is valid.
 - **Render Benefits**: Flower optimally manages rerenders, ensuring top-notch performance.
 
+## External Redux Store Support
+
+Flower può convivere con uno store già esistente semplicemente usando `createFlowerStore`, lo stesso helper che `FlowerProvider` usa internamente: la funzione accetta la stessa configurazione di `configureStore` ma aggiunge un reducer che intercetta gli id `^external.*` e aggiorna il rispettivo path alla radice dello stato. I reducer esterni non devono contenere logiche custom per Flower, basta combinarli normalmente.
+
+```tsx
+import { createFlowerStore } from '@flowerforce/flower-react'
+
+const store = createFlowerStore({
+  reducer: {
+    external: (state = { externalMessage: '' }) => state
+  }
+})
+
+function AppWithExternalStore() {
+  return (
+    <FlowerProvider store={store}>
+      {/* i tuoi flow */}
+    </FlowerProvider>
+  )
+}
+```
+L'helper `createFlowerStore` registra automaticamente il reducer interno di Flower, quindi ti basta dichiarare i reducer esterni da integrare.
+
+`FlowerField` e le regole di navigazione possono continuare a usare `^external.*`, e ogni scrittura viene automaticamente applicata al path specificato (es. `state.external.externalMessage`). I reducer esterni vedono i dati aggiornati senza dover ascoltare azioni Flower-specifiche.
+
 ## Full Documentation
 
 For more info [flowerjs.it/](https://flowerjs.it/).

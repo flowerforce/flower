@@ -61,6 +61,30 @@ function Root() {
 ```
 > You can pass the prop `enableReduxDevtool` to the `FlowerProvider` to show the Flower Store data inside the redux devtool of your browser.
 
+### External store support
+
+Flower può riutilizzare uno store Redux esistente sovrascrivendo il `configureStore` con `createFlowerStore`. La funzione:
+
+- arricchisce la configurazione standard con il reducer Flower interno;
+- registra automaticamente i reducer aggiuntivi (tranne `flower`) come sorgenti esterne, in modo che le stringhe `^reducerName.path` sappiano a quale ramo dello stato scrivere o leggere;
+- espone `setExternalValue(path, value)` per aggiornare il ramo esterno senza passare da `FlowerField`.
+
+```tsx
+import { createFlowerStore } from '@flowerforce/flower-react'
+
+const store = createFlowerStore({
+  reducer: {
+    external: (state = { externalMessage: '' }) => state,
+    anotherSlice: anotherReducer
+  },
+  devTools: { name: 'flower-external-store' }
+})
+```
+
+Quando in un flow leggi o scrivi `^external.externalMessage`, Flower scrive il dato direttamente dentro `state.external.externalMessage` e non emette azioni Flower-specifiche verso i reducer esterni. Gli aggiornamenti manuali si ottengono dispatchando `setExternalValue(['external', 'externalMessage'], value)` con `useDispatch` (o con `react-redux` direttamente, come mostra la demo).
+
+Per evitare confusione tra flow e reducer, Flower segnala con una warning console quando il `flowName` coincide con il nome di un reducer esterno registrato.
+
 ## How to use
 
 ### Simple Example

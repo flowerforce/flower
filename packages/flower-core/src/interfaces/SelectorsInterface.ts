@@ -140,6 +140,15 @@ export interface ISelectors {
     validate: { rules?: RulesObject<any>; message?: string }[] | null
   ): (data: T | undefined, form: Form<T>) => Array<string>
   /**
+   * @param name
+   * @param id
+   * @returns
+   */
+  makeSelectFieldValue<T extends Record<string, any>>(
+    name: string,
+    id: string
+  ): (state: Record<string, any>) => any
+  /**
    * @param id
    * @param rules
    * @param keys

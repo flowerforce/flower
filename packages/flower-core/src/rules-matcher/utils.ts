@@ -174,6 +174,10 @@ const rulesMatcherUtils: RulesMatcherUtils = {
       return path
     }
 
+    if (path.indexOf('#') === 0) {
+      return _trimStart(path, '#')
+    }
+
     return prefix ? `${prefix}.${path}` : path
   },
   // TODO BUG NUMERI CON LETTERE 1asdas o solo

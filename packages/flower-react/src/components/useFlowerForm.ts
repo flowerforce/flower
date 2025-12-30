@@ -1,10 +1,11 @@
 import { useCallback, useContext } from 'react'
-import { CoreUtils } from '@flowerforce/flower-core'
 import get from 'lodash/get'
 import { context } from '../context'
 import { makeSelectCurrentNodeId, makeSelectNodeErrors } from '../selectors'
 import { actions } from '../reducer'
 import { useDispatch, useSelector, useStore } from '../provider'
+import { setExternalValue } from '../externalState'
+import { resolveFieldPath } from '@flowerforce/flower-core'
 import { UseFlowerForm } from './types/FlowerHooks'
 
 /**  This hook allows you to manage and retrieve information about Forms.
@@ -52,8 +53,16 @@ const useFlowerForm: UseFlowerForm = ({
 
   const getData = useCallback(
     (path?: string) => {
-      const { flowNameFromPath = flowName, path: newpath } =
-        CoreUtils.getPath(path)
+      const {
+        flowNameFromPath = flowName,
+        path: newpath,
+        externalPath
+      } = resolveFieldPath(path, flowName)
+
+      if (externalPath?.length) {
+        return get(store.getState(), externalPath)
+      }
+
       return get(store.getState(), [
         'flower',
         flowNameFromPath,
@@ -66,8 +75,10 @@ const useFlowerForm: UseFlowerForm = ({
 
   const getFormStatus = useCallback(
     (path?: string) => {
-      const { flowNameFromPath = flowName, path: newpath } =
-        CoreUtils.getPath(path)
+      const { flowNameFromPath = flowName, path: newpath } = resolveFieldPath(
+        path,
+        flowName
+      )
       return get(store.getState(), [
         'flower',
         flowNameFromPath,
@@ -80,7 +91,16 @@ const useFlowerForm: UseFlowerForm = ({
 
   const setDataField = useCallback(
     (id: string, val: any, dirty = true) => {
-      const { flowNameFromPath = flowName } = CoreUtils.getPath(id)
+      const {
+        flowNameFromPath = flowName,
+        externalPath
+      } = resolveFieldPath(id, flowName)
+
+      if (externalPath?.length) {
+        dispatch(setExternalValue(externalPath, val))
+        return
+      }
+
       dispatch(
         actions.addDataByPath({
           flowName: flowNameFromPath,
@@ -107,8 +127,17 @@ const useFlowerForm: UseFlowerForm = ({
 
   const unsetData = useCallback(
     (path: string) => {
-      const { flowNameFromPath = flowName, path: newpath } =
-        CoreUtils.getPath(path)
+      const {
+        flowNameFromPath = flowName,
+        path: newpath,
+        externalPath
+      } = resolveFieldPath(path, flowName)
+
+      if (externalPath?.length) {
+        dispatch(setExternalValue(externalPath, undefined))
+        return
+      }
+
       dispatch(actions.unsetData({ flowName: flowNameFromPath, id: newpath }))
     },
     [flowName, dispatch]
