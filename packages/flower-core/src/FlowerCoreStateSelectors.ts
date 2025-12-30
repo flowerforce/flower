@@ -4,6 +4,10 @@ import { CoreUtils } from './CoreUtils'
 import { MatchRules } from './RulesMatcher'
 import { unflatten } from 'flat'
 import { createFormData } from './FlowerCoreStateUtils'
+import {
+  readExternalValue,
+  resolveFieldPath
+} from './utils/fieldPaths'
 
 export const FlowerCoreStateSelectors: ISelectors = {
   selectGlobal: (state) => state && state.flower,
@@ -97,5 +101,17 @@ export const FlowerCoreStateSelectors: ISelectors = {
     )
 
     return disabled
+  },
+  makeSelectFieldValue: (flowName, id) => (state) => {
+    const { flowNameFromPath, path, externalPath, isExternal } =
+      resolveFieldPath(id, flowName)
+
+    if (isExternal && externalPath) {
+      return readExternalValue(state ?? {}, externalPath)
+    }
+
+    const targetFlow = flowNameFromPath ?? flowName
+    const dataPath = Array.isArray(path) ? path : [path]
+    return _get(state, ['flower', targetFlow, 'data', ...dataPath])
   }
 }

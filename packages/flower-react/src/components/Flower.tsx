@@ -10,7 +10,7 @@ import React, {
   PropsWithChildren
 } from 'react'
 import _keyBy from 'lodash/keyBy'
-import { Emitter, devtoolState } from '@flowerforce/flower-core'
+import { Emitter, devtoolState, getExternalReducerNames } from '@flowerforce/flower-core'
 import { Provider } from '../context'
 import _get from 'lodash/get'
 import { convertElements } from '../utils'
@@ -50,6 +50,17 @@ const FlowerClient = ({
   initialState = {}
 }: FlowerClientProps) => {
   const flowName = name
+
+  useEffect(() => {
+    if (!flowName) return
+    const externalNames = getExternalReducerNames()
+    if (externalNames.includes(flowName)) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `Flower flow name "${flowName}" matches an external reducer. This may cause confusing path resolution; consider renaming the flow or the reducer.`
+      )
+    }
+  }, [flowName])
 
   const dispatch = useDispatch()
   const one = useRef(false)

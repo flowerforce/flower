@@ -75,7 +75,7 @@ export function Example11() {
             <FlowerField
               id="async"
               rules={{ $and: [{ check: { $eq: true } }] }}
-              asyncValidate={() => ['Async field error']}
+              asyncValidate={(v) => v?.includes('a') ? []: ['Async field error']}
               asyncInitialError="Async initial error"
               asyncWaitingError="Async waiting error"
               asyncDebounce={500}
@@ -94,6 +94,35 @@ export function Example11() {
                   />
 
                   {errors && <div className="error">{errors.join(', ')}</div>}
+                </div>
+              )}
+            </FlowerField>
+
+            <FlowerField
+              id="autoDestroy"
+              destroyValue={{
+                rules: {
+                  $and: [{ simple: { $eq: 'reset' } }]
+                }
+              }}
+              alwaysDisplay
+            >
+              {({ value = '', onChange, hidden }) => (
+                <div className="input-container">
+                  <label>Field destroyed when "simple" equals "reset"</label>
+                  <input
+                    id="autoDestroy"
+                    type="text"
+                    value={value}
+                    placeholder="This value disappears"
+                    disabled={hidden}
+                    onChange={(e) => onChange(e.target.value)}
+                  />
+                  {hidden && (
+                    <p className="info">
+                      The rule has hidden this input and destroyed its data.
+                    </p>
+                  )}
                 </div>
               )}
             </FlowerField>

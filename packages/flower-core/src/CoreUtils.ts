@@ -10,6 +10,7 @@ import mapKeys from 'lodash/mapKeys'
 import mapValues from 'lodash/mapValues'
 import trimStart from 'lodash/trimStart'
 import { MatchRules } from './RulesMatcher'
+import { isExternalReducer } from './externalReducers'
 import {
   CoreUtilitiesFunctions,
   GetRulesExists
@@ -190,10 +191,15 @@ export const CoreUtils: CoreUtilitiesFunctions = {
     }
 
     if (idValue.indexOf('^') === 0) {
-      const [flowNameFromPath, ...rest] =
-        CoreUtils.cleanPath(idValue).split('.')
+      const [rootName, ...rest] = CoreUtils.cleanPath(idValue).split('.')
+      if (isExternalReducer(rootName)) {
+        return {
+          path: [],
+          externalPath: [rootName, ...rest].filter(Boolean)
+        }
+      }
       return {
-        flowNameFromPath,
+        flowNameFromPath: rootName,
         path: rest
       }
     }

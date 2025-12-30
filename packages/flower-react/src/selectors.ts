@@ -10,6 +10,7 @@ import _get from 'lodash/get'
 const { getAllData: mapData } = FlowerStateUtils
 
 const { selectGlobal } = Selectors
+const selectRootState = (state: Record<string, any>) => state ?? {}
 
 const selectFlower = (name: string) =>
   createSelector(selectGlobal, Selectors.selectFlower(name))
@@ -98,7 +99,17 @@ const makeSelectNodeFormSubmitted = (name: string, currentNodeId: string) =>
     Selectors.makeSelectNodeFormSubmitted
   )
 
-const getAllData = createSelector(selectGlobal, mapData)
+const getAllData = createSelector(
+  selectRootState,
+  selectGlobal,
+  (rootState, flowerState) => {
+    const { flower: _flower, ...rest } = rootState ?? {}
+    return {
+      ...rest,
+      ...mapData(flowerState)
+    }
+  }
+)
 
 const selectFlowerFormCurrentNode = (name: string) =>
   createSelector(
@@ -115,6 +126,8 @@ const makeSelectFieldError = (name: string, id: string, validate: any) =>
     selectFlowerFormCurrentNode(name),
     Selectors.makeSelectFieldError(name, id, validate)
   )
+
+const makeSelectFieldValue = Selectors.makeSelectFieldValue
 
 export const selectorRulesDisabled = (
   id: string,
@@ -144,6 +157,7 @@ export {
   makeSelectNodeFieldFocused,
   makeSelectNodeFieldDirty,
   makeSelectFieldError,
+  makeSelectFieldValue,
   makeSelectNodeFormSubmitted,
   makeSelectPrevNodeRetain
 }
