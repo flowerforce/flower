@@ -10,5 +10,6 @@ export { readExternalValue, resolveFieldPath } from './utils/fieldPaths'
 export {
   registerExternalReducers,
   isExternalReducer,
-  clearExternalReducers
+  clearExternalReducers,
+  getExternalReducerNames
 } from './externalReducers'

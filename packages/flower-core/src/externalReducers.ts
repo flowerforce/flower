@@ -14,3 +14,5 @@ export const isExternalReducer = (name?: string) =>
 export const clearExternalReducers = () => {
   externalReducerNames.clear()
 }
+
+export const getExternalReducerNames = () => Array.from(externalReducerNames)
